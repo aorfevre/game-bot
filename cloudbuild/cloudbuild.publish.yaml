@@ -1,0 +1,36 @@
+steps:
+# Run unit tests on the app
+- name:       'node:12-alpine'
+  id:         Test
+  entrypoint: /bin/sh
+  args:
+  - '-c'
+  - |
+    npm ci
+
+# Build the containers images
+- name:       'gcr.io/cloud-builders/docker'
+  id:         Build dev image
+  entrypoint: /bin/sh
+  args:       ['-c' , 'docker build -t $$IMAGE_NAME .']
+
+
+# Push the containers images to Container Registry
+- name:       'gcr.io/cloud-builders/docker'
+  id:         Deploy dev image
+  entrypoint: /bin/sh
+  args:       ['-c' , 'docker push $$IMAGE_NAME']
+
+# Deploy bot-ingest to Cloud run
+- name:       'gcr.io/cloud-builders/gcloud'
+  id:         Deploy api
+  entrypoint: /bin/sh
+  args:
+  - '-c'
+  - |
+     gcloud run deploy $$SERVICE_NAME --image $$IMAGE_NAME --region europe-west1 --platform managed --allow-unauthenticated
+  env:        ['SERVICE_NAME=ablock-tg-bot']
+
+options:
+  env:
+    - IMAGE_NAME=gcr.io/$PROJECT_ID/$REPO_NAME:$SHORT_SHA
