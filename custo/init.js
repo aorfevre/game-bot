@@ -40,7 +40,7 @@ module.exports.setTelegram = function() {
   const bot = new TelegramBot(telegramLive);
   bot.setWebHook(`${url}/bot${telegramLive}`);
   bot.on('webhook_error', (error) => {
-    console.log(error.code, error); // => 'EPARSE'
+    console.log("Webhook error", error.code, error); // => 'EPARSE'
   });
   return bot;
 }
