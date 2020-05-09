@@ -43,8 +43,8 @@ module.exports.setTelegram = function() {
 
   console.log('INIT BOT')
   bot.sendMessage(359774701, 'Laucnhing bot!');
-  // Just to ping!
-  bot.on('message', function onMessage(msg) {
+
+  bot.on('message', function(event) {
     bot.sendMessage(msg.chat.id, 'Reply auto!');
   });
   bot.on('webhook_error', (error) => {
