@@ -12,13 +12,24 @@ module.exports.setTelegram = function() {
   var telegramToken = telegramLive
   global.isDev = __dirname.indexOf("ablock") !== -1
 
-  return new TelegramBot(telegramToken, {
-    polling: {
-      interval: 200,
-      limit: 75,
-      autoStart: true,
-      allowed_updates: ["message", "inline_query", "callback_query"]
+  // return new TelegramBot(telegramToken, {
+  //   polling: {
+  //     interval: 200,
+  //     limit: 75,
+  //     autoStart: true,
+  //     allowed_updates: ["message", "inline_query", "callback_query"]
+  //   }
+  // });
+
+  const options = {
+    polling: false,
+    webHook: {
+      // Just use 443 directly
+      port: 443
     }
-  });
+  };
+  var url = 'https://tg.ablock.io'
+  const bot = new TelegramBot(telegramLive, options);
+  bot.setWebHook(`${url}/bot${telegramLive}`);
 
 }
