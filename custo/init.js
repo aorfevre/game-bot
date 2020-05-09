@@ -32,4 +32,5 @@ module.exports.setTelegram = function() {
   const bot = new TelegramBot(telegramLive, options);
   bot.setWebHook(`${url}/bot${telegramLive}`);
 
+  return bot;
 }
