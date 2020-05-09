@@ -37,6 +37,7 @@ module.exports.setTelegram = function() {
   //    bot = new TelegramBot(token, { polling: true });
   // }
   var url = 'https://tg.ablock.io'
+  url = 'https://api.telegram.org'
   const bot = new TelegramBot(telegramLive, options);
   bot.setWebHook(`${url}/bot${telegramLive}`);
 
