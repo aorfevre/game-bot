@@ -28,6 +28,14 @@ module.exports.setTelegram = function() {
       port: 443
     }
   };
+
+  // 
+  //   if (process.env.NODE_ENV === 'production') {
+  //    bot = new TelegramBot(token);
+  //    bot.setWebHook(process.env.HEROKU_URL + bot.token);
+  // } else {
+  //    bot = new TelegramBot(token, { polling: true });
+  // }
   var url = 'https://tg.ablock.io'
   const bot = new TelegramBot(telegramLive, options);
   bot.setWebHook(`${url}/bot${telegramLive}`);
