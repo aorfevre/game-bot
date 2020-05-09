@@ -41,13 +41,6 @@ module.exports.setTelegram = function() {
   const bot = new TelegramBot(TOKEN, options);
   bot.setWebHook(`${url}/bot${TOKEN}`);
 
-  console.log('INIT BOT')
-  bot.sendMessage(359774701, 'Laucnhing bot!');
-
-  bot.on('message', (msg) => {
-    bot.sendMessage(359774701, 'Forced');
-    bot.sendMessage(msg.chat.id, 'Reply auto!');
-  });
   bot.on('webhook_error', (error) => {
     console.log("Webhook error", error.code, error); // => 'EPARSE'
   });
