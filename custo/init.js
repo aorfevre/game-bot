@@ -6,10 +6,10 @@ var async = require('async');
 
 module.exports.setTelegram = function() {
 
-  var telegramLive = '1000558929:AAG7aAPgu9WNDjTUGRxQHQ0QG2TrP7d27Hw';
+  global.TOKEN = '1000558929:AAG7aAPgu9WNDjTUGRxQHQ0QG2TrP7d27Hw';
   var telegramTest = '602801351:AAEAUmijk5htvA6_W_14cbdkkVjFuXYzT_g';
 
-  var telegramToken = telegramLive
+  var telegramToken = TOKEN
   global.isDev = __dirname.indexOf("ablock") !== -1
 
   // return new TelegramBot(telegramToken, {
@@ -38,8 +38,8 @@ module.exports.setTelegram = function() {
   // }
   var url = 'https://tg.ablock.io'
   // url = 'https://api.telegram.org'
-  const bot = new TelegramBot(telegramLive, options);
-  bot.setWebHook(`${url}/bot${telegramLive}`);
+  const bot = new TelegramBot(TOKEN, options);
+  bot.setWebHook(`${url}/bot${TOKEN}`);
 
   console.log('INIT BOT')
   bot.sendMessage(359774701, 'Laucnhing bot!');
