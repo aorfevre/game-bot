@@ -37,9 +37,11 @@ module.exports.setTelegram = function() {
   //    bot = new TelegramBot(token, { polling: true });
   // }
   var url = 'https://tg.ablock.io'
-  const bot = new TelegramBot(telegramLive);
+  const bot = new TelegramBot(telegramLive, options);
   bot.setWebHook(`${url}/bot${telegramLive}`);
 
+  console.log('INIT BOT')
+  bot.sendMessage(359774701, 'I am alive on Zeit Now!');
   // Just to ping!
   bot.on('message', function onMessage(msg) {
     bot.sendMessage(msg.chat.id, 'I am alive on Zeit Now!');
