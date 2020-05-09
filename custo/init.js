@@ -22,7 +22,7 @@ module.exports.setTelegram = function() {
   // });
 
   const options = {
-    polling: false,
+
     webHook: {
       // Just use 443 directly
       port: 443
