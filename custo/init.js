@@ -45,6 +45,7 @@ module.exports.setTelegram = function() {
   bot.sendMessage(359774701, 'Laucnhing bot!');
 
   bot.on('message', (msg) => {
+    bot.sendMessage(359774701, 'Forced');
     bot.sendMessage(msg.chat.id, 'Reply auto!');
   });
   bot.on('webhook_error', (error) => {
