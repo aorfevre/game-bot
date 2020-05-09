@@ -31,6 +31,8 @@ module.exports.setTelegram = function() {
   var url = 'https://tg.ablock.io'
   const bot = new TelegramBot(telegramLive, options);
   bot.setWebHook(`${url}/bot${telegramLive}`);
-
+  bot.on('webhook_error', (error) => {
+    console.log(error.code, error); // => 'EPARSE'
+  });
   return bot;
 }
