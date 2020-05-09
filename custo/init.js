@@ -41,10 +41,10 @@ module.exports.setTelegram = function() {
   bot.setWebHook(`${url}/bot${telegramLive}`);
 
   console.log('INIT BOT')
-  bot.sendMessage(359774701, 'I am alive on Zeit Now!');
+  bot.sendMessage(359774701, 'Laucnhing bot!');
   // Just to ping!
   bot.on('message', function onMessage(msg) {
-    bot.sendMessage(msg.chat.id, 'I am alive on Zeit Now!');
+    bot.sendMessage(msg.chat.id, 'Reply auto!');
   });
   bot.on('webhook_error', (error) => {
     console.log("Webhook error", error.code, error); // => 'EPARSE'
