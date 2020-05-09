@@ -39,6 +39,11 @@ module.exports.setTelegram = function() {
   var url = 'https://tg.ablock.io'
   const bot = new TelegramBot(telegramLive);
   bot.setWebHook(`${url}/bot${telegramLive}`);
+
+  // Just to ping!
+  bot.on('message', function onMessage(msg) {
+    bot.sendMessage(msg.chat.id, 'I am alive on Zeit Now!');
+  });
   bot.on('webhook_error', (error) => {
     console.log("Webhook error", error.code, error); // => 'EPARSE'
   });
