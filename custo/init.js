@@ -29,7 +29,7 @@ module.exports.setTelegram = function() {
     }
   };
 
-  // 
+  //
   //   if (process.env.NODE_ENV === 'production') {
   //    bot = new TelegramBot(token);
   //    bot.setWebHook(process.env.HEROKU_URL + bot.token);
@@ -37,7 +37,7 @@ module.exports.setTelegram = function() {
   //    bot = new TelegramBot(token, { polling: true });
   // }
   var url = 'https://tg.ablock.io'
-  const bot = new TelegramBot(telegramLive, options);
+  const bot = new TelegramBot(telegramLive);
   bot.setWebHook(`${url}/bot${telegramLive}`);
   bot.on('webhook_error', (error) => {
     console.log(error.code, error); // => 'EPARSE'
