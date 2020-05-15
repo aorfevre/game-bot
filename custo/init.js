@@ -6,7 +6,7 @@ var async = require('async');
 
 module.exports.setTelegram = function() {
 
-  global.TOKEN = '1000558929:AAG7aAPgu9WNDjTUGRxQHQ0QG2TrP7d27Hw';
+  global.TOKEN = '1157895976:AAHCaIQmcpUqAhb9hzRBPBOPtwVaGNdF0DM';
   var telegramTest = '602801351:AAEAUmijk5htvA6_W_14cbdkkVjFuXYzT_g';
 
   var telegramToken = TOKEN
