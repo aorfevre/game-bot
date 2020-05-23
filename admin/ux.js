@@ -35,7 +35,7 @@ global.REQUIREMENTS = {
 
 
 bot.onText(/^\/[sS]tart(.+|\b)/, (msg, match) => {
-  bot.sendMessage(msg.chat.id, "Starting next")
+  // bot.sendMessage(msg.chat.id, "Starting next")
   helper.getUser(msg, match).then((myUser) => {
     console.log(msg, myUser.human_smiley)
 

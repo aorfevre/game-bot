@@ -320,7 +320,7 @@ bot.on("callback_query", function(callbackQuery) {
         case "GET FTM BALANCE":
           var _round = callbackQuery.data.split("-")[1]
 
-          ftù.getBalance(msg, myUser, _round)
+          ftm.getBalance(msg, myUser, _round)
           break;
 
         case "DELETE FTM WALLET":
