@@ -171,13 +171,9 @@ bot.on("callback_query", function(callbackQuery) {
 
                         _db.get("joinchat", 0).then(function(r) {
                           var time = moment();
-                          console.log("VALID", r.valid_until)
                           var valid_until = moment(r.valid_until)
-                          console.log(time)
-                          console.log(valid_until)
                           var diff = valid_until.diff(time)
                           var _dur = moment.duration(diff)
-                          console.log("diff", _dur._data.minutes, _dur._data.seconds, _dur._milliseconds)
 
                           var _txt = "🎉 Your wallet is eligible to access to our Elite Annoucement 🎉\n\n" +
                             "You can use the following invite link to access to the group\n" +
@@ -227,7 +223,7 @@ bot.on("callback_query", function(callbackQuery) {
 
 
         case "CHECK HUMAN CONTROL SMILEY":
-          console.log('test')
+
           var _smiley = callbackQuery.data.split("_")[1]
           human_control.checkHumanControlSmiley(msg, _smiley, myUser.human_response, myUser)
           break;

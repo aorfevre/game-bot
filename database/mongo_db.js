@@ -1,6 +1,6 @@
 var mongojs = require('mongojs')
 
-global._mdb;
+global._mdb = null;
 
 module.exports.init = function() {
 
@@ -11,8 +11,8 @@ module.exports.init = function() {
     url = "ablock:5L3gXqPkLrwRrgVyvJqN7jJdA@3.12.222.35:27017/ablockBot?authSource=admin";
 
 
-
-    _mdb = mongojs(url, [])
+    if (_mdb === null)
+      _mdb = mongojs(url, ['users_participating'])
 
     //
     // _mdb["users_participating_1"].getIndexes(function(r){

@@ -11,7 +11,6 @@ bot.on('text', function(msg, match) {
 
 
     helper.getUser(msg, null).then(function(myUser) {
-      console.log("myUser", myUser)
 
       // if (helper.isAdmin(msg) && _underInvestigation) {
       //   _underInvestigation = false;
@@ -57,14 +56,11 @@ bot.on('text', function(msg, match) {
         var _txtText
         var _require = REQUIREMENTS[_myType]
 
-        console.log("test")
+
         _require.check(msg, REQUIREMENTS[myUser.type]).then(function(result) {
-          console.log("check", result)
           helper.checkDuplicateEntry(msg, myUser.type).then(function(dup) {
-            console.log("NO DUP", dup)
             if (!dup) {
 
-              console.log("NO DUP", dup)
               if (_require.check !== undefined &&
                 !result) {
 

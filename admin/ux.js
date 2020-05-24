@@ -32,13 +32,21 @@ global.REQUIREMENTS = {
   }
 }
 
+var startTime, endTime;
 
+function start() {
+  startTime = new Date();
+};
+
+function end() {
+  endTime = new Date();
+  var timeDiff = endTime - startTime; //in ms
+
+  console.log(timeDiff + " ms");
+}
 
 bot.onText(/^\/[sS]tart(.+|\b)/, (msg, match) => {
-  // bot.sendMessage(msg.chat.id, "Starting next")
   helper.getUser(msg, match).then((myUser) => {
-    console.log(msg, myUser.human_smiley)
-
     if (myUser.human_smiley === undefined || myUser.human_smiley !== 'approved') {
       human_control.setHumanControlSmiley(msg, myUser)
     } else {
@@ -51,7 +59,6 @@ bot.onText(/^\/[sS]tart(.+|\b)/, (msg, match) => {
 });
 
 module.exports.showWelcomeMessage = function(msg, myUser) {
-
 
   if (helper.isPrivate(msg)) {
 
@@ -91,9 +98,7 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
 
         if (_require.type === "LTOWallets" || _require.type === "FTMWallets")
           _tmpPrefix = ""
-        // console.log(i,datas[_require.type] !== undefined,datas[_require.type] !== null)
-        //
-        console.log("myUser[_require.type]", myUser[_require.type])
+
         if (myUser !== null) {
 
           _markup.push([{

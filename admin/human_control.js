@@ -10,9 +10,6 @@ module.exports.setHumanControlSmiley = function(msg, myUser) {
   if (myUser.smileyCount === undefined)
     myUser.smileyCount = _CHANCE_USER
 
-
-
-  console.log("_chancesLeft", myUser.smileyCount)
   if (myUser.smileyCount > 0) {
     var _array = ["☂️", "🐸", "🐶", "🐝", "🦋", "🌈", "🍣", "🎖", "🚗", "💎", "🚀", "👽"]
     var _final = []

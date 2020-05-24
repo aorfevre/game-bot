@@ -13,7 +13,8 @@ module.exports.setTelegram = function() {
 
   var telegramToken = TOKEN
 
-
+  if (isDev)
+    telegramToken = telegramTest
   // return new TelegramBot(telegramToken, {
   //   polling: {
   //     interval: 200,
@@ -25,8 +26,6 @@ module.exports.setTelegram = function() {
 
   const options = {
     polling: {
-      interval: 200,
-      limit: 75,
       autoStart: true,
       allowed_updates: ["message", "inline_query", "callback_query"]
     },
@@ -40,15 +39,15 @@ module.exports.setTelegram = function() {
   if (!isDev) {
     var url = 'https://tg.ablock.io'
     // url = 'https://api.telegram.org'
-    bot = new TelegramBot(TOKEN, options);
-    bot.setWebHook(`${url}/bot${TOKEN}`);
+    bot = new TelegramBot(telegramToken, options);
+    bot.setWebHook(`${url}/bot${telegramToken}`);
 
     bot.on('webhook_error', (error) => {
       console.log("Webhook error", error.code, error); // => 'EPARSE'
     });
   } else {
-    console.log("IS DEV START")
-    bot = new TelegramBot(TOKEN, {
+
+    bot = new TelegramBot(telegramToken, {
       polling: true
     });
   }

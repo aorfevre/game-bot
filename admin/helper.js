@@ -5,12 +5,18 @@ var createUser = require('../admin/create_new_user.js')
 var ux = require('../admin/ux.js')
 
 var _countUsersLoop = 0
+
+
 module.exports.getUser = function(msg, match) {
 
   return new Promise((resolve, reject) => {
-    if (helper.isPrivate(msg)) {
 
+
+
+    if (helper.isPrivate(msg)) {
+      var start = new Date()
       _db.get('users_participating', msg.chat.id).then((myUser) => {
+        var end = new Date()
 
         if (myUser !== undefined) {
 
@@ -87,7 +93,6 @@ module.exports.getRandomNumber = function(min, max) {
 
 module.exports.sendMessageAfterSubmit = function(msg, _txtText, type, val, dbUpdate, myUserDb) {
 
-  console.log("sendMessage")
   var _tmp = {
     // edit: true,
     type: false
@@ -118,7 +123,6 @@ module.exports.sendMessageAfterSubmit = function(msg, _txtText, type, val, dbUpd
     disable_web_page_preview: true,
   };
 
-  console.log("_txtText", _txtText)
   if (dbUpdate !== undefined && dbUpdate === true) {
     _tmp["hasEnteredSomething"] = true
     _db.set('users_participating', msg.chat.id, null, _tmp, true).then(function(myUser) {
