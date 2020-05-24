@@ -24,19 +24,17 @@ module.exports.setTelegram = function() {
   //   }
   // });
 
-  const options = {
-    polling: {
-      autoStart: true,
-      allowed_updates: ["message", "inline_query", "callback_query"]
-    },
-    webHook: {
-      // Just use 443 directly
-      port: 443
-    }
-  };
+
 
   var bot = null;
   if (!isDev) {
+    const options = {
+
+      webHook: {
+        // Just use 443 directly
+        port: 443
+      }
+    };
     var url = 'https://tg.ablock.io'
     // url = 'https://api.telegram.org'
     bot = new TelegramBot(telegramToken, options);
@@ -46,7 +44,13 @@ module.exports.setTelegram = function() {
       console.log("Webhook error", error.code, error); // => 'EPARSE'
     });
   } else {
+    const options = {
+      polling: {
+        autoStart: true,
+        allowed_updates: ["message", "inline_query", "callback_query"]
+      },
 
+    };
     bot = new TelegramBot(telegramToken, {
       polling: true
     });
