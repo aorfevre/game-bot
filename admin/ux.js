@@ -72,7 +72,20 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
         _txt += "</b>,\n\n"
       }
 
-      _txt += "ablock bot, do that and that ... "
+      _txt += "⭐️ <i>This telegram bot will trigger you a message each time a transaction is spotted from one of your wallets\n" +
+        "</i>\n" +
+
+        "🚨<b>Bot will NEVER ask you for your PRIVATE KEYS. Always type PUBLIC KEYS</b>.\n" +
+        "\n" +
+        "🔍By tracking your transactions, be the first to know when you get any transaction from or to your wallet.\n" +
+
+        "\n" +
+        "<b>Follow our social medias</b>\n" +
+        "🔸 <a href='https://t.me/ablockio'>Telegram Discussion</a>\n" +
+        "🔸 <a href='https://t.me/ablockLTOWhale'>Telegram Whale Alert</a>\n" +
+        "🔸 <a href='https://twitter.com/ablock_io'>Twitter</a>\n" +
+        "🔸 <a href='https://medium.com/@ablock.io'>Medium</a>\n"
+
 
 
 
@@ -81,6 +94,19 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
 
 
       var _markup = []
+
+      _markup.push([{
+          text: "LTO uptime",
+          url: "https://lto.ablock.io"
+          // callback_data: _require.btn_callback
+        },
+        {
+          text: "FTM uptime",
+          url: "https://fantom.ablock.io"
+          // callback_data: _require.btn_callback
+        }
+      ])
+
 
       for (var i in REQUIREMENTS) {
         var _require = REQUIREMENTS[i]
