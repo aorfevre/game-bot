@@ -10,7 +10,6 @@ module.exports.setTelegram = function() {
 
 
   var telegramTest = '602801351:AAEAUmijk5htvA6_W_14cbdkkVjFuXYzT_g';
-
   var telegramToken = TOKEN
 
   if (isDev)
@@ -55,6 +54,6 @@ module.exports.setTelegram = function() {
       polling: true
     });
   }
-
+  console.log("START isDev", isDev, telegramToken)
   return bot;
 }
