@@ -5,10 +5,10 @@ global._mdb = null;
 module.exports.init = function() {
 
   return new Promise(function(resolve, reject) {
-    // var url = "ablock:5L3gXqPkLrwRrgVyvJqN7jJdA@localhost:27017/ablockBot?authSource=admin";
-    //
-    // if (isDev)
-    url = "ablock:5L3gXqPkLrwRrgVyvJqN7jJdA@3.12.222.35:27017/ablockBot?authSource=admin";
+    var url = "ablock:5L3gXqPkLrwRrgVyvJqN7jJdA@localhost:27017/ablockBot?authSource=admin";
+
+    if (isDev)
+      url = "ablock:5L3gXqPkLrwRrgVyvJqN7jJdA@3.12.222.35:27017/ablockBot?authSource=admin";
 
 
     if (_mdb === null)
