@@ -82,7 +82,7 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
         "\n" +
         "<b>Follow our social medias</b>\n" +
         "🔸 <a href='https://t.me/ablockio'>Telegram Discussion</a>\n" +
-        "🔸 <a href='https://t.me/ablockLTOWhale'>Telegram Whale Alert</a>\n" +
+        "🔸 Telegram Whale Alert <a href='https://t.me/ablockLTOWhale'>LTO</a> | <a href='https://t.me/ablockLTOWhale'>FTM</a>\n" +
         "🔸 <a href='https://twitter.com/ablock_io'>Twitter</a>\n" +
         "🔸 <a href='https://medium.com/@ablock.io'>Medium</a>\n"
 
