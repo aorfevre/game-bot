@@ -4,7 +4,7 @@ const TelegramBot = require('node-telegram-bot-api');
 var async = require('async');
 
 global.TOKEN = '1157895976:AAHCaIQmcpUqAhb9hzRBPBOPtwVaGNdF0DM';
-global.isDev = __dirname.indexOf("ablock") !== -1
+global.isDev = __dirname.indexOf("aorfevre") !== -1
 
 module.exports.setTelegram = function() {
 
