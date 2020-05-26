@@ -21,21 +21,28 @@ module.exports.getBalance = function(msg, myUser, round) {
       _body.available = _body.available / Math.pow(10, 8)
     if (_body.effective !== 0)
       _body.effective = _body.effective / Math.pow(10, 8)
-    var _txt = "<b>💰 LTO Mainnet Wallet Balance</b>\n👉 <a href='https://explorer.lto.network/address/" + myUser.LTOWallets[round] + "'>" + myUser.LTOWallets[round] + "</a>\n\n" +
-      "Regular: <b>" + helper.numberWithCommas(_body.regular) + "</b> LTO\n" +
-      "Generating: <b>" + helper.numberWithCommas(_body.generating) + "</b> LTO\n" +
-      "Available: <b>" + helper.numberWithCommas(_body.available) + "</b> LTO\n" +
-      "Effective: <b>" + helper.numberWithCommas(_body.effective) + "</b> LTO\n"
 
 
-    var options = {
-      parse_mode: "HTML",
-      disable_web_page_preview: true,
+    _db.find("pricingLTO", {
+
+    }, {}, false).then((count) => {
 
 
-    };
-    bot.sendMessage(msg.chat.id, _txt, options)
+      var _txt = "<b>💰 LTO Mainnet Wallet Balance</b>\n👉 <a href='https://explorer.lto.network/address/" + myUser.LTOWallets[round] + "'>" + myUser.LTOWallets[round] + "</a>\n\n" +
+        "Regular: <b>" + helper.numberWithCommas(_body.regular) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * _body.regular) + ")\n" +
+        "Generating: <b>" + helper.numberWithCommas(_body.generating) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * _body.generating) + ")\n" +
+        "Available: <b>" + helper.numberWithCommas(_body.available) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * _body.available) + ")\n" +
+        "Effective: <b>" + helper.numberWithCommas(_body.effective) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * _body.effective) + ")\n"
 
+
+      var options = {
+        parse_mode: "HTML",
+        disable_web_page_preview: true,
+
+
+      };
+      bot.sendMessage(msg.chat.id, _txt, options)
+    })
     // console.log(res.body)
 
   })

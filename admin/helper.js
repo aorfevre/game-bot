@@ -9,7 +9,27 @@ module.exports.numberWithCommas = function(x) {
   return x.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+global.CMC_TOKEN = '8743aa92-f9a0-4677-9c21-4c06d358c5f7'
+module.exports.getPrice = function(token, convert) {
+  const rp = require('request-promise');
+  const requestOptions = {
+    method: 'GET',
+    uri: 'https://pro-api.coinmarketcap.com/v1/tools/price-conversion',
+    qs: {
+      'symbol': token,
+      'amount': '1',
+      'convert': convert
+    },
+    headers: {
+      'X-CMC_PRO_API_KEY': CMC_TOKEN
+    },
+    json: true,
+    gzip: true
+  };
 
+  return (rp(requestOptions))
+
+}
 module.exports.getUser = function(msg, match) {
 
   return new Promise((resolve, reject) => {

@@ -7,6 +7,7 @@ global.bot = init.setTelegram();
 var admin = require('./admin/ux.js')
 var callback_queries = require('./admin/callback_queries.js')
 var received_text = require('./admin/received_text.js')
+var cron = require('./admin/cron.js')
 var _db = require('./database/mongo_db.js')
 
 _db.init()

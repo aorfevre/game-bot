@@ -49,7 +49,7 @@ module.exports.get = function(query, key) {
       var _query = {}
       if (key !== null) {
         _query = {
-          _id: Number(key)
+          _id: key
         }
       }
       // console.log("FIND ",query,key,_query)
