@@ -4,6 +4,7 @@ var schedule = require('node-schedule');
 
 
 var rulePricing = new schedule.RecurrenceRule();
+rulePricing.hour = [0, 3, 6, 9, 12, 15, 18, 21]
 rulePricing.minute = [0]
 rulePricing.second = [0]
 
