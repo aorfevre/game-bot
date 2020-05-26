@@ -1,4 +1,5 @@
 var ux = require('../admin/ux.js')
+var helper = require('../admin/helper.js')
 
 var _db = require('../database/mongo_db.js')
 module.exports.getBalance = function(msg, myUser, round) {
@@ -21,10 +22,10 @@ module.exports.getBalance = function(msg, myUser, round) {
     if (_body.effective !== 0)
       _body.effective = _body.effective / Math.pow(10, 8)
     var _txt = "<b>💰 LTO Mainnet Wallet Balance</b>\n👉 <a href='https://explorer.lto.network/address/" + myUser.LTOWallets[round] + "'>" + myUser.LTOWallets[round] + "</a>\n\n" +
-      "Regular: <b>" + _body.regular + "</b> LTO\n" +
-      "Generating: <b>" + _body.generating + "</b> LTO\n" +
-      "Available: <b>" + _body.available + "</b> LTO\n" +
-      "Effective: <b>" + _body.effective + "</b> LTO\n"
+      "Regular: <b>" + helper.numberWithCommas(_body.regular) + "</b> LTO\n" +
+      "Generating: <b>" + helper.numberWithCommas(_body.generating) + "</b> LTO\n" +
+      "Available: <b>" + helper.numberWithCommas(_body.available) + "</b> LTO\n" +
+      "Effective: <b>" + helper.numberWithCommas(_body.effective) + "</b> LTO\n"
 
 
     var options = {

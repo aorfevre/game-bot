@@ -5,6 +5,9 @@ var createUser = require('../admin/create_new_user.js')
 var ux = require('../admin/ux.js')
 
 var _countUsersLoop = 0
+module.exports.numberWithCommas = function(x) {
+  return x.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
 
 module.exports.getUser = function(msg, match) {
