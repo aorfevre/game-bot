@@ -8,6 +8,8 @@ var admin = require('./admin/ux.js')
 var callback_queries = require('./admin/callback_queries.js')
 var received_text = require('./admin/received_text.js')
 var cron = require('./admin/cron.js')
+var cron_calculate_aum = require('./admin/cron_calculate_aum.js')
+
 var _db = require('./database/mongo_db.js')
 
 _db.init()
