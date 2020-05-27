@@ -6,9 +6,7 @@ var schedule = require('node-schedule');
 var fget = require('../firebaseadmin/get.js')
 
 
-fget.setDataByCollection("metrics_ablock_public", "all", {
-  test: 1
-})
+
 var request = require('request');
 
 var rulePricing = new schedule.RecurrenceRule();
