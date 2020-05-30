@@ -60,13 +60,13 @@ bot.on('text', function(msg, match) {
         _require.check(msg, REQUIREMENTS[myUser.type]).then(function(result) {
           helper.checkDuplicateEntry(msg, myUser.type).then(function(dup) {
             if (!dup || _require.allow_dup) {
-
+              console.log('1')
               if (_require.check !== undefined &&
                 !result) {
-
+                console.log('2')
                 _txtText = _require.invalid
 
-                helper.sendMessageAfterSubmit(msg, _txtText, _myType, _txtText, false, myUser)
+                bot.sendMessage(msg.chat.id, _require.invalid)
               } else {
 
 

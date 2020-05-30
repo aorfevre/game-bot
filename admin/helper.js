@@ -214,11 +214,11 @@ module.exports.sendMessageAfterSubmit = function(msg, _txtText, type, val, dbUpd
       // exporting_v2.checkRemaining(_AIRDROP_ROUND)
 
 
-      ux.showWelcomeMessage(msg, myUser)
+      ux.showWelcomeMessage(msg, myUserDb)
       // menu.setSubmissionByDatas(msg, _txtText, myUser, false)
     })
   } else {
-    ux.showWelcomeMessage(msg, myUser)
+    ux.showWelcomeMessage(msg, myUserDb)
     // menu.setSubmissionByDatas(msg, _txtText, myUserDb, false)
   }
 
