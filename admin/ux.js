@@ -43,7 +43,22 @@ global.REQUIREMENTS = {
     invalid: 'This is not a correct ONE mainnet address',
     explorer: 'https://explorer.harmony.one/#/address/'
 
+  },
+  XTZWallets: {
+    btn_txt: "XTZ Mainnet",
+    type: "XTZWallets",
+    text_question: "1/ Type a XTZ Mainnet wallet address that you wish to track\n" +
+      "2/ Enjoy!",
+    type_data: "text",
+    check: helper.noCheck,
+    allow_dup: true,
+    invalid: 'This is not a correct XTZ mainnet address',
+    explorer: 'https://tzstats.com/'
+
   }
+
+
+
 }
 
 var startTime, endTime;
@@ -217,7 +232,30 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
 
 
         }
+        if (_require.type === "XTZWallets" && myUser["XTZWallets"] !== undefined) {
 
+          for (var l in myUser.XTZWallets) {
+
+            _markup.push([{
+                text: myUser["XTZWallets"][l],
+                url: _require.explorer + myUser["XTZWallets"][l]
+              }, {
+                text: '💰',
+                callback_data: "GET XTZ BALANCE-" + l
+                // url: 'https://explorer.lto.network/address/'+ myUser["XTZ"]
+              },
+              {
+                text: '➖',
+                callback_data: "DELETE XTZ WALLET-" + l
+                // url: 'https://explorer.lto.network/address/'+ myUser["FTM"]
+              }
+
+
+            ])
+          }
+
+
+        }
 
 
 

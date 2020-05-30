@@ -6,6 +6,7 @@ var ux = require('../admin/ux.js')
 
 var _countUsersLoop = 0
 module.exports.numberWithCommas = function(x) {
+  console.log('x', x)
   return x.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
@@ -115,7 +116,7 @@ module.exports.getRandomNumber = function(min, max) {
 
 
 module.exports.sendMessageAfterSubmit = function(msg, _txtText, type, val, dbUpdate, myUserDb) {
-  val = val.toLowerCase()
+
   var _tmp = {
     // edit: true,
     type: false
@@ -124,6 +125,7 @@ module.exports.sendMessageAfterSubmit = function(msg, _txtText, type, val, dbUpd
 
 
   if (type === "LTOWallets") {
+    val = val.toLowerCase()
     if (myUserDb.LTOWallets === undefined)
       myUserDb.LTOWallets = []
     if (!myUserDb.LTOWallets.includes(val) && helper.validateLTONoPromise(val)) {
@@ -133,6 +135,7 @@ module.exports.sendMessageAfterSubmit = function(msg, _txtText, type, val, dbUpd
 
   }
   if (type === "FTMWallets") {
+    val = val.toLowerCase()
     if (myUserDb.FTMWallets === undefined)
       myUserDb.FTMWallets = []
     if (!myUserDb.FTMWallets.includes(val) && helper.validateERC20NoPromise(val)) {
@@ -142,6 +145,7 @@ module.exports.sendMessageAfterSubmit = function(msg, _txtText, type, val, dbUpd
 
   }
   if (type === "ONEWallets") {
+    val = val.toLowerCase()
 
     if (myUserDb.ONEWallets === undefined)
       myUserDb.ONEWallets = []
@@ -153,6 +157,22 @@ module.exports.sendMessageAfterSubmit = function(msg, _txtText, type, val, dbUpd
     }
 
   }
+
+
+
+  if (type === "XTZWallets") {
+
+    if (myUserDb.XTZWallets === undefined)
+      myUserDb.XTZWallets = []
+
+    console.log('XTZWallets', myUserDb)
+    if (!myUserDb.XTZWallets.includes(val) && helper.noCheckNoPromise(val)) {
+      myUserDb.XTZWallets.push(val)
+      _tmp.XTZWallets = myUserDb.XTZWallets
+    }
+
+  }
+
   var optionsText = {
     parse_mode: "HTML",
     disable_web_page_preview: true,

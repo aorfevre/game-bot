@@ -6,6 +6,7 @@ var human_control = require('../admin/human_control.js')
 var lto = require('../chains/lto.js')
 var ftm = require('../chains/ftm.js')
 var one = require('../chains/one.js')
+var xtz = require('../chains/xtz.js')
 
 
 bot.on("callback_query", function(callbackQuery) {
@@ -70,7 +71,12 @@ bot.on("callback_query", function(callbackQuery) {
         control = "GET ONE BALANCE"
       } else if (control.indexOf("DELETE ONE WALLET") !== -1) {
         control = "DELETE ONE WALLET"
+      } else if (control.indexOf("GET XTZ BALANCE") !== -1) {
+        control = "GET XTZ BALANCE"
+      } else if (control.indexOf("DELETE XTZ WALLET") !== -1) {
+        control = "DELETE XTZ WALLET"
       }
+
 
 
 
@@ -341,6 +347,19 @@ bot.on("callback_query", function(callbackQuery) {
           var _round = callbackQuery.data.split("-")[1]
 
           one.deleteWallet(msg, myUser, _round)
+          break;
+
+
+        case "GET XTZ BALANCE":
+          var _round = callbackQuery.data.split("-")[1]
+
+          xtz.getBalance(msg, myUser, _round)
+          break;
+
+        case "DELETE XTZ WALLET":
+          var _round = callbackQuery.data.split("-")[1]
+
+          xtz.deleteWallet(msg, myUser, _round)
           break;
           // case "REFRESH DASHBOARD":
           //   var _round = callbackQuery.data.split("_")[1]

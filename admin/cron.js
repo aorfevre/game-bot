@@ -55,6 +55,21 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
 
   })
 
+
+  helper.getPrice('XTZ', 'USD').then((response) => {
+
+    var _datas = {
+      unit: 'USD',
+      amount: 1,
+      value: response.data.quote['USD'].price
+    }
+    _db.set('pricingXTZ', 'one', null, _datas, true).then(() => {
+
+    })
+
+
+  })
+
 })
 
 
