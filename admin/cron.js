@@ -50,7 +50,7 @@ checkTx.second = [0]
 
 
 setTimeout(() => {
-
+  ftm.checkNotificationTx()
 })
 
 var _checkTx = schedule.scheduleJob(checkTx, () => {
