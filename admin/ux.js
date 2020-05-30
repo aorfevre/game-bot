@@ -42,7 +42,7 @@ global.REQUIREMENTS = {
     text_question: "1/ Type a Harmony wallet address\n" +
       "2/ Enjoy!",
     type_data: "text",
-    check: helper.noCheck,
+    check: helper.validateXTZ,
     allow_dup: true,
     invalid: 'This is not a correct ONE mainnet address',
     explorer: 'https://explorer.harmony.one/#/address/'
@@ -54,7 +54,7 @@ global.REQUIREMENTS = {
     text_question: "1/ Type a Tezos wallet address\n" +
       "2/ Enjoy!",
     type_data: "text",
-    check: helper.noCheck,
+    check: helper.validateXTZ,
     allow_dup: true,
     invalid: 'This is not a correct XTZ mainnet address',
     explorer: 'https://tzstats.com/'
@@ -66,7 +66,7 @@ global.REQUIREMENTS = {
     text_question: "1/ Type a Tomochain wallet address\n" +
       "2/ Enjoy!",
     type_data: "text",
-    check: helper.noCheck,
+    check: helper.validateERC20,
     allow_dup: true,
     invalid: 'This is not a correct TOMO mainnet address',
     explorer: 'https://scan.tomochain.com/address/'
@@ -78,7 +78,7 @@ global.REQUIREMENTS = {
     text_question: "1/ Type a Cosmos wallet address\n" +
       "2/ Enjoy!",
     type_data: "text",
-    check: helper.noCheck,
+    check: helper.validateCOSMOS,
     allow_dup: true,
     invalid: 'This is not a correct ATOM mainnet address',
     explorer: 'https://www.mintscan.io/account/'

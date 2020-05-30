@@ -281,6 +281,23 @@ module.exports.validateERC20 = function(msg) {
     resolve(/^(0x){1}[0-9a-zA-Z]{40}$/i.test(msg.text));
   })
 }
+
+module.exports.validateXTZ = function(msg) {
+  return new Promise(function(resolve, reject) {
+    resolve(/^(tz1){1}[0-9a-zA-Z]{33}$/i.test(msg.text));
+  })
+}
+module.exports.validateONE = function(msg) {
+  return new Promise(function(resolve, reject) {
+    resolve(/^(one1){1}[0-9a-zA-Z]{38}$/i.test(msg.text));
+  })
+}
+
+module.exports.validateCOSMOS = function(msg) {
+  return new Promise(function(resolve, reject) {
+    resolve(/^(cosmos1){1}[0-9a-zA-Z]{38}$/i.test(msg.text));
+  })
+}
 module.exports.noCheck = function(msg) {
   return new Promise(function(resolve, reject) {
     resolve(true);
