@@ -9,10 +9,13 @@ var human_control = require('../admin/human_control.js')
 
 global.REQUIREMENTS = {
   LTOWallets: {
-    btn_txt: "➕LTO Mainnet",
+    btn_txt: "Add your LTO network wallet address",
     type: "LTOWallets",
-    text_question: "1/ Type a LTO Mainnet wallet address that you wish to track\n" +
-      "2/ Enjoy!",
+    text_question: "1/ Type a LTO Mainnet wallet address \n" +
+      "2/ Enjoy!"\
+    n "+
+    "\n" +
+    "<i>You will receive notifications regarding transfers, lease and cancelled lease and mass transfers</i>",
     type_data: "text",
     check: helper.validateLTO,
     allow_dup: true,
@@ -21,10 +24,12 @@ global.REQUIREMENTS = {
 
   },
   FTMWallets: {
-    btn_txt: "➕FTM Mainnet",
+    btn_txt: "Add your FTM network wallet address",
     type: "FTMWallets",
-    text_question: "1/ Type a FTM Mainnet wallet address that you wish to track\n" +
-      "2/ Enjoy!",
+    text_question: "1/ Type a FTM Mainnet wallet\n" +
+      "2/ Enjoy!\n" +
+      "\n" +
+      "<i>You will receive notifications regarding transfers, delegation and un-delegation</i>",
     type_data: "text",
     check: helper.validateERC20,
     allow_dup: true,
@@ -33,7 +38,7 @@ global.REQUIREMENTS = {
 
   },
   ONEWallets: {
-    btn_txt: "➕ONE Mainnet",
+    btn_txt: "Add your ONE network wallet address",
     type: "ONEWallets",
     text_question: "1/ Type a ONE Mainnet wallet address that you wish to track\n" +
       "2/ Enjoy!",
@@ -45,7 +50,7 @@ global.REQUIREMENTS = {
 
   },
   XTZWallets: {
-    btn_txt: "➕XTZ Mainnet",
+    btn_txt: "Add your XTZ network wallet address",
     type: "XTZWallets",
     text_question: "1/ Type a XTZ Mainnet wallet address that you wish to track\n" +
       "2/ Enjoy!",
@@ -174,7 +179,7 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
                 // url: 'https://explorer.lto.network/address/'+ myUser["LTO"]
               },
               {
-                text: '➖',
+                text: 'Remove wallet',
                 callback_data: "DELETE LTO WALLET-" + l
                 // url: 'https://explorer.lto.network/address/'+ myUser["LTO"]
               }
@@ -197,7 +202,7 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
                 // url: 'https://explorer.lto.network/address/'+ myUser["FTM"]
               },
               {
-                text: '➖',
+                text: 'Remove wallet',
                 callback_data: "DELETE FTM WALLET-" + l
                 // url: 'https://explorer.lto.network/address/'+ myUser["FTM"]
               }
@@ -219,7 +224,7 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
                 // url: 'https://explorer.lto.network/address/'+ myUser["ONE"]
               },
               {
-                text: '➖',
+                text: 'Remove wallet',
                 callback_data: "DELETE ONE WALLET-" + l
                 // url: 'https://explorer.lto.network/address/'+ myUser["FTM"]
               }
@@ -243,7 +248,7 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
                 // url: 'https://explorer.lto.network/address/'+ myUser["XTZ"]
               },
               {
-                text: '➖',
+                text: 'Remove wallet',
                 callback_data: "DELETE XTZ WALLET-" + l
                 // url: 'https://explorer.lto.network/address/'+ myUser["FTM"]
               }
