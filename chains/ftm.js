@@ -43,16 +43,17 @@ module.exports.getBalance = function(msg, myUser, round) {
 
 
           var _txt = "<b>💰 FTM Mainnet Wallet Balance</b>\n👉 <a href='https://explorer.fantom.network/address/" + myUser.FTMWallets[round] + "'>" + myUser.FTMWallets[round] + "</a>\n\n" +
-            "Balance: <b>" + helper.numberWithCommas(parseInt(response.body.data.account.balance, 16) / Math.pow(10, 18)) + "</b> FTM ($" + helper.numberWithCommas(count[0].value * parseInt(response.body.data.account.balance, 16) / Math.pow(10, 18)) + ")\n" +
-            "Total Value: <b>" + helper.numberWithCommas(parseInt(response.body.data.account.totalValue, 16) / Math.pow(10, 18)) + "</b> FTM ($" + helper.numberWithCommas(count[0].value * parseInt(response.body.data.account.totalValue, 16) / Math.pow(10, 18)) + ")\n"
+            "Total Value: <b>" + helper.numberWithCommas(parseInt(response.body.data.account.totalValue, 16) / Math.pow(10, 18)) + "</b> FTM ($" + helper.numberWithCommas(count[0].value * parseInt(response.body.data.account.totalValue, 16) / Math.pow(10, 18)) + ")\n" +
+
+            "Available Balance: <b>" + helper.numberWithCommas(parseInt(response.body.data.account.balance, 16) / Math.pow(10, 18)) + "</b> FTM ($" + helper.numberWithCommas(count[0].value * parseInt(response.body.data.account.balance, 16) / Math.pow(10, 18)) + ")\n"
 
           if (response.body.data.account.delegation !== undefined && response.body.data.account.delegation.amount !== undefined) {
-            _txt += "\nStaking\n"
+
 
             if (response.body.data.account.delegation.amount === null || response.body.data.account.delegation.amount === undefined || isNaN(response.body.data.account.delegation.amount))
               response.body.data.account.delegation.amount = 0
 
-            _txt += "Staked: <b>" + helper.numberWithCommas(parseInt(response.body.data.account.delegation.amount, 16) / Math.pow(10, 18)) + "</b> FTM ($" + helper.numberWithCommas(count[0].value * parseInt(response.body.data.account.delegation.amount, 16) / Math.pow(10, 18)) + ")\n"
+            _txt += "Staked amount: <b>" + helper.numberWithCommas(parseInt(response.body.data.account.delegation.amount, 16) / Math.pow(10, 18)) + "</b> FTM ($" + helper.numberWithCommas(count[0].value * parseInt(response.body.data.account.delegation.amount, 16) / Math.pow(10, 18)) + ")\n"
             _txt += "Pending reward: <b>" + helper.numberWithCommas(parseInt(response.body.data.account.delegation.pendingRewards.amount, 16) / Math.pow(10, 18)) + "</b> FTM ($" + helper.numberWithCommas(count[0].value * parseInt(response.body.data.account.delegation.pendingRewards.amount, 16) / Math.pow(10, 18)) + ")\n"
 
             console.log('response.body.data.account.delegation', response.body.data.account.delegation)

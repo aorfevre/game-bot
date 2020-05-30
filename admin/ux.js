@@ -11,7 +11,7 @@ global.REQUIREMENTS = {
   LTOWallets: {
     btn_txt: "Add your LTO network wallet address",
     type: "LTOWallets",
-    text_question: "1/ Type a LTO Mainnet wallet address \n" +
+    text_question: "1/ Type a LTO Network wallet address \n" +
       "2/ Enjoy!\n " +
       "\n" +
       "<i>You will receive notifications regarding transfers, lease and cancelled lease and mass transfers</i>",
@@ -23,23 +23,23 @@ global.REQUIREMENTS = {
 
   },
   FTMWallets: {
-    btn_txt: "Add your FTM network wallet address",
+    btn_txt: "Add your Fantom Opera network wallet address",
     type: "FTMWallets",
-    text_question: "1/ Type a FTM Mainnet wallet\n" +
+    text_question: "1/ Type a Fantom Opera wallet\n" +
       "2/ Enjoy!\n" +
       "\n" +
       "<i>You will receive notifications regarding transfers, delegation and un-delegation</i>",
     type_data: "text",
     check: helper.validateERC20,
     allow_dup: true,
-    invalid: 'This is not a correct FTM mainnet address',
+    invalid: 'This is not a correct Fantom Opera address',
     explorer: 'https://explorer.fantom.network/address/'
 
   },
   ONEWallets: {
-    btn_txt: "Add your ONE network wallet address",
+    btn_txt: "Add your Harmony network wallet address",
     type: "ONEWallets",
-    text_question: "1/ Type a ONE Mainnet wallet address that you wish to track\n" +
+    text_question: "1/ Type a Harmony wallet address\n" +
       "2/ Enjoy!",
     type_data: "text",
     check: helper.noCheck,
@@ -49,9 +49,9 @@ global.REQUIREMENTS = {
 
   },
   XTZWallets: {
-    btn_txt: "Add your XTZ network wallet address",
+    btn_txt: "Add your Tezos wallet address",
     type: "XTZWallets",
-    text_question: "1/ Type a XTZ Mainnet wallet address that you wish to track\n" +
+    text_question: "1/ Type a Tezos wallet address\n" +
       "2/ Enjoy!",
     type_data: "text",
     check: helper.noCheck,
@@ -111,7 +111,7 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
         "🚨<b> The bot will NEVER ask you for your PRIVATE KEYS. Always type your PUBLIC KEYS.</b>.\n" +
 
         "\n" +
-        "💪<b>Follow us on:</b>\n" +
+        "💪 <b>Follow us on:</b>\n" +
         "🔸 <a href='https://t.me/ablockio'>Telegram Discussion</a>\n" +
         "🔸 Telegram Whale Alert <a href='https://t.me/ablockLTOWhale'>LTO</a> | <a href='https://t.me/ablockLTOWhale'>FTM</a>\n" +
         "🔸 <a href='https://twitter.com/ablock_io'>Twitter</a>\n" +
