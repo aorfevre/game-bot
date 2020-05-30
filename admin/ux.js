@@ -16,7 +16,8 @@ global.REQUIREMENTS = {
     type_data: "text",
     check: helper.validateLTO,
     allow_dup: true,
-    invalid: 'This is not a correct LTO mainnet address'
+    invalid: 'This is not a correct LTO mainnet address',
+    explorer: 'https://explorer.lto.network/addresses/'
 
   },
   FTMWallets: {
@@ -27,7 +28,20 @@ global.REQUIREMENTS = {
     type_data: "text",
     check: helper.validateERC20,
     allow_dup: true,
-    invalid: 'This is not a correct FTM mainnet address'
+    invalid: 'This is not a correct FTM mainnet address',
+    explorer: 'https://explorer.fantom.network/address/'
+
+  },
+  ONEWallets: {
+    btn_txt: "➕ONE Mainnet",
+    type: "ONEWallets",
+    text_question: "1/ Type a ONE Mainnet wallet address that you wish to track\n" +
+      "2/ Enjoy!",
+    type_data: "text",
+    check: helper.noCheck,
+    allow_dup: true,
+    invalid: 'This is not a correct ONE mainnet address',
+    explorer: 'https://explorer.harmony.one/#/address/'
 
   }
 }
@@ -72,7 +86,7 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
         _txt += "</b>,\n\n"
       }
 
-      _txt += "⭐️ <i>This telegram bot will trigger you a message each time a transaction is spotted from one of your wallets\n" +
+      _txt += "⭐️ <i>This telegram bot will trigger you a message each time a transaction is spotted from one of your wallets (FTM / LTO)\n" +
         "</i>\n" +
 
         "🚨<b>Bot will NEVER ask you for your PRIVATE KEYS. Always type PUBLIC KEYS</b>.\n" +
@@ -95,17 +109,17 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
 
       var _markup = []
 
-      _markup.push([{
-          text: "LTO uptime",
-          url: "https://lto.ablock.io"
-          // callback_data: _require.btn_callback
-        },
-        {
-          text: "FTM uptime",
-          url: "https://fantom.ablock.io"
-          // callback_data: _require.btn_callback
-        }
-      ])
+      // _markup.push([{
+      //     text: "LTO uptime",
+      //     url: "https://lto.ablock.io"
+      //     // callback_data: _require.btn_callback
+      //   },
+      //   {
+      //     text: "FTM uptime",
+      //     url: "https://fantom.ablock.io"
+      //     // callback_data: _require.btn_callback
+      //   }
+      // ])
 
 
       for (var i in REQUIREMENTS) {
@@ -122,7 +136,7 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
             _tmpPrefix = "❌ "
         }
 
-        if (_require.type === "LTOWallets" || _require.type === "FTMWallets")
+        if (_require.type.indexOf('Wallets') !== -1)
           _tmpPrefix = ""
 
         if (myUser !== null) {
@@ -140,7 +154,7 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
 
             _markup.push([{
                 text: myUser["LTOWallets"][l],
-                callback_data: "NADA"
+                url: _require.explorer + myUser["LTOWallets"][l]
               }, {
                 text: '💰',
                 callback_data: "GET LTO BALANCE-" + l
@@ -163,7 +177,7 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
 
             _markup.push([{
                 text: myUser["FTMWallets"][l],
-                callback_data: "NADA"
+                url: _require.explorer + myUser["FTMWallets"][l]
               }, {
                 text: '💰',
                 callback_data: "GET FTM BALANCE-" + l
@@ -178,6 +192,29 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
 
             ])
           }
+        }
+        if (_require.type === "ONEWallets" && myUser["ONEWallets"] !== undefined) {
+
+          for (var l in myUser.ONEWallets) {
+
+            _markup.push([{
+                text: myUser["ONEWallets"][l],
+                url: _require.explorer + myUser["ONEWallets"][l]
+              }, {
+                text: '💰',
+                callback_data: "GET ONE BALANCE-" + l
+                // url: 'https://explorer.lto.network/address/'+ myUser["ONE"]
+              },
+              {
+                text: '➖',
+                callback_data: "DELETE ONE WALLET-" + l
+                // url: 'https://explorer.lto.network/address/'+ myUser["FTM"]
+              }
+
+
+            ])
+          }
+
 
         }
 

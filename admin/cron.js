@@ -2,8 +2,8 @@ var _db = require('../database/mongo_db.js')
 var helper = require('../admin/helper.js')
 var schedule = require('node-schedule');
 
-var lto = require('../admin/lto.js')
-var ftm = require('../admin/ftm.js')
+var lto = require('../chains/lto.js')
+var ftm = require('../chains/ftm.js')
 
 
 var rulePricing = new schedule.RecurrenceRule();
@@ -41,6 +41,19 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
 
 
   })
+  helper.getPrice('ONE', 'USD').then((response) => {
+
+    var _datas = {
+      unit: 'USD',
+      amount: 1,
+      value: response.data.quote['USD'].price
+    }
+    _db.set('pricingONE', 'one', null, _datas, true).then(() => {
+
+    })
+
+
+  })
 
 })
 
@@ -50,7 +63,8 @@ checkTx.second = [0]
 
 
 setTimeout(() => {
-  ftm.checkNotificationTx()
+  // ftm.checkNotificationTx()
+
 })
 
 var _checkTx = schedule.scheduleJob(checkTx, () => {

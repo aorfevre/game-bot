@@ -124,7 +124,7 @@ module.exports.sendMessageAfterSubmit = function(msg, _txtText, type, val, dbUpd
 
 
   if (type === "LTOWallets") {
-    if (myUserDb.LTOWallets == undefined)
+    if (myUserDb.LTOWallets === undefined)
       myUserDb.LTOWallets = []
     if (!myUserDb.LTOWallets.includes(val) && helper.validateLTONoPromise(val)) {
       myUserDb.LTOWallets.push(val)
@@ -133,11 +133,23 @@ module.exports.sendMessageAfterSubmit = function(msg, _txtText, type, val, dbUpd
 
   }
   if (type === "FTMWallets") {
-    if (myUserDb.FTMWallets == undefined)
+    if (myUserDb.FTMWallets === undefined)
       myUserDb.FTMWallets = []
     if (!myUserDb.FTMWallets.includes(val) && helper.validateERC20NoPromise(val)) {
       myUserDb.FTMWallets.push(val)
       _tmp.FTMWallets = myUserDb.FTMWallets
+    }
+
+  }
+  if (type === "ONEWallets") {
+
+    if (myUserDb.ONEWallets === undefined)
+      myUserDb.ONEWallets = []
+
+    console.log('ONEWallets', myUserDb)
+    if (!myUserDb.ONEWallets.includes(val) && helper.noCheckNoPromise(val)) {
+      myUserDb.ONEWallets.push(val)
+      _tmp.ONEWallets = myUserDb.ONEWallets
     }
 
   }
@@ -209,6 +221,11 @@ module.exports.validateERC20NoPromise = function(val) {
   return (/^(0x){1}[0-9a-zA-Z]{40}$/i.test(val));
 
 }
+module.exports.noCheckNoPromise = function(val) {
+
+  return true;
+
+}
 module.exports.validateLTO = function(msg) {
   return new Promise(function(resolve, reject) {
     resolve(/^(3J){1}[0-9a-zA-Z]{33}$/i.test(msg.text));
@@ -217,5 +234,10 @@ module.exports.validateLTO = function(msg) {
 module.exports.validateERC20 = function(msg) {
   return new Promise(function(resolve, reject) {
     resolve(/^(0x){1}[0-9a-zA-Z]{40}$/i.test(msg.text));
+  })
+}
+module.exports.noCheck = function(msg) {
+  return new Promise(function(resolve, reject) {
+    resolve(true);
   })
 }
