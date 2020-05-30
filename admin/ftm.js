@@ -1,6 +1,7 @@
 var ux = require('../admin/ux.js');
 var helper = require('../admin/helper.js');
 var _db = require('../database/mongo_db.js')
+var _dbftm = require('../database/mongo_db_ftm.js')
 
 var request = require('request');
 module.exports.getBalance = function(msg, myUser, round) {
@@ -73,5 +74,75 @@ module.exports.deleteWallet = function(msg, myUser, round) {
 
 
 module.exports.checkNotificationTx = function() {
+  _db.find('notifyTxFTM', {
+    notified: false
+  }, {}, false).then((r) => {
+    var options = {
+      parse_mode: "HTML",
+      disable_web_page_preview: true,
 
+
+    };
+    _db.find("pricingFTM", {
+
+    }, {}, false).then((count) => {
+
+      _dbftm.find("validators", {
+        _id: 'fantomstakers'
+      }, {}, false).then((validators) => {
+        validators = validators[0]
+
+        // for each tx
+        for (var i in r) {
+
+          // for each user receiving the notification
+
+          for (var j in r[i]) {
+
+            // console.log("j", j, r[i])
+
+            var tx = r[i][j]
+
+            console.log('tx', tx)
+            if (tx.decoded === null) {
+              // transfer
+              var usdValue = (count[0].value * (tx.value / Math.pow(10, 18)))
+              var whaleTxt = "🚨" +
+                helper.numberWithCommas((Number(tx.value) / Math.pow(10, 18))) + " FTM ($" + helper.numberWithCommas(usdValue) + ") transferred from " +
+                "<a href='http://explorer.fantom.network/address/" + tx.from + "'>" + tx.from + "</a> to <a href='http://explorer.fantom.network/address/" + tx.to + "'>" + tx.to + "</a>\n" +
+                "<a href='http://explorer.fantom.network/transactions/" + tx.hash + "'>TX - link</a>";
+
+              // bot.sendMessage(j, whaleTxt, options)
+
+
+            } else if (tx.decoded !== undefined && (tx.decoded.name === "createDelegation") && (tx.to === '0xFC00FACE00000000000000000000000000000000')) {
+
+              console.log("create delegation")
+              var usdValue = (count[0].value * (tx.value / Math.pow(10, 18)))
+              var whaleTxt = "🚨" +
+                helper.numberWithCommas((Number(tx.value) / Math.pow(10, 18))) + " FTM ($" + helper.numberWithCommas(usdValue) + ") delegated by " +
+                "<a href='http://explorer.fantom.network/address/" + tx.from + "'>" + tx.from + "</a> to <a href='http://explorer.fantom.network/validator/" + validators[tx.decoded.params[0].value + ''].address + "'>" + (validators[(tx.decoded.params[0].value - 1) + ''].name === '' ? 'Node' : validators[(tx.decoded.params[0].value - 1) + ''].name) + "-" + validators[(tx.decoded.params[0].value - 1) + '']._id + "</a>\n" +
+                "<a href='http://explorer.fantom.network/transactions/" + tx.hash + "'>TX - link</a>";
+
+              // bot.sendMessage(j, whaleTxt, options)
+
+
+
+            } else if (tx.decoded !== undefined && tx.decoded.name === "prepareToWithdrawDelegation") {
+              var usdValue = (count[0].value * (tx.value / Math.pow(10, 18)))
+              var whaleTxt = "🚨" +
+                helper.numberWithCommas((Number(tx.value) / Math.pow(10, 18))) + " FTM ($" + helper.numberWithCommas(usdValue) + ") preparing to undelegate by " +
+                "<a href='http://explorer.fantom.network/address/" + tx.from + "'>" + tx.from + "</a> \n" +
+                "<a href='http://explorer.fantom.network/transactions/" + tx.hash + "'>TX - link</a>";
+
+              bot.sendMessage(j, whaleTxt, options)
+            }
+          }
+
+          _db.set('notifyTxFTM', r[i]._id, "notified", true, true)
+
+        }
+      })
+    })
+  })
 }

@@ -115,7 +115,7 @@ module.exports.getRandomNumber = function(min, max) {
 
 
 module.exports.sendMessageAfterSubmit = function(msg, _txtText, type, val, dbUpdate, myUserDb) {
-
+  val = val.toLowerCase()
   var _tmp = {
     // edit: true,
     type: false
