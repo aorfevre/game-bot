@@ -51,6 +51,8 @@ module.exports.getBalance = function(msg, myUser, round) {
 
             _txt += "Staked: <b>" + helper.numberWithCommas(parseInt(response.body.data.account.delegation.amount, 16) / Math.pow(10, 18)) + "</b> FTM ($" + helper.numberWithCommas(count[0].value * parseInt(response.body.data.account.delegation.amount, 16) / Math.pow(10, 18)) + ")\n"
             _txt += "Pending reward: <b>" + helper.numberWithCommas(parseInt(response.body.data.account.delegation.pendingRewards.amount, 16) / Math.pow(10, 18)) + "</b> FTM ($" + helper.numberWithCommas(count[0].value * parseInt(response.body.data.account.delegation.pendingRewards.amount, 16) / Math.pow(10, 18)) + ")\n"
+            if (response.body.data.account.delegation.claimedReward === undefined || isNaN(response.body.data.account.delegation.claimedReward))
+              response.body.data.account.delegation.claimedReward = 0
             _txt += "Claimed reward: <b>" + helper.numberWithCommas(parseInt(response.body.data.account.delegation.claimedReward, 16) / Math.pow(10, 18)) + "</b> FTM ($" + helper.numberWithCommas(count[0].value * parseInt(response.body.data.account.delegation.claimedReward, 16) / Math.pow(10, 18)) + ")\n"
           }
           console.log("response.body.data.account", response.body.data.account.delegation)

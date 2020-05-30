@@ -84,7 +84,7 @@ bot.on('text', function(msg, match) {
 
               }
             } else {
-              console.log(_airdrop)
+
               bot.sendMessage(msg.chat.id, "Data duplicated not allowed.")
             }
           })
