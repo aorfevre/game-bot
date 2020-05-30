@@ -45,7 +45,7 @@ global.REQUIREMENTS = {
 
   },
   XTZWallets: {
-    btn_txt: "XTZ Mainnet",
+    btn_txt: "➕XTZ Mainnet",
     type: "XTZWallets",
     text_question: "1/ Type a XTZ Mainnet wallet address that you wish to track\n" +
       "2/ Enjoy!",
@@ -101,15 +101,13 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
         _txt += "</b>,\n\n"
       }
 
-      _txt += "⭐️ <i>This telegram bot will trigger you a message each time a transaction is spotted from one of your wallets (FTM / LTO)\n" +
+      _txt += "⭐️ <i> This bot will send you a message every time a transaction happens on your wallets. Keep track of your wallet movements automatically (FTM/LTO)!\n" +
         "</i>\n" +
 
-        "🚨<b>Bot will NEVER ask you for your PRIVATE KEYS. Always type PUBLIC KEYS</b>.\n" +
-        "\n" +
-        "🔍By tracking your transactions, be the first to know when you get any transaction from or to your wallet.\n" +
+        "🚨<b> The bot will NEVER ask you for your PRIVATE KEYS. Always type your PUBLIC KEYS.</b>.\n" +
 
         "\n" +
-        "<b>Follow our social medias</b>\n" +
+        "💪<b>Follow us on:</b>\n" +
         "🔸 <a href='https://t.me/ablockio'>Telegram Discussion</a>\n" +
         "🔸 Telegram Whale Alert <a href='https://t.me/ablockLTOWhale'>LTO</a> | <a href='https://t.me/ablockLTOWhale'>FTM</a>\n" +
         "🔸 <a href='https://twitter.com/ablock_io'>Twitter</a>\n" +
