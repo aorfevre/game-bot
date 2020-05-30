@@ -1,6 +1,5 @@
-var ux = require('../admin/ux.js')
-var helper = require('../admin/helper.js')
-
+var ux = require('../admin/ux.js');
+var helper = require('../admin/helper.js');
 var _db = require('../database/mongo_db.js')
 
 var request = require('request');
@@ -70,4 +69,9 @@ module.exports.deleteWallet = function(msg, myUser, round) {
   _db.set("users_participating", msg.chat.id, "FTMWallets", myUser.FTMWallets, false).then(function() {
     ux.showWelcomeMessage(msg, myUser)
   })
+}
+
+
+module.exports.checkNotificationTx = function() {
+
 }
