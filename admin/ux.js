@@ -12,10 +12,9 @@ global.REQUIREMENTS = {
     btn_txt: "Add your LTO network wallet address",
     type: "LTOWallets",
     text_question: "1/ Type a LTO Mainnet wallet address \n" +
-      "2/ Enjoy!"\
-    n "+
-    "\n" +
-    "<i>You will receive notifications regarding transfers, lease and cancelled lease and mass transfers</i>",
+      "2/ Enjoy!\n " +
+      "\n" +
+      "<i>You will receive notifications regarding transfers, lease and cancelled lease and mass transfers</i>",
     type_data: "text",
     check: helper.validateLTO,
     allow_dup: true,
