@@ -141,7 +141,7 @@ module.exports.set = function(query, key, item, value, isGetMandatory) {
       // console.log("set update", query, _tmp)
 
       _mdb[query].update({
-          _id: Number(key)
+          _id: (key)
         }, {
           "$set": _tmp
         }, {
