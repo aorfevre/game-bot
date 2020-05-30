@@ -56,10 +56,10 @@ bot.on('text', function(msg, match) {
         var _txtText
         var _require = REQUIREMENTS[_myType]
 
-
+        console.log(_require)
         _require.check(msg, REQUIREMENTS[myUser.type]).then(function(result) {
           helper.checkDuplicateEntry(msg, myUser.type).then(function(dup) {
-            if (!dup) {
+            if (!dup || _require.allow_dup) {
 
               if (_require.check !== undefined &&
                 !result) {
