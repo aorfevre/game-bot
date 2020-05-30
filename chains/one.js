@@ -19,7 +19,7 @@ module.exports.getBalance = function(msg, myUser, round) {
     },
     (error, response, body) => {
       if (!error) {
-        console.log("SUCCESS", response.body);
+
 
         //
         var options = {
@@ -32,7 +32,7 @@ module.exports.getBalance = function(msg, myUser, round) {
         _db.find("pricingONE", {
 
         }, {}, false).then((count) => {
-          console.log('count[0].value', count[0].value)
+
 
           var _txt = "<b>💰 ONE Mainnet Wallet Balance</b>\n👉 <a href='https://explorer.harmony.one/#/address/" + myUser.ONEWallets[round] + "'>" + myUser.ONEWallets[round] + "</a>\n\n" +
             "Balance: <b>" + helper.numberWithCommas(parseInt(response.body.address.balance / Math.pow(10, 18))) + "</b> ONE ($" +

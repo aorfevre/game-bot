@@ -59,6 +59,18 @@ global.REQUIREMENTS = {
     invalid: 'This is not a correct XTZ mainnet address',
     explorer: 'https://tzstats.com/'
 
+  },
+  TOMOWallets: {
+    btn_txt: "Add your Tomochain wallet address",
+    type: "TOMOWallets",
+    text_question: "1/ Type a Tomochain wallet address\n" +
+      "2/ Enjoy!",
+    type_data: "text",
+    check: helper.noCheck,
+    allow_dup: true,
+    invalid: 'This is not a correct TOMO mainnet address',
+    explorer: 'https://scan.tomochain.com/address/'
+
   }
 
 
@@ -249,6 +261,31 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
               {
                 text: 'Remove wallet',
                 callback_data: "DELETE XTZ WALLET-" + l
+                // url: 'https://explorer.lto.network/address/'+ myUser["FTM"]
+              }
+
+
+            ])
+          }
+
+
+        }
+
+        if (_require.type === "TOMOWallets" && myUser["TOMOWallets"] !== undefined) {
+
+          for (var l in myUser.TOMOWallets) {
+
+            _markup.push([{
+                text: myUser["TOMOWallets"][l],
+                url: _require.explorer + myUser["TOMOWallets"][l]
+              }, {
+                text: '💰',
+                callback_data: "GET TOMO BALANCE-" + l
+                // url: 'https://explorer.lto.network/address/'+ myUser["TOMO"]
+              },
+              {
+                text: 'Remove wallet',
+                callback_data: "DELETE TOMO WALLET-" + l
                 // url: 'https://explorer.lto.network/address/'+ myUser["FTM"]
               }
 

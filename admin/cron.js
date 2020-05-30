@@ -69,7 +69,19 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
 
 
   })
+  helper.getPrice('TOMO', 'USD').then((response) => {
 
+    var _datas = {
+      unit: 'USD',
+      amount: 1,
+      value: response.data.quote['USD'].price
+    }
+    _db.set('pricingTOMO', 'one', null, _datas, true).then(() => {
+
+    })
+
+
+  })
 })
 
 

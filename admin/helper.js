@@ -158,6 +158,19 @@ module.exports.sendMessageAfterSubmit = function(msg, _txtText, type, val, dbUpd
 
   }
 
+  if (type === "TOMOWallets") {
+    val = val.toLowerCase()
+
+    if (myUserDb.TOMOWallets === undefined)
+      myUserDb.TOMOWallets = []
+
+
+    if (!myUserDb.TOMOWallets.includes(val) && helper.noCheckNoPromise(val)) {
+      myUserDb.TOMOWallets.push(val)
+      _tmp.TOMOWallets = myUserDb.TOMOWallets
+    }
+
+  }
 
 
   if (type === "XTZWallets") {

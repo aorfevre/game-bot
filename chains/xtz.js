@@ -20,7 +20,7 @@ module.exports.getBalance = function(msg, myUser, round) {
     },
     (error, response, body) => {
       if (!error) {
-        console.log("SUCCESS", response.body);
+
 
         //
         var options = {
@@ -33,7 +33,7 @@ module.exports.getBalance = function(msg, myUser, round) {
         _db.find("pricingXTZ", {
 
         }, {}, false).then((count) => {
-          console.log('count[0].value', count[0].value)
+
           var newDate = new Date();
           newDate.setTime(response.body.lastActive * 1000);
           dateString = newDate.toUTCString();
