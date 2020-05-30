@@ -6,7 +6,7 @@ var ux = require('../admin/ux.js')
 
 var _countUsersLoop = 0
 module.exports.numberWithCommas = function(x) {
-  console.log('x', x)
+
   return x.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
@@ -171,7 +171,19 @@ module.exports.sendMessageAfterSubmit = function(msg, _txtText, type, val, dbUpd
     }
 
   }
+  if (type === "COSMOSWallets") {
+    val = val.toLowerCase()
 
+    if (myUserDb.COSMOSWallets === undefined)
+      myUserDb.COSMOSWallets = []
+
+
+    if (!myUserDb.COSMOSWallets.includes(val) && helper.noCheckNoPromise(val)) {
+      myUserDb.COSMOSWallets.push(val)
+      _tmp.COSMOSWallets = myUserDb.COSMOSWallets
+    }
+
+  }
 
   if (type === "XTZWallets") {
 

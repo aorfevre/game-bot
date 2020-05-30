@@ -8,6 +8,7 @@ var ftm = require('../chains/ftm.js')
 var one = require('../chains/one.js')
 var xtz = require('../chains/xtz.js')
 var tomo = require('../chains/tomo.js')
+var cosmos = require('../chains/cosmos.js')
 
 
 bot.on("callback_query", function(callbackQuery) {
@@ -80,6 +81,10 @@ bot.on("callback_query", function(callbackQuery) {
         control = "GET TOMO BALANCE"
       } else if (control.indexOf("DELETE TOMO WALLET") !== -1) {
         control = "DELETE TOMO WALLET"
+      } else if (control.indexOf("GET COSMOS BALANCE") !== -1) {
+        control = "GET COSMOS BALANCE"
+      } else if (control.indexOf("DELETE COSMOS WALLET") !== -1) {
+        control = "DELETE COSMOS WALLET"
       }
 
 
@@ -376,6 +381,18 @@ bot.on("callback_query", function(callbackQuery) {
           var _round = callbackQuery.data.split("-")[1]
 
           tomo.deleteWallet(msg, myUser, _round)
+          break;
+
+        case "GET COSMOS BALANCE":
+          var _round = callbackQuery.data.split("-")[1]
+
+          cosmos.getBalance(msg, myUser, _round)
+          break;
+
+        case "DELETE COSMOS WALLET":
+          var _round = callbackQuery.data.split("-")[1]
+
+          cosmos.deleteWallet(msg, myUser, _round)
           break;
           // case "REFRESH DASHBOARD":
           //   var _round = callbackQuery.data.split("_")[1]

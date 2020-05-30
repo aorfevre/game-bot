@@ -71,7 +71,19 @@ global.REQUIREMENTS = {
     invalid: 'This is not a correct TOMO mainnet address',
     explorer: 'https://scan.tomochain.com/address/'
 
-  }
+  },
+  COSMOSWallets: {
+    btn_txt: "Add your Cosmos wallet address",
+    type: "COSMOSWallets",
+    text_question: "1/ Type a Cosmos wallet address\n" +
+      "2/ Enjoy!",
+    type_data: "text",
+    check: helper.noCheck,
+    allow_dup: true,
+    invalid: 'This is not a correct ATOM mainnet address',
+    explorer: 'https://www.mintscan.io/account/'
+
+  },
 
 
 
@@ -296,7 +308,30 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
 
         }
 
+        if (_require.type === "COSMOSWallets" && myUser["COSMOSWallets"] !== undefined) {
 
+          for (var l in myUser.COSMOSWallets) {
+
+            _markup.push([{
+                text: myUser["COSMOSWallets"][l],
+                url: _require.explorer + myUser["COSMOSWallets"][l]
+              }, {
+                text: '💰',
+                callback_data: "GET COSMOS BALANCE-" + l
+                // url: 'https://explorer.lto.network/address/'+ myUser["COSMOS"]
+              },
+              {
+                text: 'Remove wallet',
+                callback_data: "DELETE COSMOS WALLET-" + l
+                // url: 'https://explorer.lto.network/address/'+ myUser["FTM"]
+              }
+
+
+            ])
+          }
+
+
+        }
 
       }
 

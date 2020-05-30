@@ -82,6 +82,21 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
 
 
   })
+
+
+  helper.getPrice('ATOM', 'USD').then((response) => {
+
+    var _datas = {
+      unit: 'USD',
+      amount: 1,
+      value: response.data.quote['USD'].price
+    }
+    _db.set('pricingCOSMOS', 'one', null, _datas, true).then(() => {
+
+    })
+
+
+  })
 })
 
 
@@ -91,7 +106,19 @@ checkTx.second = [0]
 
 setTimeout(() => {
   // ftm.checkNotificationTx()
+  helper.getPrice('ATOM', 'USD').then((response) => {
 
+    var _datas = {
+      unit: 'USD',
+      amount: 1,
+      value: response.data.quote['USD'].price
+    }
+    _db.set('pricingCOSMOS', 'one', null, _datas, true).then(() => {
+
+    })
+
+
+  })
 })
 
 var _checkTx = schedule.scheduleJob(checkTx, () => {
