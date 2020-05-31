@@ -5,6 +5,89 @@ var _db = require('../database/mongo_db.js')
 var request = require('request');
 
 
+
+
+
+var getBalanceDatas = function(wallet) {
+
+  return new Promise((resolve, reject) => {
+    var headersOpt = {
+      // "content-type": "application/json",
+    };
+
+    request({
+        method: 'get',
+        url: 'https://scan.tomochain.com/api/accounts/' + wallet,
+        headers: headersOpt,
+        json: true,
+      },
+      (error, response, body) => {
+
+
+        var results = {
+          balanceNumber: response.body.balanceNumber,
+
+          tokenTxCount: response.body.tokenTxCount,
+          transactionCount: response.body.transactionCount
+
+        }
+
+
+
+
+
+        resolve(results)
+      })
+  })
+
+}
+module.exports.getAllBalances = function(myUser) {
+  return new Promise((resolve, reject) => {
+
+    var _promises = []
+    for (var i in myUser.TOMOWallets) {
+      _promises.push(getBalanceDatas(myUser.TOMOWallets[i]))
+    }
+
+    Promise.all(_promises).then((r) => {
+      var results = {
+        balanceNumber: 0,
+
+        tokenTxCount: 0,
+        transactionCount: 0
+
+      }
+      for (var i in r) {
+        results.balanceNumber += r[i].balanceNumber;
+        results.tokenTxCount += r[i].tokenTxCount;
+        results.transactionCount += r[i].transactionCount;
+      }
+
+      _db.find("pricingTOMO", {
+
+      }, {}, false).then((count) => {
+
+
+
+        var _txt = "<b>💰TOMO Mainnet Wallet Balance</b>\n\n" +
+          "Balance: <b>" + helper.numberWithCommas(results.balanceNumber) + "</b> TOMO ($" +
+          helper.numberWithCommas(count[0].value * results.balanceNumber) + ")\n" +
+          "Tokens: <b>" + results.tokenTxCount + "</b>\n" +
+          "Total Transactions: <b>" + results.transactionCount + "</b>\n"
+        resolve({
+          usd: count[0].value * results.balanceNumber,
+          txt: _txt
+        });
+      })
+    })
+
+  })
+}
+
+
+
+
+
 module.exports.getBalance = function(msg, myUser, round) {
   // tz1XF4HAJEyfhG8RU7hWq3Rvtd4j2Mmsd32Q
   var headersOpt = {

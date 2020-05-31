@@ -1,5 +1,14 @@
 var helper = require('../admin/helper.js');
 
+
+var lto = require('../chains/lto.js');
+var ftm = require('../chains/ftm.js');
+
+var cosmos = require('../chains/cosmos.js');
+var one = require('../chains/one.js');
+var tomo = require('../chains/tomo.js');
+var xtz = require('../chains/xtz.js');
+
 global.REQUIREMENTS = {
   LTOWallets: {
     btn_txt: "Add your LTO network wallet address",
@@ -13,7 +22,8 @@ global.REQUIREMENTS = {
     allow_dup: true,
     invalid: 'This is not a correct LTO mainnet address',
     explorer: 'https://explorer.lto.network/addresses/',
-    name: 'LTO Network'
+    name: 'LTO Network',
+    balances: lto.getAllBalances
 
   },
   FTMWallets: {
@@ -27,8 +37,9 @@ global.REQUIREMENTS = {
     check: helper.validateERC20,
     allow_dup: true,
     invalid: 'This is not a correct Fantom Opera address',
-    explorer: 'https://explorer.fantom.network/address/',
-    name: 'Fantom Network'
+    explorer: 'https://explorer.fantom.network/addresses/',
+    name: 'Fantom Network',
+    balances: ftm.getAllBalances
 
   },
   ONEWallets: {
@@ -37,11 +48,12 @@ global.REQUIREMENTS = {
     text_question: "1/ Type a Harmony wallet address\n" +
       "2/ Enjoy!",
     type_data: "text",
-    check: helper.validateXTZ,
+    check: helper.validateONE,
     allow_dup: true,
     invalid: 'This is not a correct ONE mainnet address',
     explorer: 'https://explorer.harmony.one/#/address/',
-    name: 'Harmony One'
+    name: 'Harmony One',
+    balances: one.getAllBalances
 
   },
   XTZWallets: {
@@ -54,7 +66,8 @@ global.REQUIREMENTS = {
     allow_dup: true,
     invalid: 'This is not a correct XTZ mainnet address',
     explorer: 'https://tzstats.com/',
-    name: 'Tezos'
+    name: 'Tezos',
+    balances: xtz.getAllBalances
 
   },
   TOMOWallets: {
@@ -67,7 +80,8 @@ global.REQUIREMENTS = {
     allow_dup: true,
     invalid: 'This is not a correct TOMO mainnet address',
     explorer: 'https://scan.tomochain.com/address/',
-    name: 'Tomochain'
+    name: 'Tomochain',
+    balances: tomo.getAllBalances
 
   },
   COSMOSWallets: {
@@ -80,7 +94,8 @@ global.REQUIREMENTS = {
     allow_dup: true,
     invalid: 'This is not a correct ATOM mainnet address',
     explorer: 'https://www.mintscan.io/account/',
-    name: 'Cosmos'
+    name: 'Cosmos',
+    balances: cosmos.getAllBalances
 
   },
 

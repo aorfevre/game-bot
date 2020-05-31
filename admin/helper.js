@@ -125,7 +125,7 @@ module.exports.sendMessageAfterSubmit = function(msg, _txtText, type, val, dbUpd
 
 
   if (type === "LTOWallets") {
-    val = val.toLowerCase()
+
     if (myUserDb.LTOWallets === undefined)
       myUserDb.LTOWallets = []
     if (!myUserDb.LTOWallets.includes(val) && helper.validateLTONoPromise(val)) {

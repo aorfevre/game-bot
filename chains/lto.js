@@ -2,16 +2,92 @@ var ux = require('../admin/ux.js')
 var helper = require('../admin/helper.js')
 
 var _db = require('../database/mongo_db.js')
+var http = require('http'),
+  url = require('url'),
+  request = require('request');
+
+
+
+var getBalanceDatas = function(wallet) {
+
+  return new Promise((resolve, reject) => {
+    var _wallet = "https://nodes.lto.network/addresses/balance/details/" + wallet
+
+
+
+    request(_wallet, (err, res, body) => {
+      var _body = JSON.parse(res.body)
+
+      var results = {
+        regular: 0,
+        generating: 0,
+        available: 0,
+        effective: 0
+      }
+      if (_body.regular !== 0)
+        results.regular = _body.regular / Math.pow(10, 8)
+      if (_body.generating !== 0)
+        results.generating = _body.generating / Math.pow(10, 8)
+      if (_body.available !== 0)
+        results.available = _body.available / Math.pow(10, 8)
+      if (_body.effective !== 0)
+        results.effective = _body.effective / Math.pow(10, 8)
+
+      resolve(results)
+    })
+  })
+
+}
+module.exports.getAllBalances = function(myUser) {
+  return new Promise((resolve, reject) => {
+    var _promises = []
+    for (var i in myUser.LTOWallets) {
+      _promises.push(getBalanceDatas(myUser.LTOWallets[i]))
+    }
+
+    Promise.all(_promises).then((r) => {
+      var results = {
+        regular: 0,
+        generating: 0,
+        available: 0,
+        effective: 0
+      }
+
+      for (var i in r) {
+        results.regular += r[i].regular;
+        results.generating += r[i].generating;
+        results.available += r[i].available;
+        results.effective += r[i].effective;
+      }
+
+      _db.find("pricingLTO", {
+
+      }, {}, false).then((count) => {
+
+        var _txt = "<b>💰 LTO Mainnet Wallet Balances</b>\n\n" +
+          "Regular: <b>" + helper.numberWithCommas(results.regular) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * results.regular) + ")\n" +
+          "Generating: <b>" + helper.numberWithCommas(results.generating) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * results.generating) + ")\n" +
+          "Available: <b>" + helper.numberWithCommas(results.available) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * results.available) + ")\n" +
+          "Effective: <b>" + helper.numberWithCommas(results.effective) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * results.effective) + ")\n"
+
+        resolve({
+          usd: count[0].value * results.regular,
+          txt: _txt
+        });
+      })
+    })
+
+  })
+}
 module.exports.getBalance = function(msg, myUser, round) {
 
   var _wallet = "https://nodes.lto.network/addresses/balance/details/" + myUser.LTOWallets[round]
 
-  var http = require('http'),
-    url = require('url'),
-    request = require('request');
+
 
   request(_wallet, (err, res, body) => {
     var _body = JSON.parse(res.body)
+
 
     if (_body.regular !== 0)
       _body.regular = _body.regular / Math.pow(10, 8)
@@ -28,7 +104,7 @@ module.exports.getBalance = function(msg, myUser, round) {
     }, {}, false).then((count) => {
 
 
-      var _txt = "<b>💰 LTO Mainnet Wallet Balance</b>\n👉 <a href='https://explorer.lto.network/address/" + myUser.LTOWallets[round] + "'>" + myUser.LTOWallets[round] + "</a>\n\n" +
+      var _txt = "<b>💰 LTO Mainnet Wallet Balance</b>\n👉 <a href='https://explorer.lto.network/addresses/" + myUser.LTOWallets[round] + "'>" + myUser.LTOWallets[round] + "</a>\n\n" +
         "Regular: <b>" + helper.numberWithCommas(_body.regular) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * _body.regular) + ")\n" +
         "Generating: <b>" + helper.numberWithCommas(_body.generating) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * _body.generating) + ")\n" +
         "Available: <b>" + helper.numberWithCommas(_body.available) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * _body.available) + ")\n" +

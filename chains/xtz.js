@@ -5,12 +5,92 @@ var _db = require('../database/mongo_db.js')
 var request = require('request');
 
 
+
+
+
+
+var getBalanceDatas = function(wallet) {
+
+  return new Promise((resolve, reject) => {
+    var headersOpt = {
+      // "content-type": "application/json",
+    };
+
+    request({
+        method: 'get',
+        url: 'https://api-teztracker.everstake.one/v2/data/tezos/mainnet/accounts/' + wallet,
+        headers: headersOpt,
+        json: true,
+      },
+      (error, response, body) => {
+
+
+        var results = {
+          balance: response.body.balance / 1000000,
+
+          totaltx: 0
+        }
+
+        if (response.body.transactions !== undefined) {
+          results.totaltx = response.body.transactions
+        }
+
+
+
+
+
+
+        resolve(results)
+      })
+  })
+
+}
+module.exports.getAllBalances = function(myUser) {
+  return new Promise((resolve, reject) => {
+
+    var _promises = []
+    for (var i in myUser.XTZWallets) {
+      _promises.push(getBalanceDatas(myUser.XTZWallets[i]))
+    }
+
+    Promise.all(_promises).then((r) => {
+
+      var results = {
+        balance: 0,
+
+        totaltx: 0
+      }
+
+      for (var i in r) {
+        results.balance += r[i].balance;
+        results.totaltx += r[i].totaltx;
+      }
+
+      _db.find("pricingXTZ", {
+
+      }, {}, false).then((count) => {
+
+        var _txt = "<b>💰XTZ Mainnet Wallet Balance</b>\n\n" +
+          "Balance: <b>" + helper.numberWithCommas(results.balance) + "</b> XTZ ($" +
+          helper.numberWithCommas(count[0].value * results.balance) + ")\n" +
+          "Total Transactions: <b>" + results.totaltx + "</b>\n"
+        resolve({
+          usd: count[0].value * results.balance,
+          txt: _txt
+        });
+      })
+    })
+
+  })
+}
+
+
+
 module.exports.getBalance = function(msg, myUser, round) {
   // tz1XF4HAJEyfhG8RU7hWq3Rvtd4j2Mmsd32Q
   var headersOpt = {
     // "content-type": "application/json",
   };
-  console.log('https://api-teztracker.everstake.one/v2/data/tezos/mainnet/accounts/' + myUser.XTZWallets[round])
 
   request({
       method: 'get',

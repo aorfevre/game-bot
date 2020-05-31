@@ -28,6 +28,58 @@ module.exports.changeSetting = function(msg, myUser, setting) {
   myUser.settings[setting] = !myUser.settings[setting]
   ux.showSettings(msg, myUser)
 }
+
+module.exports.getAllMyBallances = function(msg, myUser) {
+
+
+
+  var _promises = [];
+
+
+  for (var i in REQUIREMENTS) {
+
+    if (myUser.settings[REQUIREMENTS[i].type] === true) {
+
+      _promises.push(REQUIREMENTS[i].balances(myUser))
+    }
+
+
+  }
+
+
+  Promise.all(_promises).then((r) => {
+    var _txt = ""
+    var totalUSd = 0;
+    for (var i in r) {
+      if (r[i].txt !== undefined && r[i].usd > 0) {
+        _txt += r[i].txt;
+        totalUSd += r[i].usd
+        _txt += "\n▫️▫️▫️▫️▫️▫️\n\n";
+      }
+
+    }
+
+    _txt += "\n" +
+      "Total Assets <b>$" + helper.numberWithCommas(totalUSd) + "</b>";
+
+    var _markup = [];
+    _markup.push([{
+      text: "Home",
+      callback_data: "GO HOME"
+    }])
+    var options = {
+      parse_mode: "HTML",
+      disable_web_page_preview: true,
+      reply_markup: JSON.stringify({
+        inline_keyboard: _markup
+      })
+
+    };
+
+    bot.sendMessage(msg.chat.id, _txt, options)
+  })
+
+}
 module.exports.showSettings = function(msg, myUser) {
 
   var _txt = "You can define your favorite networks in this screen.\n" +
@@ -325,6 +377,9 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
 
 
       _markup.push([{
+        text: "💰💰All my balances 💰💰",
+        callback_data: "GET ALL MY BALANCES"
+      }, {
         text: "Settings ⚙️",
         callback_data: "GO SETTINGS"
       }])

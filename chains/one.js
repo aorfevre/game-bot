@@ -5,6 +5,82 @@ var _db = require('../database/mongo_db.js')
 var request = require('request');
 
 
+
+
+var getBalanceDatas = function(wallet) {
+
+  return new Promise((resolve, reject) => {
+    var headersOpt = {
+      "content-type": "application/json",
+    };
+
+    request({
+        method: 'get',
+        url: 'https://explorer.harmony.one:8888/address?id=' + wallet,
+        headers: headersOpt,
+        json: true,
+      },
+      (error, response, body) => {
+
+
+
+        var results = {
+          balance: parseInt(response.body.address.balance / Math.pow(10, 18)),
+
+          totaltx: response.body.address.txCount,
+          stakingtx: response.body.address.txCount
+        }
+
+
+        resolve(results)
+      })
+  })
+
+}
+module.exports.getAllBalances = function(myUser) {
+  return new Promise((resolve, reject) => {
+
+    var _promises = []
+    for (var i in myUser.ONEWallets) {
+      _promises.push(getBalanceDatas(myUser.ONEWallets[i]))
+    }
+
+    Promise.all(_promises).then((r) => {
+      var results = {
+        balance: 0,
+
+        totaltx: 0,
+        stakingtx: 0
+      }
+
+      for (var i in r) {
+        results.balance += r[i].balance;
+        results.totaltx += r[i].totaltx;
+        results.stakingtx += r[i].stakingtx;
+      }
+
+      _db.find("pricingONE", {
+
+      }, {}, false).then((count) => {
+
+        var _txt = "<b>💰 ONE Mainnet Wallet Balance</b>\n\n" +
+          "Balance: <b>" + helper.numberWithCommas(results.balance) + "</b> ONE ($" +
+          helper.numberWithCommas(count[0].value * results.balance) + ")\n" +
+          "Total Transactions: <b>" + results.totaltx + "</b>\n" +
+          "Staking Transactions: <b>" + results.stakingtx + "</b>\n"
+        resolve({
+          usd: count[0].value * results.balance,
+          txt: _txt
+        });
+      })
+    })
+
+  })
+}
+
+
+
+
 module.exports.getBalance = function(msg, myUser, round) {
 
   var headersOpt = {

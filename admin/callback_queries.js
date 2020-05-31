@@ -106,6 +106,9 @@ bot.on("callback_query", function(callbackQuery) {
         case "GO SETTINGS":
           ux.showSettings(msg, myUser)
           break;
+        case "GET ALL MY BALANCES":
+          ux.getAllMyBallances(msg, myUser)
+          break;
         case "GET ICO INFO":
           menu.getIcoInfo(msg, myUser.lang);
           break;

@@ -5,6 +5,110 @@ var _db = require('../database/mongo_db.js')
 var request = require('request');
 
 
+
+
+
+
+var getBalanceDatas = function(wallet) {
+
+  return new Promise((resolve, reject) => {
+    var headersOpt = {
+      // "content-type": "application/json",
+    };
+
+    var _promises = []
+    var queries = ['https://api.cosmostation.io/v1/account/balance/', 'https://api.cosmostation.io/v1/account/delegations/rewards/',
+      'https://api.cosmostation.io/v1/account/delegations/', 'https://api.cosmostation.io/v1/account/unbonding-delegations/'
+    ]
+    for (var i in queries)
+      _promises.push(_query(queries[i], wallet))
+
+
+    Promise.all(_promises).then((values) => {
+
+
+      var results = {
+        balance: 0,
+        rewards: 0,
+        delegation: 0,
+        unbonding: 0
+      }
+
+      if (values[0].length > 0)
+        results.balance = (Number(values[0][0].amount)).toFixed(2)
+      if (values[1].length > 0)
+        results.rewards = (Number(values[1][0].amount)).toFixed(2)
+      if (values[2].length > 0)
+        results.delegation = (Number(values[2][0].amount)).toFixed(2)
+      if (values[3].length > 0)
+        results.unbonding = (Number(values[3][0].amount)).toFixed(2)
+
+
+
+
+
+
+
+      resolve(results)
+    })
+  })
+
+
+}
+module.exports.getAllBalances = function(myUser) {
+  return new Promise((resolve, reject) => {
+
+    var _promises = []
+    for (var i in myUser.COSMOSWallets) {
+      _promises.push(getBalanceDatas(myUser.COSMOSWallets[i]))
+    }
+
+    Promise.all(_promises).then((r) => {
+      var results = {
+        balance: 0,
+        rewards: 0,
+        delegation: 0,
+        unbonding: 0
+      }
+      for (var i in r) {
+        results.balance += r[i].balance;
+        results.rewards += r[i].rewards;
+        results.delegation += r[i].delegation;
+        results.unbonding += r[i].unbonding;
+      }
+
+      _db.find("pricingCOSMOS", {
+
+      }, {}, false).then((count) => {
+
+
+
+        var _txt = "<b>💰COSMOS Mainnet Wallet Balance</b>\n\n" +
+          "Balance: <b>" + helper.numberWithCommas(results.balance / 1000000) + "</b> ATOM ($" +
+          helper.numberWithCommas(count[0].value * results.balance / 1000000) + ")\n" +
+
+          "Rewards: <b>" + helper.numberWithCommas(results.rewards / 1000000) + "</b> ATOM ($" +
+          helper.numberWithCommas(count[0].value * results.rewards / 1000000) + ")\n" +
+
+          "Delegated: <b>" + helper.numberWithCommas(results.delegation / 1000000) + "</b> ATOM ($" +
+          helper.numberWithCommas(count[0].value * results.delegation / 1000000) + ")\n" +
+
+          "Unbonding: <b>" + helper.numberWithCommas(results.unbonding / 1000000) + "</b> ATOM ($" +
+          helper.numberWithCommas(count[0].value * results.unbonding / 1000000) + ")\n"
+        resolve({
+          usd: count[0].value * results.balance,
+          txt: _txt
+        });
+      })
+    })
+
+  })
+}
+
+
+
+
+
 var _query = function(getQuery, param) {
   return new Promise(function(resolve, reject) {
     var headersOpt = {
