@@ -6,115 +6,85 @@ var _db = require('../database/mongo_db.js')
 var human_control = require('../admin/human_control.js')
 
 
-
-global.REQUIREMENTS = {
-  LTOWallets: {
-    btn_txt: "Add your LTO network wallet address",
-    type: "LTOWallets",
-    text_question: "1/ Type a LTO Network wallet address \n" +
-      "2/ Enjoy!\n " +
-      "\n" +
-      "<i>You will receive notifications regarding transfers, lease and cancelled lease and mass transfers</i>",
-    type_data: "text",
-    check: helper.validateLTO,
-    allow_dup: true,
-    invalid: 'This is not a correct LTO mainnet address',
-    explorer: 'https://explorer.lto.network/addresses/'
-
-  },
-  FTMWallets: {
-    btn_txt: "Add your Fantom Opera network wallet address",
-    type: "FTMWallets",
-    text_question: "1/ Type a Fantom Opera wallet\n" +
-      "2/ Enjoy!\n" +
-      "\n" +
-      "<i>You will receive notifications regarding transfers, delegation and un-delegation</i>",
-    type_data: "text",
-    check: helper.validateERC20,
-    allow_dup: true,
-    invalid: 'This is not a correct Fantom Opera address',
-    explorer: 'https://explorer.fantom.network/address/'
-
-  },
-  ONEWallets: {
-    btn_txt: "Add your Harmony network wallet address",
-    type: "ONEWallets",
-    text_question: "1/ Type a Harmony wallet address\n" +
-      "2/ Enjoy!",
-    type_data: "text",
-    check: helper.validateXTZ,
-    allow_dup: true,
-    invalid: 'This is not a correct ONE mainnet address',
-    explorer: 'https://explorer.harmony.one/#/address/'
-
-  },
-  XTZWallets: {
-    btn_txt: "Add your Tezos wallet address",
-    type: "XTZWallets",
-    text_question: "1/ Type a Tezos wallet address\n" +
-      "2/ Enjoy!",
-    type_data: "text",
-    check: helper.validateXTZ,
-    allow_dup: true,
-    invalid: 'This is not a correct XTZ mainnet address',
-    explorer: 'https://tzstats.com/'
-
-  },
-  TOMOWallets: {
-    btn_txt: "Add your Tomochain wallet address",
-    type: "TOMOWallets",
-    text_question: "1/ Type a Tomochain wallet address\n" +
-      "2/ Enjoy!",
-    type_data: "text",
-    check: helper.validateERC20,
-    allow_dup: true,
-    invalid: 'This is not a correct TOMO mainnet address',
-    explorer: 'https://scan.tomochain.com/address/'
-
-  },
-  COSMOSWallets: {
-    btn_txt: "Add your Cosmos wallet address",
-    type: "COSMOSWallets",
-    text_question: "1/ Type a Cosmos wallet address\n" +
-      "2/ Enjoy!",
-    type_data: "text",
-    check: helper.validateCOSMOS,
-    allow_dup: true,
-    invalid: 'This is not a correct ATOM mainnet address',
-    explorer: 'https://www.mintscan.io/account/'
-
-  },
-
-
-
-}
-
-var startTime, endTime;
-
-function start() {
-  startTime = new Date();
-};
-
-function end() {
-  endTime = new Date();
-  var timeDiff = endTime - startTime; //in ms
-
-  console.log(timeDiff + " ms");
-}
-
 bot.onText(/^\/[sS]tart(.+|\b)/, (msg, match) => {
   helper.getUser(msg, match).then((myUser) => {
     if (myUser.human_smiley === undefined || myUser.human_smiley !== 'approved') {
       human_control.setHumanControlSmiley(msg, myUser)
     } else {
-      ux.showWelcomeMessage(msg, myUser)
+
+      if (myUser.settings === undefined) {
+        ux.showSettings(msg, myUser)
+      } else {
+        ux.showWelcomeMessage(msg, myUser)
+      }
 
     }
 
   })
 
 });
+module.exports.changeSetting = function(msg, myUser, setting) {
+  console.log("myUser.settings", myUser.settings, setting)
+  myUser.settings[setting] = !myUser.settings[setting]
+  ux.showSettings(msg, myUser)
+}
+module.exports.showSettings = function(msg, myUser) {
 
+  var _txt = "You can define your favorite networks in this screen.\n" +
+    "You can come back any time to change your favorite networks."
+
+  var _markup = [];
+
+  var _tmp = []
+  for (var i in REQUIREMENTS) {
+    if (myUser.settings === undefined) {
+      myUser.settings = {}
+    }
+    if (myUser.settings[REQUIREMENTS[i].type] === undefined) {
+      myUser.settings[REQUIREMENTS[i].type] = true
+    }
+
+    var prefix = ''
+    if (myUser.settings[REQUIREMENTS[i].type] === true) {
+      prefix = '✅'
+    } else {
+      prefix = '❌'
+    }
+    _tmp.push({
+      text: REQUIREMENTS[i].name + prefix,
+      callback_data: "CHANGE SETTINGS_" + REQUIREMENTS[i].type
+      // callback_data: _require.btn_callback
+    })
+
+    if (_tmp.length === 2) {
+      _markup.push(_tmp);
+      _tmp = []
+    }
+  }
+  if (_tmp.length !== 0) {
+    _markup.push(_tmp);
+    _tmp = []
+  }
+  _markup.push([{
+    text: "Next ⏩",
+    callback_data: "GO HOME"
+  }])
+  var options = {
+    parse_mode: "HTML",
+    disable_web_page_preview: true,
+    reply_markup: JSON.stringify({
+      inline_keyboard: _markup
+    })
+
+  };
+
+
+
+
+  _db.set('users_participating', msg.chat.id, null, myUser, true)
+  bot.sendMessage(msg.chat.id, _txt, options)
+
+}
 module.exports.showWelcomeMessage = function(msg, myUser) {
 
   if (helper.isPrivate(msg)) {
@@ -180,7 +150,7 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
         if (_require.type.indexOf('Wallets') !== -1)
           _tmpPrefix = ""
 
-        if (myUser !== null) {
+        if (myUser !== null && myUser.settings[_require.type] === true) {
 
           _markup.push([{
             text: _tmpPrefix + _require.btn_txt,
@@ -189,7 +159,7 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
           }])
 
         }
-        if (_require.type === "LTOWallets" && myUser["LTOWallets"] !== undefined) {
+        if (_require.type === "LTOWallets" && myUser["LTOWallets"] !== undefined && myUser.settings["LTOWallets"] === true) {
 
           for (var l in myUser.LTOWallets) {
 
@@ -212,7 +182,7 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
           }
 
         }
-        if (_require.type === "FTMWallets" && myUser["FTMWallets"] !== undefined) {
+        if (_require.type === "FTMWallets" && myUser["FTMWallets"] !== undefined && myUser.settings["FTMWallets"] === true) {
 
           for (var l in myUser.FTMWallets) {
 
@@ -234,7 +204,7 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
             ])
           }
         }
-        if (_require.type === "ONEWallets" && myUser["ONEWallets"] !== undefined) {
+        if (_require.type === "ONEWallets" && myUser["ONEWallets"] !== undefined && myUser.settings["ONEWallets"] === true) {
 
           for (var l in myUser.ONEWallets) {
 
@@ -258,7 +228,7 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
 
 
         }
-        if (_require.type === "XTZWallets" && myUser["XTZWallets"] !== undefined) {
+        if (_require.type === "XTZWallets" && myUser["XTZWallets"] !== undefined && myUser.settings["XTZWallets"] === true) {
 
           for (var l in myUser.XTZWallets) {
 
@@ -283,7 +253,7 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
 
         }
 
-        if (_require.type === "TOMOWallets" && myUser["TOMOWallets"] !== undefined) {
+        if (_require.type === "TOMOWallets" && myUser["TOMOWallets"] !== undefined && myUser.settings["TOMOWallets"] === true) {
 
           for (var l in myUser.TOMOWallets) {
 
@@ -308,7 +278,8 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
 
         }
 
-        if (_require.type === "COSMOSWallets" && myUser["COSMOSWallets"] !== undefined) {
+
+        if (_require.type === "COSMOSWallets" && myUser["COSMOSWallets"] !== undefined && myUser.settings["COSMOSWallets"] === true) {
 
           for (var l in myUser.COSMOSWallets) {
 
@@ -335,22 +306,28 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
 
       }
 
+      //
+      // if (helper.isAdmin(msg)) {
+      //
+      //   _markup.push([{
+      //       text: '👨‍✈️Dashboard Round ' + i,
+      //       callback_data: 'GET DASHBOARD_' + i
+      //     }
+      //
+      //   ])
+      //
+      //
+      //   _markup.push([{
+      //     text: '👨‍✈️Dashboard ',
+      //     callback_data: 'GET ADMIN DASHBOARD'
+      //   }])
+      // }
 
-      if (helper.isAdmin(msg)) {
 
-        _markup.push([{
-            text: '👨‍✈️Dashboard Round ' + i,
-            callback_data: 'GET DASHBOARD_' + i
-          }
-
-        ])
-
-
-        _markup.push([{
-          text: '👨‍✈️Dashboard ',
-          callback_data: 'GET ADMIN DASHBOARD'
-        }])
-      }
+      _markup.push([{
+        text: "Settings ⚙️",
+        callback_data: "GO SETTINGS"
+      }])
 
       var options = {
         parse_mode: "HTML",

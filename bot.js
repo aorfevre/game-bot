@@ -11,6 +11,7 @@ var cron = require('./admin/cron.js')
 var cron_calculate_aum = require('./admin/cron_calculate_aum.js')
 
 var _db = require('./database/mongo_db.js')
+var configChains = require('./chains/config.js')
 
 _db.init()
 //

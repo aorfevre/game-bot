@@ -61,6 +61,8 @@ bot.on("callback_query", function(callbackQuery) {
         control = "SEND BULK MESSAGE TEXT"
       } else if (control.indexOf("CONFIRM BULK MESSAGE TEXT") !== -1) {
         control = "CONFIRM BULK MESSAGE TEXT"
+      } else if (control.indexOf("CHANGE SETTINGS") !== -1) {
+        control = "CHANGE SETTINGS"
       } else if (control.indexOf("GET LTO BALANCE") !== -1) {
         control = "GET LTO BALANCE"
       } else if (control.indexOf("DELETE LTO WALLET") !== -1) {
@@ -98,7 +100,11 @@ bot.on("callback_query", function(callbackQuery) {
       switch (control) {
 
         case "GO HOME":
-          menu.setAirdropInfo(msg, null, myUser)
+          ux.showWelcomeMessage(msg, myUser)
+          break;
+
+        case "GO SETTINGS":
+          ux.showSettings(msg, myUser)
           break;
         case "GET ICO INFO":
           menu.getIcoInfo(msg, myUser.lang);
@@ -328,7 +334,11 @@ bot.on("callback_query", function(callbackQuery) {
 
           lto.getBalance(msg, myUser, _round)
           break;
+        case "CHANGE SETTINGS":
+          var _round = callbackQuery.data.split("_")[1]
 
+          ux.changeSetting(msg, myUser, _round)
+          break;
         case "DELETE LTO WALLET":
           var _round = callbackQuery.data.split("-")[1]
 
