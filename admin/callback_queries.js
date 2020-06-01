@@ -108,6 +108,10 @@ bot.on("callback_query", function(callbackQuery) {
           ux.showWelcomeMessage(msg, myUser)
           break;
 
+        case "GET MY WALLETS":
+          ux.showWalletsMenu(msg, myUser)
+          break;
+
         case "GO SETTINGS":
           ux.showSettings(msg, myUser)
           break;

@@ -64,7 +64,7 @@ module.exports.getAllMyBallances = function(msg, myUser) {
 
     var _markup = [];
     _markup.push([{
-      text: "Home",
+      text: "Home 🏡",
       callback_data: "GO HOME"
     }])
     var options = {
@@ -118,7 +118,7 @@ module.exports.showSettings = function(msg, myUser) {
     _tmp = []
   }
   _markup.push([{
-    text: "Next ⏩",
+    text: "Home 🏡",
     callback_data: "GO HOME"
   }])
   var options = {
@@ -137,33 +137,74 @@ module.exports.showSettings = function(msg, myUser) {
   bot.sendMessage(msg.chat.id, _txt, options)
 
 }
+
 module.exports.showWelcomeMessage = function(msg, myUser) {
+  var _txt = "<b>Hello";
+  if (msg.chat.username !== undefined)
+    _txt += " " + msg.chat.username + "</b>,\n\n"
+  else {
+    _txt += "</b>,\n\n"
+  }
+
+  _txt += "⭐️ <i> This bot will send you a message every time a transaction happens on your wallets. Keep track of your wallet movements automatically (FTM/LTO)!\n" +
+    "</i>\n" +
+
+    "🚨<b> The bot will NEVER ask you for your PRIVATE KEYS. Always type your PUBLIC KEYS.</b>.\n" +
+
+    "\n" +
+    "💪 <b>Follow us on:</b>\n" +
+    "🔸 <a href='https://t.me/ablockio'>Telegram Discussion</a>\n" +
+    "🔸 Telegram Whale Alert <a href='https://t.me/ablockLTOWhale'>LTO</a> | <a href='https://t.me/ablockLTOWhale'>FTM</a>\n" +
+    "🔸 <a href='https://twitter.com/ablock_io'>Twitter</a>\n" +
+    "🔸 <a href='https://medium.com/@ablock.io'>Medium</a>\n"
+
+  var _markup = [];
+
+  var totalWallets = 0;
+  for (var i in REQUIREMENTS) {
+
+    if (REQUIREMENTS[i].type.indexOf('Wallets') !== -1 && myUser.settings[REQUIREMENTS[i].type] === true && myUser[REQUIREMENTS[i].type] !== undefined) {
+      console.log("myUser[REQUIREMENTS[i].type]", REQUIREMENTS[i].type, myUser[REQUIREMENTS[i].type])
+      totalWallets += myUser[REQUIREMENTS[i].type].length
+    }
+  }
+
+  _markup.push([{
+    text: "My Wallets 🚀 (" + totalWallets + ")",
+    callback_data: "GET MY WALLETS"
+  }, {
+    text: "💰💰My balances 💰💰",
+    callback_data: "GET ALL MY BALANCES"
+  }])
+
+  _markup.push([{
+    text: "Notifications 🔊",
+    callback_data: "GO NOTIFICATIONS"
+  }, {
+    text: "Settings ⚙️",
+    callback_data: "GO SETTINGS"
+  }])
+
+  var options = {
+    parse_mode: "HTML",
+    disable_web_page_preview: true,
+    reply_markup: JSON.stringify({
+      inline_keyboard: _markup
+    })
+
+  };
+  bot.sendMessage(msg.chat.id, _txt, options)
+
+
+}
+module.exports.showWalletsMenu = function(msg, myUser) {
 
   if (helper.isPrivate(msg)) {
 
 
     try {
-
-      var _txt = "<b>Hello";
-      if (msg.chat.username !== undefined)
-        _txt += " " + msg.chat.username + "</b>,\n\n"
-      else {
-        _txt += "</b>,\n\n"
-      }
-
-      _txt += "⭐️ <i> This bot will send you a message every time a transaction happens on your wallets. Keep track of your wallet movements automatically (FTM/LTO)!\n" +
-        "</i>\n" +
-
-        "🚨<b> The bot will NEVER ask you for your PRIVATE KEYS. Always type your PUBLIC KEYS.</b>.\n" +
-
-        "\n" +
-        "💪 <b>Follow us on:</b>\n" +
-        "🔸 <a href='https://t.me/ablockio'>Telegram Discussion</a>\n" +
-        "🔸 Telegram Whale Alert <a href='https://t.me/ablockLTOWhale'>LTO</a> | <a href='https://t.me/ablockLTOWhale'>FTM</a>\n" +
-        "🔸 <a href='https://twitter.com/ablock_io'>Twitter</a>\n" +
-        "🔸 <a href='https://medium.com/@ablock.io'>Medium</a>\n"
-
-
+      var _txt = 'Add the wallets you want to track and see balances.\n' +
+        'You can add as many wallets as you want and update your list whenever you want.\n';
 
 
 
@@ -403,11 +444,8 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
 
 
       _markup.push([{
-        text: "💰💰All my balances 💰💰",
-        callback_data: "GET ALL MY BALANCES"
-      }, {
-        text: "Settings ⚙️",
-        callback_data: "GO SETTINGS"
+        text: "Home 🏡",
+        callback_data: "GO HOME"
       }])
 
       var options = {
