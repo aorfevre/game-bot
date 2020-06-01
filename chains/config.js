@@ -9,6 +9,8 @@ var one = require('../chains/one.js');
 var tomo = require('../chains/tomo.js');
 var xtz = require('../chains/xtz.js');
 
+var avap = require('../chains/avap.js');
+
 global.REQUIREMENTS = {
   LTOWallets: {
     btn_txt: "Add your LTO network wallet address",
@@ -98,6 +100,34 @@ global.REQUIREMENTS = {
     balances: cosmos.getAllBalances
 
   },
+  AVAPWallets: {
+    btn_txt: "Add your AVA-P wallet address",
+    type: "AVAPWallets",
+    text_question: "1/ Type a AVA-P wallet address\n" +
+      "2/ Enjoy!",
+    type_data: "text",
+    check: helper.noCheck,
+    allow_dup: true,
+    invalid: 'This is not a correct AVA-P mainnet address',
+    explorer: 'https://explorer.ava.network/address/',
+    name: 'AVA-P',
+    balances: avap.getAllBalances
+
+  },
+  // AVAXWallets: {
+  //   btn_txt: "Add your AVA-X wallet address",
+  //   type: "AVAXWallets",
+  //   text_question: "1/ Type a AVA-X wallet address\n" +
+  //     "2/ Enjoy!",
+  //   type_data: "text",
+  //   check: helper.noCheck,
+  //   allow_dup: true,
+  //   invalid: 'This is not a correct AVA-X mainnet address',
+  //   explorer: 'https://explorer.ava.network/address/',
+  //   name: 'Cosmos',
+  //   balances: cosmos.getAllBalances
+  //
+  // },
 
 
 

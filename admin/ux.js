@@ -356,6 +356,32 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
 
         }
 
+
+        if (_require.type === "AVAPWallets" && myUser["AVAPWallets"] !== undefined && myUser.settings["AVAPWallets"] === true) {
+
+          for (var l in myUser.AVAPWallets) {
+
+            _markup.push([{
+                text: myUser["AVAPWallets"][l],
+                url: _require.explorer + myUser["AVAPWallets"][l]
+              }, {
+                text: '💰',
+                callback_data: "GET AVAP BALANCE-" + l
+                // url: 'https://explorer.lto.network/address/'+ myUser["AVAP"]
+              },
+              {
+                text: 'Remove wallet',
+                callback_data: "DELETE AVAP WALLET-" + l
+                // url: 'https://explorer.lto.network/address/'+ myUser["FTM"]
+              }
+
+
+            ])
+          }
+
+
+        }
+
       }
 
       //

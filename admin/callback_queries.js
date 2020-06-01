@@ -9,6 +9,7 @@ var one = require('../chains/one.js')
 var xtz = require('../chains/xtz.js')
 var tomo = require('../chains/tomo.js')
 var cosmos = require('../chains/cosmos.js')
+var avap = require('../chains/avap.js')
 
 
 bot.on("callback_query", function(callbackQuery) {
@@ -87,6 +88,10 @@ bot.on("callback_query", function(callbackQuery) {
         control = "GET COSMOS BALANCE"
       } else if (control.indexOf("DELETE COSMOS WALLET") !== -1) {
         control = "DELETE COSMOS WALLET"
+      } else if (control.indexOf("GET AVAP BALANCE") !== -1) {
+        control = "GET AVAP BALANCE"
+      } else if (control.indexOf("DELETE AVAP WALLET") !== -1) {
+        control = "DELETE AVAP WALLET"
       }
 
 
@@ -406,6 +411,18 @@ bot.on("callback_query", function(callbackQuery) {
           var _round = callbackQuery.data.split("-")[1]
 
           cosmos.deleteWallet(msg, myUser, _round)
+          break;
+
+        case "GET AVAP BALANCE":
+          var _round = callbackQuery.data.split("-")[1]
+
+          avap.getBalance(msg, myUser, _round)
+          break;
+
+        case "DELETE AVAP WALLET":
+          var _round = callbackQuery.data.split("-")[1]
+
+          avap.deleteWallet(msg, myUser, _round)
           break;
           // case "REFRESH DASHBOARD":
           //   var _round = callbackQuery.data.split("_")[1]

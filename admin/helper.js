@@ -198,6 +198,19 @@ module.exports.sendMessageAfterSubmit = function(msg, _txtText, type, val, dbUpd
 
   }
 
+  if (type === "AVAPWallets") {
+
+    if (myUserDb.AVAPWallets === undefined)
+      myUserDb.AVAPWallets = []
+
+    console.log('AVAPWallets', myUserDb)
+    if (!myUserDb.AVAPWallets.includes(val) && helper.noCheckNoPromise(val)) {
+      myUserDb.AVAPWallets.push(val)
+      _tmp.AVAPWallets = myUserDb.AVAPWallets
+    }
+
+  }
+
   var optionsText = {
     parse_mode: "HTML",
     disable_web_page_preview: true,
