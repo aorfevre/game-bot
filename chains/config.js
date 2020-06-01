@@ -21,11 +21,14 @@ global.REQUIREMENTS = {
       "<i>You will receive notifications regarding transfers, lease and cancelled lease and mass transfers</i>",
     type_data: "text",
     check: helper.validateLTO,
+    checkNoPromise: helper.validateLTONoPromise,
     allow_dup: true,
     invalid: 'This is not a correct LTO mainnet address',
     explorer: 'https://explorer.lto.network/addresses/',
     name: 'LTO Network',
-    balances: lto.getAllBalances
+    balances: lto.getAllBalances,
+    ticker: 'LTO',
+    isLowerCase: false
 
   },
   FTMWallets: {
@@ -37,11 +40,14 @@ global.REQUIREMENTS = {
       "<i>You will receive notifications regarding transfers, delegation and un-delegation</i>",
     type_data: "text",
     check: helper.validateERC20,
+    checkNoPromise: helper.validateERC20NoPromise,
     allow_dup: true,
     invalid: 'This is not a correct Fantom Opera address',
     explorer: 'https://explorer.fantom.network/addresses/',
     name: 'Fantom Network',
-    balances: ftm.getAllBalances
+    balances: ftm.getAllBalances,
+    ticker: 'FTM',
+    isLowerCase: true
 
   },
   ONEWallets: {
@@ -51,11 +57,14 @@ global.REQUIREMENTS = {
       "2/ Enjoy!",
     type_data: "text",
     check: helper.validateONE,
+    checkNoPromise: helper.checkNoPromise,
     allow_dup: true,
     invalid: 'This is not a correct ONE mainnet address',
     explorer: 'https://explorer.harmony.one/#/address/',
     name: 'Harmony One',
-    balances: one.getAllBalances
+    balances: one.getAllBalances,
+    ticker: 'ONE',
+    isLowerCase: true
 
   },
   XTZWallets: {
@@ -65,11 +74,14 @@ global.REQUIREMENTS = {
       "2/ Enjoy!",
     type_data: "text",
     check: helper.validateXTZ,
+    checkNoPromise: helper.checkNoPromise,
     allow_dup: true,
     invalid: 'This is not a correct XTZ mainnet address',
     explorer: 'https://tzstats.com/',
     name: 'Tezos',
-    balances: xtz.getAllBalances
+    balances: xtz.getAllBalances,
+    ticker: 'XTZ',
+    isLowerCase: false
 
   },
   TOMOWallets: {
@@ -79,11 +91,14 @@ global.REQUIREMENTS = {
       "2/ Enjoy!",
     type_data: "text",
     check: helper.validateERC20,
+    checkNoPromise: helper.checkNoPromise,
     allow_dup: true,
     invalid: 'This is not a correct TOMO mainnet address',
     explorer: 'https://scan.tomochain.com/address/',
     name: 'Tomochain',
-    balances: tomo.getAllBalances
+    balances: tomo.getAllBalances,
+    ticker: 'TOMO',
+    isLowerCase: true
 
   },
   COSMOSWallets: {
@@ -93,11 +108,14 @@ global.REQUIREMENTS = {
       "2/ Enjoy!",
     type_data: "text",
     check: helper.validateCOSMOS,
+    checkNoPromise: helper.checkNoPromise,
     allow_dup: true,
     invalid: 'This is not a correct ATOM mainnet address',
     explorer: 'https://www.mintscan.io/account/',
     name: 'Cosmos',
-    balances: cosmos.getAllBalances
+    balances: cosmos.getAllBalances,
+    ticker: 'COSMOS',
+    isLowerCase: true
 
   },
   AVAPWallets: {
@@ -107,11 +125,14 @@ global.REQUIREMENTS = {
       "2/ Enjoy!",
     type_data: "text",
     check: helper.noCheck,
+    checkNoPromise: helper.checkNoPromise,
     allow_dup: true,
     invalid: 'This is not a correct AVA-P mainnet address',
     explorer: 'https://explorer.ava.network/address/',
     name: 'AVA-P',
-    balances: avap.getAllBalances
+    balances: avap.getAllBalances,
+    ticker: 'AVAP',
+    isLowerCase: false
 
   },
   // AVAXWallets: {
@@ -121,7 +142,9 @@ global.REQUIREMENTS = {
   //     "2/ Enjoy!",
   //   type_data: "text",
   //   check: helper.noCheck,
-  //   allow_dup: true,
+  //
+  checkNoPromise: helper.checkNoPromise,
+  allow_dup: true,
   //   invalid: 'This is not a correct AVA-X mainnet address',
   //   explorer: 'https://explorer.ava.network/address/',
   //   name: 'Cosmos',

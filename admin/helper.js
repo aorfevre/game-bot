@@ -124,91 +124,23 @@ module.exports.sendMessageAfterSubmit = function(msg, _txtText, type, val, dbUpd
   _tmp[type] = val
 
 
-  if (type === "LTOWallets") {
 
-    if (myUserDb.LTOWallets === undefined)
-      myUserDb.LTOWallets = []
-    if (!myUserDb.LTOWallets.includes(val) && helper.validateLTONoPromise(val)) {
-      myUserDb.LTOWallets.push(val)
-      _tmp.LTOWallets = myUserDb.LTOWallets
+  for (var i in REQUIREMENTS) {
+
+    if (REQUIREMENTS[i].type === 'type') {
+
+
+      if (REQUIREMENTS[i].isLowerCase === true)
+        val = val.toLowerCase()
+      if (myUserDb[REQUIREMENTS[i].type] === undefined)
+        myUserDb[REQUIREMENTS[i].type] = []
+      if (!myUserDb[REQUIREMENTS[i].type].includes(val) && REQUIREMENTS[i].checkNoPromise(val)) {
+        myUserDb[REQUIREMENTS[i].type].push(val)
+        _tmp[REQUIREMENTS[i].type] = myUserDb[REQUIREMENTS[i].type]
+      }
+
+
     }
-
-  }
-  if (type === "FTMWallets") {
-    val = val.toLowerCase()
-    if (myUserDb.FTMWallets === undefined)
-      myUserDb.FTMWallets = []
-    if (!myUserDb.FTMWallets.includes(val) && helper.validateERC20NoPromise(val)) {
-      myUserDb.FTMWallets.push(val)
-      _tmp.FTMWallets = myUserDb.FTMWallets
-    }
-
-  }
-  if (type === "ONEWallets") {
-    val = val.toLowerCase()
-
-    if (myUserDb.ONEWallets === undefined)
-      myUserDb.ONEWallets = []
-
-    console.log('ONEWallets', myUserDb)
-    if (!myUserDb.ONEWallets.includes(val) && helper.noCheckNoPromise(val)) {
-      myUserDb.ONEWallets.push(val)
-      _tmp.ONEWallets = myUserDb.ONEWallets
-    }
-
-  }
-
-  if (type === "TOMOWallets") {
-    val = val.toLowerCase()
-
-    if (myUserDb.TOMOWallets === undefined)
-      myUserDb.TOMOWallets = []
-
-
-    if (!myUserDb.TOMOWallets.includes(val) && helper.noCheckNoPromise(val)) {
-      myUserDb.TOMOWallets.push(val)
-      _tmp.TOMOWallets = myUserDb.TOMOWallets
-    }
-
-  }
-  if (type === "COSMOSWallets") {
-    val = val.toLowerCase()
-
-    if (myUserDb.COSMOSWallets === undefined)
-      myUserDb.COSMOSWallets = []
-
-
-    if (!myUserDb.COSMOSWallets.includes(val) && helper.noCheckNoPromise(val)) {
-      myUserDb.COSMOSWallets.push(val)
-      _tmp.COSMOSWallets = myUserDb.COSMOSWallets
-    }
-
-  }
-
-  if (type === "XTZWallets") {
-
-    if (myUserDb.XTZWallets === undefined)
-      myUserDb.XTZWallets = []
-
-    console.log('XTZWallets', myUserDb)
-    if (!myUserDb.XTZWallets.includes(val) && helper.noCheckNoPromise(val)) {
-      myUserDb.XTZWallets.push(val)
-      _tmp.XTZWallets = myUserDb.XTZWallets
-    }
-
-  }
-
-  if (type === "AVAPWallets") {
-
-    if (myUserDb.AVAPWallets === undefined)
-      myUserDb.AVAPWallets = []
-
-    console.log('AVAPWallets', myUserDb)
-    if (!myUserDb.AVAPWallets.includes(val) && helper.noCheckNoPromise(val)) {
-      myUserDb.AVAPWallets.push(val)
-      _tmp.AVAPWallets = myUserDb.AVAPWallets
-    }
-
   }
 
   var optionsText = {

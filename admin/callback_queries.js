@@ -112,6 +112,9 @@ bot.on("callback_query", function(callbackQuery) {
           ux.showWalletsMenu(msg, myUser)
           break;
 
+        case "GO NOTIFICATIONS":
+          ux.showNotifications(msg, myUser)
+          break;
         case "GO SETTINGS":
           ux.showSettings(msg, myUser)
           break;

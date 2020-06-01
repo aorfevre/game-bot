@@ -197,6 +197,19 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
 
 
 }
+module.exports.showNotifications = function(msg, myUser) {
+  var _txt = '<b>⚡️ Work in progress</b>\n\n' +
+    'You will soon be available to customize notifications and have daily/weekly/monthly reports on your balances.\n' +
+    'Stay tuned';
+  var options = {
+    parse_mode: "HTML",
+    disable_web_page_preview: true,
+
+
+  };
+  bot.sendMessage(msg.chat.id, _txt, options)
+
+}
 module.exports.showWalletsMenu = function(msg, myUser) {
 
   if (helper.isPrivate(msg)) {
@@ -252,176 +265,30 @@ module.exports.showWalletsMenu = function(msg, myUser) {
           }])
 
         }
-        if (_require.type === "LTOWallets" && myUser["LTOWallets"] !== undefined && myUser.settings["LTOWallets"] === true) {
 
-          for (var l in myUser.LTOWallets) {
+
+        if (REQUIREMENTS[i].type.indexOf('Wallets') !== -1 && myUser.settings[REQUIREMENTS[i].type] === true && myUser[REQUIREMENTS[i].type] !== undefined) {
+          for (var l in myUser[REQUIREMENTS[i].type]) {
 
             _markup.push([{
-                text: myUser["LTOWallets"][l],
-                url: _require.explorer + myUser["LTOWallets"][l]
+                text: myUser[REQUIREMENTS[i].type][l],
+                url: _require.explorer + myUser[REQUIREMENTS[i].type][l]
               }, {
                 text: '💰',
-                callback_data: "GET LTO BALANCE-" + l
+                callback_data: "GET " + REQUIREMENTS[i].ticker + " BALANCE-" + l
                 // url: 'https://explorer.lto.network/address/'+ myUser["LTO"]
               },
               {
                 text: 'Remove wallet',
-                callback_data: "DELETE LTO WALLET-" + l
+                callback_data: "DELETE " + REQUIREMENTS[i].ticker + " WALLET-" + l
                 // url: 'https://explorer.lto.network/address/'+ myUser["LTO"]
               }
 
 
             ])
           }
-
-        }
-        if (_require.type === "FTMWallets" && myUser["FTMWallets"] !== undefined && myUser.settings["FTMWallets"] === true) {
-
-          for (var l in myUser.FTMWallets) {
-
-            _markup.push([{
-                text: myUser["FTMWallets"][l],
-                url: _require.explorer + myUser["FTMWallets"][l]
-              }, {
-                text: '💰',
-                callback_data: "GET FTM BALANCE-" + l
-                // url: 'https://explorer.lto.network/address/'+ myUser["FTM"]
-              },
-              {
-                text: 'Remove wallet',
-                callback_data: "DELETE FTM WALLET-" + l
-                // url: 'https://explorer.lto.network/address/'+ myUser["FTM"]
-              }
-
-
-            ])
-          }
-        }
-        if (_require.type === "ONEWallets" && myUser["ONEWallets"] !== undefined && myUser.settings["ONEWallets"] === true) {
-
-          for (var l in myUser.ONEWallets) {
-
-            _markup.push([{
-                text: myUser["ONEWallets"][l],
-                url: _require.explorer + myUser["ONEWallets"][l]
-              }, {
-                text: '💰',
-                callback_data: "GET ONE BALANCE-" + l
-                // url: 'https://explorer.lto.network/address/'+ myUser["ONE"]
-              },
-              {
-                text: 'Remove wallet',
-                callback_data: "DELETE ONE WALLET-" + l
-                // url: 'https://explorer.lto.network/address/'+ myUser["FTM"]
-              }
-
-
-            ])
-          }
-
-
-        }
-        if (_require.type === "XTZWallets" && myUser["XTZWallets"] !== undefined && myUser.settings["XTZWallets"] === true) {
-
-          for (var l in myUser.XTZWallets) {
-
-            _markup.push([{
-                text: myUser["XTZWallets"][l],
-                url: _require.explorer + myUser["XTZWallets"][l]
-              }, {
-                text: '💰',
-                callback_data: "GET XTZ BALANCE-" + l
-                // url: 'https://explorer.lto.network/address/'+ myUser["XTZ"]
-              },
-              {
-                text: 'Remove wallet',
-                callback_data: "DELETE XTZ WALLET-" + l
-                // url: 'https://explorer.lto.network/address/'+ myUser["FTM"]
-              }
-
-
-            ])
-          }
-
-
         }
 
-        if (_require.type === "TOMOWallets" && myUser["TOMOWallets"] !== undefined && myUser.settings["TOMOWallets"] === true) {
-
-          for (var l in myUser.TOMOWallets) {
-
-            _markup.push([{
-                text: myUser["TOMOWallets"][l],
-                url: _require.explorer + myUser["TOMOWallets"][l]
-              }, {
-                text: '💰',
-                callback_data: "GET TOMO BALANCE-" + l
-                // url: 'https://explorer.lto.network/address/'+ myUser["TOMO"]
-              },
-              {
-                text: 'Remove wallet',
-                callback_data: "DELETE TOMO WALLET-" + l
-                // url: 'https://explorer.lto.network/address/'+ myUser["FTM"]
-              }
-
-
-            ])
-          }
-
-
-        }
-
-
-        if (_require.type === "COSMOSWallets" && myUser["COSMOSWallets"] !== undefined && myUser.settings["COSMOSWallets"] === true) {
-
-          for (var l in myUser.COSMOSWallets) {
-
-            _markup.push([{
-                text: myUser["COSMOSWallets"][l],
-                url: _require.explorer + myUser["COSMOSWallets"][l]
-              }, {
-                text: '💰',
-                callback_data: "GET COSMOS BALANCE-" + l
-                // url: 'https://explorer.lto.network/address/'+ myUser["COSMOS"]
-              },
-              {
-                text: 'Remove wallet',
-                callback_data: "DELETE COSMOS WALLET-" + l
-                // url: 'https://explorer.lto.network/address/'+ myUser["FTM"]
-              }
-
-
-            ])
-          }
-
-
-        }
-
-
-        if (_require.type === "AVAPWallets" && myUser["AVAPWallets"] !== undefined && myUser.settings["AVAPWallets"] === true) {
-
-          for (var l in myUser.AVAPWallets) {
-
-            _markup.push([{
-                text: myUser["AVAPWallets"][l],
-                url: _require.explorer + myUser["AVAPWallets"][l]
-              }, {
-                text: '💰',
-                callback_data: "GET AVAP BALANCE-" + l
-                // url: 'https://explorer.lto.network/address/'+ myUser["AVAP"]
-              },
-              {
-                text: 'Remove wallet',
-                callback_data: "DELETE AVAP WALLET-" + l
-                // url: 'https://explorer.lto.network/address/'+ myUser["FTM"]
-              }
-
-
-            ])
-          }
-
-
-        }
 
       }
 
