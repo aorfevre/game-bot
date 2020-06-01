@@ -86,7 +86,19 @@ module.exports.checkHumanControlSmiley = function(msg, smiley, human_response, m
       bot.deleteMessage(msg.chat.id, msg.message_id);
       bot.sendDocument(msg.chat.id, image).then(() => {
         _db.set('users_participating', msg.chat.id, "human_smiley", "approved", true).then(() => {
-          ux.showWelcomeMessage(msg, myUser)
+          bot.sendMessage(msg.chat.id, "Cool! You are human ;)").then(() => {
+            setTimeout(() => {
+              bot.sendMessage(msg.chat.id, "First of all, let's speak about the networks you want to follow").then(() => {
+                setTimeout(() => {
+                  ux.showSettings(msg, myUser)
+                }, 1000)
+
+              })
+            }, 1000)
+
+          })
+
+
         })
       })
 
@@ -127,6 +139,9 @@ module.exports.checkHumanControlSmiley = function(msg, smiley, human_response, m
             };
             bot.deleteMessage(msg.chat.id, msg.message_id);
             bot.sendDocument(msg.chat.id, image, options).then(() => {
+
+
+              // ux.showSettings(msg, myUser)
               // ux.showWelcomeMessage(msg, _chanceText, "human_smiley", "Invalidxx@", false, myUser)
 
             })
