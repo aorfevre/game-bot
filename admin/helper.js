@@ -127,15 +127,21 @@ module.exports.sendMessageAfterSubmit = function(msg, _txtText, type, val, dbUpd
 
   for (var i in REQUIREMENTS) {
 
-    if (REQUIREMENTS[i].type === 'type') {
+    if (REQUIREMENTS[i].type === type) {
 
 
       if (REQUIREMENTS[i].isLowerCase === true)
         val = val.toLowerCase()
-      if (myUserDb[REQUIREMENTS[i].type] === undefined)
+
+      console.log('myUserDb', myUserDb, myUserDb[REQUIREMENTS[i].type], typeof myUserDb[REQUIREMENTS[i].type])
+
+      if (myUserDb[REQUIREMENTS[i].type] === undefined || typeof myUserDb[REQUIREMENTS[i].type] !== 'object')
         myUserDb[REQUIREMENTS[i].type] = []
+
       if (!myUserDb[REQUIREMENTS[i].type].includes(val) && REQUIREMENTS[i].checkNoPromise(val)) {
+
         myUserDb[REQUIREMENTS[i].type].push(val)
+
         _tmp[REQUIREMENTS[i].type] = myUserDb[REQUIREMENTS[i].type]
       }
 
