@@ -49,92 +49,93 @@ global.REQUIREMENTS = {
     ticker: 'FTM',
     isLowerCase: true
 
-  },
-  ONEWallets: {
-    btn_txt: "Add your Harmony network wallet address",
-    type: "ONEWallets",
-    text_question: "1/ Type a Harmony wallet address\n" +
-      "2/ Enjoy!",
-    type_data: "text",
-    check: helper.validateONE,
-    checkNoPromise: helper.checkNoPromise,
-    allow_dup: true,
-    invalid: 'This is not a correct ONE mainnet address',
-    explorer: 'https://explorer.harmony.one/#/address/',
-    name: 'Harmony One',
-    balances: one.getAllBalances,
-    ticker: 'ONE',
-    isLowerCase: true
-
-  },
-  XTZWallets: {
-    btn_txt: "Add your Tezos wallet address",
-    type: "XTZWallets",
-    text_question: "1/ Type a Tezos wallet address\n" +
-      "2/ Enjoy!",
-    type_data: "text",
-    check: helper.validateXTZ,
-    checkNoPromise: helper.checkNoPromise,
-    allow_dup: true,
-    invalid: 'This is not a correct XTZ mainnet address',
-    explorer: 'https://tzstats.com/',
-    name: 'Tezos',
-    balances: xtz.getAllBalances,
-    ticker: 'XTZ',
-    isLowerCase: false
-
-  },
-  TOMOWallets: {
-    btn_txt: "Add your Tomochain wallet address",
-    type: "TOMOWallets",
-    text_question: "1/ Type a Tomochain wallet address\n" +
-      "2/ Enjoy!",
-    type_data: "text",
-    check: helper.validateERC20,
-    checkNoPromise: helper.checkNoPromise,
-    allow_dup: true,
-    invalid: 'This is not a correct TOMO mainnet address',
-    explorer: 'https://scan.tomochain.com/address/',
-    name: 'Tomochain',
-    balances: tomo.getAllBalances,
-    ticker: 'TOMO',
-    isLowerCase: true
-
-  },
-  COSMOSWallets: {
-    btn_txt: "Add your Cosmos wallet address",
-    type: "COSMOSWallets",
-    text_question: "1/ Type a Cosmos wallet address\n" +
-      "2/ Enjoy!",
-    type_data: "text",
-    check: helper.validateCOSMOS,
-    checkNoPromise: helper.checkNoPromise,
-    allow_dup: true,
-    invalid: 'This is not a correct ATOM mainnet address',
-    explorer: 'https://www.mintscan.io/account/',
-    name: 'Cosmos',
-    balances: cosmos.getAllBalances,
-    ticker: 'COSMOS',
-    isLowerCase: true
-
-  },
-  AVAPWallets: {
-    btn_txt: "Add your AVA-P wallet address",
-    type: "AVAPWallets",
-    text_question: "1/ Type a AVA-P wallet address\n" +
-      "2/ Enjoy!",
-    type_data: "text",
-    check: helper.noCheck,
-    checkNoPromise: helper.checkNoPromise,
-    allow_dup: true,
-    invalid: 'This is not a correct AVA-P mainnet address',
-    explorer: 'https://explorer.ava.network/address/',
-    name: 'AVA-P',
-    balances: avap.getAllBalances,
-    ticker: 'AVAP',
-    isLowerCase: false
-
-  },
+  }
+  // ,
+  // ONEWallets: {
+  //   btn_txt: "Add your Harmony network wallet address",
+  //   type: "ONEWallets",
+  //   text_question: "1/ Type a Harmony wallet address\n" +
+  //     "2/ Enjoy!",
+  //   type_data: "text",
+  //   check: helper.validateONE,
+  //   checkNoPromise: helper.checkNoPromise,
+  //   allow_dup: true,
+  //   invalid: 'This is not a correct ONE mainnet address',
+  //   explorer: 'https://explorer.harmony.one/#/address/',
+  //   name: 'Harmony One',
+  //   balances: one.getAllBalances,
+  //   ticker: 'ONE',
+  //   isLowerCase: true
+  //
+  // },
+  // XTZWallets: {
+  //   btn_txt: "Add your Tezos wallet address",
+  //   type: "XTZWallets",
+  //   text_question: "1/ Type a Tezos wallet address\n" +
+  //     "2/ Enjoy!",
+  //   type_data: "text",
+  //   check: helper.validateXTZ,
+  //   checkNoPromise: helper.checkNoPromise,
+  //   allow_dup: true,
+  //   invalid: 'This is not a correct XTZ mainnet address',
+  //   explorer: 'https://tzstats.com/',
+  //   name: 'Tezos',
+  //   balances: xtz.getAllBalances,
+  //   ticker: 'XTZ',
+  //   isLowerCase: false
+  //
+  // },
+  // TOMOWallets: {
+  //   btn_txt: "Add your Tomochain wallet address",
+  //   type: "TOMOWallets",
+  //   text_question: "1/ Type a Tomochain wallet address\n" +
+  //     "2/ Enjoy!",
+  //   type_data: "text",
+  //   check: helper.validateERC20,
+  //   checkNoPromise: helper.checkNoPromise,
+  //   allow_dup: true,
+  //   invalid: 'This is not a correct TOMO mainnet address',
+  //   explorer: 'https://scan.tomochain.com/address/',
+  //   name: 'Tomochain',
+  //   balances: tomo.getAllBalances,
+  //   ticker: 'TOMO',
+  //   isLowerCase: true
+  //
+  // },
+  // COSMOSWallets: {
+  //   btn_txt: "Add your Cosmos wallet address",
+  //   type: "COSMOSWallets",
+  //   text_question: "1/ Type a Cosmos wallet address\n" +
+  //     "2/ Enjoy!",
+  //   type_data: "text",
+  //   check: helper.validateCOSMOS,
+  //   checkNoPromise: helper.checkNoPromise,
+  //   allow_dup: true,
+  //   invalid: 'This is not a correct ATOM mainnet address',
+  //   explorer: 'https://www.mintscan.io/account/',
+  //   name: 'Cosmos',
+  //   balances: cosmos.getAllBalances,
+  //   ticker: 'COSMOS',
+  //   isLowerCase: true
+  //
+  // },
+  // AVAPWallets: {
+  //   btn_txt: "Add your AVA-P wallet address",
+  //   type: "AVAPWallets",
+  //   text_question: "1/ Type a AVA-P wallet address\n" +
+  //     "2/ Enjoy!",
+  //   type_data: "text",
+  //   check: helper.noCheck,
+  //   checkNoPromise: helper.checkNoPromise,
+  //   allow_dup: true,
+  //   invalid: 'This is not a correct AVA-P mainnet address',
+  //   explorer: 'https://explorer.ava.network/address/',
+  //   name: 'AVA-P',
+  //   balances: avap.getAllBalances,
+  //   ticker: 'AVAP',
+  //   isLowerCase: false
+  //
+  // }
   // AVAXWallets: {
   //   btn_txt: "Add your AVA-X wallet address",
   //   type: "AVAXWallets",
@@ -143,8 +144,8 @@ global.REQUIREMENTS = {
   //   type_data: "text",
   //   check: helper.noCheck,
   //
-  checkNoPromise: helper.checkNoPromise,
-  allow_dup: true,
+  // checkNoPromise: helper.checkNoPromise,
+  // allow_dup: true,
   //   invalid: 'This is not a correct AVA-X mainnet address',
   //   explorer: 'https://explorer.ava.network/address/',
   //   name: 'Cosmos',

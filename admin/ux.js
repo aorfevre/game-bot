@@ -89,28 +89,33 @@ module.exports.showSettings = function(msg, myUser) {
 
   var _tmp = []
   for (var i in REQUIREMENTS) {
-    if (myUser.settings === undefined) {
-      myUser.settings = {}
-    }
-    if (myUser.settings[REQUIREMENTS[i].type] === undefined) {
-      myUser.settings[REQUIREMENTS[i].type] = true
-    }
+    if (REQUIREMENTS[i] !== undefined) {
 
-    var prefix = ''
-    if (myUser.settings[REQUIREMENTS[i].type] === true) {
-      prefix = '✅'
-    } else {
-      prefix = '❌'
-    }
-    _tmp.push({
-      text: REQUIREMENTS[i].name + prefix,
-      callback_data: "CHANGE SETTINGS_" + REQUIREMENTS[i].type
-      // callback_data: _require.btn_callback
-    })
 
-    if (_tmp.length === 2) {
-      _markup.push(_tmp);
-      _tmp = []
+      if (myUser.settings === undefined) {
+        myUser.settings = {}
+      }
+      console.log("REQUIREMENTS[i]", REQUIREMENTS[i])
+      if (myUser.settings[REQUIREMENTS[i].type] === undefined) {
+        myUser.settings[REQUIREMENTS[i].type] = true
+      }
+
+      var prefix = ''
+      if (myUser.settings[REQUIREMENTS[i].type] === true) {
+        prefix = '✅'
+      } else {
+        prefix = '❌'
+      }
+      _tmp.push({
+        text: REQUIREMENTS[i].name + prefix,
+        callback_data: "CHANGE SETTINGS_" + REQUIREMENTS[i].type
+        // callback_data: _require.btn_callback
+      })
+
+      if (_tmp.length === 2) {
+        _markup.push(_tmp);
+        _tmp = []
+      }
     }
   }
   if (_tmp.length !== 0) {
