@@ -189,7 +189,22 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
     text: "Settings ⚙️",
     callback_data: "GO SETTINGS"
   }])
+  console.log("helper.isAdmin(msg)", helper.isAdmin(msg))
+  if (helper.isAdmin(msg)) {
 
+    _markup.push([{
+        text: '👨‍✈️Dashboard',
+        callback_data: 'GET DASHBOARD'
+      }
+
+    ])
+
+
+    // _markup.push([{
+    //   text: '👨‍✈️Dashboard ',
+    //   callback_data: 'GET ADMIN DASHBOARD'
+    // }])
+  }
   var options = {
     parse_mode: "HTML",
     disable_web_page_preview: true,
@@ -297,22 +312,7 @@ module.exports.showWalletsMenu = function(msg, myUser) {
 
       }
 
-      //
-      // if (helper.isAdmin(msg)) {
-      //
-      //   _markup.push([{
-      //       text: '👨‍✈️Dashboard Round ' + i,
-      //       callback_data: 'GET DASHBOARD_' + i
-      //     }
-      //
-      //   ])
-      //
-      //
-      //   _markup.push([{
-      //     text: '👨‍✈️Dashboard ',
-      //     callback_data: 'GET ADMIN DASHBOARD'
-      //   }])
-      // }
+
 
 
       _markup.push([{

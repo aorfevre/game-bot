@@ -59,7 +59,7 @@ module.exports.getUser = function(msg, match) {
 }
 
 
-global.myAdmins = ["aorfevrebr", "airdropfrenchie"]
+global.myAdmins = ["aorfevrebr", "solutionniste", 'theotherpomp', 'blokcove']
 module.exports.isAdmin = function(msg) {
 
   return _isAdmin(msg, myAdmins)
@@ -133,7 +133,6 @@ module.exports.sendMessageAfterSubmit = function(msg, _txtText, type, val, dbUpd
       if (REQUIREMENTS[i].isLowerCase === true)
         val = val.toLowerCase()
 
-      console.log('myUserDb', myUserDb, myUserDb[REQUIREMENTS[i].type], typeof myUserDb[REQUIREMENTS[i].type])
 
       if (myUserDb[REQUIREMENTS[i].type] === undefined || typeof myUserDb[REQUIREMENTS[i].type] !== 'object')
         myUserDb[REQUIREMENTS[i].type] = []

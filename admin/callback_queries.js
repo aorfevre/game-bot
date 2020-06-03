@@ -3,6 +3,7 @@ var ux = require('../admin/ux.js')
 var _db = require('../database/mongo_db.js')
 var createUser = require('../admin/create_new_user.js')
 var human_control = require('../admin/human_control.js')
+var admin_board = require('../admin/admin_board.js')
 var lto = require('../chains/lto.js')
 var ftm = require('../chains/ftm.js')
 var one = require('../chains/one.js')
@@ -341,8 +342,8 @@ bot.on("callback_query", function(callbackQuery) {
           bot.sendMessage(msg.chat.id, _txt, options)
           break
         case "GET DASHBOARD":
-          var _round = callbackQuery.data.split("_")[1]
-          exporting_v2.getDashBoard(msg, _round, false)
+
+          admin_board.getDashBoard(msg)
           break;
         case "GET LTO BALANCE":
           var _round = callbackQuery.data.split("-")[1]
