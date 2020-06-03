@@ -10,6 +10,22 @@ module.exports.numberWithCommas = function(x) {
   return x.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+
+module.exports.getAllDatasNetwork = function() {
+  var http = require('http'),
+    url = require('url'),
+    request = require('request');
+
+  return new Promise(function(resolve, reject) {
+    request("https://fantomstaker.info/api/v1/general", (err, res, body) => {
+
+      resolve(JSON.parse(res.body))
+
+    })
+  })
+
+}
+
 global.CMC_TOKEN = '8743aa92-f9a0-4677-9c21-4c06d358c5f7'
 module.exports.getPrice = function(token, convert) {
   const rp = require('request-promise');

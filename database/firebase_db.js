@@ -18,31 +18,31 @@ module.exports.init = function() {
 }
 
 
-module.exports.get = function(query,key){
-  var _query = query +"/"+key
+module.exports.get = function(query, key) {
+  var _query = query + "/" + key
   return ref.child(query).once("value")
 }
 
-module.exports.set = function(query,key,item,value){
-  if(item === null || item === undefined )
+module.exports.set = function(query, key, item, value) {
+  if (item === null || item === undefined)
     item = ""
-
+  console.log(query + "/" + key + "/" + item)
   return ref.child(query + "/" + key + "/" + item).set(value)
 }
-module.exports.update = function(query,key,item,value){
-  if(item === null || item === undefined )
+module.exports.update = function(query, key, item, value) {
+  if (item === null || item === undefined)
     item = ""
 
   return ref.child(query + "/" + key + "/" + item).update(value)
 }
 
 
-module.exports.find = function(query,field,value){
+module.exports.find = function(query, field, value) {
   return ref.child(query).orderByChild(field).equalTo(value).on("child_added")
 }
 
-module.exports.countUsers = function(query){
-  return this.get(query).then(function(snapshot){
+module.exports.countUsers = function(query) {
+  return this.get(query).then(function(snapshot) {
     _totalParticipants = snapshot.numChildren()
   })
 }

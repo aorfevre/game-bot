@@ -20,6 +20,12 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
   _promises.push(prepareLTODatasMetrics())
   _promises.push(prepareFTMDatasMetrics())
 
+
+  helper.getAllDatasNetwork().then((response) => {
+
+    fget.setDataByCollection("metrics_ablock_opera", "general", response)
+  })
+
   Promise.all(_promises).then(r => {
     console.log(r)
 
