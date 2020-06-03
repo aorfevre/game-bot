@@ -17,8 +17,8 @@ rulePricing.second = [0]
 var _everyday = schedule.scheduleJob(rulePricing, () => {
   var _promises = []
 
-  _promises.push(prepareLTODatas())
-  _promises.push(prepareFTMDatas())
+  _promises.push(prepareLTODatasMetrics())
+  _promises.push(prepareFTMDatasMetrics())
 
   Promise.all(_promises).then(r => {
     console.log(r)
@@ -40,7 +40,7 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
 
 })
 
-var prepareLTODatas = function() {
+var prepareLTODatasMetrics = function() {
 
   return new Promise(function(resolve, reject) {
     _db.find("pricingLTO", {}, {}, false).then((count) => {
@@ -65,7 +65,7 @@ var prepareLTODatas = function() {
   })
 
 }
-var prepareFTMDatas = function() {
+var prepareFTMDatasMetrics = function() {
 
   return new Promise(function(resolve, reject) {
 

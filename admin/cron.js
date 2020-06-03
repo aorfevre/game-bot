@@ -7,8 +7,7 @@ var ftm = require('../chains/ftm.js')
 
 
 var rulePricing = new schedule.RecurrenceRule();
-rulePricing.hour = [0, 3, 6, 9, 12, 15, 18, 21]
-rulePricing.minute = [0]
+rulePricing.minute = [30]
 rulePricing.second = [0]
 
 var _everyday = schedule.scheduleJob(rulePricing, () => {
@@ -54,6 +53,18 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
 
 
   })
+
+
+})
+
+
+
+var rulePricingPart2 = new schedule.RecurrenceRule();
+rulePricingPart2.minute = [15]
+rulePricingPart2.second = [0]
+
+var _everyday = schedule.scheduleJob(rulePricingPart2, () => {
+
 
 
   helper.getPrice('XTZ', 'USD').then((response) => {
@@ -103,23 +114,23 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
 var checkTx = new schedule.RecurrenceRule();
 checkTx.second = [0]
 
-
-setTimeout(() => {
-  // ftm.checkNotificationTx()
-  helper.getPrice('ATOM', 'USD').then((response) => {
-
-    var _datas = {
-      unit: 'USD',
-      amount: 1,
-      value: response.data.quote['USD'].price
-    }
-    _db.set('pricingCOSMOS', 'one', null, _datas, true).then(() => {
-
-    })
-
-
-  })
-})
+//
+// setTimeout(() => {
+//   // ftm.checkNotificationTx()
+//   helper.getPrice('ATOM', 'USD').then((response) => {
+//
+//     var _datas = {
+//       unit: 'USD',
+//       amount: 1,
+//       value: response.data.quote['USD'].price
+//     }
+//     _db.set('pricingCOSMOS', 'one', null, _datas, true).then(() => {
+//
+//     })
+//
+//
+//   })
+// })
 
 var _checkTx = schedule.scheduleJob(checkTx, () => {
   lto.checkNotificationTx()
