@@ -253,7 +253,7 @@ module.exports.validateERC20NoPromise = function(val) {
   return (/^(0x){1}[0-9a-zA-Z]{40}$/i.test(val));
 
 }
-module.exports.noCheckNoPromise = function(val) {
+module.exports.checkNoPromise = function(val) {
 
   return true;
 
