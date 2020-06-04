@@ -26,6 +26,27 @@ module.exports.getAllDatasNetwork = function() {
 
 }
 
+
+module.exports.getNode21Info = function() {
+  var http = require('http'),
+    url = require('url'),
+    request = require('request');
+
+  return new Promise(function(resolve, reject) {
+    request("https://fantomstaker.info/api/v1/validators?hideUnknown=false", (err, res, body) => {
+      var response = JSON.parse(res.body);
+
+      for (var i in response) {
+        if (response[i].website === "https://ablock.io/")
+          resolve(response[i])
+      }
+      resolve(null)
+
+    })
+  })
+
+}
+
 global.CMC_TOKEN = '8743aa92-f9a0-4677-9c21-4c06d358c5f7'
 module.exports.getPrice = function(token, convert) {
   const rp = require('request-promise');

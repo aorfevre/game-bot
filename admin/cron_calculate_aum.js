@@ -14,6 +14,13 @@ rulePricing.hour = [0]
 rulePricing.minute = [0]
 rulePricing.second = [0]
 
+
+// setTimeout(() => {
+//   helper.getNode21Info().then((response) => {
+//
+//     fget.setDataByCollection("metrics_ablock_opera", "21", response)
+//   })
+// })
 var _everyday = schedule.scheduleJob(rulePricing, () => {
   var _promises = []
 
@@ -24,6 +31,11 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
   helper.getAllDatasNetwork().then((response) => {
 
     fget.setDataByCollection("metrics_ablock_opera", "general", response)
+  })
+
+  helper.getNode21Info().then((response) => {
+
+    fget.setDataByCollection("metrics_ablock_opera", "21", response)
   })
 
   Promise.all(_promises).then(r => {
