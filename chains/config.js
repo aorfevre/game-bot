@@ -49,25 +49,24 @@ global.REQUIREMENTS = {
     ticker: 'FTM',
     isLowerCase: true
 
+  },
+  ONEWallets: {
+    btn_txt: "Add your Harmony network wallet address",
+    type: "ONEWallets",
+    text_question: "1/ Type a Harmony wallet address\n" +
+      "2/ Enjoy!",
+    type_data: "text",
+    check: helper.validateONE,
+    checkNoPromise: helper.checkNoPromise,
+    allow_dup: true,
+    invalid: 'This is not a correct ONE mainnet address',
+    explorer: 'https://explorer.harmony.one/#/address/',
+    name: 'Harmony One',
+    balances: one.getAllBalances,
+    ticker: 'ONE',
+    isLowerCase: true
+
   }
-  // ,
-  // ONEWallets: {
-  //   btn_txt: "Add your Harmony network wallet address",
-  //   type: "ONEWallets",
-  //   text_question: "1/ Type a Harmony wallet address\n" +
-  //     "2/ Enjoy!",
-  //   type_data: "text",
-  //   check: helper.validateONE,
-  //   checkNoPromise: helper.checkNoPromise,
-  //   allow_dup: true,
-  //   invalid: 'This is not a correct ONE mainnet address',
-  //   explorer: 'https://explorer.harmony.one/#/address/',
-  //   name: 'Harmony One',
-  //   balances: one.getAllBalances,
-  //   ticker: 'ONE',
-  //   isLowerCase: true
-  //
-  // },
   // XTZWallets: {
   //   btn_txt: "Add your Tezos wallet address",
   //   type: "XTZWallets",
