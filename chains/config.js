@@ -10,6 +10,7 @@ var tomo = require('../chains/tomo.js');
 var xtz = require('../chains/xtz.js');
 
 var avap = require('../chains/avap.js');
+var avax = require('../chains/avax.js');
 
 global.REQUIREMENTS = {
   LTOWallets: {
@@ -66,7 +67,7 @@ global.REQUIREMENTS = {
     ticker: 'ONE',
     isLowerCase: true
 
-  }
+  },
   // XTZWallets: {
   //   btn_txt: "Add your Tezos wallet address",
   //   type: "XTZWallets",
@@ -118,39 +119,40 @@ global.REQUIREMENTS = {
   //   isLowerCase: true
   //
   // },
-  // AVAPWallets: {
-  //   btn_txt: "Add your AVA-P wallet address",
-  //   type: "AVAPWallets",
-  //   text_question: "1/ Type a AVA-P wallet address\n" +
-  //     "2/ Enjoy!",
-  //   type_data: "text",
-  //   check: helper.noCheck,
-  //   checkNoPromise: helper.checkNoPromise,
-  //   allow_dup: true,
-  //   invalid: 'This is not a correct AVA-P mainnet address',
-  //   explorer: 'https://explorer.ava.network/address/',
-  //   name: 'AVA-P',
-  //   balances: avap.getAllBalances,
-  //   ticker: 'AVAP',
-  //   isLowerCase: false
-  //
-  // }
-  // AVAXWallets: {
-  //   btn_txt: "Add your AVA-X wallet address",
-  //   type: "AVAXWallets",
-  //   text_question: "1/ Type a AVA-X wallet address\n" +
-  //     "2/ Enjoy!",
-  //   type_data: "text",
-  //   check: helper.noCheck,
-  //
-  // checkNoPromise: helper.checkNoPromise,
-  // allow_dup: true,
-  //   invalid: 'This is not a correct AVA-X mainnet address',
-  //   explorer: 'https://explorer.ava.network/address/',
-  //   name: 'Cosmos',
-  //   balances: cosmos.getAllBalances
-  //
-  // },
+  AVAPWallets: {
+    btn_txt: "Add your AVA-P wallet address",
+    type: "AVAPWallets",
+    text_question: "1/ Type a AVA-P wallet address\n" +
+      "2/ Enjoy!",
+    type_data: "text",
+    check: helper.noCheck,
+    checkNoPromise: helper.checkNoPromise,
+    allow_dup: true,
+    invalid: 'This is not a correct AVA-P mainnet address',
+    explorer: 'https://explorer.ava.network/address/',
+    name: 'AVA-P',
+    balances: avap.getAllBalances,
+    ticker: 'AVAP',
+    isLowerCase: false
+
+  },
+  AVAXWallets: {
+    btn_txt: "Add your AVA-X wallet address",
+    type: "AVAXWallets",
+    text_question: "1/ Type a AVA-X wallet address\n" +
+      "2/ Enjoy!",
+    type_data: "text",
+    check: helper.noCheck,
+    checkNoPromise: helper.checkNoPromise,
+    allow_dup: true,
+    invalid: 'This is not a correct AVA-X mainnet address',
+    explorer: 'https://explorer.ava.network/address/',
+    name: 'AVA-X',
+    balances: avax.getAllBalances,
+    ticker: 'AVAX',
+    isLowerCase: false
+
+  },
 
 
 
