@@ -82,7 +82,7 @@ module.exports.checkHumanControlSmiley = function(msg, smiley, human_response, m
 
 
 
-      var image = __dirname + "/../img/checkmark.gif"
+      var image = __dirname + "/../img/congrats.gif"
       bot.deleteMessage(msg.chat.id, msg.message_id);
       bot.sendDocument(msg.chat.id, image).then(() => {
         _db.set('users_participating', msg.chat.id, "human_smiley", "approved", true).then(() => {

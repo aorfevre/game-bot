@@ -27,7 +27,7 @@ module.exports.setTelegram = function() {
 
   var bot = null;
   // if(!isDev){
-  if (false) {
+  if (!isDev) {
     const options = {
 
       webHook: {
