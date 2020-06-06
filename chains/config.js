@@ -85,23 +85,23 @@ global.REQUIREMENTS = {
   //   isLowerCase: false
   //
   // },
-  // TOMOWallets: {
-  //   btn_txt: "Add your Tomochain wallet address",
-  //   type: "TOMOWallets",
-  //   text_question: "1/ Type a Tomochain wallet address\n" +
-  //     "2/ Enjoy!",
-  //   type_data: "text",
-  //   check: helper.validateERC20,
-  //   checkNoPromise: helper.checkNoPromise,
-  //   allow_dup: true,
-  //   invalid: 'This is not a correct TOMO mainnet address',
-  //   explorer: 'https://scan.tomochain.com/address/',
-  //   name: 'Tomochain',
-  //   balances: tomo.getAllBalances,
-  //   ticker: 'TOMO',
-  //   isLowerCase: true
-  //
-  // },
+  TOMOWallets: {
+    btn_txt: "Add your Tomochain wallet address",
+    type: "TOMOWallets",
+    text_question: "1/ Type a Tomochain wallet address\n" +
+      "2/ Enjoy!",
+    type_data: "text",
+    check: helper.validateERC20,
+    checkNoPromise: helper.checkNoPromise,
+    allow_dup: true,
+    invalid: 'This is not a correct TOMO mainnet address',
+    explorer: 'https://scan.tomochain.com/address/',
+    name: 'Tomochain',
+    balances: tomo.getAllBalances,
+    ticker: 'TOMO',
+    isLowerCase: true
+
+  },
   // COSMOSWallets: {
   //   btn_txt: "Add your Cosmos wallet address",
   //   type: "COSMOSWallets",

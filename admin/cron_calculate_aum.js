@@ -15,12 +15,9 @@ rulePricing.minute = [0]
 rulePricing.second = [0]
 
 
-// setTimeout(() => {
-//   helper.getNode21Info().then((response) => {
-//
-//     fget.setDataByCollection("metrics_ablock_opera", "21", response)
-//   })
-// })
+setTimeout(() => {
+
+})
 var _everyday = schedule.scheduleJob(rulePricing, () => {
   var _promises = []
 
@@ -39,7 +36,6 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
   })
 
   Promise.all(_promises).then(r => {
-    console.log(r)
 
     let all = {
       amount: 0,
@@ -48,6 +44,12 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
     }
 
     for (var i in r) {
+      if (r[i].type === 'lto') {
+        fget.setDataByCollection("metrics_ablock_lto", "genral", {
+          total: r[i].total,
+          roi: r[i].roi[0].roi.yearly
+        })
+      }
       all.amount += r[i].amount
       all.stakers += r[i].stakers
     }
@@ -61,22 +63,27 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
 var prepareLTODatasMetrics = function() {
 
   return new Promise(function(resolve, reject) {
+
     _db.find("pricingLTO", {}, {}, false).then((count) => {
+      _dblto.find('charts', {
+        _id: 'roi'
+      }, {}, false).then((roi) => {
 
-      _dblto.find('leasing_metrics', {
+        _dblto.find('leasing_metrics', {
 
-      }, {}, false).then((res) => {
-        console.log("Total amount LTO USD", res[0].totalLeased * count[0].value / Math.pow(10, 8));
-        console.log("Total Stakers LTO ", res[0].leaser_unpaid.length);
+        }, {}, false).then((res) => {
 
-        resolve({
-          amount: res[0].totalLeased * count[0].value / Math.pow(10, 8),
-          stakers: res[0].leaser_unpaid.length
+          resolve({
+            type: 'lto',
+            roi: roi,
+            total: res[0].totalLeased,
+            amount: res[0].totalLeased * count[0].value / Math.pow(10, 8),
+            stakers: res[0].leaser_unpaid.length
+
+          })
 
         })
-
       })
-
 
     })
 
@@ -121,6 +128,7 @@ var prepareFTMDatasMetrics = function() {
               console.log("Total Stakers FTM ", parseInt(response.body.data.delegationsOf.totalCount, 16));
 
               resolve({
+                type: 'ftm',
                 amount: res[0]['20'].totalStakedAmount * count[0].value,
                 stakers: parseInt(response.body.data.delegationsOf.totalCount, 16)
 
