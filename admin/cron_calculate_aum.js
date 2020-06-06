@@ -45,7 +45,7 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
 
     for (var i in r) {
       if (r[i].type === 'lto') {
-        fget.setDataByCollection("metrics_ablock_lto", "genral", {
+        fget.setDataByCollection("metrics_ablock_lto", "general", {
           total: r[i].total,
           roi: r[i].roi[0].roi.yearly
         })
