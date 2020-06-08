@@ -16,6 +16,45 @@ rulePricing.second = [0]
 
 
 setTimeout(() => {
+  var _promises = []
+
+  _promises.push(prepareLTODatasMetrics())
+  _promises.push(prepareFTMDatasMetrics())
+
+
+  helper.getAllDatasNetwork().then((response) => {
+
+    fget.setDataByCollection("metrics_ablock_opera", "general", response)
+  })
+
+  helper.getNode21Info().then((response) => {
+
+    fget.setDataByCollection("metrics_ablock_opera", "21", response)
+  })
+
+  Promise.all(_promises).then(r => {
+
+    let all = {
+      amount: 0,
+      stakers: 0
+
+    }
+
+    for (var i in r) {
+      if (r[i].type === 'lto') {
+        fget.setDataByCollection("metrics_ablock_lto", "general", {
+          total: r[i].total,
+          roi: r[i].roi[0].roi.yearly
+        })
+      }
+      console.log('r[i].amount', r[i].amount)
+      all.amount += r[i].amount
+      all.stakers += r[i].stakers
+    }
+
+
+    fget.setDataByCollection("metrics_ablock_public", "all", all)
+  })
 
 })
 var _everyday = schedule.scheduleJob(rulePricing, () => {
@@ -50,6 +89,7 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
           roi: r[i].roi[0].roi.yearly
         })
       }
+
       all.amount += r[i].amount
       all.stakers += r[i].stakers
     }
