@@ -102,23 +102,23 @@ global.REQUIREMENTS = {
     isLowerCase: true
 
   },
-  // COSMOSWallets: {
-  //   btn_txt: "Add your Cosmos wallet address",
-  //   type: "COSMOSWallets",
-  //   text_question: "1/ Type a Cosmos wallet address\n" +
-  //     "2/ Enjoy!",
-  //   type_data: "text",
-  //   check: helper.validateCOSMOS,
-  //   checkNoPromise: helper.checkNoPromise,
-  //   allow_dup: true,
-  //   invalid: 'This is not a correct ATOM mainnet address',
-  //   explorer: 'https://www.mintscan.io/account/',
-  //   name: 'Cosmos',
-  //   balances: cosmos.getAllBalances,
-  //   ticker: 'COSMOS',
-  //   isLowerCase: true
-  //
-  // },
+  COSMOSWallets: {
+    btn_txt: "Add your Cosmos wallet address",
+    type: "COSMOSWallets",
+    text_question: "1/ Type a Cosmos wallet address\n" +
+      "2/ Enjoy!",
+    type_data: "text",
+    check: helper.validateCOSMOS,
+    checkNoPromise: helper.checkNoPromise,
+    allow_dup: true,
+    invalid: 'This is not a correct ATOM mainnet address',
+    explorer: 'https://www.mintscan.io/account/',
+    name: 'Cosmos',
+    balances: cosmos.getAllBalances,
+    ticker: 'COSMOS',
+    isLowerCase: true
+
+  },
   AVAPWallets: {
     btn_txt: "Add your AVA-P wallet address",
     type: "AVAPWallets",
