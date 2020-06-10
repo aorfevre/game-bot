@@ -146,6 +146,7 @@ module.exports.checkNotificationTx = function() {
     _db.find("pricingLTO", {
 
     }, {}, false).then((count) => {
+      var rateTxt = "\n<i>Rate: <a href='https://coinmarketcap.com/currencies/lto-network/' target='_blank'>1 LTO = $" + helper.numberWithCommas(count[0].value) + "</a></i>"
       // for each tx
       for (var i in r) {
 
@@ -159,14 +160,17 @@ module.exports.checkNotificationTx = function() {
               var _txt = "🚨 <a href='https://explorer.lto.network/transactions/" + tx.id + "'>NEW TRANSFER</a>\n" +
                 "From <a href='https://explorer.lto.network/addresses/" + tx.sender + "'>" + tx.sender + "</a>\n" +
                 "To <a href='https://explorer.lto.network/addresses/" + tx.recipient + "'>" + tx.recipient + "</a>\n" +
-                "Amount: <b>" + helper.numberWithCommas(tx.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * tx.amount / 100000000) + ")\n"
+                "Amount: <b>" + helper.numberWithCommas(tx.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * tx.amount / 100000000) + ")\n" +
+                rateTxt
 
               bot.sendMessage(Number(j), _txt, options)
             } else if (tx.type === 8) {
               var _txt = "🚨 <a href='https://explorer.lto.network/transactions/" + tx.id + "'>NEW LEASE</a>\n" +
                 "From <a href='https://explorer.lto.network/addresses/" + tx.sender + "'>" + tx.sender + "</a>\n" +
                 "To: <a href='https://explorer.lto.network/addresses/" + tx.recipient + "'>" + tx.recipient + "</a>\n" +
-                "Amount: <b>" + helper.numberWithCommas(tx.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * tx.amount / 100000000) + ")\n"
+                "Amount: <b>" + helper.numberWithCommas(tx.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * tx.amount / 100000000) + ")\n" +
+                rateTxt
+
 
               bot.sendMessage(Number(j), _txt, options)
             } else if (r[i].masstx !== undefined && r[i].masstx.type === 11) {
@@ -177,7 +181,8 @@ module.exports.checkNotificationTx = function() {
                 "To <a href='https://explorer.lto.network/addresses/" + tx.recipient + "'>" + tx.recipient + "</a>\n\n" +
                 r[i].masstx.transferCount + " transfers totalizing " + helper.numberWithCommas(r[i].masstx.totalAmount / 100000000) + " LTO ($" + helper.numberWithCommas(count[0].value * r[i].masstx.totalAmount / 100000000) + ")\n" +
 
-                "Your wallet transferred amount: <b>" + helper.numberWithCommas(tx.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * tx.amount / 100000000) + ")\n"
+                "Your wallet transferred amount: <b>" + helper.numberWithCommas(tx.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * tx.amount / 100000000) + ")\n" +
+                rateTxt
 
               bot.sendMessage(Number(j), _txt, options)
 
@@ -189,8 +194,8 @@ module.exports.checkNotificationTx = function() {
                 "From <a href='https://explorer.lto.network/addresses/" + r[i][j].cancel.sender + "'>" + r[i][j].cancel.sender + "</a>\n" +
 
                 "Lease id : <a href='https://explorer.lto.network/transactions/" + r[i][j].cancel.leaseId + "'>" + r[i][j].cancel.leaseId + "</a>\n" +
-                "Cancelled leased amount :<b>" + helper.numberWithCommas(r[i][j].original.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * r[i][j].original.amount / 100000000) + ")\n"
-
+                "Cancelled leased amount :<b>" + helper.numberWithCommas(r[i][j].original.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * r[i][j].original.amount / 100000000) + ")\n" +
+                rateTxt
               bot.sendMessage(Number(j), _txt, options)
 
 
