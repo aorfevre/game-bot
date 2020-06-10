@@ -68,23 +68,23 @@ global.REQUIREMENTS = {
     isLowerCase: true
 
   },
-  // XTZWallets: {
-  //   btn_txt: "Add your Tezos wallet address",
-  //   type: "XTZWallets",
-  //   text_question: "1/ Type a Tezos wallet address\n" +
-  //     "2/ Enjoy!",
-  //   type_data: "text",
-  //   check: helper.validateXTZ,
-  //   checkNoPromise: helper.checkNoPromise,
-  //   allow_dup: true,
-  //   invalid: 'This is not a correct XTZ mainnet address',
-  //   explorer: 'https://tzstats.com/',
-  //   name: 'Tezos',
-  //   balances: xtz.getAllBalances,
-  //   ticker: 'XTZ',
-  //   isLowerCase: false
-  //
-  // },
+  XTZWallets: {
+    btn_txt: "Add your Tezos wallet address",
+    type: "XTZWallets",
+    text_question: "1/ Type a Tezos wallet address\n" +
+      "2/ Enjoy!",
+    type_data: "text",
+    check: helper.validateXTZ,
+    checkNoPromise: helper.checkNoPromise,
+    allow_dup: true,
+    invalid: 'This is not a correct XTZ mainnet address',
+    explorer: 'https://tzstats.com/',
+    name: 'Tezos',
+    balances: xtz.getAllBalances,
+    ticker: 'XTZ',
+    isLowerCase: false
+
+  },
   TOMOWallets: {
     btn_txt: "Add your Tomochain wallet address",
     type: "TOMOWallets",
