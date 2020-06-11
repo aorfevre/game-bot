@@ -146,7 +146,7 @@ module.exports.checkNotificationTx = function() {
     _db.find("pricingLTO", {
 
     }, {}, false).then((count) => {
-      var rateTxt = "\n<i>Rate: <a href='https://coinmarketcap.com/currencies/lto-network/' target='_blank'>1 LTO = $" + helper.numberWithCommas(count[0].value) + "</a></i>"
+      var rateTxt = "\n<i>Rate: <a href='https://coinmarketcap.com/currencies/lto-network/' target='_blank'>1 LTO = $" + helper.numberWithCommas(count[0].value, 5) + "</a></i>"
       // for each tx
       for (var i in r) {
 
