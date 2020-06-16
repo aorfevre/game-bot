@@ -151,7 +151,7 @@ module.exports.getBalance = function(msg, myUser, round) {
         _db.find("pricingFTM", {
 
         }, {}, false).then((count) => {
-          var rateTxt = "\n<i>Rate: <a href='https://coinmarketcap.com/currencies/fantom/' target='_blank'>1 FTM = $" + helper.numberWithCommas(count[0].value) + "</a></i>"
+          var rateTxt = "\n<i>Rate: <a href='https://coinmarketcap.com/currencies/fantom/' target='_blank'>1 FTM = $" + helper.numberWithCommas(count[0].value, 5) + "</a></i>"
 
 
           var _txt = "<b>💰 FTM Mainnet Wallet Balance</b>\n👉 <a href='https://explorer.fantom.network/address/" + myUser.FTMWallets[round] + "'>" + myUser.FTMWallets[round] + "</a>\n\n" +
