@@ -39,7 +39,10 @@ bot.onText(/^\/[sS]taking(.+|\b)/, (msg, match) => {
     var asset = null
     for (var i in assets) {
       // console.log(assets[i])
-      if (assets[i].symbol.toLowerCase() === split[1].toLowerCase()) {
+      if (assets[i].symbol.toLowerCase() === split[1].toLowerCase() ||
+        assets[i].slug.toLowerCase() === split[1].toLowerCase() ||
+        assets[i].name.toLowerCase() === split[1].toLowerCase()
+      ) {
         asset = assets[i]
       }
     }
