@@ -77,7 +77,7 @@ bot.onText(/^\/[sS]taking(.+|\b)/, (msg, match) => {
           "Reward 24h change: " + info.reward24hChange.toFixed(2) + "%\n" +
           "Reward 30d change: " + info.reward30dChange.toFixed(2) + "%\n" +
           "Total Staked: " + info.totalStaked.toFixed(2) + "%" +
-          "\n\n<i>Source <a href='https://www.stakingrewards.com'>stakingrewards.com</a> \nCooked with ❤️ by <a href='https://ablock.io'>ablock.io</a></i>\n"
+          "\n\nSource <a href='https://www.stakingrewards.com'>stakingrewards.com</a> \nCooked with ❤️ by <a href='https://ablock.io'>ablock.io</a>\n"
 
         bot.sendMessage(msg.chat.id, _txt, options)
       }
