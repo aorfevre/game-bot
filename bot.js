@@ -14,6 +14,10 @@ var cron_all_balances = require('./admin/cron_all_balances.js')
 var _db = require('./database/mongo_db.js')
 var configChains = require('./chains/config.js')
 
+
+var stakingrewards = require('./admin/stakingrewards.js')
+
+
 _db.init()
 //
 bot.on('message', function(event) {
