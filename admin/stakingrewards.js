@@ -25,10 +25,16 @@ prepareAssets()
 
 
 bot.onText(/^\/[sS]taking(.+|\b)/, (msg, match) => {
-  console.log("test")
+  stakingInfo(msg, match)
+})
+bot.onText(/^\/[sS]r(.+|\b)/, (msg, match) => {
+  stakingInfo(msg, match)
+})
+
+stakingInfo = function(msg, match) {
+
   var split = msg.text.split(' ');
 
-  console.log(split)
   //TODO PUT SOME ANTI SPAM CONTROLS
   if (split.length === 1) {
     bot.sendMessage(msg.chat.id, "You need to send an asset with a symbol");
@@ -86,5 +92,5 @@ bot.onText(/^\/[sS]taking(.+|\b)/, (msg, match) => {
       }
     });
   }
-})
+}
 // prepareAssets()
