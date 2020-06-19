@@ -86,7 +86,7 @@ stakingInfo = function(msg, match) {
           "Reward 24h change: " + info.reward24hChange.toFixed(2) + "%\n" +
           "Reward 30d change: " + info.reward30dChange.toFixed(2) + "%\n" +
           "Total Staked: " + info.totalStaked.toFixed(2) + "%" +
-          "\n\nSource <a href='https://www.stakingrewards.com/asset/" + asset.slug + "'>stakingrewards.com/assets/" + asset.slug + "</a> \nCooked with ❤️ by <a href='https://ablock.io'>ablock.io</a>\n"
+          "\n\n🌟 stakingrewards.com/asset/" + asset.slug + " \n❤️ ablock.io\n"
 
         bot.sendMessage(msg.chat.id, _txt, options)
       }
