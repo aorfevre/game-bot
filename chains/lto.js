@@ -132,7 +132,46 @@ module.exports.deleteWallet = function(msg, myUser, round) {
   })
 }
 
+var _getWalletNode = function(item) {
+  var _txt = item
+  if (item === "3JugjxT51cTjWAsgnQK4SpmMqK6qua1VpXH")
+    _txt = "LTO Bridge"
+  if (item === "3JnZLvmVBXsc2XMug4e6yjyvPehr1Fjx9oM")
+    _txt = "LowSea Leasing"
+  if (item === "3Jgz4XTs9zWcogexvugpdJxiau96NoU3uoy")
+    _txt = "rabidB3ar"
+  if (item === "3JqGGBMvkMtQQqNhGVD6knEzhncb55Y7JJ5")
+    _txt = "Liquid Leasing"
+  if (item === "3Jhkp3Xtg2wyT6NoEtJB2VQPAHiYuqYUVBp")
+    _txt = "ablock.io / LTO-lease.com"
+  if (item === "3JnN8psLjuEyiPbH2bYcEFKUFpcamxzwFiv")
+    _txt = "LTONode.com"
+  if (item === "3Jq3F3njrrR1ZvM3JhwLX2Sh56LQDtuEyu9")
+    _txt = "Smart Workflow"
+  if (item === "3JoCVgfHnaUT1JUvaw73e6rSEDSXqozzE5T")
+    _txt = "Firm24 / OnlineFlexBV"
+  if (item === "3Jq8mnhRquuXCiFUwTLZFVSzmQt3Fu6F7HQ")
+    _txt = "LegalThings"
+  if (item === "3JuhBndwegTukoWn2mQhHxRXK38qaHqDG8x")
+    _txt = "Signrequest"
+  if (item === "3JujV7o14LM3vo9bpXtZmqAkyBFwzVJJWdn")
+    _txt = "Stats Support Node"
+  if (item === "3JhyQWe7BC7impmVu6YtctdaFuR1EK6vVne")
+    _txt = "Zavodil"
+  if (item === "3JexCgRXGFUiuNoJTkkWucSumteRWdb8kKU")
+    _txt = "lto.services"
+  if (item === "3Jn6jpPBVmi1RLRpUtQGKVibNZpeTRACK2P")
+    _txt = "Kruptos Nomisma"
+  if (item === "3Jhkp3Xtg2wyT6NoEtJB2VQPAHiYuqYUVBp")
+    _txt = "LTO-lease.com"
+  if (item === "3JxRvAGmuro9MUfJ3ZkznQjKSeGYXdx9odz")
+    _txt = "Binance"
 
+  if (item === '3JxysuuE3nKk1BYW53orQTDzeuyvq4a5cZY') {
+    _txt = "Bitmax"
+  }
+  return _txt
+}
 module.exports.checkNotificationTx = function() {
   _db.find('notifyTxLTO', {
     notified: false
@@ -157,31 +196,37 @@ module.exports.checkNotificationTx = function() {
           if (j !== '_id' && j !== 'notified' && j !== 'masstx' && j !== 'cancel' && j !== 'origin') {
             var tx = r[i][j]
             if (tx.type === 4) {
+              var _recipient = _getWalletNode(tx.recipient)
+              var _sender = _getWalletNode(tx.sender)
               var _txt = "🚨 <a href='https://explorer.lto.network/transactions/" + tx.id + "'>NEW TRANSFER</a>\n" +
-                "From <a href='https://explorer.lto.network/addresses/" + tx.sender + "'>" + tx.sender + "</a>\n" +
-                "To <a href='https://explorer.lto.network/addresses/" + tx.recipient + "'>" + tx.recipient + "</a>\n" +
+                "From <a href='https://explorer.lto.network/addresses/" + tx.sender + "'>" + _sender + "</a>\n" +
+                "To <a href='https://explorer.lto.network/addresses/" + tx.recipient + "'>" + _recipient + "</a>\n" +
                 "Amount: <b>" + helper.numberWithCommas(tx.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * tx.amount / 100000000) + ")\n" +
                 rateTxt
 
               bot.sendMessage(Number(j), _txt, options)
             } else if (tx.type === 8) {
+              var _recipient = _getWalletNode(tx.recipient)
+              var _sender = _getWalletNode(tx.sender)
               var _txt = "🚨 <a href='https://explorer.lto.network/transactions/" + tx.id + "'>NEW LEASE</a>\n" +
-                "From <a href='https://explorer.lto.network/addresses/" + tx.sender + "'>" + tx.sender + "</a>\n" +
-                "To: <a href='https://explorer.lto.network/addresses/" + tx.recipient + "'>" + tx.recipient + "</a>\n" +
+                "From <a href='https://explorer.lto.network/addresses/" + tx.sender + "'>" + _sender + "</a>\n" +
+                "To: <a href='https://explorer.lto.network/addresses/" + tx.recipient + "'>" + _recipient + "</a>\n" +
                 "Amount: <b>" + helper.numberWithCommas(tx.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * tx.amount / 100000000) + ")\n" +
                 rateTxt
 
 
               bot.sendMessage(Number(j), _txt, options)
             } else if (r[i].masstx !== undefined && r[i].masstx.type === 11) {
-
+              var _masstx = _getWalletNode(tx.masstx.sender)
+              var _recipient = _getWalletNode(tx.recipient)
 
               var _txt = "🚨 <a href='https://explorer.lto.network/transactions/" + tx.id + "'>NEW MASS TRANSFER </a>\n\n" +
-                "From <a href='https://explorer.lto.network/addresses/" + r[i].masstx.sender + "'>" + r[i].masstx.sender + "</a>\n" +
-                "To <a href='https://explorer.lto.network/addresses/" + tx.recipient + "'>" + tx.recipient + "</a>\n\n" +
-                r[i].masstx.transferCount + " transfers totalizing " + helper.numberWithCommas(r[i].masstx.totalAmount / 100000000) + " LTO ($" + helper.numberWithCommas(count[0].value * r[i].masstx.totalAmount / 100000000) + ")\n" +
+                "From <a href='https://explorer.lto.network/addresses/" + r[i].masstx.sender + "'>" + _masstx + "</a>\n" +
+                "To <a href='https://explorer.lto.network/addresses/" + tx.recipient + "'>" + _recipient + "</a>\n\n" +
 
                 "Your wallet transferred amount: <b>" + helper.numberWithCommas(tx.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * tx.amount / 100000000) + ")\n" +
+                "<i>" + r[i].masstx.transferCount + " transfers totalizing " + helper.numberWithCommas(r[i].masstx.totalAmount / 100000000) + " LTO ($" + helper.numberWithCommas(count[0].value * r[i].masstx.totalAmount / 100000000) + ")</i>\n" +
+
                 rateTxt
 
               bot.sendMessage(Number(j), _txt, options)
@@ -189,9 +234,10 @@ module.exports.checkNotificationTx = function() {
 
 
             } else if (r[i][j].cancel !== undefined && r[i][j].cancel.type === 9) {
-              console.log("'cancel'")
+
+              var _sender = _getWalletNode(r[i][j].cancel.sender)
               var _txt = "🚨 <a href='https://explorer.lto.network/transactions/" + r[i][j].cancel.id + "'>NEW LEASE CANCEL</a>\n" +
-                "From <a href='https://explorer.lto.network/addresses/" + r[i][j].cancel.sender + "'>" + r[i][j].cancel.sender + "</a>\n" +
+                "From <a href='https://explorer.lto.network/addresses/" + r[i][j].cancel.sender + "'>" + _sender + "</a>\n" +
 
                 "Lease id : <a href='https://explorer.lto.network/transactions/" + r[i][j].cancel.leaseId + "'>" + r[i][j].cancel.leaseId + "</a>\n" +
                 "Cancelled leased amount :<b>" + helper.numberWithCommas(r[i][j].original.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * r[i][j].original.amount / 100000000) + ")\n" +

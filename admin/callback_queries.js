@@ -98,6 +98,8 @@ bot.on("callback_query", function(callbackQuery) {
         control = "GET AVAX BALANCE"
       } else if (control.indexOf("DELETE AVAX WALLET") !== -1) {
         control = "DELETE AVAX WALLET"
+      } else if (control.indexOf("NOTIFY") !== -1) {
+        control = "NOTIFY"
       }
 
 
@@ -146,6 +148,44 @@ bot.on("callback_query", function(callbackQuery) {
           break;
         case "GET ADMIN PANEL":
           admin.getAdminPanelV2(msg, myUser.lang);
+          break;
+        case "NOTIFY":
+          var _round = callbackQuery.data.split("_")[1]
+          if (myUser[_round] === undefined && _round !== 'notifyWeekly') {
+            myUser[_round] = true;
+          } else if (myUser[_round] === undefined && _round === 'notifyWeekly') {
+            myUser[_round] = false;
+          } else if (_round !== 'notifyHour') {
+            myUser[_round] = !myUser[_round]
+          } else {
+            console.log("myUser[_round]", myUser[_round])
+            if (_round === 'notifyHour' && myUser[_round] === undefined) {
+              myUser[_round] = 12
+            }
+            myUser[_round]++
+            if (myUser[_round] > 23)
+              myUser[_round] = 0
+          }
+
+          _db.set('users_participating', msg.chat.id, _round, myUser[_round], false)
+          var _markup = ux.getNotificationMarkup(msg, myUser)
+
+          bot.editMessageText(msg.text, {
+            chat_id: msg.chat.id,
+            message_id: msg.message_id,
+            reply_markup: JSON.stringify({
+              inline_keyboard: _markup
+            })
+          });
+
+          // bot.editMessageReplyMarkup("", {
+          //   chat_id: msg.chat.id,
+          //   message_id: msg.message_id,
+          //   reply_markup: JSON.stringify({
+          //     inline_keyboard: _markup
+          //   })
+          // })
+
           break;
         case "CLOSE AIRDROP":
           var _round = callbackQuery.data.split("_")[1]

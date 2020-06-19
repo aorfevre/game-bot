@@ -119,40 +119,40 @@ global.REQUIREMENTS = {
     isLowerCase: true
 
   },
-  AVAPWallets: {
-    btn_txt: "Add your AVA-P wallet address",
-    type: "AVAPWallets",
-    text_question: "1/ Type a AVA-P wallet address\n" +
-      "2/ Enjoy!",
-    type_data: "text",
-    check: helper.noCheck,
-    checkNoPromise: helper.checkNoPromise,
-    allow_dup: true,
-    invalid: 'This is not a correct AVA-P mainnet address',
-    explorer: 'https://explorer.ava.network/address/',
-    name: 'AVA-P',
-    balances: avap.getAllBalances,
-    ticker: 'AVAP',
-    isLowerCase: false
-
-  },
-  AVAXWallets: {
-    btn_txt: "Add your AVA-X wallet address",
-    type: "AVAXWallets",
-    text_question: "1/ Type a AVA-X wallet address\n" +
-      "2/ Enjoy!",
-    type_data: "text",
-    check: helper.noCheck,
-    checkNoPromise: helper.checkNoPromise,
-    allow_dup: true,
-    invalid: 'This is not a correct AVA-X mainnet address',
-    explorer: 'https://explorer.ava.network/address/',
-    name: 'AVA-X',
-    balances: avax.getAllBalances,
-    ticker: 'AVAX',
-    isLowerCase: false
-
-  },
+  // AVAPWallets: {
+  //   btn_txt: "Add your AVA-P wallet address",
+  //   type: "AVAPWallets",
+  //   text_question: "1/ Type a AVA-P wallet address\n" +
+  //     "2/ Enjoy!",
+  //   type_data: "text",
+  //   check: helper.noCheck,
+  //   checkNoPromise: helper.checkNoPromise,
+  //   allow_dup: true,
+  //   invalid: 'This is not a correct AVA-P mainnet address',
+  //   explorer: 'https://explorer.ava.network/address/',
+  //   name: 'AVA-P',
+  //   balances: avap.getAllBalances,
+  //   ticker: 'AVAP',
+  //   isLowerCase: false
+  //
+  // },
+  // AVAXWallets: {
+  //   btn_txt: "Add your AVA-X wallet address",
+  //   type: "AVAXWallets",
+  //   text_question: "1/ Type a AVA-X wallet address\n" +
+  //     "2/ Enjoy!",
+  //   type_data: "text",
+  //   check: helper.noCheck,
+  //   checkNoPromise: helper.checkNoPromise,
+  //   allow_dup: true,
+  //   invalid: 'This is not a correct AVA-X mainnet address',
+  //   explorer: 'https://explorer.ava.network/address/',
+  //   name: 'AVA-X',
+  //   balances: avax.getAllBalances,
+  //   ticker: 'AVAX',
+  //   isLowerCase: false
+  //
+  // },
 
 
 

@@ -24,7 +24,7 @@ bot.onText(/^\/[sS]tart(.+|\b)/, (msg, match) => {
 
 });
 module.exports.changeSetting = function(msg, myUser, setting) {
-  console.log("myUser.settings", myUser.settings, setting)
+  // console.log("myUser.settings", myUser.settings, setting)
   myUser.settings[setting] = !myUser.settings[setting]
   ux.showSettings(msg, myUser)
 }
@@ -95,7 +95,7 @@ module.exports.showSettings = function(msg, myUser) {
       if (myUser.settings === undefined) {
         myUser.settings = {}
       }
-      console.log("REQUIREMENTS[i]", REQUIREMENTS[i])
+      // console.log("REQUIREMENTS[i]", REQUIREMENTS[i])
       if (myUser.settings[REQUIREMENTS[i].type] === undefined) {
         myUser.settings[REQUIREMENTS[i].type] = true
       }
@@ -169,7 +169,7 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
   for (var i in REQUIREMENTS) {
 
     if (REQUIREMENTS[i].type.indexOf('Wallets') !== -1 && myUser.settings[REQUIREMENTS[i].type] === true && myUser[REQUIREMENTS[i].type] !== undefined) {
-      console.log("myUser[REQUIREMENTS[i].type]", REQUIREMENTS[i].type, myUser[REQUIREMENTS[i].type])
+      // console.log("myUser[REQUIREMENTS[i].type]", REQUIREMENTS[i].type, myUser[REQUIREMENTS[i].type])
       totalWallets += myUser[REQUIREMENTS[i].type].length
     }
   }
@@ -189,7 +189,7 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
     text: "Settings ⚙️",
     callback_data: "GO SETTINGS"
   }])
-  console.log("helper.isAdmin(msg)", helper.isAdmin(msg))
+  // console.log("helper.isAdmin(msg)", helper.isAdmin(msg))
   if (helper.isAdmin(msg)) {
 
     _markup.push([{
@@ -217,14 +217,100 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
 
 
 }
+
+module.exports.getNotificationMarkup = function(msg, myUser) {
+  var _markup = [];
+
+
+  var txtOutput = {
+    notifyDaily: "OFF ❌",
+    notifyWeekly: "ON ✅",
+    notifyMonthly: "OFF ❌",
+    notifyHour: '12:00 UTC+0'
+
+  }
+  if (myUser.notifyDaily !== undefined) {
+    if (myUser.notifyDaily === true)
+      txtOutput.notifyDaily = "ON ✅";
+    else
+      txtOutput.notifyDaily = "OFF ❌";
+  }
+  if (myUser.notifyWeekly !== undefined) {
+    if (myUser.notifyWeekly === true)
+      txtOutput.notifyWeekly = "ON ✅";
+    else
+      txtOutput.notifyWeekly = "OFF ❌";
+  }
+  if (myUser.notifyMonthly !== undefined) {
+    if (myUser.notifyMonthly === true)
+      txtOutput.notifyMonthly = "ON ✅";
+    else
+      txtOutput.notifyMonthly = "OFF ❌";
+  }
+
+  if (myUser.notifyHour !== undefined) {
+
+    txtOutput.notifyHour = myUser.notifyHour + ':00 UTC+0';
+
+  }
+
+  _markup.push([{
+      text: "Every day",
+      callback_data: "VOID"
+    },
+    {
+      text: txtOutput.notifyDaily,
+      callback_data: "NOTIFY_notifyDaily"
+    }
+  ])
+  _markup.push([{
+      text: "Every monday",
+      callback_data: "VOID"
+    },
+    {
+      text: txtOutput.notifyWeekly,
+      callback_data: "NOTIFY_notifyWeekly"
+    }
+  ])
+  _markup.push([{
+      text: "Every 1st of the month",
+      callback_data: "VOID"
+    },
+    {
+      text: txtOutput.notifyMonthly,
+      callback_data: "NOTIFY_notifyMonthly"
+    }
+  ])
+  _markup.push([{
+      text: "Time",
+      callback_data: "VOID"
+    },
+    {
+      text: txtOutput.notifyHour,
+      callback_data: "NOTIFY_notifyHour"
+    }
+  ])
+  _markup.push([{
+    text: "Home 🏡",
+    callback_data: "GO HOME"
+  }])
+
+  return _markup
+}
 module.exports.showNotifications = function(msg, myUser) {
-  var _txt = '<b>⚡️ Work in progress</b>\n\n' +
-    'You will soon be available to customize notifications and have daily/weekly/monthly reports on your balances.\n' +
-    'Stay tuned';
+  var _txt = '<b>⚡️ Automatic Balance Notifications </b>\n\n' +
+    'If you want to receive a notification automaticly on your assets value, just define the frequency and what time (UTC+0) is adapted to you.\n\n'
+  // "- Weekly notifications are every monday\n" +
+  // "- Monthly notifications are every 1st day of the month\n" +
+  // "- Hour is UTC+0, convert your time to UTC+0 time"
+
+  var _markup = this.getNotificationMarkup(msg, myUser)
   var options = {
     parse_mode: "HTML",
     disable_web_page_preview: true,
-
+    reply_markup: JSON.stringify({
+      inline_keyboard: _markup
+    })
 
   };
   bot.sendMessage(msg.chat.id, _txt, options)
