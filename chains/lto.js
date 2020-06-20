@@ -217,7 +217,8 @@ module.exports.checkNotificationTx = function() {
 
               bot.sendMessage(Number(j), _txt, options)
             } else if (r[i].masstx !== undefined && r[i].masstx.type === 11) {
-              var _masstx = _getWalletNode(tx.masstx.sender)
+
+              var _masstx = _getWalletNode(r[i].masstx.sender)
               var _recipient = _getWalletNode(tx.recipient)
 
               var _txt = "🚨 <a href='https://explorer.lto.network/transactions/" + tx.id + "'>NEW MASS TRANSFER </a>\n\n" +
