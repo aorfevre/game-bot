@@ -127,6 +127,7 @@ stakingInfo = function(msg, match) {
         };
 
         getPriceCrypto(asset.symbol).then((p) => {
+          console.log("Pricing", p)
           var price = ''
           if (p !== null) {
             price = "$" + p
