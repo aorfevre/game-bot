@@ -89,7 +89,7 @@ setTimeout(() => {
 _setGroupInfos = function(id) {
   return new Promise(function(resolve, reject) {
     bot.getChat(id).then((r) => {
-
+      console.log('r', r)
       bot.getChatMembersCount(id).then((s) => {
         console.log(r, s)
         var final = JSON.parse(JSON.stringify(r))
@@ -106,6 +106,7 @@ _setGroupInfos = function(id) {
         })
       })
     }, (err) => {
+      console.log('err', id)
       _db.set('groups', id, null, {
         removed: true
       }, false).then(() => {
@@ -127,7 +128,7 @@ module.exports.getGroups = function() {
       for (var k in results) {
         console.log('results[k]._id', results[k]._id)
         promises.push(_setGroupInfos(results[k]._id).then((r) => {
-          console.log(r);
+          console.log("finish promise", r);
         }));
       }
     }))
@@ -135,7 +136,7 @@ module.exports.getGroups = function() {
 
     Promise.all(promises).then((r) => {
 
-
+      console.log("Promise finish")
       resolve()
 
       //  bot.sendMessage(517752455,exports_v2.getMetricsTxt(_metrics),options)
