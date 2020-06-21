@@ -32,8 +32,6 @@ module.exports.createNewUser = function(msg, match) {
     } else {}
 
 
-    _db.set('users', msg.chat.id, null, msg, true)
-
 
     _db.set('users_participating', msg.chat.id, null, _tmp, true).then(function(snapshotFather) {
 

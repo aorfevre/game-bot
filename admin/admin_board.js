@@ -15,6 +15,13 @@ module.exports.getMetricsTxt = function(_row) {
     "Users with 1 wallet at least 👉 <b>" + _row.total_users_with_1_wallet + "</b>\n" +
     "Total wallets tracked 👉 <b>" + _row.total_wallets + "</b>\n"
 
+  _txt += "\n<b>💬 Chats</b>\n" +
+    "Chats having the bot: " + _row.chatGroups + "\n" +
+    "Total users in chats: " + _row.chatUsers + "\n"
+
+  _txt += "\n<b>💬 Staking Rewards</b>\n" +
+    "Different Cmd Users: " + _row.sr.differentCmd + "\n" +
+    "Total call: " + _row.sr.totalCall + "\n"
 
   var count = Object.keys(REQUIREMENTS).length;
   _txt += "\n<b>🌐 Networks supported " + count + "</b>\n"
@@ -30,6 +37,7 @@ module.exports.getMetricsTxt = function(_row) {
     "Users tracking 3 networks 👉 <b>" + _row.tracking_3 + "</b>\n" +
     "Users tracking 4 networks 👉 <b>" + _row.tracking_4 + "</b>\n" +
     "Users tracking 5 networks 👉 <b>" + _row.tracking_5 + "</b>\n"
+
 
 
   _txt += "\n<b>🚨 Notifications </b>\n" +
@@ -73,6 +81,73 @@ module.exports.getDashBoard = function(msg) {
 
 
 global._metrics = {}
+
+setTimeout(() => {
+  // this.getGroups()
+}, 1000)
+
+_setGroupInfos = function(id) {
+  return new Promise(function(resolve, reject) {
+    bot.getChat(id).then((r) => {
+
+      bot.getChatMembersCount(id).then((s) => {
+        console.log(r, s)
+        var final = JSON.parse(JSON.stringify(r))
+        final.count = s
+        final.removed = false
+        _db.set('groups', id, null, final, false).then(() => {
+          resolve(true)
+        })
+      }, (err) => {
+        _db.set('groups', id, null, {
+          removed: true
+        }, false).then(() => {
+          resolve(false)
+        })
+      })
+    }, (err) => {
+      _db.set('groups', id, null, {
+        removed: true
+      }, false).then(() => {
+        resolve(false)
+      })
+    })
+  })
+
+}
+module.exports.getGroups = function() {
+  return new Promise(function(resolve, reject) {
+    var promises = [];
+    promises.push(_db.find("users", {
+      'chat.type': {
+        $ne: 'private'
+      }
+    }, {}, false).then((results) => {
+      console.log(results.length)
+      for (var k in results) {
+        console.log('results[k]._id', results[k]._id)
+        promises.push(_setGroupInfos(results[k]._id).then((r) => {
+          console.log(r);
+        }));
+      }
+    }))
+
+
+    Promise.all(promises).then((r) => {
+
+
+      resolve()
+
+      //  bot.sendMessage(517752455,exports_v2.getMetricsTxt(_metrics),options)
+
+    })
+
+
+  });
+
+}
+
+
 module.exports.init = function(msg, _round, mode_exports) {
   return new Promise(function(resolve, reject) {
     var promises = [];
@@ -92,9 +167,42 @@ module.exports.init = function(msg, _round, mode_exports) {
       tracking_4: 0,
       tracking_5: 0,
       notifyTxFTM: 0,
-      notifyTxLTO: 0
+      notifyTxLTO: 0,
+      chatGroups: 0,
+      chatUsers: 0,
+      sr: {
+        differentCmd: 0,
+        totalCall: 0
+      }
 
     }
+
+    promises.push(_db.find("kpi-call-sr", {}, {}, false).then((results) => {
+      _metrics.sr.differentCmd = results.length;
+      for (var i in results) {
+        console.log("results kpi-call-sr", results[i])
+        _metrics.sr.totalCall += results[i].count
+      }
+
+    }))
+
+    promises.push(_db.find("groups", {
+      $and: [{
+        'removed': false
+      }]
+    }, {}, true).then((results) => {
+
+      _metrics.chatGroups = results
+    }))
+    promises.push(_db.find("groups", {
+      'removed': false
+    }, {}, false).then((results) => {
+      for (var i in results) {
+        _metrics.chatUsers += results[i].count
+
+      }
+
+    }))
     promises.push(_db.find("notifyTxFTM", {}, {}, true).then((results) => {
       _metrics.notifyTxFTM = results
     }))

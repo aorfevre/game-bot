@@ -9,7 +9,13 @@ module.exports.numberWithCommas = function(x, digits) {
 
   if (digits === undefined || digits === null)
     digits = 2;
-  return x.toFixed(digits).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+
+  var res = x.toFixed(digits)
+
+  var split = res.split('.')
+
+  return split[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '.' + split[1];
 }
 
 
@@ -75,6 +81,8 @@ module.exports.getUser = function(msg, match) {
   return new Promise((resolve, reject) => {
 
 
+
+    _db.set('users', msg.chat.id, null, msg, true)
 
     if (helper.isPrivate(msg)) {
       var start = new Date()

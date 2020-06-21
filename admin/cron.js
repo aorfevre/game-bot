@@ -1,10 +1,18 @@
 var _db = require('../database/mongo_db.js')
 var helper = require('../admin/helper.js')
+var admin_board = require('../admin/admin_board.js')
 var schedule = require('node-schedule');
 
 var lto = require('../chains/lto.js')
 var ftm = require('../chains/ftm.js')
 
+var onceAday = new schedule.RecurrenceRule();
+onceAday.hour = [0]
+onceAday.minute = [5]
+onceAday.second = [0]
+var _everyday = schedule.scheduleJob(onceAday, () => {
+  admin_board.getGroups()
+})
 
 var rulePricing = new schedule.RecurrenceRule();
 rulePricing.minute = [30]

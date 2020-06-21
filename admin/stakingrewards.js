@@ -5,7 +5,7 @@ const url = 'https://api-beta.stakingrewards.com'
 let price = require('crypto-price')
 var helper = require('../admin/helper.js');
 
-
+var _db = require('../database/mongo_db.js')
 global.assets = []
 
 prepareAssets = function() {
@@ -71,11 +71,36 @@ getPriceCrypto = function(symbol) {
     })
   })
 }
+kpiAddOneCall = function(id) {
+  console.log("split[1].symbol", id)
+  _db.find("kpi-call-sr", {
+    _id: id
+  }, {}, false).then((results) => {
+
+    if (results.length === 0) {
+
+      _db.set('kpi-call-sr', id, null, {
+        count: 1
+      }, true)
+    } else {
+      _db.set('kpi-call-sr', id, null, {
+        count: results[0].count + 1
+      }, true)
+    }
+  })
+}
+
 
 bot.onText(/^\/[sS]taking(.+|\b)/, (msg, match) => {
+
+
+
   stakingInfo(msg, match)
 })
 bot.onText(/^\/[sS]r(.+|\b)/, (msg, match) => {
+
+
+
   stakingInfo(msg, match)
 })
 
@@ -89,7 +114,9 @@ stakingInfo = function(msg, match) {
   } else if (split.length > 2) {
     bot.sendMessage(msg.chat.id, "You can send only one symbol at a time");
   } else {
-
+    _db.set('users', msg.chat.id, null, msg, true).then(() => {
+      kpiAddOneCall(split[1].toLowerCase())
+    })
     var asset = null
     for (var i in assets) {
       // console.log(assets[i])
