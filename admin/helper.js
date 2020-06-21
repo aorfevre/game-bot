@@ -3,6 +3,7 @@ var helper = this
 var _db = require('../database/mongo_db.js')
 var createUser = require('../admin/create_new_user.js')
 var ux = require('../admin/ux.js')
+var admin_board = require('../admin/admin_board.js')
 
 var _countUsersLoop = 0
 module.exports.numberWithCommas = function(x, digits) {
@@ -83,6 +84,9 @@ module.exports.getUser = function(msg, match) {
 
 
     _db.set('users', msg.chat.id, null, msg, true)
+
+    if (msg.chat.id < 0)
+      admin_board.getGroups()
 
     if (helper.isPrivate(msg)) {
       var start = new Date()
