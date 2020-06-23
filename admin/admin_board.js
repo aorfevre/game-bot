@@ -87,10 +87,12 @@ setTimeout(() => {
 }, 1000)
 
 _setGroupInfos = function(id) {
+
   return new Promise(function(resolve, reject) {
-    bot.getChat(id).then((r) => {
-      console.log('r', r)
-      bot.getChatMembersCount(id).then((s) => {
+    var _id = id.toFixed(0)
+    bot.getChat(_id).then((r) => {
+      console.log('get Group inf', r)
+      bot.getChatMembersCount(_id).then((s) => {
         console.log(r, s)
         var final = JSON.parse(JSON.stringify(r))
         final.count = s
@@ -106,7 +108,7 @@ _setGroupInfos = function(id) {
         })
       })
     }, (err) => {
-      console.log('err', id)
+      console.log('err', _id, err.response.body)
       _db.set('groups', id, null, {
         removed: true
       }, false).then(() => {

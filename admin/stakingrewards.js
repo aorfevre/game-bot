@@ -94,7 +94,7 @@ kpiAddOneCall = function(id) {
 bot.onText(/^\/[sS]taking(.+|\b)/, (msg, match) => {
 
 
-
+  console.log("TRACKING INFO,", msg)
   stakingInfo(msg, match)
 })
 bot.onText(/^\/[sS]r(.+|\b)/, (msg, match) => {
