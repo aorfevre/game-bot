@@ -118,6 +118,21 @@ _setGroupInfos = function(id) {
   })
 
 }
+module.exports.getGroupsName = function() {
+  return new Promise(function(resolve, reject) {
+    _db.find("groups", {
+
+    }, {}, false).then((results) => {
+      console.log(results)
+      for (var i in results) {
+        if (results[i].title !== undefined)
+          console.log(results[i].title, "/", results[i].count)
+      }
+
+    })
+  })
+}
+
 module.exports.getGroups = function() {
   return new Promise(function(resolve, reject) {
     var promises = [];
