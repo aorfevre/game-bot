@@ -14,11 +14,7 @@ var _everyday = schedule.scheduleJob(onceAday, () => {
   admin_board.getGroups()
 })
 setTimeout(function() {
-  // admin_board.getGroups()
-
-  // bot.getChat(-1001153392461.0).then((r) => {
-  //   console.log('err', r)
-  // })
+  admin_board.getGroups()
 })
 var rulePricing = new schedule.RecurrenceRule();
 rulePricing.minute = [30]
