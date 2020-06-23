@@ -12,6 +12,7 @@ var tomo = require('../chains/tomo.js')
 var cosmos = require('../chains/cosmos.js')
 var avap = require('../chains/avap.js')
 var avax = require('../chains/avax.js')
+var erd = require('../chains/erd.js')
 
 
 bot.on("callback_query", function(callbackQuery) {
@@ -82,6 +83,10 @@ bot.on("callback_query", function(callbackQuery) {
         control = "GET XTZ BALANCE"
       } else if (control.indexOf("DELETE XTZ WALLET") !== -1) {
         control = "DELETE XTZ WALLET"
+      } else if (control.indexOf("GET ERD BALANCE") !== -1) {
+        control = "GET ERD BALANCE"
+      } else if (control.indexOf("DELETE ERD WALLET") !== -1) {
+        control = "DELETE ERD WALLET"
       } else if (control.indexOf("GET TOMO BALANCE") !== -1) {
         control = "GET TOMO BALANCE"
       } else if (control.indexOf("DELETE TOMO WALLET") !== -1) {
@@ -430,7 +435,17 @@ bot.on("callback_query", function(callbackQuery) {
           one.deleteWallet(msg, myUser, _round)
           break;
 
+        case "GET ERD BALANCE":
+          var _round = callbackQuery.data.split("-")[1]
 
+          erd.getBalance(msg, myUser, _round)
+          break;
+
+        case "DELETE ERD WALLET":
+          var _round = callbackQuery.data.split("-")[1]
+
+          erd.deleteWallet(msg, myUser, _round)
+          break;
         case "GET XTZ BALANCE":
           var _round = callbackQuery.data.split("-")[1]
 

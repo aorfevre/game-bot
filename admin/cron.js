@@ -15,7 +15,10 @@ var _everyday = schedule.scheduleJob(onceAday, () => {
 })
 setTimeout(function() {
   // admin_board.getGroups()
-  admin_board.getGroupsName()
+  // admin_board.getGroupsName()
+
+
+
 })
 var rulePricing = new schedule.RecurrenceRule();
 rulePricing.minute = [30]
@@ -122,6 +125,23 @@ var _everyday = schedule.scheduleJob(rulePricingPart2, () => {
 
 
   })
+
+
+  helper.getPrice('ERD', 'USD').then((response) => {
+
+    var _datas = {
+      unit: 'USD',
+      amount: 1,
+      value: response.data.quote['USD'].price
+    }
+
+    _db.set('pricingERD', 'ftm', null, _datas, true).then(() => {
+
+    })
+
+
+  })
+
 })
 
 
