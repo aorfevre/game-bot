@@ -160,6 +160,7 @@ stakingInfo = function(msg, match) {
             price = "$" + p
           }
           console.log("price", price)
+
           var _txt =
             "<b>" + asset.name + ' - ' + asset.symbol + '</b> - ' + info.algorithmType + '\n\n' +
             "Reward: " + info.reward.toFixed(2) + "%\n" +
