@@ -15,7 +15,7 @@ var _everyday = schedule.scheduleJob(onceAday, () => {
 })
 setTimeout(function() {
   admin_board.getGroups()
-  // admin_board.getGroupsName()
+  admin_board.getGroupsName()
 
 
 
