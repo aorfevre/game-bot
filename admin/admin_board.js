@@ -147,9 +147,12 @@ module.exports.getGroupsName = function(msg, myUser) {
         console.log(results)
 
         var _txt = ''
+        results.sort(function(a, b) {
+          return parseFloat(a.count) - parseFloat(b.count);
+        });
         for (var i in results) {
           if (results[i].title !== undefined)
-            _txt += "🔹" + results[i].title + "(" + results[i].count + ")\n "
+            _txt += "🔹" + results[i].title + " - " + results[i].count + "\n "
           // console.log(results[i].title, "/", results[i].count)
         }
 
