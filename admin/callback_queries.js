@@ -165,7 +165,7 @@ bot.on("callback_query", function(callbackQuery) {
           } else if (_round !== 'notifyHour') {
             myUser[_round] = !myUser[_round]
           } else {
-            console.log("myUser[_round]", myUser[_round])
+
             if (_round === 'notifyHour' && myUser[_round] === undefined) {
               myUser[_round] = 12
             }
