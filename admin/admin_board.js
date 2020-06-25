@@ -159,7 +159,7 @@ module.exports.getGroupsName = function(msg, myUser) {
           // console.log(results[i].title, "/", results[i].count)
         }
         _txt += "     ▫️ ▫️ ▫️ ▫️ ▫️ ▫️\n"
-        _txt += "Total max reach:" + total
+        _txt += "Total max reach => " + total
 
         var _markup = []
 
