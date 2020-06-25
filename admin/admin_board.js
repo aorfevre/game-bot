@@ -51,30 +51,48 @@ module.exports.getMetricsTxt = function(_row) {
 
 
 module.exports.getDashBoard = function(msg) {
-  admin_board.init(msg).then(function(result) {
+  _db.set('users_participating', msg.chat.id, null, {
+    // edit: false,
+    type: null
+  }, false).then(function() {
+    admin_board.init(msg).then(function(result) {
 
-    var _markup = []
-
-
-    _markup.push([{
-        text: '📝 Update',
-        callback_data: 'GET DASHBOARD'
-      }
-
-    ])
+      var _markup = []
 
 
+      _markup.push([{
+          text: '📝 Update Metrics',
+          callback_data: 'GET DASHBOARD'
+        },
+        {
+          text: 'Show groups names',
+          callback_data: 'SHOW GROUPS NAMES'
+        }
 
 
-    var options = {
-      parse_mode: "HTML",
-      disable_web_page_preview: true,
-      reply_markup: JSON.stringify({
-        inline_keyboard: _markup
-      })
 
-    };
-    bot.sendMessage(msg.chat.id, admin_board.getMetricsTxt(result), options)
+      ])
+      _markup.push([{
+          text: 'Bulk Messages',
+          callback_data: 'GET BULK MESSAGES LIST'
+        }
+
+
+      ])
+      _markup.push([{
+        text: "Home 🏡",
+        callback_data: "GO HOME"
+      }])
+      var options = {
+        parse_mode: "HTML",
+        disable_web_page_preview: true,
+        reply_markup: JSON.stringify({
+          inline_keyboard: _markup
+        })
+
+      };
+      bot.sendMessage(msg.chat.id, admin_board.getMetricsTxt(result), options)
+    })
   })
 }
 
@@ -118,17 +136,51 @@ _setGroupInfos = function(id) {
   })
 
 }
-module.exports.getGroupsName = function() {
-  return new Promise(function(resolve, reject) {
-    _db.find("groups", {
+module.exports.getGroupsName = function(msg, myUser) {
+  return new Promise((resolve, reject) => {
+    this.getGroups().then(() => {
 
-    }, {}, false).then((results) => {
-      console.log(results)
-      for (var i in results) {
-        if (results[i].title !== undefined)
-          console.log(results[i].title, "/", results[i].count)
-      }
 
+      _db.find("groups", {
+
+      }, {}, false).then((results) => {
+        console.log(results)
+
+        var _txt = ''
+        for (var i in results) {
+          if (results[i].title !== undefined)
+            _txt += " \n " + results[i].title, "---", results[i].count + " \n "
+          // console.log(results[i].title, "/", results[i].count)
+        }
+
+
+        var _markup = []
+
+
+        _markup.push([{
+            text: 'Metrics',
+            callback_data: 'GET DASHBOARD'
+          }
+
+
+
+        ])
+
+        _markup.push([{
+          text: "Home 🏡",
+          callback_data: "GO HOME"
+        }])
+        var options = {
+          parse_mode: "HTML",
+          disable_web_page_preview: true,
+          reply_markup: JSON.stringify({
+            inline_keyboard: _markup
+          })
+
+        };
+        bot.sendMessage(msg.chat.id, _txt, options)
+
+      })
     })
   })
 }

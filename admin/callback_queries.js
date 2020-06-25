@@ -4,6 +4,11 @@ var _db = require('../database/mongo_db.js')
 var createUser = require('../admin/create_new_user.js')
 var human_control = require('../admin/human_control.js')
 var admin_board = require('../admin/admin_board.js')
+var massMessages = require('../admin/massMessages.js')
+var admin_board = require('../admin/admin_board.js')
+
+var bulkMessagesAdmin = require('../admin/bulkMessagesAdmin.js')
+
 var lto = require('../chains/lto.js')
 var ftm = require('../chains/ftm.js')
 var one = require('../chains/one.js')
@@ -51,6 +56,8 @@ bot.on("callback_query", function(callbackQuery) {
 
       } else if (control.indexOf("OPEN AIRDROP") !== -1) {
         control = "OPEN AIRDROP"
+      } else if (control.indexOf("SHOW GROUPS NAMES") !== -1) {
+        control = "SHOW GROUPS NAMES"
       } else if (control.indexOf("CLOSE AIRDROP") !== -1) {
         control = "CLOSE AIRDROP"
       } else if (control.indexOf("GET SOMEONE STATUS") !== -1) {
@@ -107,14 +114,6 @@ bot.on("callback_query", function(callbackQuery) {
         control = "NOTIFY"
       }
 
-
-
-
-
-
-
-
-
       switch (control) {
 
         case "GO HOME":
@@ -123,6 +122,9 @@ bot.on("callback_query", function(callbackQuery) {
 
         case "GET MY WALLETS":
           ux.showWalletsMenu(msg, myUser)
+          break;
+        case "SHOW GROUPS NAMES":
+          admin_board.getGroupsName(msg, myUser)
           break;
 
         case "GO NOTIFICATIONS":
