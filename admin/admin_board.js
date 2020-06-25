@@ -158,7 +158,7 @@ module.exports.getGroupsName = function(msg, myUser) {
           }
           // console.log(results[i].title, "/", results[i].count)
         }
-        _txt += "     ▫️ ▫️ ▫️ ▫️ ▫️ ▫️"
+        _txt += "     ▫️ ▫️ ▫️ ▫️ ▫️ ▫️\n"
         _txt += total
 
         var _markup = []
