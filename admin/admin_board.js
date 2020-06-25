@@ -152,7 +152,7 @@ module.exports.getGroupsName = function(msg, myUser) {
         });
         for (var i in results) {
           if (results[i].title !== undefined)
-            _txt += "🔹" + results[i].title + " - " + results[i].count + "\n "
+            _txt += "🔹" + results[i].title + " - " + results[i].count + "\n"
           // console.log(results[i].title, "/", results[i].count)
         }
 
