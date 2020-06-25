@@ -98,13 +98,19 @@ module.exports.getBalance = function(msg, myUser, round) {
 
 
         //
+        var _markup = []
+        _markup.push([{
+          text: "Home 🏡",
+          callback_data: "GO HOME"
+        }])
         var options = {
           parse_mode: "HTML",
           disable_web_page_preview: true,
-
+          reply_markup: JSON.stringify({
+            inline_keyboard: _markup
+          })
 
         };
-
         _db.find("pricingONE", {
 
         }, {}, false).then((count) => {

@@ -63,6 +63,12 @@ module.exports.getAllMyBallances = function(msg, myUser) {
       "Total Assets <b>$" + helper.numberWithCommas(totalUSd) + "</b>";
 
     var _markup = [];
+
+    _markup.push([{
+      text: "Notifications 🔊",
+      callback_data: "GO NOTIFICATIONS"
+    }])
+
     _markup.push([{
       text: "Home 🏡",
       callback_data: "GO HOME"

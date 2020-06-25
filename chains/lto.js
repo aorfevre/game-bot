@@ -110,13 +110,21 @@ module.exports.getBalance = function(msg, myUser, round) {
         "Available: <b>" + helper.numberWithCommas(_body.available) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * _body.available) + ")\n" +
         "Effective: <b>" + helper.numberWithCommas(_body.effective) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * _body.effective) + ")\n"
 
-
+      var _markup = []
+      _markup.push([{
+        text: "Home 🏡",
+        callback_data: "GO HOME"
+      }])
       var options = {
         parse_mode: "HTML",
         disable_web_page_preview: true,
-
+        reply_markup: JSON.stringify({
+          inline_keyboard: _markup
+        })
 
       };
+
+
       bot.sendMessage(msg.chat.id, _txt, options)
     })
     // console.log(res.body)
@@ -176,10 +184,17 @@ module.exports.checkNotificationTx = function() {
   _db.find('notifyTxLTO', {
     notified: false
   }, {}, false).then((r) => {
+    var _markup = []
+    _markup.push([{
+      text: "Home 🏡",
+      callback_data: "GO HOME"
+    }])
     var options = {
       parse_mode: "HTML",
       disable_web_page_preview: true,
-
+      reply_markup: JSON.stringify({
+        inline_keyboard: _markup
+      })
 
     };
     _db.find("pricingLTO", {

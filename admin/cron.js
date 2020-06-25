@@ -13,13 +13,13 @@ onceAday.second = [0]
 var _everyday = schedule.scheduleJob(onceAday, () => {
   admin_board.getGroups()
 })
-setTimeout(function() {
-  // admin_board.getGroups()
-  admin_board.getGroupsName()
-
-
-
-})
+// setTimeout(function() {
+//   // admin_board.getGroups()
+//   admin_board.getGroupsName()
+//
+//
+//
+// })
 var rulePricing = new schedule.RecurrenceRule();
 rulePricing.minute = [30]
 rulePricing.second = [0]
