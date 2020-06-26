@@ -4,7 +4,6 @@ var schedule = require('node-schedule');
 var moment = require('moment');
 var ux = require('../admin/ux.js')
 
-console.log(moment().hours(), moment().hour())
 
 var ruleDaily = new schedule.RecurrenceRule();
 ruleDaily.minute = [0]
@@ -135,7 +134,7 @@ evaluateIfNotifyUsers = function(r) {
       r[i].notifyHour = 12
     }
 
-    if (r[i].notifyHour === moment().hour()) {
+    if (r[i].notifyHour === moment().hours()) {
       var _founded = false;
       for (var j in REQUIREMENTS) {
         // console.log("--", REQUIREMENTS[j])
@@ -155,7 +154,7 @@ evaluateIfNotifyUsers = function(r) {
   for (var i in arrayToNotify) {
     notifyUser(i, arrayToNotify[i])
   }
-  // console.log(arrayToNotify.length, moment().hour(), moment())
+  // console.log(arrayToNotify.length, moment().hours(), moment())
 
 }
 

@@ -90,7 +90,40 @@ kpiAddOneCall = function(id) {
   })
 }
 
+bot.onText(/^\/[aA]ssets(.+|\b)/, (msg, match) => {
 
+  var _txt = ""
+  _promises = []
+  var options = {
+    parse_mode: "HTML",
+    disable_web_page_preview: true,
+    // reply_markup: JSON.stringify({
+    //   inline_keyboard: _markup
+    // })
+
+  };
+
+  var count = 0
+  console.log("all assets,", assets.length)
+  _txt += "<b>🌟Stakingrewards assets</b>\n\n"
+  for (var i in assets) {
+    console.log("all assets,", assets[i].slug)
+    _txt += "<a href='stakingrewards.com/asset/" + assets[i].slug + "'>" + assets[i].name + "</a>, "
+    count++
+
+    if (count % 90 === 0) {
+      _promises.push(bot.sendMessage(msg.chat.id, _txt, options))
+      _txt = ''
+    }
+  }
+
+
+  Promise.all(_promises).then(r => {
+    _txt += "\n\nUse command /staking [name] or /staking [symbol] or /staking [slug] to get reward information of your favorite network."
+    bot.sendMessage(msg.chat.id, _txt, options)
+  })
+  // stakingInfo(msg, match)
+})
 bot.onText(/^\/[sS]taking(.+|\b)/, (msg, match) => {
 
 
@@ -110,7 +143,7 @@ stakingInfo = function(msg, match) {
 
   //TODO PUT SOME ANTI SPAM CONTROLS
   if (split.length === 1) {
-    bot.sendMessage(msg.chat.id, "You need to send an asset with a symbol");
+    bot.sendMessage(msg.chat.id, "You need to send an asset with a symbol like '/staking lto'");
   } else if (split.length > 2) {
     bot.sendMessage(msg.chat.id, "You can send only one symbol at a time");
   } else {
@@ -128,7 +161,7 @@ stakingInfo = function(msg, match) {
       }
     }
     if (asset === null) {
-      bot.sendMessage(msg.chat.id, "No asset found for that symbol");
+      bot.sendMessage(msg.chat.id, "No asset found for that symbol. Use command /assets to see all networks supported");
       return;
     }
 
