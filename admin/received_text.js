@@ -1,7 +1,7 @@
 var helper = require('../admin/helper.js')
 var _db = require('../database/mongo_db.js')
 var human_control = require('../admin/human_control.js')
-
+var bulkMessagesAdmin = require('../admin/bulkMessagesAdmin.js')
 var ux = require('../admin/ux.js')
 
 bot.on('text', function(msg, match) {
@@ -47,7 +47,10 @@ bot.on('text', function(msg, match) {
       // } else if (msg.text.indexOf(_airdrop.btn_edit_info) !== -1 && !airdropStatus) {
       //   menu.setAirdropInfo(msg, null, myUser)
       // } else
-      if (
+      if (msg.text.toLowerCase().indexOf("/start") === -1 &&
+        myUser.type === "admin_create_message_bulk_text") {
+        bulkMessagesAdmin.createNewMessageEntry(msg)
+      } else if (
         // msg.text.toLowerCase().indexOf("/start") === -1 &&
         REQUIREMENTS[myUser.type] !== undefined &&
         REQUIREMENTS[myUser.type].type_data === "text") {

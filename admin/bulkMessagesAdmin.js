@@ -127,21 +127,18 @@ module.exports.createNewMessageEntry = function(msg) {
   })
 }
 
-bot.on('text', function(msg, match) {
-
-  if (helper.isPrivate(msg) && helper.checkSpam(msg.chat.id) && msg.text.toLowerCase().indexOf("/start") === -1) {
-
-
-    helper.getUser(msg, null).then(function(myUser) {
-
-
-      if (msg.text.toLowerCase().indexOf("/start") === -1 &&
-        myUser.type === "admin_create_message_bulk_text") {
-        bulkMessagesAdmin.createNewMessageEntry(msg)
-      }
-    })
-  }
-})
+// bot.on('text', function(msg, match) {
+//
+//   if (helper.isPrivate(msg) && helper.checkSpam(msg.chat.id) && msg.text.toLowerCase().indexOf("/start") === -1) {
+//
+//
+//     helper.getUser(msg, null).then(function(myUser) {
+//
+//
+//
+//     })
+//   }
+// })
 
 
 module.exports.createNewMessage = function(msg, type) {
