@@ -5,6 +5,10 @@ var createUser = require('../admin/create_new_user.js')
 var ux = require('../admin/ux.js')
 var admin_board = require('../admin/admin_board.js')
 
+const CoinGecko = require('coingecko-api');
+//2. Initiate the CoinGecko API Client
+const CoinGeckoClient = new CoinGecko();
+
 var _countUsersLoop = 0
 module.exports.numberWithCommas = function(x, digits) {
 
@@ -56,8 +60,26 @@ module.exports.getNode21Info = function() {
 
 }
 
-global.CMC_TOKEN = '8743aa92-f9a0-4677-9c21-4c06d358c5f7'
 module.exports.getPrice = function(token, convert) {
+
+  return new Promise((resolve, reject) => {
+    //3. Make calls
+    var func = async (token, convert) => {
+
+
+      let data = await CoinGeckoClient.coins.fetch(token, {});
+      return (data.data.market_data.current_price[convert.toLowerCase()])
+    };
+    resolve(func(token, convert))
+  })
+
+}
+this.getPrice('lto-network', 'usd').then((r) => {
+  console.log(r)
+})
+
+global.CMC_TOKEN = '8743aa92-f9a0-4677-9c21-4c06d358c5f7'
+module.exports.getPriceCMC = function(token, convert) {
   const rp = require('request-promise');
   const requestOptions = {
     method: 'GET',
@@ -73,7 +95,6 @@ module.exports.getPrice = function(token, convert) {
     json: true,
     gzip: true
   };
-
   return (rp(requestOptions))
 
 }

@@ -21,17 +21,17 @@ var _everyday = schedule.scheduleJob(onceAday, () => {
 //
 // })
 var rulePricing = new schedule.RecurrenceRule();
-rulePricing.minute = [30]
+
 rulePricing.second = [0]
 
 var _everyday = schedule.scheduleJob(rulePricing, () => {
 
-  helper.getPrice('FTM', 'USD').then((response) => {
+  helper.getPrice('fantom', 'USD').then((response) => {
 
     var _datas = {
       unit: 'USD',
       amount: 1,
-      value: response.data.quote['USD'].price
+      value: response
     }
 
     _db.set('pricingFTM', 'ftm', null, _datas, true).then(() => {
@@ -41,12 +41,12 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
 
   })
 
-  helper.getPrice('LTO', 'USD').then((response) => {
+  helper.getPrice('lto-network', 'USD').then((response) => {
 
     var _datas = {
       unit: 'USD',
       amount: 1,
-      value: response.data.quote['USD'].price
+      value: response
     }
     _db.set('pricingLTO', 'lto', null, _datas, true).then(() => {
 
@@ -54,12 +54,12 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
 
 
   })
-  helper.getPrice('ONE', 'USD').then((response) => {
+  helper.getPrice('harmony', 'USD').then((response) => {
 
     var _datas = {
       unit: 'USD',
       amount: 1,
-      value: response.data.quote['USD'].price
+      value: response
     }
     _db.set('pricingONE', 'one', null, _datas, true).then(() => {
 
@@ -77,49 +77,34 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
 
 
 var rulePricingPart2 = new schedule.RecurrenceRule();
-rulePricingPart2.minute = [15]
+rulePricingPart2.minute = [0]
 rulePricingPart2.second = [0]
 
 var _everyday = schedule.scheduleJob(rulePricingPart2, () => {
 
 
 
-  helper.getPrice('XTZ', 'USD').then((response) => {
+  helper.getPrice('tezos', 'USD').then((response) => {
 
     var _datas = {
       unit: 'USD',
       amount: 1,
-      value: response.data.quote['USD'].price
+      value: response
     }
-    _db.set('pricingXTZ', 'one', null, _datas, true).then(() => {
+    _db.set('pricingXTZ', 'xtz', null, _datas, true).then(() => {
 
     })
 
 
   })
-  helper.getPrice('TOMO', 'USD').then((response) => {
+  helper.getPrice('tomochain', 'USD').then((response) => {
 
     var _datas = {
       unit: 'USD',
       amount: 1,
-      value: response.data.quote['USD'].price
+      value: response
     }
-    _db.set('pricingTOMO', 'one', null, _datas, true).then(() => {
-
-    })
-
-
-  })
-
-
-  helper.getPrice('ATOM', 'USD').then((response) => {
-
-    var _datas = {
-      unit: 'USD',
-      amount: 1,
-      value: response.data.quote['USD'].price
-    }
-    _db.set('pricingCOSMOS', 'one', null, _datas, true).then(() => {
+    _db.set('pricingTOMO', 'tomo', null, _datas, true).then(() => {
 
     })
 
@@ -127,15 +112,30 @@ var _everyday = schedule.scheduleJob(rulePricingPart2, () => {
   })
 
 
-  helper.getPrice('ERD', 'USD').then((response) => {
+  helper.getPrice('cosmos', 'USD').then((response) => {
 
     var _datas = {
       unit: 'USD',
       amount: 1,
-      value: response.data.quote['USD'].price
+      value: response
+    }
+    _db.set('pricingCOSMOS', 'atom', null, _datas, true).then(() => {
+
+    })
+
+
+  })
+
+
+  helper.getPrice('elrond', 'USD').then((response) => {
+
+    var _datas = {
+      unit: 'USD',
+      amount: 1,
+      value: response
     }
 
-    _db.set('pricingERD', 'ftm', null, _datas, true).then(() => {
+    _db.set('pricingERD', 'erd', null, _datas, true).then(() => {
 
     })
 
@@ -156,7 +156,7 @@ checkTx.second = [0]
 //     var _datas = {
 //       unit: 'USD',
 //       amount: 1,
-//       value: response.data.quote['USD'].price
+//       value: response
 //     }
 //     _db.set('pricingCOSMOS', 'one', null, _datas, true).then(() => {
 //
