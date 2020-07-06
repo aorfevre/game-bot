@@ -173,5 +173,23 @@ global.REQUIREMENTS = {
 
   },
 
+  notifyMinimum: {
+    btn_txt: "-",
+    type: "notifyMinimum",
+    text_question: "1/ Type the minimum USD amount for each automatic notification\n" +
+      "2/ It should be > 0 !",
+    type_data: "text",
+    check: helper.numberCtrl,
+    checkNoPromise: helper.numberCtrlNoPromise,
+    allow_dup: true,
+    invalid: 'This is not a correct amount',
+    explorer: 'https://explorer.elrond.com/address/',
+    name: 'Notification Minimum',
+    // balances: erd.getAllBalances,
+    // ticker: 'ERD',
+    // isLowerCase: false
+
+  },
+
 
 }

@@ -231,7 +231,10 @@ module.exports.checkNotificationTx = function() {
                 "<a href='http://explorer.fantom.network/address/" + tx.from + "'>" + tx.from + "</a> to <a href='http://explorer.fantom.network/address/" + tx.to + "'>" + tx.to + "</a>\n" +
                 "<a href='http://explorer.fantom.network/transactions/" + tx.hash + "'>TX - link</a>";
 
-              bot.sendMessage(j, whaleTxt, options)
+              if (myUser.notifyMinimum === undefined || (myUser.notifyMinimum !== undefined && (usdValue) > myUser.notifyMinimum)) {
+                bot.sendMessage((j), whaleTxt, options)
+              }
+              // bot.sendMessage(j, whaleTxt, options)
 
 
             } else if (tx.decoded !== undefined && (tx.decoded.name === "createDelegation") && (tx.to === '0xFC00FACE00000000000000000000000000000000')) {
@@ -242,7 +245,11 @@ module.exports.checkNotificationTx = function() {
                 "<a href='http://explorer.fantom.network/address/" + tx.from + "'>" + tx.from + "</a> to <a href='http://explorer.fantom.network/validator/" + validators[tx.decoded.params[0].value + ''].address + "'>" + (validators[(tx.decoded.params[0].value - 1) + ''].name === '' ? 'Node' : validators[(tx.decoded.params[0].value - 1) + ''].name) + "-" + validators[(tx.decoded.params[0].value - 1) + '']._id + "</a>\n" +
                 "<a href='http://explorer.fantom.network/transactions/" + tx.hash + "'>TX - link</a>";
 
-              bot.sendMessage(j, whaleTxt, options)
+
+              if (myUser.notifyMinimum === undefined || (myUser.notifyMinimum !== undefined && (usdValue) > myUser.notifyMinimum)) {
+                bot.sendMessage((j), whaleTxt, options)
+              }
+              // bot.sendMessage(j, whaleTxt, options)
 
 
 
@@ -253,7 +260,11 @@ module.exports.checkNotificationTx = function() {
                 "<a href='http://explorer.fantom.network/address/" + tx.from + "'>" + tx.from + "</a> \n" +
                 "<a href='http://explorer.fantom.network/transactions/" + tx.hash + "'>TX - link</a>";
 
-              bot.sendMessage(j, whaleTxt, options)
+              if (myUser.notifyMinimum === undefined || (myUser.notifyMinimum !== undefined && (usdValue) > myUser.notifyMinimum)) {
+                bot.sendMessage((j), whaleTxt, options)
+              }
+
+              // bot.sendMessage(j, whaleTxt, options)
             }
           }
 

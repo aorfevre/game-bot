@@ -195,30 +195,34 @@ module.exports.sendMessageAfterSubmit = function(msg, _txtText, type, val, dbUpd
   }
   _tmp[type] = val
 
+  if (type === 'notifyMinimum') {
+    myUserDb[type] = val
+  } else {
+
+    for (var i in REQUIREMENTS) {
+
+      if (REQUIREMENTS[i].type === type) {
 
 
-  for (var i in REQUIREMENTS) {
-
-    if (REQUIREMENTS[i].type === type) {
-
-
-      if (REQUIREMENTS[i].isLowerCase === true)
-        val = val.toLowerCase()
+        if (REQUIREMENTS[i].isLowerCase === true)
+          val = val.toLowerCase()
 
 
-      if (myUserDb[REQUIREMENTS[i].type] === undefined || typeof myUserDb[REQUIREMENTS[i].type] !== 'object')
-        myUserDb[REQUIREMENTS[i].type] = []
+        if (myUserDb[REQUIREMENTS[i].type] === undefined || typeof myUserDb[REQUIREMENTS[i].type] !== 'object')
+          myUserDb[REQUIREMENTS[i].type] = []
 
-      if (!myUserDb[REQUIREMENTS[i].type].includes(val) && REQUIREMENTS[i].checkNoPromise(val)) {
+        if (!myUserDb[REQUIREMENTS[i].type].includes(val) && REQUIREMENTS[i].checkNoPromise(val)) {
 
-        myUserDb[REQUIREMENTS[i].type].push(val)
+          myUserDb[REQUIREMENTS[i].type].push(val)
 
-        _tmp[REQUIREMENTS[i].type] = myUserDb[REQUIREMENTS[i].type]
+          _tmp[REQUIREMENTS[i].type] = myUserDb[REQUIREMENTS[i].type]
+        }
+
+
       }
-
-
     }
   }
+
 
   var optionsText = {
     parse_mode: "HTML",
@@ -292,6 +296,17 @@ module.exports.checkNoPromise = function(val) {
 
   return true;
 
+}
+
+module.exports.numberCtrlNoPromise = function(val) {
+
+  return !isNaN(val);
+
+}
+module.exports.numberCtrl = function(msg) {
+  return new Promise(function(resolve, reject) {
+    resolve(!isNaN(msg.text));
+  })
 }
 module.exports.validateLTO = function(msg) {
   return new Promise(function(resolve, reject) {

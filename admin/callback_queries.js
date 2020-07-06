@@ -156,6 +156,9 @@ bot.on("callback_query", function(callbackQuery) {
         case "GET ADMIN PANEL":
           admin.getAdminPanelV2(msg, myUser.lang);
           break;
+        case "SET MINIMUM NOTIF":
+          ux.setInfo(msg, "notifyMinimum", myUser)
+          break;
         case "NOTIFY":
           var _round = callbackQuery.data.split("_")[1]
           if (myUser[_round] === undefined && _round !== 'notifyWeekly') {

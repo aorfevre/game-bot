@@ -192,7 +192,7 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
     text: "Notifications 🔊",
     callback_data: "GO NOTIFICATIONS"
   }, {
-    text: "Settings ⚙️",
+    text: "Networks ⚙️",
     callback_data: "GO SETTINGS"
   }])
   // console.log("helper.isAdmin(msg)", helper.isAdmin(msg))
@@ -232,7 +232,8 @@ module.exports.getNotificationMarkup = function(msg, myUser) {
     notifyDaily: "OFF ❌",
     notifyWeekly: "ON ✅",
     notifyMonthly: "OFF ❌",
-    notifyHour: '12:00 UTC+0'
+    notifyHour: '12:00 UTC+0',
+    notifyMinimum: '0 USD'
 
   }
   if (myUser.notifyDaily !== undefined) {
@@ -259,7 +260,12 @@ module.exports.getNotificationMarkup = function(msg, myUser) {
     txtOutput.notifyHour = myUser.notifyHour + ':00 UTC+0';
 
   }
+  console.log("myUser", myUser)
+  if (myUser.notifyMinimum !== undefined) {
 
+    txtOutput.notifyMinimum = myUser.notifyMinimum + ' USD';
+
+  }
   _markup.push([{
       text: "Every day",
       callback_data: "VOID"
@@ -294,6 +300,15 @@ module.exports.getNotificationMarkup = function(msg, myUser) {
     {
       text: txtOutput.notifyHour,
       callback_data: "NOTIFY_notifyHour"
+    }
+  ])
+  _markup.push([{
+      text: "Minimum",
+      callback_data: "VOID"
+    },
+    {
+      text: txtOutput.notifyMinimum,
+      callback_data: "SET MINIMUM NOTIF"
     }
   ])
   _markup.push([{
@@ -455,7 +470,7 @@ module.exports.setInfo = function(msg, type, myUser) {
     // var _value = usersFIFO[msg.chat.id]
     var _require = getRequirementByType(type)
 
-
+    console.log('type', type)
     _txt = _require.text_question
     //
     //

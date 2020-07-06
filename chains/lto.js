@@ -219,7 +219,10 @@ module.exports.checkNotificationTx = function() {
                 "Amount: <b>" + helper.numberWithCommas(tx.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * tx.amount / 100000000) + ")\n" +
                 rateTxt
 
-              bot.sendMessage(Number(j), _txt, options)
+              if (myUser.notifyMinimum !== undefined || (myUser.notifyMinimum !== undefined && (count[0].value * tx.amount / 100000000) > myUser.notifyMinimum)) {
+                bot.sendMessage(Number(j), _txt, options)
+              }
+
             } else if (tx.type === 8) {
               var _recipient = _getWalletNode(tx.recipient)
               var _sender = _getWalletNode(tx.sender)
@@ -230,7 +233,9 @@ module.exports.checkNotificationTx = function() {
                 rateTxt
 
 
-              bot.sendMessage(Number(j), _txt, options)
+              if (myUser.notifyMinimum !== undefined || (myUser.notifyMinimum !== undefined && (count[0].value * tx.amount / 100000000) > myUser.notifyMinimum)) {
+                bot.sendMessage(Number(j), _txt, options)
+              }
             } else if (r[i].masstx !== undefined && r[i].masstx.type === 11) {
 
               var _masstx = _getWalletNode(r[i].masstx.sender)
@@ -245,7 +250,10 @@ module.exports.checkNotificationTx = function() {
 
                 rateTxt
 
-              bot.sendMessage(Number(j), _txt, options)
+              if (myUser.notifyMinimum !== undefined || (myUser.notifyMinimum !== undefined && (count[0].value * r[i].masstx.totalAmount / 100000000) > myUser.notifyMinimum)) {
+                bot.sendMessage(Number(j), _txt, options)
+              }
+              //  bot.sendMessage(Number(j), _txt, options)
 
 
 
@@ -258,7 +266,11 @@ module.exports.checkNotificationTx = function() {
                 "Lease id : <a href='https://explorer.lto.network/transactions/" + r[i][j].cancel.leaseId + "'>" + r[i][j].cancel.leaseId + "</a>\n" +
                 "Cancelled leased amount :<b>" + helper.numberWithCommas(r[i][j].original.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * r[i][j].original.amount / 100000000) + ")\n" +
                 rateTxt
-              bot.sendMessage(Number(j), _txt, options)
+
+              if (myUser.notifyMinimum !== undefined || (myUser.notifyMinimum !== undefined && (count[0].value * r[i][j].original.amount / 100000000) > myUser.notifyMinimum)) {
+                bot.sendMessage(Number(j), _txt, options)
+              }
+              // bot.sendMessage(Number(j), _txt, options)
 
 
             }
