@@ -231,10 +231,7 @@ module.exports.checkNotificationTx = function() {
                 "<a href='http://explorer.fantom.network/addresses/" + tx.from + "'>" + tx.from + "</a> to <a href='http://explorer.fantom.network/addresses/" + tx.to + "'>" + tx.to + "</a>\n" +
                 "<a href='http://explorer.fantom.network/transactions/" + tx.hash + "'>TX - link</a>";
 
-              _db.find('users_participating', {
-                _id: j
-              }, {}, false).then((myUsers) => {
-                var myUser = myUsers[0]
+              _db.get('users_participating', j).then((myUser) => {
 
                 if (myUser.notifyMinimum === undefined ||
                   (myUser.notifyMinimum !== undefined && (usdValue) > myUser.notifyMinimum)) {
@@ -252,10 +249,7 @@ module.exports.checkNotificationTx = function() {
                 "<a href='http://explorer.fantom.network/addresses/" + tx.from + "'>" + tx.from + "</a> to <a href='http://explorer.fantom.network/validator/" + validators[tx.decoded.params[0].value + ''].address + "'>" + (validators[(tx.decoded.params[0].value - 1) + ''].name === '' ? 'Node' : validators[(tx.decoded.params[0].value - 1) + ''].name) + "-" + validators[(tx.decoded.params[0].value - 1) + '']._id + "</a>\n" +
                 "<a href='http://explorer.fantom.network/transactions/" + tx.hash + "'>TX - link</a>";
 
-              _db.find('users_participating', {
-                _id: j
-              }, {}, false).then((myUsers) => {
-                var myUser = myUsers[0]
+              _db.get('users_participating', j).then((myUser) => {
                 if (myUser.notifyMinimum === undefined || (myUser.notifyMinimum !== undefined && (usdValue) > myUser.notifyMinimum)) {
                   bot.sendMessage((j), whaleTxt, options)
                 }
@@ -270,10 +264,7 @@ module.exports.checkNotificationTx = function() {
                 helper.numberWithCommas((Number(tx.value) / Math.pow(10, 18))) + " FTM ($" + helper.numberWithCommas(usdValue) + ") preparing to undelegate by " +
                 "<a href='http://explorer.fantom.network/addresses/" + tx.from + "'>" + tx.from + "</a> \n" +
                 "<a href='http://explorer.fantom.network/transactions/" + tx.hash + "'>TX - link</a>";
-              _db.find('users_participating', {
-                _id: j
-              }, {}, false).then((myUsers) => {
-                var myUser = myUsers[0]
+              _db.get('users_participating', j).then((myUser) => {
                 if (myUser.notifyMinimum === undefined || (myUser.notifyMinimum !== undefined && (usdValue) > myUser.notifyMinimum)) {
                   bot.sendMessage((j), whaleTxt, options)
                 }
