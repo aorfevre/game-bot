@@ -154,7 +154,7 @@ module.exports.getBalance = function(msg, myUser, round) {
           var rateTxt = "\n<i>Rate: <a href='https://coinmarketcap.com/currencies/fantom/' target='_blank'>1 FTM = $" + helper.numberWithCommas(count[0].value, 5) + "</a></i>"
 
 
-          var _txt = "<b>💰 FTM Mainnet Wallet Balance</b>\n👉 <a href='https://explorer.fantom.network/address/" + myUser.FTMWallets[round] + "'>" + myUser.FTMWallets[round] + "</a>\n\n" +
+          var _txt = "<b>💰 FTM Mainnet Wallet Balance</b>\n👉 <a href='https://explorer.fantom.network/addresses/" + myUser.FTMWallets[round] + "'>" + myUser.FTMWallets[round] + "</a>\n\n" +
             "Total Value: <b>" + helper.numberWithCommas(parseInt(response.body.data.account.totalValue, 16) / Math.pow(10, 18)) + "</b> FTM ($" + helper.numberWithCommas(count[0].value * parseInt(response.body.data.account.totalValue, 16) / Math.pow(10, 18)) + ")\n" +
 
             "Available Balance: <b>" + helper.numberWithCommas(parseInt(response.body.data.account.balance, 16) / Math.pow(10, 18)) + "</b> FTM ($" + helper.numberWithCommas(count[0].value * parseInt(response.body.data.account.balance, 16) / Math.pow(10, 18)) + ")\n"
@@ -228,7 +228,7 @@ module.exports.checkNotificationTx = function() {
               var usdValue = (count[0].value * (tx.value / Math.pow(10, 18)))
               var whaleTxt = "🚨" +
                 helper.numberWithCommas((Number(tx.value) / Math.pow(10, 18))) + " FTM ($" + helper.numberWithCommas(usdValue) + ") transferred from " +
-                "<a href='http://explorer.fantom.network/address/" + tx.from + "'>" + tx.from + "</a> to <a href='http://explorer.fantom.network/address/" + tx.to + "'>" + tx.to + "</a>\n" +
+                "<a href='http://explorer.fantom.network/addresses/" + tx.from + "'>" + tx.from + "</a> to <a href='http://explorer.fantom.network/addresses/" + tx.to + "'>" + tx.to + "</a>\n" +
                 "<a href='http://explorer.fantom.network/transactions/" + tx.hash + "'>TX - link</a>";
 
               if (myUser.notifyMinimum === undefined || (myUser.notifyMinimum !== undefined && (usdValue) > myUser.notifyMinimum)) {
@@ -242,7 +242,7 @@ module.exports.checkNotificationTx = function() {
               var usdValue = (count[0].value * (tx.value / Math.pow(10, 18)))
               var whaleTxt = "🚨" +
                 helper.numberWithCommas((Number(tx.value) / Math.pow(10, 18))) + " FTM ($" + helper.numberWithCommas(usdValue) + ") delegated by " +
-                "<a href='http://explorer.fantom.network/address/" + tx.from + "'>" + tx.from + "</a> to <a href='http://explorer.fantom.network/validator/" + validators[tx.decoded.params[0].value + ''].address + "'>" + (validators[(tx.decoded.params[0].value - 1) + ''].name === '' ? 'Node' : validators[(tx.decoded.params[0].value - 1) + ''].name) + "-" + validators[(tx.decoded.params[0].value - 1) + '']._id + "</a>\n" +
+                "<a href='http://explorer.fantom.network/addresses/" + tx.from + "'>" + tx.from + "</a> to <a href='http://explorer.fantom.network/validator/" + validators[tx.decoded.params[0].value + ''].address + "'>" + (validators[(tx.decoded.params[0].value - 1) + ''].name === '' ? 'Node' : validators[(tx.decoded.params[0].value - 1) + ''].name) + "-" + validators[(tx.decoded.params[0].value - 1) + '']._id + "</a>\n" +
                 "<a href='http://explorer.fantom.network/transactions/" + tx.hash + "'>TX - link</a>";
 
 
@@ -257,7 +257,7 @@ module.exports.checkNotificationTx = function() {
               var usdValue = (count[0].value * (tx.value / Math.pow(10, 18)))
               var whaleTxt = "🚨" +
                 helper.numberWithCommas((Number(tx.value) / Math.pow(10, 18))) + " FTM ($" + helper.numberWithCommas(usdValue) + ") preparing to undelegate by " +
-                "<a href='http://explorer.fantom.network/address/" + tx.from + "'>" + tx.from + "</a> \n" +
+                "<a href='http://explorer.fantom.network/addresses/" + tx.from + "'>" + tx.from + "</a> \n" +
                 "<a href='http://explorer.fantom.network/transactions/" + tx.hash + "'>TX - link</a>";
 
               if (myUser.notifyMinimum === undefined || (myUser.notifyMinimum !== undefined && (usdValue) > myUser.notifyMinimum)) {
