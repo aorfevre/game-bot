@@ -33,10 +33,11 @@ var getBalanceDatas = function(wallet) {
       },
       (error, response, body) => {
 
-
         var results = {
-          balance: parseInt(response.body.result.balance, 10)
+          balance: 0
         }
+        if (response.body.result !== undefined)
+          results.balance = parseInt(response.body.result.balance, 10);
 
 
 
@@ -124,9 +125,11 @@ module.exports.getBalance = function(msg, myUser, round) {
         // _db.find("pricingXTZ", {
         //
         // }, {}, false).then((count) => {
-
+        var val = 0
+        if (response.body.result !== undefined)
+          val = response.body.result.balance
         var _txt = "<b>AVA Mainnet Wallet Balance</b>\n👉<a href='https://explorer.ava.network/address/" + myUser.AVAPWallets[round] + "'>" + myUser.AVAPWallets[round] + "</a>\n\n" +
-          "Balance: <b>" + helper.numberWithCommas(parseInt(response.body.result.balance, 10)) + "</b> AVA \n"
+          "Balance: <b>" + helper.numberWithCommas(parseInt(val, 10)) + "</b> AVA \n"
 
 
         bot.sendMessage(msg.chat.id, _txt, options)
