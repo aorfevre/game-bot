@@ -172,11 +172,12 @@ stakingInfo = function(msg, match) {
       }
     };
 
+    console.log("options", options)
 
     request(options, function(error, response, body) {
       if (error === null) {
         const info = JSON.parse(body);
-        console.log(info)
+        console.log("Responsee", info)
         var options = {
           parse_mode: "HTML",
           disable_web_page_preview: true,
@@ -192,7 +193,7 @@ stakingInfo = function(msg, match) {
           if (p !== null) {
             price = "$" + p
           }
-          console.log("price", price)
+          console.log("price", price, info)
 
           var _txt =
             "<b>" + asset.name + ' - ' + asset.symbol + '</b> - ' + info.algorithmType + '\n\n' +

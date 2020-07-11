@@ -197,6 +197,7 @@ module.exports.checkNotificationTx = function() {
       })
 
     };
+    console.log("'founded'", r)
     _db.find("pricingLTO", {
 
     }, {}, false).then((count) => {
@@ -218,9 +219,16 @@ module.exports.checkNotificationTx = function() {
                 "To <a href='https://explorer.lto.network/addresses/" + tx.recipient + "'>" + _recipient + "</a>\n" +
                 "Amount: <b>" + helper.numberWithCommas(tx.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * tx.amount / 100000000) + ")\n" +
                 rateTxt
-              _db.get('users_participating', j).then((myUser) => {
-                if (myUser.notifyMinimum !== undefined || (myUser.notifyMinimum !== undefined && (count[0].value * tx.amount / 100000000) > myUser.notifyMinimum)) {
-                  bot.sendMessage(Number(j), _txt, options)
+
+
+              _db.find('users_participating', {
+                _id: Number(j)
+              }, {}, false).then((myUsers) => {
+                var myUser = myUsers[0]
+
+                if (myUser.notifyMinimum !== undefined || (myUser.notifyMinimum !== undefined && (count[0].value * tx.amount / 100000000) > Number(myUser.notifyMinimum))) {
+
+                  bot.sendMessage(myUser._id, _txt, options)
                 }
               })
 
@@ -233,9 +241,14 @@ module.exports.checkNotificationTx = function() {
                 "Amount: <b>" + helper.numberWithCommas(tx.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * tx.amount / 100000000) + ")\n" +
                 rateTxt
 
-              _db.get('users_participating', j).then((myUser) => {
-                if (myUser.notifyMinimum !== undefined || (myUser.notifyMinimum !== undefined && (count[0].value * tx.amount / 100000000) > myUser.notifyMinimum)) {
-                  bot.sendMessage(Number(j), _txt, options)
+              _db.find('users_participating', {
+                _id: Number(j)
+              }, {}, false).then((myUsers) => {
+                var myUser = myUsers[0]
+
+                if (myUser.notifyMinimum !== undefined || (myUser.notifyMinimum !== undefined && (count[0].value * tx.amount / 100000000) > Number(myUser.notifyMinimum))) {
+
+                  bot.sendMessage(myUser._id, _txt, options)
                 }
               })
             } else if (r[i].masstx !== undefined && r[i].masstx.type === 11) {
@@ -251,9 +264,14 @@ module.exports.checkNotificationTx = function() {
                 "<i>" + r[i].masstx.transferCount + " transfers totalizing " + helper.numberWithCommas(r[i].masstx.totalAmount / 100000000) + " LTO ($" + helper.numberWithCommas(count[0].value * r[i].masstx.totalAmount / 100000000) + ")</i>\n" +
 
                 rateTxt
-              _db.get('users_participating', j).then((myUser) => {
-                if (myUser.notifyMinimum !== undefined || (myUser.notifyMinimum !== undefined && (count[0].value * r[i].masstx.totalAmount / 100000000) > myUser.notifyMinimum)) {
-                  bot.sendMessage(Number(j), _txt, options)
+              _db.find('users_participating', {
+                _id: Number(j)
+              }, {}, false).then((myUsers) => {
+                var myUser = myUsers[0]
+
+                if (myUser.notifyMinimum !== undefined || (myUser.notifyMinimum !== undefined && (count[0].value * tx.amount / 100000000) > Number(myUser.notifyMinimum))) {
+
+                  bot.sendMessage(myUser._id, _txt, options)
                 }
               })
               //  bot.sendMessage(Number(j), _txt, options)
@@ -269,9 +287,14 @@ module.exports.checkNotificationTx = function() {
                 "Lease id : <a href='https://explorer.lto.network/transactions/" + r[i][j].cancel.leaseId + "'>" + r[i][j].cancel.leaseId + "</a>\n" +
                 "Cancelled leased amount :<b>" + helper.numberWithCommas(r[i][j].original.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * r[i][j].original.amount / 100000000) + ")\n" +
                 rateTxt
-              _db.get('users_participating', j).then((myUser) => {
-                if (myUser.notifyMinimum !== undefined || (myUser.notifyMinimum !== undefined && (count[0].value * r[i][j].original.amount / 100000000) > myUser.notifyMinimum)) {
-                  bot.sendMessage(Number(j), _txt, options)
+              _db.find('users_participating', {
+                _id: Number(j)
+              }, {}, false).then((myUsers) => {
+                var myUser = myUsers[0]
+
+                if (myUser.notifyMinimum !== undefined || (myUser.notifyMinimum !== undefined && (count[0].value * tx.amount / 100000000) > Number(myUser.notifyMinimum))) {
+
+                  bot.sendMessage(myUser._id, _txt, options)
                 }
               })
               // bot.sendMessage(Number(j), _txt, options)
