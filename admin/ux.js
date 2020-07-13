@@ -39,8 +39,8 @@ module.exports.getAllMyBallances = function(msg, myUser) {
   for (var i in REQUIREMENTS) {
 
     if (myUser.settings[REQUIREMENTS[i].type] === true) {
-
-      _promises.push(REQUIREMENTS[i].balances(myUser))
+      if (REQUIREMENTS[i].balances !== undefined)
+        _promises.push(REQUIREMENTS[i].balances(myUser))
     }
 
 
