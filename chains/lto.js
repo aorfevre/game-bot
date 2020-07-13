@@ -209,101 +209,7 @@ module.exports.checkNotificationTx = function() {
 
         for (var j in r[i]) {
 
-          if (j !== '_id' && j !== 'notified' && j !== 'masstx' && j !== 'cancel' && j !== 'origin') {
-            var tx = r[i][j]
-            if (tx.type === 4) {
-              var _recipient = _getWalletNode(tx.recipient)
-              var _sender = _getWalletNode(tx.sender)
-              var _txt = "🚨 <a href='https://explorer.lto.network/transactions/" + tx.id + "'>NEW TRANSFER</a>\n" +
-                "From <a href='https://explorer.lto.network/addresses/" + tx.sender + "'>" + _sender + "</a>\n" +
-                "To <a href='https://explorer.lto.network/addresses/" + tx.recipient + "'>" + _recipient + "</a>\n" +
-                "Amount: <b>" + helper.numberWithCommas(tx.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * tx.amount / 100000000) + ")\n" +
-                rateTxt
-
-
-              _db.find('users_participating', {
-                _id: Number(j)
-              }, {}, false).then((myUsers) => {
-                var myUser = myUsers[0]
-
-                if (myUser.notifyMinimum !== undefined || (myUser.notifyMinimum !== undefined && (count[0].value * tx.amount / 100000000) > Number(myUser.notifyMinimum))) {
-
-                  bot.sendMessage(myUser._id, _txt, options)
-                }
-              })
-
-            } else if (tx.type === 8) {
-              var _recipient = _getWalletNode(tx.recipient)
-              var _sender = _getWalletNode(tx.sender)
-              var _txt = "🚨 <a href='https://explorer.lto.network/transactions/" + tx.id + "'>NEW LEASE</a>\n" +
-                "From <a href='https://explorer.lto.network/addresses/" + tx.sender + "'>" + _sender + "</a>\n" +
-                "To: <a href='https://explorer.lto.network/addresses/" + tx.recipient + "'>" + _recipient + "</a>\n" +
-                "Amount: <b>" + helper.numberWithCommas(tx.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * tx.amount / 100000000) + ")\n" +
-                rateTxt
-
-              _db.find('users_participating', {
-                _id: Number(j)
-              }, {}, false).then((myUsers) => {
-                var myUser = myUsers[0]
-
-                if (myUser.notifyMinimum !== undefined || (myUser.notifyMinimum !== undefined && (count[0].value * tx.amount / 100000000) > Number(myUser.notifyMinimum))) {
-
-                  bot.sendMessage(myUser._id, _txt, options)
-                }
-              })
-            } else if (r[i].masstx !== undefined && r[i].masstx.type === 11) {
-
-              var _masstx = _getWalletNode(r[i].masstx.sender)
-              var _recipient = _getWalletNode(tx.recipient)
-
-              var _txt = "🚨 <a href='https://explorer.lto.network/transactions/" + tx.id + "'>NEW MASS TRANSFER </a>\n\n" +
-                "From <a href='https://explorer.lto.network/addresses/" + r[i].masstx.sender + "'>" + _masstx + "</a>\n" +
-                "To <a href='https://explorer.lto.network/addresses/" + tx.recipient + "'>" + _recipient + "</a>\n\n" +
-
-                "Your wallet transferred amount: <b>" + helper.numberWithCommas(tx.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * tx.amount / 100000000) + ")\n" +
-                "<i>" + r[i].masstx.transferCount + " transfers totalizing " + helper.numberWithCommas(r[i].masstx.totalAmount / 100000000) + " LTO ($" + helper.numberWithCommas(count[0].value * r[i].masstx.totalAmount / 100000000) + ")</i>\n" +
-
-                rateTxt
-              _db.find('users_participating', {
-                _id: Number(j)
-              }, {}, false).then((myUsers) => {
-                var myUser = myUsers[0]
-
-                if (myUser.notifyMinimum !== undefined || (myUser.notifyMinimum !== undefined && (count[0].value * tx.amount / 100000000) > Number(myUser.notifyMinimum))) {
-
-                  bot.sendMessage(myUser._id, _txt, options)
-                }
-              })
-              //  bot.sendMessage(Number(j), _txt, options)
-
-
-
-            } else if (r[i][j].cancel !== undefined && r[i][j].cancel.type === 9) {
-
-              var _sender = _getWalletNode(r[i][j].cancel.sender)
-              var _txt = "🚨 <a href='https://explorer.lto.network/transactions/" + r[i][j].cancel.id + "'>NEW LEASE CANCEL</a>\n" +
-                "From <a href='https://explorer.lto.network/addresses/" + r[i][j].cancel.sender + "'>" + _sender + "</a>\n" +
-
-                "Lease id : <a href='https://explorer.lto.network/transactions/" + r[i][j].cancel.leaseId + "'>" + r[i][j].cancel.leaseId + "</a>\n" +
-                "Cancelled leased amount :<b>" + helper.numberWithCommas(r[i][j].original.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * r[i][j].original.amount / 100000000) + ")\n" +
-                rateTxt
-              _db.find('users_participating', {
-                _id: Number(j)
-              }, {}, false).then((myUsers) => {
-                var myUser = myUsers[0]
-
-                if (myUser.notifyMinimum !== undefined || (myUser.notifyMinimum !== undefined && (count[0].value * tx.amount / 100000000) > Number(myUser.notifyMinimum))) {
-
-                  bot.sendMessage(myUser._id, _txt, options)
-                }
-              })
-              // bot.sendMessage(Number(j), _txt, options)
-
-
-            }
-
-
-          }
+          notifySingleUser(i, j, r, rateTxt, count, options)
 
         }
 
@@ -312,4 +218,103 @@ module.exports.checkNotificationTx = function() {
       }
     })
   })
+}
+
+
+notifySingleUser = function(i, j, r, rateTxt, count, options) {
+  if (j !== '_id' && j !== 'notified' && j !== 'masstx' && j !== 'cancel' && j !== 'origin') {
+    var tx = r[i][j]
+    if (tx.type === 4) {
+      var _recipient = _getWalletNode(tx.recipient)
+      var _sender = _getWalletNode(tx.sender)
+      var _txt = "🚨 <a href='https://explorer.lto.network/transactions/" + tx.id + "'>NEW TRANSFER</a>\n" +
+        "From <a href='https://explorer.lto.network/addresses/" + tx.sender + "'>" + _sender + "</a>\n" +
+        "To <a href='https://explorer.lto.network/addresses/" + tx.recipient + "'>" + _recipient + "</a>\n" +
+        "Amount: <b>" + helper.numberWithCommas(tx.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * tx.amount / 100000000) + ")\n" +
+        rateTxt
+
+
+      _db.find('users_participating', {
+        _id: Number(j)
+      }, {}, false).then((myUsers) => {
+        var myUser = myUsers[0]
+
+        if (myUser.notifyMinimum !== undefined || (myUser.notifyMinimum !== undefined && (count[0].value * tx.amount / 100000000) > Number(myUser.notifyMinimum))) {
+
+          bot.sendMessage(myUser._id, _txt, options)
+        }
+      })
+
+    } else if (tx.type === 8) {
+      var _recipient = _getWalletNode(tx.recipient)
+      var _sender = _getWalletNode(tx.sender)
+      var _txt = "🚨 <a href='https://explorer.lto.network/transactions/" + tx.id + "'>NEW LEASE</a>\n" +
+        "From <a href='https://explorer.lto.network/addresses/" + tx.sender + "'>" + _sender + "</a>\n" +
+        "To: <a href='https://explorer.lto.network/addresses/" + tx.recipient + "'>" + _recipient + "</a>\n" +
+        "Amount: <b>" + helper.numberWithCommas(tx.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * tx.amount / 100000000) + ")\n" +
+        rateTxt
+
+      _db.find('users_participating', {
+        _id: Number(j)
+      }, {}, false).then((myUsers) => {
+        var myUser = myUsers[0]
+
+        if (myUser.notifyMinimum !== undefined || (myUser.notifyMinimum !== undefined && (count[0].value * tx.amount / 100000000) > Number(myUser.notifyMinimum))) {
+
+          bot.sendMessage(myUser._id, _txt, options)
+        }
+      })
+    } else if (r[i].masstx !== undefined && r[i].masstx.type === 11) {
+
+      var _masstx = _getWalletNode(r[i].masstx.sender)
+      var _recipient = _getWalletNode(tx.recipient)
+
+      var _txt = "🚨 <a href='https://explorer.lto.network/transactions/" + tx.id + "'>NEW MASS TRANSFER </a>\n\n" +
+        "From <a href='https://explorer.lto.network/addresses/" + r[i].masstx.sender + "'>" + _masstx + "</a>\n" +
+        "To <a href='https://explorer.lto.network/addresses/" + tx.recipient + "'>" + _recipient + "</a>\n\n" +
+
+        "Your wallet transferred amount: <b>" + helper.numberWithCommas(tx.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * tx.amount / 100000000) + ")\n" +
+        "<i>" + r[i].masstx.transferCount + " transfers totalizing " + helper.numberWithCommas(r[i].masstx.totalAmount / 100000000) + " LTO ($" + helper.numberWithCommas(count[0].value * r[i].masstx.totalAmount / 100000000) + ")</i>\n" +
+
+        rateTxt
+      _db.find('users_participating', {
+        _id: Number(j)
+      }, {}, false).then((myUsers) => {
+        var myUser = myUsers[0]
+
+        if (myUser.notifyMinimum !== undefined || (myUser.notifyMinimum !== undefined && (count[0].value * tx.amount / 100000000) > Number(myUser.notifyMinimum))) {
+
+          bot.sendMessage(myUser._id, _txt, options)
+        }
+      })
+      //  bot.sendMessage(Number(j), _txt, options)
+
+
+
+    } else if (r[i][j].cancel !== undefined && r[i][j].cancel.type === 9) {
+
+      var _sender = _getWalletNode(r[i][j].cancel.sender)
+      var _txt = "🚨 <a href='https://explorer.lto.network/transactions/" + r[i][j].cancel.id + "'>NEW LEASE CANCEL</a>\n" +
+        "From <a href='https://explorer.lto.network/addresses/" + r[i][j].cancel.sender + "'>" + _sender + "</a>\n" +
+
+        "Lease id : <a href='https://explorer.lto.network/transactions/" + r[i][j].cancel.leaseId + "'>" + r[i][j].cancel.leaseId + "</a>\n" +
+        "Cancelled leased amount :<b>" + helper.numberWithCommas(r[i][j].original.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * r[i][j].original.amount / 100000000) + ")\n" +
+        rateTxt
+      _db.find('users_participating', {
+        _id: Number(j)
+      }, {}, false).then((myUsers) => {
+        var myUser = myUsers[0]
+
+        if (myUser.notifyMinimum !== undefined || (myUser.notifyMinimum !== undefined && (count[0].value * tx.amount / 100000000) > Number(myUser.notifyMinimum))) {
+
+          bot.sendMessage(myUser._id, _txt, options)
+        }
+      })
+      // bot.sendMessage(Number(j), _txt, options)
+
+
+    }
+
+
+  }
 }

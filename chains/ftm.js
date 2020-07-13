@@ -220,70 +220,8 @@ module.exports.checkNotificationTx = function() {
           for (var j in r[i]) {
 
             // console.log("j", j, r[i])
+            notifySingleUser(r, i, j, count, options)
 
-            var tx = r[i][j]
-
-            if (tx.decoded === null) {
-              // transfer
-              var usdValue = (count[0].value * (tx.value / Math.pow(10, 18)))
-              var whaleTxt = "🚨" +
-                helper.numberWithCommas((Number(tx.value) / Math.pow(10, 18))) + " FTM ($" + helper.numberWithCommas(usdValue) + ") transferred from " +
-                "<a href='http://explorer.fantom.network/addresses/" + tx.from + "'>" + tx.from + "</a> to <a href='http://explorer.fantom.network/addresses/" + tx.to + "'>" + tx.to + "</a>\n" +
-                "<a href='http://explorer.fantom.network/transactions/" + tx.hash + "'>TX - link</a>";
-
-              _db.find('users_participating', {
-                _id: Number(j)
-              }, {}, false).then((myUsers) => {
-                var myUser = myUsers[0]
-
-                if (myUser.notifyMinimum === undefined ||
-                  (myUser.notifyMinimum !== undefined && (usdValue) > Number(myUser.notifyMinimum))) {
-                  bot.sendMessage(myUser._id, whaleTxt, options)
-                }
-              })
-              // bot.sendMessage(j, whaleTxt, options)
-
-
-            } else if (tx.decoded !== undefined && (tx.decoded.name === "createDelegation") && (tx.to === '0xFC00FACE00000000000000000000000000000000')) {
-
-              var usdValue = (count[0].value * (tx.value / Math.pow(10, 18)))
-              var whaleTxt = "🚨" +
-                helper.numberWithCommas((Number(tx.value) / Math.pow(10, 18))) + " FTM ($" + helper.numberWithCommas(usdValue) + ") delegated by " +
-                "<a href='http://explorer.fantom.network/addresses/" + tx.from + "'>" + tx.from + "</a> to <a href='http://explorer.fantom.network/validator/" + validators[tx.decoded.params[0].value + ''].address + "'>" + (validators[(tx.decoded.params[0].value - 1) + ''].name === '' ? 'Node' : validators[(tx.decoded.params[0].value - 1) + ''].name) + "-" + validators[(tx.decoded.params[0].value - 1) + '']._id + "</a>\n" +
-                "<a href='http://explorer.fantom.network/transactions/" + tx.hash + "'>TX - link</a>";
-
-              _db.find('users_participating', {
-                _id: Number(j)
-              }, {}, false).then((myUsers) => {
-                var myUser = myUsers[0]
-
-                if (myUser.notifyMinimum === undefined ||
-                  (myUser.notifyMinimum !== undefined && (usdValue) > Number(myUser.notifyMinimum))) {
-                  bot.sendMessage(myUser._id, whaleTxt, options)
-                }
-              })
-              // bot.sendMessage(j, whaleTxt, options)
-
-
-
-            } else if (tx.decoded !== undefined && tx.decoded.name === "prepareToWithdrawDelegation") {
-              var usdValue = (count[0].value * (tx.value / Math.pow(10, 18)))
-              var whaleTxt = "🚨" +
-                helper.numberWithCommas((Number(tx.value) / Math.pow(10, 18))) + " FTM ($" + helper.numberWithCommas(usdValue) + ") preparing to undelegate by " +
-                "<a href='http://explorer.fantom.network/addresses/" + tx.from + "'>" + tx.from + "</a> \n" +
-                "<a href='http://explorer.fantom.network/transactions/" + tx.hash + "'>TX - link</a>";
-              _db.find('users_participating', {
-                _id: Number(j)
-              }, {}, false).then((myUsers) => {
-                var myUser = myUsers[0]
-
-                if (myUser.notifyMinimum === undefined ||
-                  (myUser.notifyMinimum !== undefined && (usdValue) > Number(myUser.notifyMinimum))) {
-                  bot.sendMessage(myUser._id, whaleTxt, options)
-                }
-              })
-              // bot.sendMessage(j, whaleTxt, options)
-            }
           }
 
           _db.set('notifyTxFTM', r[i]._id, "notified", true, true)
@@ -292,4 +230,70 @@ module.exports.checkNotificationTx = function() {
       })
     })
   })
+}
+
+var notifySingleUser = function(r, i, j, count, options) {
+  var tx = r[i][j]
+
+  if (tx.decoded === null) {
+    // transfer
+    var usdValue = (count[0].value * (tx.value / Math.pow(10, 18)))
+    var whaleTxt = "🚨" +
+      helper.numberWithCommas((Number(tx.value) / Math.pow(10, 18))) + " FTM ($" + helper.numberWithCommas(usdValue) + ") transferred from " +
+      "<a href='http://explorer.fantom.network/addresses/" + tx.from + "'>" + tx.from + "</a> to <a href='http://explorer.fantom.network/addresses/" + tx.to + "'>" + tx.to + "</a>\n" +
+      "<a href='http://explorer.fantom.network/transactions/" + tx.hash + "'>TX - link</a>";
+
+    _db.find('users_participating', {
+      _id: Number(j)
+    }, {}, false).then((myUsers) => {
+      var myUser = myUsers[0]
+
+      if (myUser.notifyMinimum === undefined ||
+        (myUser.notifyMinimum !== undefined && (usdValue) > Number(myUser.notifyMinimum))) {
+        bot.sendMessage(myUser._id, whaleTxt, options)
+      }
+    })
+    // bot.sendMessage(j, whaleTxt, options)
+
+
+  } else if (tx.decoded !== undefined && (tx.decoded.name === "createDelegation") && (tx.to === '0xFC00FACE00000000000000000000000000000000')) {
+
+    var usdValue = (count[0].value * (tx.value / Math.pow(10, 18)))
+    var whaleTxt = "🚨" +
+      helper.numberWithCommas((Number(tx.value) / Math.pow(10, 18))) + " FTM ($" + helper.numberWithCommas(usdValue) + ") delegated by " +
+      "<a href='http://explorer.fantom.network/addresses/" + tx.from + "'>" + tx.from + "</a> to <a href='http://explorer.fantom.network/validator/" + validators[tx.decoded.params[0].value + ''].address + "'>" + (validators[(tx.decoded.params[0].value - 1) + ''].name === '' ? 'Node' : validators[(tx.decoded.params[0].value - 1) + ''].name) + "-" + validators[(tx.decoded.params[0].value - 1) + '']._id + "</a>\n" +
+      "<a href='http://explorer.fantom.network/transactions/" + tx.hash + "'>TX - link</a>";
+
+    _db.find('users_participating', {
+      _id: Number(j)
+    }, {}, false).then((myUsers) => {
+      var myUser = myUsers[0]
+
+      if (myUser.notifyMinimum === undefined ||
+        (myUser.notifyMinimum !== undefined && (usdValue) > Number(myUser.notifyMinimum))) {
+        bot.sendMessage(myUser._id, whaleTxt, options)
+      }
+    })
+    // bot.sendMessage(j, whaleTxt, options)
+
+
+
+  } else if (tx.decoded !== undefined && tx.decoded.name === "prepareToWithdrawDelegation") {
+    var usdValue = (count[0].value * (tx.value / Math.pow(10, 18)))
+    var whaleTxt = "🚨" +
+      helper.numberWithCommas((Number(tx.value) / Math.pow(10, 18))) + " FTM ($" + helper.numberWithCommas(usdValue) + ") preparing to undelegate by " +
+      "<a href='http://explorer.fantom.network/addresses/" + tx.from + "'>" + tx.from + "</a> \n" +
+      "<a href='http://explorer.fantom.network/transactions/" + tx.hash + "'>TX - link</a>";
+    _db.find('users_participating', {
+      _id: Number(j)
+    }, {}, false).then((myUsers) => {
+      var myUser = myUsers[0]
+
+      if (myUser.notifyMinimum === undefined ||
+        (myUser.notifyMinimum !== undefined && (usdValue) > Number(myUser.notifyMinimum))) {
+        bot.sendMessage(myUser._id, whaleTxt, options)
+      }
+    })
+    // bot.sendMessage(j, whaleTxt, options)
+  }
 }
