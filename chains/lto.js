@@ -151,7 +151,7 @@ var _getWalletNode = function(item) {
   if (item === "3JqGGBMvkMtQQqNhGVD6knEzhncb55Y7JJ5")
     _txt = "Liquid Leasing"
   if (item === "3Jhkp3Xtg2wyT6NoEtJB2VQPAHiYuqYUVBp")
-    _txt = "ablock.io / LTO-lease.com"
+    _txt = "ablock.io"
   if (item === "3JnN8psLjuEyiPbH2bYcEFKUFpcamxzwFiv")
     _txt = "LTONode.com"
   if (item === "3Jq3F3njrrR1ZvM3JhwLX2Sh56LQDtuEyu9")
@@ -170,14 +170,37 @@ var _getWalletNode = function(item) {
     _txt = "lto.services"
   if (item === "3Jn6jpPBVmi1RLRpUtQGKVibNZpeTRACK2P")
     _txt = "Kruptos Nomisma"
-  if (item === "3Jhkp3Xtg2wyT6NoEtJB2VQPAHiYuqYUVBp")
-    _txt = "LTO-lease.com"
+  // if (item === "3Jhkp3Xtg2wyT6NoEtJB2VQPAHiYuqYUVBp")
+  //   _txt = "LTO-lease.com"
   if (item === "3JxRvAGmuro9MUfJ3ZkznQjKSeGYXdx9odz")
     _txt = "Binance"
 
   if (item === '3JxysuuE3nKk1BYW53orQTDzeuyvq4a5cZY') {
     _txt = "Bitmax"
   }
+
+  if (item === '3Jx1sh2J3CsWgtzSUwUMiWo9zvcaeJN5GHE') {
+    _txt = 'LTO Community & Incentives'
+  }
+  if (item === '3Jw2YRaQjgRF8KEjEWQv4fBjPEZnGvuBrtB') {
+    _txt = 'LTO Advisors'
+  }
+  if (item === '3JwXzo1nHcn2YhSMPmLwHx88rTDvvMSoXNf') {
+    _txt = 'LTO Team'
+  }
+  if (item === '3Jdj7k1693T8YJJcQe2xEus1e62Zwj4RUDv') {
+    _txt = 'LTO M&A Funds'
+  }
+  if (item === '3JqTwkbDFbtCPo9z5bFa9WfLmjEr7PXNode') {
+    _txt = 'Michael\'s Node'
+  }
+  if (item === '3JffJmwV2G158V6N27ouzkoRTgEVPLFqxPy') {
+    _txt = 'RedPhoenix7'
+  }
+  if (item === '3Ju1azb5ZuMExDPBFLsJ33hPpCNL4sRKYjT') {
+    _txt = 'nodemn'
+  }
+
   return _txt
 }
 module.exports.checkNotificationTx = function() {
