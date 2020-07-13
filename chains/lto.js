@@ -262,7 +262,7 @@ notifySingleUser = function(i, j, r, rateTxt, count, options) {
       }, {}, false).then((myUsers) => {
         var myUser = myUsers[0]
 
-        if (myUser.notifyMinimum !== undefined || (myUser.notifyMinimum !== undefined && (count[0].value * tx.amount / 100000000) > Number(myUser.notifyMinimum))) {
+        if (myUser.notifyMinimum === undefined || (myUser.notifyMinimum !== undefined && (count[0].value * tx.amount / 100000000) > Number(myUser.notifyMinimum))) {
 
           bot.sendMessage(myUser._id, _txt, options)
         }
@@ -282,7 +282,7 @@ notifySingleUser = function(i, j, r, rateTxt, count, options) {
       }, {}, false).then((myUsers) => {
         var myUser = myUsers[0]
 
-        if (myUser.notifyMinimum !== undefined || (myUser.notifyMinimum !== undefined && (count[0].value * tx.amount / 100000000) > Number(myUser.notifyMinimum))) {
+        if (myUser.notifyMinimum === undefined || (myUser.notifyMinimum !== undefined && (count[0].value * tx.amount / 100000000) > Number(myUser.notifyMinimum))) {
 
           bot.sendMessage(myUser._id, _txt, options)
         }
@@ -305,7 +305,7 @@ notifySingleUser = function(i, j, r, rateTxt, count, options) {
       }, {}, false).then((myUsers) => {
         var myUser = myUsers[0]
 
-        if (myUser.notifyMinimum !== undefined || (myUser.notifyMinimum !== undefined && (count[0].value * tx.amount / 100000000) > Number(myUser.notifyMinimum))) {
+        if (myUser.notifyMinimum === undefined || (myUser.notifyMinimum !== undefined && (count[0].value * tx.amount / 100000000) > Number(myUser.notifyMinimum))) {
 
           bot.sendMessage(myUser._id, _txt, options)
         }
@@ -328,7 +328,7 @@ notifySingleUser = function(i, j, r, rateTxt, count, options) {
       }, {}, false).then((myUsers) => {
         var myUser = myUsers[0]
 
-        if (myUser.notifyMinimum !== undefined || (myUser.notifyMinimum !== undefined && (count[0].value * tx.amount / 100000000) > Number(myUser.notifyMinimum))) {
+        if (myUser.notifyMinimum === undefined || (myUser.notifyMinimum !== undefined && (count[0].value * tx.amount / 100000000) > Number(myUser.notifyMinimum))) {
 
           bot.sendMessage(myUser._id, _txt, options)
         }
