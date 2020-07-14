@@ -1,0 +1,2630 @@
+[
+    {
+        "asset": {
+            "name": "0x",
+            "symbol": "ZRX",
+            "slug": "0x"
+        },
+        "price": "",
+        "info": {
+            "reward": 0.6881415373334949,
+            "reward24hChange": -0.23890641183320302,
+            "reward30dChange": -6.896759309799975,
+            "adjReward": 0.6881415373334949,
+            "score": 61.50477137460783,
+            "engagedBalance": 21540373.832269747,
+            "totalStaked": 3.0662688136200096,
+            "algorithmType": "the Ethereum Blockchain"
+        }
+    },
+    {
+        "asset": {
+            "name": "AVA",
+            "symbol": "AVA",
+            "slug": "ava"
+        },
+        "price": "",
+        "info": {
+            "reward": 10,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 5,
+            "score": 48.92982645274633,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Avalanche"
+        }
+    },
+    {
+        "asset": {
+            "name": "Aion",
+            "symbol": "AION",
+            "slug": "aion"
+        },
+        "price": "",
+        "info": {
+            "reward": 5.8924544622845785,
+            "reward24hChange": 0.5257936414511554,
+            "reward30dChange": 0.19158496238468806,
+            "adjReward": 3.7602537743779827,
+            "score": 70.25239601897543,
+            "engagedBalance": 117876577.10836478,
+            "totalStaked": 26.831673360253085,
+            "algorithmType": "Unity Hybrid PoS/PoW"
+        }
+    },
+    {
+        "asset": {
+            "name": "Algorand",
+            "symbol": "ALGO",
+            "slug": "algorand"
+        },
+        "price": "",
+        "info": {
+            "reward": 5.8193238875161315,
+            "reward24hChange": -0.13877169304331252,
+            "reward30dChange": -1.045472686038696,
+            "adjReward": 0.21500579710527212,
+            "score": 73.35122738609135,
+            "engagedBalance": 3215157042.378798,
+            "totalStaked": 62.225069476708775,
+            "algorithmType": "Pure Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Alqo",
+            "symbol": "XLQ",
+            "slug": "alqo"
+        },
+        "price": "",
+        "info": {
+            "reward": 7.95560040321733,
+            "reward24hChange": -0.35317856046490004,
+            "reward30dChange": 7.467204853960803,
+            "adjReward": 4.106088717156498,
+            "score": 60.24584456549078,
+            "engagedBalance": 23441332.77850265,
+            "totalStaked": 34.33701844459593,
+            "algorithmType": "Proof of Stake + Masternodes"
+        }
+    },
+    {
+        "asset": {
+            "name": "Ampleforth",
+            "symbol": "AMPL",
+            "slug": "ampleforth"
+        },
+        "price": "",
+        "info": {
+            "reward": 0,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 0,
+            "score": 32.776878192432044,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Gaser"
+        }
+    },
+    {
+        "asset": {
+            "name": "Ardor",
+            "symbol": "ARDR",
+            "slug": "ardor"
+        },
+        "price": "",
+        "info": {
+            "reward": 0.1961626268828749,
+            "reward24hChange": 13.318758849230983,
+            "reward30dChange": -10.165940101778187,
+            "adjReward": 0.1961626268828749,
+            "score": 47.51186663023621,
+            "engagedBalance": 359442076,
+            "totalStaked": 35.98020597598,
+            "algorithmType": "Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Ark",
+            "symbol": "ARK",
+            "slug": "ark"
+        },
+        "price": "",
+        "info": {
+            "reward": 8.891330093120377,
+            "reward24hChange": 1.362783620041309,
+            "reward30dChange": 1.5210039028880094,
+            "adjReward": 3.637438105888717,
+            "score": 67.04273139604055,
+            "engagedBalance": 84954505.00778222,
+            "totalStaked": 53.39438342768763,
+            "algorithmType": "Delegated Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Atomic Wallet Coin",
+            "symbol": "AWC",
+            "slug": "atomic-wallet-coin"
+        },
+        "price": "",
+        "info": {
+            "reward": 23,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 16.627678668631983,
+            "score": 64.13347653180904,
+            "engagedBalance": 2698079.393,
+            "totalStaked": 37.48424312569421,
+            "algorithmType": "the Ethereum Blockchain"
+        }
+    },
+    {
+        "asset": {
+            "name": "Augur",
+            "symbol": "REP",
+            "slug": "augur"
+        },
+        "price": "",
+        "info": {
+            "reward": 0.10203229435912564,
+            "reward24hChange": -6.953481794861973,
+            "reward30dChange": 463.81758795397053,
+            "adjReward": 0.10203229435912564,
+            "score": 52.32207998824154,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "the Ethereum Blockchain"
+        }
+    },
+    {
+        "asset": {
+            "name": "Band Protocol",
+            "symbol": "BAND",
+            "slug": "band-protocol"
+        },
+        "price": "",
+        "info": {
+            "reward": 14.361153696531673,
+            "reward24hChange": -0.16962998634958262,
+            "reward30dChange": 124.3706903700782,
+            "adjReward": 0.005936545738839172,
+            "score": 66.4526311027149,
+            "engagedBalance": 83472937.111703,
+            "totalStaked": 81.90612803064995,
+            "algorithmType": "Tendermint"
+        }
+    },
+    {
+        "asset": {
+            "name": "Basic Attention Token",
+            "symbol": "BAT",
+            "slug": "basic-attention-token"
+        },
+        "price": "",
+        "info": {
+            "reward": 0.754570006478119,
+            "reward24hChange": 1.6641702278299384,
+            "reward30dChange": 3294.0806911813124,
+            "adjReward": 0.754570006478119,
+            "score": 54.590516647659605,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "the Ethereum Blockchain"
+        }
+    },
+    {
+        "asset": {
+            "name": "Bela",
+            "symbol": "BELA",
+            "slug": "bela"
+        },
+        "price": "",
+        "info": {
+            "reward": 37.23417404150815,
+            "reward24hChange": -1.7832566110561204e-8,
+            "reward30dChange": 4.686365628344895e-9,
+            "adjReward": 28.09923510429126,
+            "score": 62.79,
+            "engagedBalance": 13159953,
+            "totalStaked": 24.533749364316186,
+            "algorithmType": ""
+        }
+    },
+    {
+        "asset": {
+            "name": "Bismuth",
+            "symbol": "BIS",
+            "slug": "bismuth"
+        },
+        "price": "",
+        "info": {
+            "reward": 6.600941913361213,
+            "reward24hChange": -0.9419152456252907,
+            "reward30dChange": -0.9419152514703852,
+            "adjReward": 4.89167624552501,
+            "score": 60.757931093673875,
+            "engagedBalance": 6370000,
+            "totalStaked": 25.89426918568114,
+            "algorithmType": "Proof of Work + Masternodes"
+        }
+    },
+    {
+        "asset": {
+            "name": "BitGreen",
+            "symbol": "BITG",
+            "slug": "bitgreen"
+        },
+        "price": "",
+        "info": {
+            "reward": 30.430841980358114,
+            "reward24hChange": 1.2733960479544759e-8,
+            "reward30dChange": -4.8711513042399766,
+            "adjReward": 10.098818966270635,
+            "score": 67.15379513235887,
+            "engagedBalance": 6438253.721168035,
+            "totalStaked": 57.490557661150135,
+            "algorithmType": "Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "BitMax Token",
+            "symbol": "BTMX",
+            "slug": "bitmax"
+        },
+        "price": "",
+        "info": {
+            "reward": 30.232248473777783,
+            "reward24hChange": 1.202878867397097,
+            "reward30dChange": -6.581012025912954,
+            "adjReward": 30.232248473777783,
+            "score": 68.54911328629566,
+            "engagedBalance": 571077501.0855676,
+            "totalStaked": 73.9517568115214,
+            "algorithmType": "the Ethereum Blockchain"
+        }
+    },
+    {
+        "asset": {
+            "name": "Bitbay",
+            "symbol": "BAY",
+            "slug": "bitbay"
+        },
+        "price": "",
+        "info": {
+            "reward": 2.088942342071775,
+            "reward24hChange": -25.776492027851678,
+            "reward30dChange": 8.95793342445004,
+            "adjReward": 1.0889423420717752,
+            "score": 54.38172610436612,
+            "engagedBalance": 494441105.5726974,
+            "totalStaked": 47.871115437691685,
+            "algorithmType": "Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Bitcoin",
+            "symbol": "BTC",
+            "slug": "bitcoin"
+        },
+        "price": "",
+        "info": {
+            "reward": 2.7727727852870667,
+            "reward24hChange": -0.07627519187794281,
+            "reward30dChange": 1734.888844228447,
+            "adjReward": 2.7727727852870667,
+            "score": 68.51218995274634,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Proof of Work"
+        }
+    },
+    {
+        "asset": {
+            "name": "BlackCoin",
+            "symbol": "BLK",
+            "slug": "blackcoin"
+        },
+        "price": "",
+        "info": {
+            "reward": 4.145080228328034,
+            "reward24hChange": -1.4277447374085164,
+            "reward30dChange": -1.5364422389864179,
+            "adjReward": 2.914581333110712,
+            "score": 60.813177732845936,
+            "engagedBalance": 17831379.834982518,
+            "totalStaked": 29.685767883844306,
+            "algorithmType": "Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Blocknet",
+            "symbol": "BLOCK",
+            "slug": "blocknet"
+        },
+        "price": "",
+        "info": {
+            "reward": 14.810369229980871,
+            "reward24hChange": -0.6825742176759708,
+            "reward30dChange": 190.9273330199803,
+            "adjReward": 7.148916118155802,
+            "score": 65.16877274904313,
+            "engagedBalance": 3548864.9325581337,
+            "totalStaked": 51.73033158630418,
+            "algorithmType": "Proof of Stake + Proof of Work"
+        }
+    },
+    {
+        "asset": {
+            "name": "COTI",
+            "symbol": "COTI",
+            "slug": "coti"
+        },
+        "price": "",
+        "info": {
+            "reward": 75.40315356573431,
+            "reward24hChange": 1.4909762116130665,
+            "reward30dChange": 18.021777571987098,
+            "adjReward": 75.26747961829155,
+            "score": 68.36753308758556,
+            "engagedBalance": 2328937.37,
+            "totalStaked": 0.45224649147591645,
+            "algorithmType": "Trustchain"
+        }
+    },
+    {
+        "asset": {
+            "name": "Callisto",
+            "symbol": "CLO",
+            "slug": "callisto"
+        },
+        "price": "",
+        "info": {
+            "reward": 8.3010762328888,
+            "reward24hChange": -0.15706019875100383,
+            "reward30dChange": -2.2963474505717927,
+            "adjReward": 3.4607151003934096,
+            "score": 61.370408718606775,
+            "engagedBalance": 1519610186.1143293,
+            "totalStaked": 58.31004314016436,
+            "algorithmType": "Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Cardano",
+            "symbol": "ADA",
+            "slug": "cardano"
+        },
+        "price": "",
+        "info": {
+            "reward": 7.2,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 0,
+            "score": 59.37124595274634,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Ouroboros"
+        }
+    },
+    {
+        "asset": {
+            "name": "CasperLabs",
+            "symbol": "CLX",
+            "slug": "casperlabs"
+        },
+        "price": "",
+        "info": {
+            "reward": 15,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 5,
+            "score": 47.78982645274634,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Highway"
+        }
+    },
+    {
+        "asset": {
+            "name": "Celo",
+            "symbol": "cGLD",
+            "slug": "celo"
+        },
+        "price": "",
+        "info": {
+            "reward": 7.069102977239187,
+            "reward24hChange": 0.2739726027504343,
+            "reward30dChange": 9.303877707972303,
+            "adjReward": 4.310324324224062,
+            "score": 66.79766203213092,
+            "engagedBalance": 23470451.6918132,
+            "totalStaked": 4.8595597704791,
+            "algorithmType": "Byzantine Fault Tolerance"
+        }
+    },
+    {
+        "asset": {
+            "name": "ChainX",
+            "symbol": "PCX",
+            "slug": "chainx"
+        },
+        "price": "",
+        "info": {
+            "reward": 74.62954192321634,
+            "reward24hChange": 0.18668133677555596,
+            "reward30dChange": -4.351132870766239,
+            "adjReward": -10.841491501917929,
+            "score": 60.347973682256765,
+            "engagedBalance": 4846553.04413568,
+            "totalStaked": 82.48328813328705,
+            "algorithmType": "Nominated Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Chainlink",
+            "symbol": "LINK",
+            "slug": "chainlink"
+        },
+        "price": "",
+        "info": {
+            "reward": 0.35201823085411804,
+            "reward24hChange": 51.818581633310856,
+            "reward30dChange": 342.0293292130839,
+            "adjReward": 0.35201823085411804,
+            "score": 53.46566695274634,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "the Ethereum Blockchain"
+        }
+    },
+    {
+        "asset": {
+            "name": "Chromia",
+            "symbol": "CHR",
+            "slug": "chromia"
+        },
+        "price": "",
+        "info": {
+            "reward": 20,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 10,
+            "score": 55.171774818648146,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Delegated Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "CloakCoin",
+            "symbol": "CLOAK",
+            "slug": "cloakcoin"
+        },
+        "price": "",
+        "info": {
+            "reward": 6,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 4.967503378674449,
+            "score": 58.089193625841354,
+            "engagedBalance": 942794.7035676009,
+            "totalStaked": 17.208277022092517,
+            "algorithmType": "Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Coda Protocol",
+            "symbol": "CODA",
+            "slug": "coda-protocol"
+        },
+        "price": "",
+        "info": {
+            "reward": 10,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 5,
+            "score": 50.42982645274634,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Ouroboros"
+        }
+    },
+    {
+        "asset": {
+            "name": "Cosmos",
+            "symbol": "ATOM",
+            "slug": "cosmos"
+        },
+        "price": "",
+        "info": {
+            "reward": 8.262144130978655,
+            "reward24hChange": -0.04831031492503163,
+            "reward30dChange": -0.41013628357482307,
+            "adjReward": 1.8864047413621856,
+            "score": 77.57688531882201,
+            "engagedBalance": 183847094.937511,
+            "totalStaked": 71.24002191582146,
+            "algorithmType": "Tendermint"
+        }
+    },
+    {
+        "asset": {
+            "name": "Credits",
+            "symbol": "CS",
+            "slug": "credits"
+        },
+        "price": "",
+        "info": {
+            "reward": 10,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 5,
+            "score": 47.01778507309173,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Proof of Agreement"
+        }
+    },
+    {
+        "asset": {
+            "name": "Crypto One Stop",
+            "symbol": "COS",
+            "slug": "crypto-one-stop"
+        },
+        "price": "",
+        "info": {
+            "reward": 0,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 0,
+            "score": 0,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": ""
+        }
+    },
+    {
+        "asset": {
+            "name": "Crypto.com Coin",
+            "symbol": "CRO",
+            "slug": "crypto-com-coin"
+        },
+        "price": "",
+        "info": {
+            "reward": 10,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 5,
+            "score": 60.284870866956034,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Byzantine Fault Tolerance"
+        }
+    },
+    {
+        "asset": {
+            "name": "Cyber",
+            "symbol": "CYB",
+            "slug": "cyber"
+        },
+        "price": "",
+        "info": {
+            "reward": 11.505635470412566,
+            "reward24hChange": 0.9318457783656368,
+            "reward30dChange": 41.70597697376957,
+            "adjReward": 8.948827588098663,
+            "score": 55.95250000000001,
+            "engagedBalance": 47106652.8625316,
+            "totalStaked": 20,
+            "algorithmType": "Tendermint"
+        }
+    },
+    {
+        "asset": {
+            "name": "Dai",
+            "symbol": "DAI",
+            "slug": "dai"
+        },
+        "price": "",
+        "info": {
+            "reward": 5.108925591255114,
+            "reward24hChange": 5.444141186263769,
+            "reward30dChange": 143.7983602169986,
+            "adjReward": 5.108925591255114,
+            "score": 62.77855609586298,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "the Ethereum Blockchain"
+        }
+    },
+    {
+        "asset": {
+            "name": "Dash",
+            "symbol": "DASH",
+            "slug": "dash"
+        },
+        "price": "",
+        "info": {
+            "reward": 5.712289002904747,
+            "reward24hChange": 0.059688248110876314,
+            "reward30dChange": -6.034168732180699,
+            "adjReward": -0.29958928253791584,
+            "score": 63.507176939865126,
+            "engagedBalance": 5054000,
+            "totalStaked": 52.622322525922385,
+            "algorithmType": "Proof of Work + Masternodes"
+        }
+    },
+    {
+        "asset": {
+            "name": "Decentraland",
+            "symbol": "MANA",
+            "slug": "decentraland"
+        },
+        "price": "",
+        "info": {
+            "reward": 0.1183,
+            "reward24hChange": -5.5111821086262,
+            "reward30dChange": 846.4000000000001,
+            "adjReward": 0.1183,
+            "score": 51.845908741211325,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "the Ethereum Blockchain"
+        }
+    },
+    {
+        "asset": {
+            "name": "Decred",
+            "symbol": "DCR",
+            "slug": "decred"
+        },
+        "price": "",
+        "info": {
+            "reward": 7.446259924285725,
+            "reward24hChange": 23.362772495454,
+            "reward30dChange": -2.134646081850802,
+            "adjReward": 3.5059576171644258,
+            "score": 71.30712946181644,
+            "engagedBalance": 5808304.4394196,
+            "totalStaked": 49.447715132418175,
+            "algorithmType": "Proof of Stake + Proof of Work"
+        }
+    },
+    {
+        "asset": {
+            "name": "Deep Onion",
+            "symbol": "ONION",
+            "slug": "deep-onion"
+        },
+        "price": "",
+        "info": {
+            "reward": 10,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 0,
+            "score": 46.336791597071056,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Proof of Stake + Proof of Work"
+        }
+    },
+    {
+        "asset": {
+            "name": "Dfinity",
+            "symbol": "DFN",
+            "slug": "dfinity"
+        },
+        "price": "",
+        "info": {
+            "reward": 0,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 0,
+            "score": 44.87232645274633,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Divi",
+            "symbol": "DIVI",
+            "slug": "divi-project"
+        },
+        "price": "",
+        "info": {
+            "reward": 42.34911333502854,
+            "reward24hChange": 0.626975165841009,
+            "reward30dChange": -20.533643500307637,
+            "adjReward": 4.517529765086472,
+            "score": 64.49621620433383,
+            "engagedBalance": 1526804263.4302678,
+            "totalStaked": 85.6341918207778,
+            "algorithmType": "Proof of Stake + Masternodes"
+        }
+    },
+    {
+        "asset": {
+            "name": "Edgeless",
+            "symbol": "EDG",
+            "slug": "edgeless"
+        },
+        "price": "",
+        "info": {
+            "reward": 4.14998859781173,
+            "reward24hChange": -12.93606396736591,
+            "reward30dChange": 1319.4741401541103,
+            "adjReward": 4.14998859781173,
+            "score": 41.98184369903876,
+            "engagedBalance": 7178018,
+            "totalStaked": 5.4359570176366825,
+            "algorithmType": "Profit Share"
+        }
+    },
+    {
+        "asset": {
+            "name": "Elrond",
+            "symbol": "ERD",
+            "slug": "elrond"
+        },
+        "price": "",
+        "info": {
+            "reward": 26.631429542730622,
+            "reward24hChange": 0,
+            "reward30dChange": -10.526315789473696,
+            "adjReward": 26.631429542730622,
+            "score": 67.94045784127479,
+            "engagedBalance": 40367709.81543428,
+            "totalStaked": 0.298835606290663,
+            "algorithmType": "Secure Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "EmerCoin",
+            "symbol": "EMC",
+            "slug": "emercoin"
+        },
+        "price": "",
+        "info": {
+            "reward": 6,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 0,
+            "score": 45.33325116536255,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": ""
+        }
+    },
+    {
+        "asset": {
+            "name": "Enecuum",
+            "symbol": "ENQ",
+            "slug": "enecuum"
+        },
+        "price": "",
+        "info": {
+            "reward": 14.06905821351704,
+            "reward24hChange": -0.7923291346102754,
+            "reward30dChange": -52.81399742017563,
+            "adjReward": 2.937102556904355,
+            "score": 59.32374258832819,
+            "engagedBalance": 26030429.356050212,
+            "totalStaked": 79.12367329546981,
+            "algorithmType": ""
+        }
+    },
+    {
+        "asset": {
+            "name": "Energi",
+            "symbol": "NRG",
+            "slug": "energi"
+        },
+        "price": "",
+        "info": {
+            "reward": 15.229984163222685,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 10.766748803532163,
+            "score": 65.45606304545925,
+            "engagedBalance": 18037373.95628485,
+            "totalStaked": 67.18833096681564,
+            "algorithmType": "Proof of Stake + Masternodes"
+        }
+    },
+    {
+        "asset": {
+            "name": "Enigma",
+            "symbol": "ENG",
+            "slug": "enigma"
+        },
+        "price": "",
+        "info": {
+            "reward": 1,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 0,
+            "score": 42.14267671669983,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Eos",
+            "symbol": "EOS",
+            "slug": "eos"
+        },
+        "price": "",
+        "info": {
+            "reward": 1.7324967251234933,
+            "reward24hChange": 0.016985860819923877,
+            "reward30dChange": -0.8408042225215884,
+            "adjReward": 0.7324967251234933,
+            "score": 60.26604450000001,
+            "engagedBalance": 601286733.7794,
+            "totalStaked": 58.890587031781095,
+            "algorithmType": "Delegated Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Ethereum",
+            "symbol": "ETH",
+            "slug": "ethereum"
+        },
+        "price": "",
+        "info": {
+            "reward": 0.7462481525935672,
+            "reward24hChange": -3.2892576188582683,
+            "reward30dChange": 8.287907458440818,
+            "adjReward": 0.7462481525935672,
+            "score": 61.63278795274634,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Proof of Work"
+        }
+    },
+    {
+        "asset": {
+            "name": "Ethereum 2.0",
+            "symbol": "ETH",
+            "slug": "ethereum-2-0"
+        },
+        "price": "",
+        "info": {
+            "reward": 14.897211916960403,
+            "reward24hChange": 1.7004224205837124,
+            "reward30dChange": -1.4884501309097677,
+            "adjReward": 14.42691078894216,
+            "score": 69.5788,
+            "engagedBalance": 10000000,
+            "totalStaked": 8.947890563512985,
+            "algorithmType": "Casper"
+        }
+    },
+    {
+        "asset": {
+            "name": "FLETA",
+            "symbol": "FLETA",
+            "slug": "fleta"
+        },
+        "price": "",
+        "info": {
+            "reward": 7.563973462639952,
+            "reward24hChange": -3.286200879605003,
+            "reward30dChange": -18.043872286410785,
+            "adjReward": 4.563973462639952,
+            "score": 63.11508241562753,
+            "engagedBalance": 291448929.39937556,
+            "totalStaked": 23.21607923842777,
+            "algorithmType": "Proof of Formulation"
+        }
+    },
+    {
+        "asset": {
+            "name": "Fantom",
+            "symbol": "FTM",
+            "slug": "fantom"
+        },
+        "price": "",
+        "info": {
+            "reward": 33.45603548147674,
+            "reward24hChange": -0.10761020356763486,
+            "reward30dChange": -9.629298673203571,
+            "adjReward": 11.84685852766206,
+            "score": 70.61025354686868,
+            "engagedBalance": 1398417806.649272,
+            "totalStaked": 58.130794574273246,
+            "algorithmType": "Lachesis"
+        }
+    },
+    {
+        "asset": {
+            "name": "Fortuna",
+            "symbol": "FOTA",
+            "slug": "fortuna"
+        },
+        "price": "",
+        "info": {
+            "reward": 10,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 0,
+            "score": 39.75908595274634,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Profit Share"
+        }
+    },
+    {
+        "asset": {
+            "name": "Fusion",
+            "symbol": "FSN",
+            "slug": "fusion"
+        },
+        "price": "",
+        "info": {
+            "reward": 20.991158990634855,
+            "reward24hChange": 3.0147860651764566,
+            "reward30dChange": 23.48672538885691,
+            "adjReward": 11.23235792091957,
+            "score": 71.90615264611435,
+            "engagedBalance": 26405000,
+            "totalStaked": 43.50869607076564,
+            "algorithmType": "Hierarchical Hybrid Consensus Mechanism"
+        }
+    },
+    {
+        "asset": {
+            "name": "Harmony",
+            "symbol": "ONE",
+            "slug": "harmony"
+        },
+        "price": "",
+        "info": {
+            "reward": 9.915088715954173,
+            "reward24hChange": 0.23614364337014973,
+            "reward30dChange": -13.378869493203602,
+            "adjReward": 3.4703412586313984,
+            "score": 70.22008959510013,
+            "engagedBalance": 4032934973.0513372,
+            "totalStaked": 58.93706896399251,
+            "algorithmType": "Shard Practical BFT"
+        }
+    },
+    {
+        "asset": {
+            "name": "Horizen",
+            "symbol": "ZEN",
+            "slug": "horizen"
+        },
+        "price": "",
+        "info": {
+            "reward": 19.443593601489876,
+            "reward24hChange": -0.8872264226620719,
+            "reward30dChange": 7.9077531999632065,
+            "adjReward": 16.677263252492153,
+            "score": 69.59203921235533,
+            "engagedBalance": 3298602,
+            "totalStaked": 34.722309064784554,
+            "algorithmType": "Proof of Work + Masternodes"
+        }
+    },
+    {
+        "asset": {
+            "name": "HtmlCoin",
+            "symbol": "HTML",
+            "slug": "htmlcoin"
+        },
+        "price": "",
+        "info": {
+            "reward": 3.2560238996583015,
+            "reward24hChange": -2.419255672233297,
+            "reward30dChange": 19.12523840372189,
+            "adjReward": 2.4986863374642025,
+            "score": 55.9899956758205,
+            "engagedBalance": 18951954345.369446,
+            "totalStaked": 23.271216300941123,
+            "algorithmType": "Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "ICON",
+            "symbol": "ICX",
+            "slug": "icon"
+        },
+        "price": "",
+        "info": {
+            "reward": 12.970519885384313,
+            "reward24hChange": -0.11677597378922196,
+            "reward30dChange": -2.2633019386641737,
+            "adjReward": 6.970519885384313,
+            "score": 69.22173490014771,
+            "engagedBalance": 307315510.7682513,
+            "totalStaked": 36.25806395675991,
+            "algorithmType": "Loop Fault Tolerance"
+        }
+    },
+    {
+        "asset": {
+            "name": "IOST",
+            "symbol": "IOST",
+            "slug": "iost"
+        },
+        "price": "",
+        "info": {
+            "reward": 9.751229623506331,
+            "reward24hChange": 0.1257492086412294,
+            "reward30dChange": -4.396550415336447,
+            "adjReward": 5.751229623506331,
+            "score": 67.48220772941663,
+            "engagedBalance": 4624033642.7783575,
+            "totalStaked": 20.510233859930814,
+            "algorithmType": "Proof of Believability"
+        }
+    },
+    {
+        "asset": {
+            "name": "IRISnet",
+            "symbol": "IRIS",
+            "slug": "irisnet"
+        },
+        "price": "",
+        "info": {
+            "reward": 10.055280201715961,
+            "reward24hChange": -0.10312876928548012,
+            "reward30dChange": -0.3921481070934127,
+            "adjReward": 6.046986279754639,
+            "score": 69.07990850646512,
+            "engagedBalance": 716041707,
+            "totalStaked": 35.876320275486364,
+            "algorithmType": "Delegated Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Idex",
+            "symbol": "IDEX",
+            "slug": "idex"
+        },
+        "price": "",
+        "info": {
+            "reward": 4.576675477173387,
+            "reward24hChange": -2.5944110843215307,
+            "reward30dChange": -47.80032436572536,
+            "adjReward": 4.576675477173387,
+            "score": 60.736371932223456,
+            "engagedBalance": 155839641.92570207,
+            "totalStaked": 29.254933526830268,
+            "algorithmType": "Profit Share"
+        }
+    },
+    {
+        "asset": {
+            "name": "Incognito",
+            "symbol": "PRV",
+            "slug": "incognito"
+        },
+        "price": "",
+        "info": {
+            "reward": 39.4621521584117,
+            "reward24hChange": -0.6955632030720953,
+            "reward30dChange": -8.639252918216467,
+            "adjReward": 29.653920217920113,
+            "score": 66.97777535704145,
+            "engagedBalance": 2772000,
+            "totalStaked": 24.86940933257821,
+            "algorithmType": "Proof of Stake and practical Byzantine Fault Tolerance (pBFT)"
+        }
+    },
+    {
+        "asset": {
+            "name": "IoTeX",
+            "symbol": "IOTX",
+            "slug": "iotex"
+        },
+        "price": "",
+        "info": {
+            "reward": 7.917722865603468,
+            "reward24hChange": -0.427485612872584,
+            "reward30dChange": -0.5406012123120022,
+            "adjReward": 6.849950588771334,
+            "score": 66.61389707378099,
+            "engagedBalance": 2529060505,
+            "totalStaked": 46.464194480224165,
+            "algorithmType": "Delegated Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Kava",
+            "symbol": "KAVA",
+            "slug": "kava"
+        },
+        "price": "",
+        "info": {
+            "reward": 5.554128080578784,
+            "reward24hChange": -0.38216077803047155,
+            "reward30dChange": -74.45444504210974,
+            "adjReward": -13.53824544271411,
+            "score": 57.30428230920938,
+            "engagedBalance": 87606452.307548,
+            "totalStaked": 83.40873751708818,
+            "algorithmType": "Tendermint"
+        }
+    },
+    {
+        "asset": {
+            "name": "Keep",
+            "symbol": "KEEP",
+            "slug": "keep"
+        },
+        "price": "",
+        "info": {
+            "reward": 0,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 0,
+            "score": 29.374518929511524,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Komodo",
+            "symbol": "KMD",
+            "slug": "komodo"
+        },
+        "price": "",
+        "info": {
+            "reward": 5.1,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 0,
+            "score": 65.76943528719134,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Adaptive Proof of Work"
+        }
+    },
+    {
+        "asset": {
+            "name": "KuCoin Shares",
+            "symbol": "KCS",
+            "slug": "kucoin-shares"
+        },
+        "price": "",
+        "info": {
+            "reward": 2.806528694973214,
+            "reward24hChange": 5.1410668712445,
+            "reward30dChange": 8.732730584961875,
+            "adjReward": 2.806528694973214,
+            "score": 60.044633133085476,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Profit Share"
+        }
+    },
+    {
+        "asset": {
+            "name": "Kusama",
+            "symbol": "KSM",
+            "slug": "kusama"
+        },
+        "price": "",
+        "info": {
+            "reward": 3.2822683227576706,
+            "reward24hChange": -4.486486661388393,
+            "reward30dChange": -18.045996789261665,
+            "adjReward": 0.5354410634350892,
+            "score": 67.89541694416351,
+            "engagedBalance": 6046413.063076003,
+            "totalStaked": 74.62658478802862,
+            "algorithmType": "Nominated Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Kyber Network",
+            "symbol": "KNC",
+            "slug": "kyber-network"
+        },
+        "price": "",
+        "info": {
+            "reward": 2.757110186402108,
+            "reward24hChange": -58.94563182443431,
+            "reward30dChange": 5621.741791417007,
+            "adjReward": 2.757110186402108,
+            "score": 67.10880567222857,
+            "engagedBalance": 57135516.4310381,
+            "totalStaked": 27.13602176514584,
+            "algorithmType": "the Ethereum Blockchain"
+        }
+    },
+    {
+        "asset": {
+            "name": "LTO Network",
+            "symbol": "LTO",
+            "slug": "lto-network"
+        },
+        "price": "",
+        "info": {
+            "reward": 6.978923168262743,
+            "reward24hChange": 1.192628405378531,
+            "reward30dChange": 1.1995352473652636,
+            "adjReward": 6.978923168262743,
+            "score": 70.26461010168474,
+            "engagedBalance": 64402128.919080295,
+            "totalStaked": 28.96834167184672,
+            "algorithmType": "Leased Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Lisk",
+            "symbol": "LSK",
+            "slug": "lisk"
+        },
+        "price": "",
+        "info": {
+            "reward": -1.5105040792353306,
+            "reward24hChange": 0.9993777790487848,
+            "reward30dChange": 46.16787290236195,
+            "adjReward": 0.8614082193517325,
+            "score": 50.39119708873755,
+            "engagedBalance": 70815217.08716503,
+            "totalStaked": 48.14474325120272,
+            "algorithmType": "Delegated Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Lition",
+            "symbol": "LIT",
+            "slug": "lition"
+        },
+        "price": "",
+        "info": {
+            "reward": 101.99420503892544,
+            "reward24hChange": 0.7443313646168259,
+            "reward30dChange": 357.9298185566784,
+            "adjReward": 101.99420503892544,
+            "score": 64.37772255839936,
+            "engagedBalance": 4049646.338510717,
+            "totalStaked": 6.814775620342985,
+            "algorithmType": "Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Livepeer",
+            "symbol": "LPT",
+            "slug": "livepeer"
+        },
+        "price": "",
+        "info": {
+            "reward": 24.197799106900465,
+            "reward24hChange": -0.5086454963545164,
+            "reward30dChange": -19.757784410106012,
+            "adjReward": 5.886182268334252,
+            "score": 64.91934039169622,
+            "engagedBalance": 14731574,
+            "totalStaked": 68.10724843983797,
+            "algorithmType": "Delegated Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Loki",
+            "symbol": "LOKI",
+            "slug": "loki"
+        },
+        "price": "",
+        "info": {
+            "reward": 14.922474399165528,
+            "reward24hChange": 0.7687970049583447,
+            "reward30dChange": -1.8929139396592105,
+            "adjReward": 8.878362748957866,
+            "score": 63.19736529089555,
+            "engagedBalance": 19812397.86992249,
+            "totalStaked": 40.50341443739151,
+            "algorithmType": "Proof of Work + Masternodes"
+        }
+    },
+    {
+        "asset": {
+            "name": "Loom Network",
+            "symbol": "LOOM",
+            "slug": "loom-network"
+        },
+        "price": "",
+        "info": {
+            "reward": 17,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 2,
+            "score": 63.54070396493636,
+            "engagedBalance": 281717181.31588316,
+            "totalStaked": 28.171718131588314,
+            "algorithmType": "Delegated Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "MakerDAO",
+            "symbol": "MKR",
+            "slug": "makerdao"
+        },
+        "price": "",
+        "info": {
+            "reward": 0,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 0,
+            "score": 0,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": ""
+        }
+    },
+    {
+        "asset": {
+            "name": "Matic Network",
+            "symbol": "MATIC",
+            "slug": "matic-network"
+        },
+        "price": "",
+        "info": {
+            "reward": 53.481640194365745,
+            "reward24hChange": -1.892392668879521,
+            "reward30dChange": -10.330096842657834,
+            "adjReward": 45.07541322109028,
+            "score": 69.48489846643608,
+            "engagedBalance": 586799444.0406477,
+            "totalStaked": 15.717967778708953,
+            "algorithmType": "Plasma + Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Minter",
+            "symbol": "BIP",
+            "slug": "minter"
+        },
+        "price": "",
+        "info": {
+            "reward": 52.316668371178906,
+            "reward24hChange": -0.15169796511418154,
+            "reward30dChange": -8.21302123081105,
+            "adjReward": -7.572996031444681,
+            "score": 63.06168696241941,
+            "engagedBalance": 2090869085.183247,
+            "totalStaked": 82.8381977590582,
+            "algorithmType": "Tendermint"
+        }
+    },
+    {
+        "asset": {
+            "name": "NEAR Protocol",
+            "symbol": "NEAR",
+            "slug": "near-protocol"
+        },
+        "price": "",
+        "info": {
+            "reward": 10,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 5,
+            "score": 48.92982645274633,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Thresholded Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "NEM",
+            "symbol": "XEM",
+            "slug": "nem"
+        },
+        "price": "",
+        "info": {
+            "reward": 4.7053406995132265,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 4.137562921708877,
+            "score": 63.61903848704026,
+            "engagedBalance": 3517339763.0600324,
+            "totalStaked": 39.08155292723164,
+            "algorithmType": "Proof of Importance"
+        }
+    },
+    {
+        "asset": {
+            "name": "NXT",
+            "symbol": "NXT",
+            "slug": "nxt"
+        },
+        "price": "",
+        "info": {
+            "reward": 0.7869287628825936,
+            "reward24hChange": 30.973210859854582,
+            "reward30dChange": -29.102784796063535,
+            "adjReward": 0.7869287628825936,
+            "score": 47.099373000471374,
+            "engagedBalance": 160701463,
+            "totalStaked": 16.976115500114812,
+            "algorithmType": "Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Nash",
+            "symbol": "NEX",
+            "slug": "nash"
+        },
+        "price": "",
+        "info": {
+            "reward": 0,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 0,
+            "score": 41.372448406339984,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Profit Share"
+        }
+    },
+    {
+        "asset": {
+            "name": "NavCoin",
+            "symbol": "NAV",
+            "slug": "navcoin"
+        },
+        "price": "",
+        "info": {
+            "reward": 15.969373876556608,
+            "reward24hChange": -2.4195350348181313,
+            "reward30dChange": 146.77057158595733,
+            "adjReward": 12.924454847371273,
+            "score": 66.8699154260609,
+            "engagedBalance": 13166133.540959481,
+            "totalStaked": 19.05554156193571,
+            "algorithmType": "Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Neblio",
+            "symbol": "NEBL",
+            "slug": "neblio"
+        },
+        "price": "",
+        "info": {
+            "reward": 10,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 7.206947860202016,
+            "score": 60.14113283688862,
+            "engagedBalance": 4616139.307069246,
+            "totalStaked": 27.93052139797984,
+            "algorithmType": "Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Nebulas",
+            "symbol": "NAS",
+            "slug": "nebulas"
+        },
+        "price": "",
+        "info": {
+            "reward": 3,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 0,
+            "score": 45.33814309142607,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Delegated Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Neo",
+            "symbol": "NEO",
+            "slug": "neo"
+        },
+        "price": "",
+        "info": {
+            "reward": 2.0036496350365,
+            "reward24hChange": 1.6832375824129435,
+            "reward30dChange": 4.081427148035871,
+            "adjReward": 2.0036496350365,
+            "score": 68.37627712684733,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Delegated Byzantine Fault Tolerance"
+        }
+    },
+    {
+        "asset": {
+            "name": "Neutrino",
+            "symbol": "USDN",
+            "slug": "neutrino"
+        },
+        "price": "",
+        "info": {
+            "reward": 9.454754,
+            "reward24hChange": 135.47843416642576,
+            "reward30dChange": 94.7599675998145,
+            "adjReward": 4.828984332528476,
+            "score": 59.18474913896454,
+            "engagedBalance": 6334356.443698,
+            "totalStaked": 48.925330764518286,
+            "algorithmType": "Waves Platform's Leased Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Nexo",
+            "symbol": "NEXO",
+            "slug": "nexo"
+        },
+        "price": "",
+        "info": {
+            "reward": 4.8,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 4.8,
+            "score": 61.60657767033473,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Profit Share"
+        }
+    },
+    {
+        "asset": {
+            "name": "Nexus",
+            "symbol": "NXS",
+            "slug": "nexus"
+        },
+        "price": "",
+        "info": {
+            "reward": 1.959927815579115,
+            "reward24hChange": 0.07106232676880196,
+            "reward30dChange": 0.4105571242296674,
+            "adjReward": -0.00932157353014107,
+            "score": 50.71789133302189,
+            "engagedBalance": 26635595,
+            "totalStaked": 39.36543273111864,
+            "algorithmType": "Proof of Stake + Proof of Work"
+        }
+    },
+    {
+        "asset": {
+            "name": "Nexus Mutual",
+            "symbol": "NXM",
+            "slug": "nexus-mutual"
+        },
+        "price": "",
+        "info": {
+            "reward": 0,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 0,
+            "score": 31.202686750515557,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "the Ethereum Blockchain"
+        }
+    },
+    {
+        "asset": {
+            "name": "NuCypher",
+            "symbol": "NU",
+            "slug": "nucypher"
+        },
+        "price": "",
+        "info": {
+            "reward": 10,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 5,
+            "score": 50.42982645274634,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Nuls",
+            "symbol": "NULS",
+            "slug": "nuls"
+        },
+        "price": "",
+        "info": {
+            "reward": 8.049920626666573,
+            "reward24hChange": 0.17852991956674977,
+            "reward30dChange": 0.345832673479768,
+            "adjReward": 3.6649487024945353,
+            "score": 66.45572620059754,
+            "engagedBalance": 53944720.71410527,
+            "totalStaked": 49.02501421792337,
+            "algorithmType": "Proof of Stake + Masternodes"
+        }
+    },
+    {
+        "asset": {
+            "name": "OKCash",
+            "symbol": "OK",
+            "slug": "okcash"
+        },
+        "price": "",
+        "info": {
+            "reward": 2.626091685439761,
+            "reward24hChange": -1.8011773691748885,
+            "reward30dChange": -74.55323716487634,
+            "adjReward": 1.3760916854397611,
+            "score": 50.84192604695923,
+            "engagedBalance": 35929103.60860392,
+            "totalStaked": 47.59925203413746,
+            "algorithmType": "Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Oasis",
+            "symbol": "OASI",
+            "slug": "oasis"
+        },
+        "price": "",
+        "info": {
+            "reward": 15,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 5,
+            "score": 47.78982645274634,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "PIVX",
+            "symbol": "PIVX",
+            "slug": "pivx"
+        },
+        "price": "",
+        "info": {
+            "reward": 8.878771988300613,
+            "reward24hChange": -0.021356002351749684,
+            "reward30dChange": -0.014238396173540441,
+            "adjReward": 8.073362776695948,
+            "score": 64.16913011763685,
+            "engagedBalance": 24445963.98729106,
+            "totalStaked": 38.40780246956681,
+            "algorithmType": "Proof of Stake + Masternodes"
+        }
+    },
+    {
+        "asset": {
+            "name": "Particl",
+            "symbol": "PART",
+            "slug": "particl"
+        },
+        "price": "",
+        "info": {
+            "reward": 4.655259689881586,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 2.337807254477262,
+            "score": 55.396047255898374,
+            "engagedBalance": 4771574.139183651,
+            "totalStaked": 50.27207158661119,
+            "algorithmType": "Particl Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Phore",
+            "symbol": "PHR",
+            "slug": "phore"
+        },
+        "price": "",
+        "info": {
+            "reward": 24.570831589982667,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 4.92725483180158,
+            "score": 63.58597250711004,
+            "engagedBalance": 10119540.869078055,
+            "totalStaked": 54.0291307418599,
+            "algorithmType": "Proof of Stake + Masternodes"
+        }
+    },
+    {
+        "asset": {
+            "name": "Pikciochain",
+            "symbol": "PKC",
+            "slug": "pikciochain"
+        },
+        "price": "",
+        "info": {
+            "reward": 5,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 0,
+            "score": 38.80556745274633,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Masternodes"
+        }
+    },
+    {
+        "asset": {
+            "name": "PinkCoin",
+            "symbol": "PINK",
+            "slug": "pinkcoin"
+        },
+        "price": "",
+        "info": {
+            "reward": 18.40677173853999,
+            "reward24hChange": 0.8272847426211501,
+            "reward30dChange": -11.137663553238543,
+            "adjReward": 13.810168804637662,
+            "score": 59.797698943245436,
+            "engagedBalance": 111046088.30127788,
+            "totalStaked": 24.972347129605495,
+            "algorithmType": ""
+        }
+    },
+    {
+        "asset": {
+            "name": "Pocket Network",
+            "symbol": "POKT",
+            "slug": "pocket-network"
+        },
+        "price": "",
+        "info": {
+            "reward": 24.36,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 13.41,
+            "score": 60.60000000000001,
+            "engagedBalance": 200000000,
+            "totalStaked": 40,
+            "algorithmType": ""
+        }
+    },
+    {
+        "asset": {
+            "name": "Polkadot",
+            "symbol": "DOT",
+            "slug": "polkadot"
+        },
+        "price": "",
+        "info": {
+            "reward": 9.543266104516077,
+            "reward24hChange": -0.49729452068798946,
+            "reward30dChange": 281.92361395383176,
+            "adjReward": 3.616802833804737,
+            "score": 69.74690038404714,
+            "engagedBalance": 4660427.3372212695,
+            "totalStaked": 55.650851866038806,
+            "algorithmType": "Nominated Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Qtum",
+            "symbol": "QTUM",
+            "slug": "qtum"
+        },
+        "price": "",
+        "info": {
+            "reward": 6.338810128592012,
+            "reward24hChange": 0.9789470466631579,
+            "reward30dChange": -4.6908741285528555,
+            "adjReward": 5.42212329086385,
+            "score": 69.22610844472058,
+            "engagedBalance": 13857058.469324308,
+            "totalStaked": 14.461188199891692,
+            "algorithmType": "Proof of Stake 3.0"
+        }
+    },
+    {
+        "asset": {
+            "name": "RChain",
+            "symbol": "RHOC",
+            "slug": "rchain"
+        },
+        "price": "",
+        "info": {
+            "reward": 7,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 0,
+            "score": 42.42101932346771,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Casper"
+        }
+    },
+    {
+        "asset": {
+            "name": "Radium",
+            "symbol": "RADS",
+            "slug": "radium"
+        },
+        "price": "",
+        "info": {
+            "reward": 28.868949535271422,
+            "reward24hChange": -13.104350848321763,
+            "reward30dChange": -11.792459057447857,
+            "adjReward": 22.60762785344952,
+            "score": 64.53343781989489,
+            "engagedBalance": 883011,
+            "totalStaked": 21.68877559667338,
+            "algorithmType": "Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Rapids",
+            "symbol": "RPD",
+            "slug": "rapids"
+        },
+        "price": "",
+        "info": {
+            "reward": 43.5962790368736,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 24.991179132745565,
+            "score": 62.69444931771074,
+            "engagedBalance": 5967390179.581188,
+            "totalStaked": 65.80456961324083,
+            "algorithmType": "Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Red Pulse",
+            "symbol": "PHX",
+            "slug": "red-pulse"
+        },
+        "price": "",
+        "info": {
+            "reward": 5.75,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 5.75,
+            "score": 60.74761499386763,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Automatic Distribution"
+        }
+    },
+    {
+        "asset": {
+            "name": "Reddcoin",
+            "symbol": "RDD",
+            "slug": "reddcoin"
+        },
+        "price": "",
+        "info": {
+            "reward": 5.12,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 4.081792472186014,
+            "score": 58.85182958604271,
+            "engagedBalance": 6140406750.433106,
+            "totalStaked": 20.764150556279727,
+            "algorithmType": " Proof of Stake Velocity"
+        }
+    },
+    {
+        "asset": {
+            "name": "Remme",
+            "symbol": "REM",
+            "slug": "remme"
+        },
+        "price": "",
+        "info": {
+            "reward": 6.499655435538912,
+            "reward24hChange": -0.044326600381766196,
+            "reward30dChange": 6.533527305191204,
+            "adjReward": 6.49965526608846,
+            "score": 55.12413730203697,
+            "engagedBalance": 282632185.0958,
+            "totalStaked": 29.916193211818843,
+            "algorithmType": "Delegated Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Sai",
+            "symbol": "SAI",
+            "slug": "sai"
+        },
+        "price": "",
+        "info": {
+            "reward": 0.0005380652718036613,
+            "reward24hChange": 0,
+            "reward30dChange": 0.8839924043390001,
+            "adjReward": 0.0005380652718036613,
+            "score": 48.04912218211351,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "the Ethereum Blockchain"
+        }
+    },
+    {
+        "asset": {
+            "name": "Shift",
+            "symbol": "SHIFT",
+            "slug": "shift"
+        },
+        "price": "",
+        "info": {
+            "reward": 24.297654651584143,
+            "reward24hChange": 0.0808684621699034,
+            "reward30dChange": -1.419749045735596,
+            "adjReward": 16.801632047164475,
+            "score": 60.826184,
+            "engagedBalance": 5002034.222695568,
+            "totalStaked": 30.850807256538847,
+            "algorithmType": "Delegated Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Skale Labs",
+            "symbol": "SKALE",
+            "slug": "skale-labs"
+        },
+        "price": "",
+        "info": {
+            "reward": 7.8,
+            "reward24hChange": 0,
+            "reward30dChange": -22.000000000000004,
+            "adjReward": 5,
+            "score": 45.55732645274633,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Asynchronous BFT"
+        }
+    },
+    {
+        "asset": {
+            "name": "SmartCash",
+            "symbol": "SMART",
+            "slug": "smartcash"
+        },
+        "price": "",
+        "info": {
+            "reward": 15.394280506398756,
+            "reward24hChange": -0.07154655839760514,
+            "reward30dChange": -2.751331032633376,
+            "adjReward": 3.729424949385468,
+            "score": 56.07367221767281,
+            "engagedBalance": 187500000,
+            "totalStaked": 7.577395742636169,
+            "algorithmType": "Proof of Work + Masternodes"
+        }
+    },
+    {
+        "asset": {
+            "name": "Solana",
+            "symbol": "SOL",
+            "slug": "solana"
+        },
+        "price": "",
+        "info": {
+            "reward": 10,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 5,
+            "score": 54.33873846108891,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Proof of History"
+        }
+    },
+    {
+        "asset": {
+            "name": "Stellar",
+            "symbol": "XLM",
+            "slug": "stellar"
+        },
+        "price": "",
+        "info": {
+            "reward": 1,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 0,
+            "score": 65.84671145274635,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Stellar Consensus Protocol"
+        }
+    },
+    {
+        "asset": {
+            "name": "Synthetix Network Token",
+            "symbol": "SNX",
+            "slug": "synthetix-network-token"
+        },
+        "price": "",
+        "info": {
+            "reward": 49.7309858187978,
+            "reward24hChange": -3.39826711645408,
+            "reward30dChange": -18.762612051427187,
+            "adjReward": 0.36724143024293454,
+            "score": 68.75212078889089,
+            "engagedBalance": 158645859.04854137,
+            "totalStaked": 83.46467824631084,
+            "algorithmType": "the Ethereum Blockchain"
+        }
+    },
+    {
+        "asset": {
+            "name": "SysCoin",
+            "symbol": "SYS",
+            "slug": "syscoin"
+        },
+        "price": "",
+        "info": {
+            "reward": 6.696240306365393,
+            "reward24hChange": -0.28557840485425096,
+            "reward30dChange": -2.8557830621195066,
+            "adjReward": 4.313318371885654,
+            "score": 61.71889534542743,
+            "engagedBalance": 210200000,
+            "totalStaked": 35.58596802767894,
+            "algorithmType": "Proof of Work + Masternodes"
+        }
+    },
+    {
+        "asset": {
+            "name": "Tachyon Protocol",
+            "symbol": "IPX",
+            "slug": "tachyon-protocol"
+        },
+        "price": "",
+        "info": {
+            "reward": 15.275405472144133,
+            "reward24hChange": -0.12598724020236904,
+            "reward30dChange": 75.56739417145975,
+            "adjReward": 10.275405472144133,
+            "score": 64.49401085314489,
+            "engagedBalance": 194736615,
+            "totalStaked": 64.69663967838999,
+            "algorithmType": "the V Systems Blockchain"
+        }
+    },
+    {
+        "asset": {
+            "name": "Tael",
+            "symbol": "WABI",
+            "slug": "tael"
+        },
+        "price": "",
+        "info": {
+            "reward": 6,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 6,
+            "score": 56.02775658476049,
+            "engagedBalance": 3981610,
+            "totalStaked": 6.737450236401181,
+            "algorithmType": "Masternodes"
+        }
+    },
+    {
+        "asset": {
+            "name": "Telegram Open Network",
+            "symbol": "TON",
+            "slug": "telegram-open-network"
+        },
+        "price": "",
+        "info": {
+            "reward": 10,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 5,
+            "score": 48.92982645274633,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Byzantine Fault Tolerance"
+        }
+    },
+    {
+        "asset": {
+            "name": "Telos",
+            "symbol": "TLOS",
+            "slug": "telos"
+        },
+        "price": "",
+        "info": {
+            "reward": 12.646133280889476,
+            "reward24hChange": -0.22618047449566078,
+            "reward30dChange": -6.813351954742247,
+            "adjReward": 8.279700476478128,
+            "score": 61.25794699051732,
+            "engagedBalance": 94900154.3206,
+            "totalStaked": 34.52780946892117,
+            "algorithmType": "Delegated Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Terra",
+            "symbol": "LUNA",
+            "slug": "terra"
+        },
+        "price": "",
+        "info": {
+            "reward": 12.282820884048942,
+            "reward24hChange": -0.18361711530673092,
+            "reward30dChange": 14.912788826821597,
+            "adjReward": 12.391417162219145,
+            "score": 69.91355810100569,
+            "engagedBalance": 302480805.862518,
+            "totalStaked": 30.347754940174443,
+            "algorithmType": "Tendermint"
+        }
+    },
+    {
+        "asset": {
+            "name": "Tether",
+            "symbol": "USDT",
+            "slug": "tether"
+        },
+        "price": "",
+        "info": {
+            "reward": 8.9129,
+            "reward24hChange": -1.6013572226589996,
+            "reward30dChange": 176.438768076631,
+            "adjReward": 8.9129,
+            "score": 67.51946995274633,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "the Ethereum Blockchain"
+        }
+    },
+    {
+        "asset": {
+            "name": "Tezos",
+            "symbol": "XTZ",
+            "slug": "tezos"
+        },
+        "price": "",
+        "info": {
+            "reward": 5.492128162714418,
+            "reward24hChange": -0.22103201388853647,
+            "reward30dChange": -1.132181644560577,
+            "adjReward": 0.5261314871682643,
+            "score": 82.2804805,
+            "engagedBalance": 686585185.568462,
+            "totalStaked": 80.2328967485973,
+            "algorithmType": "Liquid Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Theta",
+            "symbol": "THETA",
+            "slug": "theta"
+        },
+        "price": "",
+        "info": {
+            "reward": 0,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 0,
+            "score": 44.38792946918614,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Multi BFT"
+        }
+    },
+    {
+        "asset": {
+            "name": "TokenPay",
+            "symbol": "TPAY",
+            "slug": "tokenpay"
+        },
+        "price": "",
+        "info": {
+            "reward": 21.492216149498546,
+            "reward24hChange": -1.7013414661208526,
+            "reward30dChange": -7.355938233812916,
+            "adjReward": 16.492216149498546,
+            "score": 64.1454495853778,
+            "engagedBalance": 4962455.48352828,
+            "totalStaked": 23.26423652740278,
+            "algorithmType": "Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "TomoChain",
+            "symbol": "TOMO",
+            "slug": "tomochain"
+        },
+        "price": "",
+        "info": {
+            "reward": 5.3053904280140705,
+            "reward24hChange": 0.04595611191116393,
+            "reward30dChange": 4.904788970391237,
+            "adjReward": 5.3053904280140705,
+            "score": 66.51923170519034,
+            "engagedBalance": 41278771.641317606,
+            "totalStaked": 41.278771641317604,
+            "algorithmType": "Delegated Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Trittium",
+            "symbol": "TRTT",
+            "slug": "trittium"
+        },
+        "price": "",
+        "info": {
+            "reward": 13.240707002939835,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 13.2250711740101,
+            "score": 58.806311,
+            "engagedBalance": 54278306.191557,
+            "totalStaked": 40.36749953700647,
+            "algorithmType": "Proof of Stake + Masternodes"
+        }
+    },
+    {
+        "asset": {
+            "name": "Tron",
+            "symbol": "TRX",
+            "slug": "tron"
+        },
+        "price": "",
+        "info": {
+            "reward": 3.342326943735611,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 2.457868259670903,
+            "score": 68.95818823654456,
+            "engagedBalance": 26691151070,
+            "totalStaked": 26.580959590654707,
+            "algorithmType": "Delegated Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "TrueUSD",
+            "symbol": "TUSD",
+            "slug": "trueusd"
+        },
+        "price": "",
+        "info": {
+            "reward": 10.032434044154416,
+            "reward24hChange": 114.1348641872886,
+            "reward30dChange": 150.11425834422184,
+            "adjReward": 10.032434044154416,
+            "score": 64.93260598576539,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "the Ethereum Blockchain"
+        }
+    },
+    {
+        "asset": {
+            "name": "Trueflip",
+            "symbol": "TFL",
+            "slug": "trueflip"
+        },
+        "price": "",
+        "info": {
+            "reward": 5.2,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 5.2,
+            "score": 58.815414114011034,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Profit Share"
+        }
+    },
+    {
+        "asset": {
+            "name": "USD Coin",
+            "symbol": "USDC",
+            "slug": "usd-coin"
+        },
+        "price": "",
+        "info": {
+            "reward": 4.475300329259323,
+            "reward24hChange": -1.5333394348728606,
+            "reward30dChange": 34.82839626731897,
+            "adjReward": 4.475300329259323,
+            "score": 67.54998471550628,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "the Ethereum Blockchain"
+        }
+    },
+    {
+        "asset": {
+            "name": "V Systems",
+            "symbol": "VSYS",
+            "slug": "v-systems"
+        },
+        "price": "",
+        "info": {
+            "reward": 12.716222900675739,
+            "reward24hChange": 0.0626107070844792,
+            "reward30dChange": -1.256113615445298,
+            "adjReward": 7.649029076416285,
+            "score": 66.66945524002321,
+            "engagedBalance": 1785586819,
+            "totalStaked": 31.878609639597837,
+            "algorithmType": "Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "VeChain",
+            "symbol": "VET",
+            "slug": "vechain"
+        },
+        "price": "",
+        "info": {
+            "reward": 0.8056669088993319,
+            "reward24hChange": -2.8930912854173574,
+            "reward30dChange": -14.317759642823644,
+            "adjReward": 0.8056669088993319,
+            "score": 59.46361363815558,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Proof of Stake + Masternodes"
+        }
+    },
+    {
+        "asset": {
+            "name": "Veil",
+            "symbol": "VEIL",
+            "slug": "veil"
+        },
+        "price": "",
+        "info": {
+            "reward": 21.394025366021857,
+            "reward24hChange": -0.4725030897475435,
+            "reward30dChange": -6.4777461778906265,
+            "adjReward": -53.681565319871716,
+            "score": 52.233578291627026,
+            "engagedBalance": 49004930,
+            "totalStaked": 59.381919210988585,
+            "algorithmType": "Proof of Stake + Proof of Work"
+        }
+    },
+    {
+        "asset": {
+            "name": "WAX",
+            "symbol": "WAXP",
+            "slug": "wax"
+        },
+        "price": "",
+        "info": {
+            "reward": 4.106276229665344,
+            "reward24hChange": -0.12125398329355216,
+            "reward30dChange": -2.362467256585084,
+            "adjReward": -0.8937237703346561,
+            "score": 59.44073118951055,
+            "engagedBalance": 1792158117.4921,
+            "totalStaked": 48.705929366154635,
+            "algorithmType": "Delegated Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Wagerr",
+            "symbol": "WGR",
+            "slug": "wagerr"
+        },
+        "price": "",
+        "info": {
+            "reward": 2.2252851734356147,
+            "reward24hChange": 0.5598872326893104,
+            "reward30dChange": 4.912450353402596,
+            "adjReward": 2.2159991018819243,
+            "score": 58.992618832350466,
+            "engagedBalance": 96570954.88399719,
+            "totalStaked": 45.7248912298341,
+            "algorithmType": "Proof of Stake + Masternodes"
+        }
+    },
+    {
+        "asset": {
+            "name": "Wanchain",
+            "symbol": "WAN",
+            "slug": "wanchain"
+        },
+        "price": "",
+        "info": {
+            "reward": 7.5373493394710405,
+            "reward24hChange": 0.30911999761642667,
+            "reward30dChange": -0.9713816599797106,
+            "adjReward": 5.182246854972631,
+            "score": 67.79706238231276,
+            "engagedBalance": 28192935,
+            "totalStaked": 26.558900505520867,
+            "algorithmType": "Galaxy Proof-of-Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Waves",
+            "symbol": "WAVES",
+            "slug": "waves"
+        },
+        "price": "",
+        "info": {
+            "reward": 5.715479999141661,
+            "reward24hChange": 0.048876648757942745,
+            "reward30dChange": 0.09506841684298196,
+            "adjReward": 2.6377345446910945,
+            "score": 70.70208088412298,
+            "engagedBalance": 56616943.67064886,
+            "totalStaked": 55.25511828956762,
+            "algorithmType": "Leased Proof of Stake"
+        }
+    },
+    {
+        "asset": {
+            "name": "Wise Token",
+            "symbol": "WISE",
+            "slug": "wise-token"
+        },
+        "price": "",
+        "info": {
+            "reward": 0,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 0,
+            "score": 43.58526438274633,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "the Ethereum Blockchain"
+        }
+    },
+    {
+        "asset": {
+            "name": "Zcoin",
+            "symbol": "XZC",
+            "slug": "zcoin"
+        },
+        "price": "",
+        "info": {
+            "reward": 1688.1249998746991,
+            "reward24hChange": -0.1034007329513811,
+            "reward30dChange": 12987.364498738903,
+            "adjReward": 1661.8154291565083,
+            "score": 68.42582939152832,
+            "engagedBalance": 47000,
+            "totalStaked": 0.4675525340862267,
+            "algorithmType": "Proof of Work + Masternodes"
+        }
+    },
+    {
+        "asset": {
+            "name": "Zebi",
+            "symbol": "ZCO",
+            "slug": "zebi"
+        },
+        "price": "",
+        "info": {
+            "reward": 0,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 0,
+            "score": 39.71570100597296,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": ""
+        }
+    },
+    {
+        "asset": {
+            "name": "Zilliqa",
+            "symbol": "ZIL",
+            "slug": "zilliqa"
+        },
+        "price": "",
+        "info": {
+            "reward": 10,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 5,
+            "score": 57.63257334205072,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "practical Byzantine Fault Tolerance (pBFT)"
+        }
+    },
+    {
+        "asset": {
+            "name": "e-Money",
+            "symbol": "NGM",
+            "slug": "e-money"
+        },
+        "price": "",
+        "info": {
+            "reward": 0.014522448539286534,
+            "reward24hChange": 0.4719511341011449,
+            "reward30dChange": 0.4139545913066464,
+            "adjReward": 0.014522448539286534,
+            "score": 43.647896452526155,
+            "engagedBalance": 4937534.165221,
+            "totalStaked": 4.937534165221,
+            "algorithmType": "Tendermint"
+        }
+    },
+    {
+        "asset": {
+            "name": "sUSD",
+            "symbol": "SUSD",
+            "slug": "susd"
+        },
+        "price": "",
+        "info": {
+            "reward": 1.86615,
+            "reward24hChange": -1.8796992481202983,
+            "reward30dChange": -25.407706451355022,
+            "adjReward": 1.86615,
+            "score": 56.43995141454956,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "the Ethereum Blockchain"
+        }
+    },
+    {
+        "asset": {
+            "name": "xDai",
+            "symbol": "STAKE",
+            "slug": "xdai"
+        },
+        "price": "",
+        "info": {
+            "reward": 0,
+            "reward24hChange": 0,
+            "reward30dChange": 0,
+            "adjReward": 0,
+            "score": 48.703325798757405,
+            "engagedBalance": 0,
+            "totalStaked": 0,
+            "algorithmType": "Proof of Authority"
+        }
+    }
+]
