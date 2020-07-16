@@ -46,7 +46,7 @@ global.REQUIREMENTS = {
     checkNoPromise: helper.validateERC20NoPromise,
     allow_dup: true,
     invalid: 'This is not a correct Fantom Opera address',
-    explorer: 'https://explorer.fantom.network/addresses/',
+    explorer: 'https://explorer.fantom.network/address/',
     name: 'Fantom Network',
     balances: ftm.getAllBalances,
     ticker: 'FTM',
