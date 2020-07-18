@@ -197,6 +197,7 @@ module.exports.checkNotificationTx = function() {
   _db.find('notifyTxFTM', {
     notified: false
   }, {}, false).then((r) => {
+    console.log('r', r)
     var options = {
       parse_mode: "HTML",
       disable_web_page_preview: true,
@@ -219,8 +220,12 @@ module.exports.checkNotificationTx = function() {
 
           for (var j in r[i]) {
 
-            // console.log("j", j, r[i])
-            notifySingleUser(r, i, j, count, options, validators)
+
+            if (!isNaN(j)) {
+              // console.log("j", j, r[i])
+              notifySingleUser(r, i, j, count, options, validators)
+
+            }
 
           }
 
@@ -235,6 +240,7 @@ module.exports.checkNotificationTx = function() {
 var notifySingleUser = function(r, i, j, count, options, validators) {
   var tx = r[i][j]
 
+  // console.log("TRANSACTION", tx, i, j)
   if (tx.decoded === null) {
     // transfer
     var usdValue = (count[0].value * (tx.value / Math.pow(10, 18)))
@@ -247,10 +253,11 @@ var notifySingleUser = function(r, i, j, count, options, validators) {
       _id: Number(j)
     }, {}, false).then((myUsers) => {
       var myUser = myUsers[0]
-
-      if (myUser.notifyMinimum === undefined ||
-        (myUser.notifyMinimum !== undefined && (usdValue) > Number(myUser.notifyMinimum))) {
-        bot.sendMessage(Number(myUser._id), whaleTxt, options)
+      // console.log('USER', myUser._id, (myUser.notifyMinimum) === undefined ||
+      // (myUser.notifyMinimum !== undefined && Number(usdValue) >= Number(myUser.notifyMinimum)))
+      if ((myUser.notifyMinimum) === undefined ||
+        (myUser.notifyMinimum !== undefined && Number(usdValue) >= Number(myUser.notifyMinimum))) {
+        bot.sendMessage(myUser._id, whaleTxt, options)
       }
     })
     // bot.sendMessage(j, whaleTxt, options)
@@ -270,7 +277,7 @@ var notifySingleUser = function(r, i, j, count, options, validators) {
       var myUser = myUsers[0]
 
       if (myUser.notifyMinimum === undefined ||
-        (myUser.notifyMinimum !== undefined && (usdValue) > Number(myUser.notifyMinimum))) {
+        (myUser.notifyMinimum !== undefined && Number(usdValue) >= Number(myUser.notifyMinimum))) {
         bot.sendMessage(Number(myUser._id), whaleTxt, options)
       }
     })
@@ -290,7 +297,7 @@ var notifySingleUser = function(r, i, j, count, options, validators) {
       var myUser = myUsers[0]
 
       if (myUser.notifyMinimum === undefined ||
-        (myUser.notifyMinimum !== undefined && (usdValue) > Number(myUser.notifyMinimum))) {
+        (myUser.notifyMinimum !== undefined && Number(usdValue) >= Number(myUser.notifyMinimum))) {
         bot.sendMessage(Number(myUser._id), whaleTxt, options)
       }
     })

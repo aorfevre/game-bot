@@ -166,7 +166,7 @@ checkTx.second = [0]
 //   })
 // })
 setTimeout(() => {
-  lto.checkNotificationTx()
+  ftm.checkNotificationTx()
 })
 var _checkTx = schedule.scheduleJob(checkTx, () => {
   lto.checkNotificationTx()
