@@ -81,6 +81,7 @@ module.exports.getAllBalances = function(myUser) {
 
       }, {}, false).then((count) => {
 
+        var rateTxt = "\n<i>Rate: <a href='https://coinmarketcap.com/currencies/cosmos/' target='_blank'>1 ATOM = $" + helper.numberWithCommas(count[0].value, 5) + "</a></i>"
 
 
         var _txt = "<b>💰COSMOS Mainnet Wallet Balance</b>\n\n" +
@@ -94,7 +95,8 @@ module.exports.getAllBalances = function(myUser) {
           helper.numberWithCommas(count[0].value * results.delegation / 1000000) + ")\n" +
 
           "Unbonding: <b>" + helper.numberWithCommas(results.unbonding / 1000000) + "</b> ATOM ($" +
-          helper.numberWithCommas(count[0].value * results.unbonding / 1000000) + ")\n"
+          helper.numberWithCommas(count[0].value * results.unbonding / 1000000) + ")\n" +
+          rateTxt
         resolve({
           usd: count[0].value * results.balance,
           txt: _txt
@@ -179,6 +181,7 @@ module.exports.getBalance = function(msg, myUser, round) {
     _db.find("pricingCOSMOS", {
 
     }, {}, false).then((count) => {
+      var rateTxt = "\n<i>Rate: <a href='https://coinmarketcap.com/currencies/cosmos/' target='_blank'>1 ATOM = $" + helper.numberWithCommas(count[0].value, 5) + "</a></i>"
 
 
       var _txt = "<b>💰COSMOS Mainnet Wallet Balance</b>\n👉 <a href='https://www.mintscan.io/account/" + myUser.COSMOSWallets[round] + "'>" + myUser.COSMOSWallets[round] + "</a>\n\n" +
@@ -192,7 +195,8 @@ module.exports.getBalance = function(msg, myUser, round) {
         helper.numberWithCommas(count[0].value * responses.delegation / 1000000) + ")\n" +
 
         "Unbonding: <b>" + helper.numberWithCommas(responses.unbonding / 1000000) + "</b> ATOM ($" +
-        helper.numberWithCommas(count[0].value * responses.unbonding / 1000000) + ")\n"
+        helper.numberWithCommas(count[0].value * responses.unbonding / 1000000) + ")\n" +
+        rateTxt
 
 
 

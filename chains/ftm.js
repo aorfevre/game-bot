@@ -93,6 +93,9 @@ module.exports.getAllBalances = function(myUser) {
 
       }, {}, false).then((count) => {
 
+        var rateTxt = "\n<i>Rate: <a href='https://coinmarketcap.com/currencies/fantom/' target='_blank'>1 FTM = $" + helper.numberWithCommas(count[0].value, 5) + "</a></i>"
+
+
         var _txt = "<b>💰 FTM Mainnet Wallet Balance</b>\n\n" +
           "Total Value: <b>" + helper.numberWithCommas(results.totalValue / Math.pow(10, 18)) + "</b> FTM ($" + helper.numberWithCommas(count[0].value * results.totalValue / Math.pow(10, 18)) + ")\n" +
 
@@ -105,7 +108,8 @@ module.exports.getAllBalances = function(myUser) {
 
 
 
-        _txt += "Claimed reward: <b>" + helper.numberWithCommas(results.claimedReward / Math.pow(10, 18)) + "</b> FTM ($" + helper.numberWithCommas(count[0].value * results.claimedReward / Math.pow(10, 18)) + ")\n"
+        _txt += "Claimed reward: <b>" + helper.numberWithCommas(results.claimedReward / Math.pow(10, 18)) + "</b> FTM ($" + helper.numberWithCommas(count[0].value * results.claimedReward / Math.pow(10, 18)) + ")\n" +
+          rateTxt
 
         resolve({
           usd: count[0].value * results.totalValue / Math.pow(10, 18),

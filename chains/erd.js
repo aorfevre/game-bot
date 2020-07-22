@@ -57,10 +57,12 @@ module.exports.getAllBalances = function(myUser) {
       _db.find("pricingERD", {
 
       }, {}, false).then((count) => {
+        var rateTxt = "\n<i>Rate: <a href='https://coinmarketcap.com/currencies/elrond/' target='_blank'>1 ERD = $" + helper.numberWithCommas(count[0].value, 5) + "</a></i>"
 
         var _txt = "<b>💰 ERD Mainnet Wallet Balance</b>\n\n" +
           "Balance: <b>" + helper.numberWithCommas(results.balance) + "</b> ERD ($" +
-          helper.numberWithCommas(count[0].value * results.balance) + ")\n"
+          helper.numberWithCommas(count[0].value * results.balance) + ")\n" +
+          rateTxt
 
         resolve({
           usd: count[0].value * results.balance,
@@ -110,11 +112,13 @@ module.exports.getBalance = function(msg, myUser, round) {
         _db.find("pricingERD", {
 
         }, {}, false).then((count) => {
+          var rateTxt = "\n<i>Rate: <a href='https://coinmarketcap.com/currencies/elrond/' target='_blank'>1 ERD = $" + helper.numberWithCommas(count[0].value, 5) + "</a></i>"
 
 
           var _txt = "<b>💰 ERD Mainnet Wallet Balance</b>\n👉 <a href='https://explorer.elrond.com/address/" + myUser.ERDWallets[round] + "'>" + myUser.ERDWallets[round] + "</a>\n\n" +
             "Balance: <b>" + helper.numberWithCommas(parseInt(response.body.account.balance / Math.pow(10, 18))) + "</b> ERD ($" +
-            helper.numberWithCommas(count[0].value * parseInt(response.body.account.balance / Math.pow(10, 18))) + ")\n"
+            helper.numberWithCommas(count[0].value * parseInt(response.body.account.balance / Math.pow(10, 18))) + ")\n" +
+            rateTxt
 
           bot.sendMessage(msg.chat.id, _txt, options)
         })

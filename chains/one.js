@@ -62,12 +62,14 @@ module.exports.getAllBalances = function(myUser) {
       _db.find("pricingONE", {
 
       }, {}, false).then((count) => {
+        var rateTxt = "\n<i>Rate: <a href='https://coinmarketcap.com/currencies/harmony/' target='_blank'>1 ONE = $" + helper.numberWithCommas(count[0].value, 5) + "</a></i>"
 
         var _txt = "<b>💰 ONE Mainnet Wallet Balance</b>\n\n" +
           "Balance: <b>" + helper.numberWithCommas(results.balance) + "</b> ONE ($" +
           helper.numberWithCommas(count[0].value * results.balance) + ")\n" +
           "Total Transactions: <b>" + results.totaltx + "</b>\n" +
-          "Staking Transactions: <b>" + results.stakingtx + "</b>\n"
+          "Staking Transactions: <b>" + results.stakingtx + "</b>\n" +
+          rateTxt
         resolve({
           usd: count[0].value * results.balance,
           txt: _txt
@@ -115,12 +117,14 @@ module.exports.getBalance = function(msg, myUser, round) {
 
         }, {}, false).then((count) => {
 
+          var rateTxt = "\n<i>Rate: <a href='https://coinmarketcap.com/currencies/harmony/' target='_blank'>1 ONE = $" + helper.numberWithCommas(count[0].value, 5) + "</a></i>"
 
           var _txt = "<b>💰 ONE Mainnet Wallet Balance</b>\n👉 <a href='https://explorer.harmony.one/#/address/" + myUser.ONEWallets[round] + "'>" + myUser.ONEWallets[round] + "</a>\n\n" +
             "Balance: <b>" + helper.numberWithCommas(parseInt(response.body.address.balance / Math.pow(10, 18))) + "</b> ONE ($" +
             helper.numberWithCommas(count[0].value * parseInt(response.body.address.balance / Math.pow(10, 18))) + ")\n" +
             "Total Transactions: <b>" + response.body.address.txCount + "</b>\n" +
-            "Staking Transactions: <b>" + response.body.address.stakingTxCount + "</b>\n"
+            "Staking Transactions: <b>" + response.body.address.stakingTxCount + "</b>\n" +
+            rateTxt
 
 
           bot.sendMessage(msg.chat.id, _txt, options)

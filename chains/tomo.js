@@ -66,6 +66,7 @@ module.exports.getAllBalances = function(myUser) {
       _db.find("pricingTOMO", {
 
       }, {}, false).then((count) => {
+        var rateTxt = "\n<i>Rate: <a href='https://coinmarketcap.com/currencies/tomochain/' target='_blank'>1 TOMO = $" + helper.numberWithCommas(count[0].value, 5) + "</a></i>"
 
 
 
@@ -73,7 +74,8 @@ module.exports.getAllBalances = function(myUser) {
           "Balance: <b>" + helper.numberWithCommas(results.balanceNumber) + "</b> TOMO ($" +
           helper.numberWithCommas(count[0].value * results.balanceNumber) + ")\n" +
           "Tokens: <b>" + results.tokenTxCount + "</b>\n" +
-          "Total Transactions: <b>" + results.transactionCount + "</b>\n"
+          "Total Transactions: <b>" + results.transactionCount + "</b>\n" +
+          rateTxt
         resolve({
           usd: count[0].value * results.balanceNumber,
           txt: _txt
@@ -122,6 +124,7 @@ module.exports.getBalance = function(msg, myUser, round) {
         _db.find("pricingTOMO", {
 
         }, {}, false).then((count) => {
+          var rateTxt = "\n<i>Rate: <a href='https://coinmarketcap.com/currencies/tomochain/' target='_blank'>1 TOMO = $" + helper.numberWithCommas(count[0].value, 5) + "</a></i>"
 
 
           var _txt = "<b>💰TOMO Mainnet Wallet Balance</b>\n👉 <a href='https://scan.tomochain.com/address/" + myUser.TOMOWallets[round] + "'>" + myUser.TOMOWallets[round] + "</a>\n\n" +
@@ -129,7 +132,8 @@ module.exports.getBalance = function(msg, myUser, round) {
             helper.numberWithCommas(count[0].value * response.body.balanceNumber) + ")\n" +
             "Tokens: <b>" + response.body.tokenTxCount + "</b>\n" +
             "Total Transactions: <b>" + response.body.transactionCount + "</b>\n" +
-            "Created at: <b>" + response.body.createdAt + "</b>\n"
+            "Created at: <b>" + response.body.createdAt + "</b>\n" +
+            rateTxt
 
 
           bot.sendMessage(msg.chat.id, _txt, options)

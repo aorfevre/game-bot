@@ -69,11 +69,13 @@ module.exports.getAllBalances = function(myUser) {
       _db.find("pricingXTZ", {
 
       }, {}, false).then((count) => {
+        var rateTxt = "\n<i>Rate: <a href='https://coinmarketcap.com/currencies/tezos/' target='_blank'>1 XTZ = $" + helper.numberWithCommas(count[0].value, 5) + "</a></i>"
 
         var _txt = "<b>💰XTZ Mainnet Wallet Balance</b>\n\n" +
           "Balance: <b>" + helper.numberWithCommas(results.balance) + "</b> XTZ ($" +
           helper.numberWithCommas(count[0].value * results.balance) + ")\n" +
-          "Total Transactions: <b>" + results.totaltx + "</b>\n"
+          "Total Transactions: <b>" + results.totaltx + "</b>\n" +
+          rateTxt
         resolve({
           usd: count[0].value * results.balance,
           txt: _txt
@@ -120,6 +122,7 @@ module.exports.getBalance = function(msg, myUser, round) {
         _db.find("pricingXTZ", {
 
         }, {}, false).then((count) => {
+          var rateTxt = "\n<i>Rate: <a href='https://coinmarketcap.com/currencies/tezos/' target='_blank'>1 XTZ = $" + helper.numberWithCommas(count[0].value, 5) + "</a></i>"
 
           var newDate = new Date();
           newDate.setTime(response.body.lastActive * 1000);
@@ -128,7 +131,8 @@ module.exports.getBalance = function(msg, myUser, round) {
             "Balance: <b>" + helper.numberWithCommas(response.body.balance / 1000000) + "</b> XTZ ($" +
             helper.numberWithCommas(count[0].value * response.body.balance / 1000000) + ")\n" +
             "Total Transactions: <b>" + response.body.transactions + "</b>\n" +
-            "Last active: <b>" + dateString + "</b>\n"
+            "Last active: <b>" + dateString + "</b>\n" +
+            rateTxt
 
 
           bot.sendMessage(msg.chat.id, _txt, options)
