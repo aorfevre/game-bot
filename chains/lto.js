@@ -64,11 +64,15 @@ module.exports.getAllBalances = function(myUser) {
 
       }, {}, false).then((count) => {
 
+        var rateTxt = "\n<i>Rate: <a href='https://coinmarketcap.com/currencies/lto-network/' target='_blank'>1 LTO = $" + helper.numberWithCommas(count[0].value, 5) + "</a></i>"
+
+
         var _txt = "<b>💰 LTO Mainnet Wallet Balances</b>\n\n" +
           "Regular: <b>" + helper.numberWithCommas(results.regular) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * results.regular) + ")\n" +
           "Generating: <b>" + helper.numberWithCommas(results.generating) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * results.generating) + ")\n" +
           "Available: <b>" + helper.numberWithCommas(results.available) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * results.available) + ")\n" +
-          "Effective: <b>" + helper.numberWithCommas(results.effective) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * results.effective) + ")\n"
+          "Effective: <b>" + helper.numberWithCommas(results.effective) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * results.effective) + ")\n" +
+          rateTxt
 
         resolve({
           usd: count[0].value * results.regular,
@@ -103,12 +107,14 @@ module.exports.getBalance = function(msg, myUser, round) {
 
     }, {}, false).then((count) => {
 
+      var rateTxt = "\n<i>Rate: <a href='https://coinmarketcap.com/currencies/lto-network/' target='_blank'>1 LTO = $" + helper.numberWithCommas(count[0].value, 5) + "</a></i>"
 
       var _txt = "<b>💰 LTO Mainnet Wallet Balance</b>\n👉 <a href='https://explorer.lto.network/addresses/" + myUser.LTOWallets[round] + "'>" + myUser.LTOWallets[round] + "</a>\n\n" +
         "Regular: <b>" + helper.numberWithCommas(_body.regular) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * _body.regular) + ")\n" +
         "Generating: <b>" + helper.numberWithCommas(_body.generating) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * _body.generating) + ")\n" +
         "Available: <b>" + helper.numberWithCommas(_body.available) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * _body.available) + ")\n" +
-        "Effective: <b>" + helper.numberWithCommas(_body.effective) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * _body.effective) + ")\n"
+        "Effective: <b>" + helper.numberWithCommas(_body.effective) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * _body.effective) + ")\n" +
+        rateTxt
 
       var _markup = []
       _markup.push([{
@@ -298,7 +304,6 @@ notifySingleUser = function(i, j, r, rateTxt, count, options) {
 
         "Your wallet transferred amount: <b>" + helper.numberWithCommas(tx.amount / 100000000) + "</b> LTO ($" + helper.numberWithCommas(count[0].value * tx.amount / 100000000) + ")\n" +
         "<i>" + r[i].masstx.transferCount + " transfers totalizing " + helper.numberWithCommas(r[i].masstx.totalAmount / 100000000) + " LTO ($" + helper.numberWithCommas(count[0].value * r[i].masstx.totalAmount / 100000000) + ")</i>\n" +
-
         rateTxt
       _db.find('users_participating', {
         _id: Number(j)
