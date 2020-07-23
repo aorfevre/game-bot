@@ -17,6 +17,50 @@ rulePricing.second = [0]
 var _everyday = schedule.scheduleJob(rulePricing, () => {
   var _promises = []
 
+
+
+  helper.getAllDatasNetwork().then((response) => {
+
+    fget.setDataByCollection("metrics_ablock_opera", "general", response)
+  })
+
+  helper.getNode21Info().then((response) => {
+    console.log("getNode21Info", response)
+    fget.setDataByCollection("metrics_ablock_opera", "21", response)
+  })
+
+  _promises.push(prepareLTODatasMetrics())
+  _promises.push(prepareFTMDatasMetrics())
+
+  Promise.all(_promises).then(r => {
+
+    let all = {
+      amount: 0,
+      stakers: 0
+
+    }
+    console.log('r', r)
+    for (var i in r) {
+      if (r[i].type === 'lto') {
+        fget.setDataByCollection("metrics_ablock_lto", "general", {
+          total: r[i].total,
+          roi: r[i].roi[0].roi.yearly
+        })
+      }
+
+      all.amount += r[i].amount
+      all.stakers += r[i].stakers
+    }
+
+
+    fget.setDataByCollection("metrics_ablock_public", "all", all)
+  })
+
+})
+
+setTimeout(() => {
+  var _promises = []
+
   _promises.push(prepareLTODatasMetrics())
   _promises.push(prepareFTMDatasMetrics())
 
@@ -27,7 +71,7 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
   })
 
   helper.getNode21Info().then((response) => {
-
+    console.log(response)
     fget.setDataByCollection("metrics_ablock_opera", "21", response)
   })
 
@@ -54,9 +98,7 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
 
     fget.setDataByCollection("metrics_ablock_public", "all", all)
   })
-
 })
-
 var prepareLTODatasMetrics = function() {
 
   return new Promise(function(resolve, reject) {
@@ -98,8 +140,8 @@ var prepareFTMDatasMetrics = function() {
       _dbftm.find('validators', {
 
       }, {}, false).then((res) => {
-        console.log(res[0]['20'])
-        console.log("Total amount FTM USD", res[0]['20'].totalStakedAmount * count[0].value);
+        // console.log(res[0]['20'])
+        console.log("Total amount FTM USD", res[0]);
 
         var headersOpt = {
           "content-type": "application/json",
@@ -122,11 +164,17 @@ var prepareFTMDatasMetrics = function() {
           },
           (error, response, body) => {
             if (!error) {
-              console.log("Total Stakers FTM ", parseInt(response.body.data.delegationsOf.totalCount, 16));
-
+              // console.log("Total Stakers FTM ", parseInt(response.body.data.delegationsOf.totalCount, 16));
+              // console.log(response.body.data)
+              outputRes = null
+              for (var i in res[0]) {
+                if (res[0][i].website === 'https://ablock.io/') {
+                  outputRes = res[0][i]
+                }
+              }
               resolve({
                 type: 'ftm',
-                amount: res[0]['20'].totalStakedAmount * count[0].value,
+                amount: outputRes.totalStakedAmount * count[0].value,
                 stakers: parseInt(response.body.data.delegationsOf.totalCount, 16)
 
               })
