@@ -27,7 +27,7 @@ prepareAssets = function() {
 
       // console.log(assets)
       // for (var i in assets) {
-      //   getPriceCrypto(assets[i].symbol)
+      //   getPriceCrypto(assets[i].symbol
       //
       // }
       // setTimeout(() => {
@@ -197,7 +197,6 @@ stakingInfo = function(msg, match, waitPeriod) {
           }
         }
 
-        console.log("Start", wait, asset)
         if (asset === null && msg.chat !== undefined) {
           bot.sendMessage(msg.chat.id, "No asset found for that symbol. Use command /assets to see all networks supported");
           return;
@@ -215,7 +214,7 @@ stakingInfo = function(msg, match, waitPeriod) {
         request(options, function(error, response, body) {
           if (error === null) {
             const info = JSON.parse(body);
-            // console.log("Responsee", info)
+            console.log("Responsee", info)
             var options = {
               parse_mode: "HTML",
               disable_web_page_preview: true,
@@ -230,7 +229,7 @@ stakingInfo = function(msg, match, waitPeriod) {
               if (p !== null && msg.chat !== undefined) {
                 price = "$" + p
               }
-
+              console.log('test', info)
               var _txt =
                 "<b>" + asset.name + ' - ' + asset.symbol + '</b> - ' + info.algorithmType + '\n\n' +
                 "Reward: " + info.reward.toFixed(2) + "%\n" +
