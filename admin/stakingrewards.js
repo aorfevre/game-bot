@@ -232,11 +232,11 @@ stakingInfo = function(msg, match, waitPeriod) {
               console.log('test', info)
               var _txt =
                 "<b>" + asset.name + ' - ' + asset.symbol + '</b> - ' + info.algorithmType + '\n\n' +
-                "Reward: " + info.reward.toFixed(2) + "%\n" +
-                "Adj. Reward: " + info.adjReward.toFixed(2) + "%\n" +
-                "Reward 24h change: " + ((info.reward24hChange.toFixed(2) > 0) ? '+' + info.reward24hChange.toFixed(2) : info.reward24hChange.toFixed(2)) + "%\n" +
-                "Reward 30d change: " + ((info.reward30dChange.toFixed(2) > 0) ? '+' + info.reward30dChange.toFixed(2) : info.reward30dChange.toFixed(2)) + "%\n" +
-                "Total Staked: " + info.totalStaked.toFixed(2) + "%\n"
+                "Reward: " + info.reward + "%\n" +
+                "Adj. Reward: " + info.adjReward + "%\n" +
+                "Reward 24h change: " + ((info.reward24hChange > 0) ? '+' + info.reward24hChange : info.reward24hChange) + "%\n" +
+                "Reward 30d change: " + ((info.reward30dChange > 0) ? '+' + info.reward30dChange : info.reward30dChange) + "%\n" +
+                "Total Staked: " + info.totalStaked + "%\n"
               if (p !== null && msg.chat !== undefined)
                 _txt += "Price: " + price + "\n"
 
