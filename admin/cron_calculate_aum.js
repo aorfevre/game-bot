@@ -149,7 +149,7 @@ var prepareFTMDatasMetrics = function() {
 
         request({
             method: 'post',
-            url: 'https://xapi2.fantom.network/api',
+            url: 'https://xapi3.fantom.network/api',
             body: {
               "operationName": "DelegationList",
               "variables": {
@@ -173,7 +173,7 @@ var prepareFTMDatasMetrics = function() {
                 }
               }
 
-              console.log('response.body.data', response.body)
+              console.log('response.body.data', response.body.data)
               resolve({
                 type: 'ftm',
                 amount: outputRes.totalStakedAmount * count[0].value,
