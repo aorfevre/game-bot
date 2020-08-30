@@ -7,6 +7,7 @@ var human_control = require('../admin/human_control.js')
 
 
 bot.onText(/^\/[sS]tart(.+|\b)/, (msg, match) => {
+  console.log('test')
   helper.getUser(msg, match).then((myUser) => {
     if (myUser.human_smiley === undefined || myUser.human_smiley !== 'approved') {
       human_control.setHumanControlSmiley(msg, myUser)
