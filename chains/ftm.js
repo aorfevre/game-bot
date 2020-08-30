@@ -43,11 +43,22 @@ var getBalanceDatas = function(wallet) {
           results.totalValue = parseInt(response.body.data.account.totalValue, 16);
           results.balance = parseInt(response.body.data.account.balance, 16);
 
-          if (response.body.data.account.delegation !== undefined && response.body.data.account.delegation.amount !== undefined) {
+          console.log(wallet, response.body.data.account.delegation)
+          if (response.body.data.account !== undefined &&
+            response.body.data.account.delegation !== undefined) {
+            if (response.body.data.account.delegation === null) {
+              response.body.data.account.delegation = {
+                pendingRewards: {
+                  amount: 0
+                },
+                amount: 0
+              }
+            }
+
             if (response.body.data.account.delegation.amount === null || response.body.data.account.delegation.amount === undefined || isNaN(response.body.data.account.delegation.amount))
               response.body.data.account.delegation.amount = 0
-          }
 
+          }
           results.delegation = parseInt(response.body.data.account.delegation.amount, 16);
           results.pendingRewards = parseInt(response.body.data.account.delegation.pendingRewards.amount, 16);
 
