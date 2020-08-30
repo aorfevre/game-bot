@@ -15,7 +15,7 @@ var getBalanceDatas = function(wallet) {
 
     request({
         method: 'post',
-        url: 'https://xapi1.fantom.network/api',
+        url: 'https://xapi3.fantom.network/api',
         body: {
           "operationName": "AccountByAddress",
           "variables": {
@@ -128,7 +128,7 @@ module.exports.getBalance = function(msg, myUser, round) {
 
   request({
       method: 'post',
-      url: 'https://xapi1.fantom.network/api',
+      url: 'https://xapi3.fantom.network/api',
       body: {
         "operationName": "AccountByAddress",
         "variables": {
