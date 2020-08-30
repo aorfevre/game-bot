@@ -216,6 +216,9 @@ module.exports.sendMessageAfterSubmit = function(msg, _txtText, type, val, dbUpd
           myUserDb[REQUIREMENTS[i].type].push(val)
 
           _tmp[REQUIREMENTS[i].type] = myUserDb[REQUIREMENTS[i].type]
+        } else {
+          console.log("INCLUDES", myUserDb[REQUIREMENTS[i].type])
+          _tmp[REQUIREMENTS[i].type] = myUserDb[REQUIREMENTS[i].type]
         }
 
 
