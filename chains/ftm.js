@@ -174,7 +174,7 @@ module.exports.getBalance = function(msg, myUser, round) {
 
             "Available Balance: <b>" + helper.numberWithCommas(parseInt(response.body.data.account.balance, 16) / Math.pow(10, 18)) + "</b> FTM ($" + helper.numberWithCommas(count[0].value * parseInt(response.body.data.account.balance, 16) / Math.pow(10, 18)) + ")\n"
 
-          if (response.body.data.account.delegation !== undefined && response.body.data.account.delegation.amount !== undefined) {
+          if (response.body.data.account.delegation !== undefined && response.body.data.account.delegation !== null && response.body.data.account.delegation.amount !== undefined) {
 
 
             if (response.body.data.account.delegation.amount === null || response.body.data.account.delegation.amount === undefined || isNaN(response.body.data.account.delegation.amount))

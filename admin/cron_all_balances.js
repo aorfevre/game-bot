@@ -36,7 +36,7 @@ ruleMonth.minute = 0;
 ruleMonth.second = 0;
 
 var _everyweek = schedule.scheduleJob(ruleMonth, function() {
-  monthFunction()
+  monthlyFunction()
 })
 
 
