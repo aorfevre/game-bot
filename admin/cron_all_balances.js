@@ -44,7 +44,7 @@ notifyUser = function(i, user) {
 
   wait = 0;
   if (i % 29 === 0) {
-    console.log("29th", i / 29)
+
     wait = 1000 * i / 29
   };
 
