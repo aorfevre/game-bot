@@ -174,12 +174,23 @@ var prepareFTMDatasMetrics = function() {
               }
 
               console.log('response.body.data', response.body.data)
-              resolve({
-                type: 'ftm',
-                amount: outputRes.totalStakedAmount * count[0].value,
-                stakers: parseInt(response.body.data.delegationsOf.totalCount, 16)
 
-              })
+              if (response.body.data !== undefined) {
+                resolve({
+                  type: 'ftm',
+                  amount: outputRes.totalStakedAmount * count[0].value,
+                  stakers: parseInt(response.body.data.delegationsOf.totalCount, 16)
+
+                })
+              } else {
+                resolve({
+                  type: 'ftm',
+                  amount: 0,
+                  stakers: 0
+
+                })
+              }
+
             }
           })
       });
