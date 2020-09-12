@@ -170,15 +170,18 @@ var _getWalletNode = function(item) {
     _txt = "Young Oak Capital"
   if (item === "3JkfhvV51FTDnCNpgZt3wjXNYbPehgFdaZA")
     _txt = "FillTheDoc"
-  if (item === "3Jk8956WNcFaRvdmQ4J3ytBQaAyvvU2DNxD")
+  if (item === "3JuhBndwegTukoWn2mQhHxRXK38qaHqDG8x")
     _txt = "Signrequest"
 
   if (item === "3JdDELJNByUTs5zpRoof2Z9DJfhakysiC6h")
     _txt = "Proofi"
 
-  if (item === "3JdDELJNByUTs5zpRoof2Z9DJfhakysiC6h")
+  if (item === "3JjGwHSBgiHctzt9wDo6wHVwEnTVV2S33pU")
     _txt = "Capptions"
-
+  if (item === "3JmcAJMQhdLKj296xoDkng9r1McCmBSFiEX")
+    _txt = "LTO leasing"
+  if (item === "3JjtGYPannaVDMvbjdyLrmo39LohZ8KESdL")
+    _txt = "humblenode"
   if (item === "3JujV7o14LM3vo9bpXtZmqAkyBFwzVJJWdn")
     _txt = "Stats Support Node"
   if (item === "3JhyQWe7BC7impmVu6YtctdaFuR1EK6vVne")
@@ -193,10 +196,10 @@ var _getWalletNode = function(item) {
     _txt = "Binance Node"
 
   if (item === "3JbZnF1i9rwab8YwBdGeNeAZhmcKzFfibUf")
-    _txt = "Binance"
+    _txt = "Bitmax"
 
   if (item === "3JxRvAGmuro9MUfJ3ZkznQjKSeGYXdx9odz")
-    _txt = "Bitmax"
+    _txt = "Binance"
 
   if (item === "3JnYB1TzHYS3gYDvczYtNUnmEbJsgmsdWY3")
     _txt = "LunarWhale Node"
@@ -218,7 +221,7 @@ var _getWalletNode = function(item) {
     _txt = 'LTO M&A Funds'
   }
   if (item === '3JqTwkbDFbtCPo9z5bFa9WfLmjEr7PXNode') {
-    _txt = 'Michael\'s Node'
+    _txt = 'LTO Edge Node'
   }
   if (item === '3JffJmwV2G158V6N27ouzkoRTgEVPLFqxPy') {
     _txt = 'RedPhoenix7'
