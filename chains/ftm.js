@@ -23,7 +23,7 @@ var getBalanceDatas = function(wallet) {
             "count": 20,
             "cursor": null
           },
-          "query": "query AccountByAddress($address: Address!, $cursor: Cursor, $count: Int!) {\n  account(address: $address) {\n    address\n    contract {\n      address\n      deployedBy {\n        hash\n        contractAddress\n        __typename\n      }\n      name\n      version\n      compiler\n      sourceCode\n      abi\n      validated\n      supportContact\n      timestamp\n      __typename\n    }\n    balance\n    totalValue\n    txCount\n    txList(cursor: $cursor, count: $count) {\n      pageInfo {\n        first\n        last\n        hasNext\n        hasPrevious\n        __typename\n      }\n      totalCount\n      edges {\n        cursor\n        transaction {\n          hash\n          from\n          to\n          value\n          gasUsed\n          block {\n            number\n            timestamp\n            __typename\n          }\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    staker {\n      id\n      createdTime\n      isActive\n      __typename\n    }\n    delegation {\n      toStakerId\n      createdTime\n      amount\n      claimedReward\n      pendingRewards {\n        amount\n        fromEpoch\n        toEpoch\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}\n"
+          "query": "query AccountByAddress($address: Address!, $cursor: Cursor, $count: Int!) {\n  account(address: $address) {\n    address\n    contract {\n      address\n      deployedBy {\n        hash\n        contractAddress\n        __typename\n      }\n      name\n      version\n      compiler\n      sourceCode\n      abi\n      validated\n      supportContact\n      timestamp\n      __typename\n    }\n    balance\n    totalValue\n    stashed\n    txCount\n    txList(cursor: $cursor, count: $count) {\n      pageInfo {\n        first\n        last\n        hasNext\n        hasPrevious\n        __typename\n      }\n      totalCount\n      edges {\n        cursor\n        transaction {\n          hash\n          from\n          to\n          value\n          gasUsed\n          block {\n            number\n            timestamp\n            __typename\n          }\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    staker {\n      id\n      createdTime\n      isActive\n      __typename\n    }\n    delegations {\n      totalCount\n      edges {\n        delegation {\n          toStakerId\n          createdTime\n          amount\n          claimedReward\n          pendingRewards {\n            amount\n            fromEpoch\n            toEpoch\n            __typename\n          }\n          __typename\n        }\n        cursor\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}\n"
         },
         headers: headersOpt,
         json: true,
@@ -40,6 +40,7 @@ var getBalanceDatas = function(wallet) {
             claimedReward: 0
 
           }
+          console.log('response,', response, error)
           results.totalValue = parseInt(response.body.data.account.totalValue, 16);
           results.balance = parseInt(response.body.data.account.balance, 16);
 
@@ -59,14 +60,23 @@ var getBalanceDatas = function(wallet) {
               response.body.data.account.delegation.amount = 0
 
           }
-          results.delegation = parseInt(response.body.data.account.delegation.amount, 16);
-          results.pendingRewards = parseInt(response.body.data.account.delegation.pendingRewards.amount, 16);
+          console.log(response.body.data.account)
+          results.delegation = 0
+          results.pendingRewards = 0
+          results.claimedReward = 0
+          if (response.body.data.account.delegation !== undefined) {
+            results.delegation = parseInt(response.body.data.account.delegation.amount, 16);
 
-          if (response.body.data.account.delegation.claimedReward === null || response.body.data.account.delegation.claimedReward === undefined || isNaN(response.body.data.account.delegation.claimedReward))
-            response.body.data.account.delegation.claimedReward = 0
+
+            results.pendingRewards = parseInt(response.body.data.account.delegation.pendingRewards.amount, 16);
+
+            if (response.body.data.account.delegation.claimedReward === null || response.body.data.account.delegation.claimedReward === undefined || isNaN(response.body.data.account.delegation.claimedReward))
+              response.body.data.account.delegation.claimedReward = 0
+
+            results.claimedReward = parseInt(response.body.data.account.delegation.claimedReward, 16);
+          }
 
 
-          results.claimedReward = parseInt(response.body.data.account.delegation.claimedReward, 16);
 
           resolve(results)
         }
@@ -147,7 +157,7 @@ module.exports.getBalance = function(msg, myUser, round) {
           "count": 20,
           "cursor": null
         },
-        "query": "query AccountByAddress($address: Address!, $cursor: Cursor, $count: Int!) {\n  account(address: $address) {\n    address\n    contract {\n      address\n      deployedBy {\n        hash\n        contractAddress\n        __typename\n      }\n      name\n      version\n      compiler\n      sourceCode\n      abi\n      validated\n      supportContact\n      timestamp\n      __typename\n    }\n    balance\n    totalValue\n    txCount\n    txList(cursor: $cursor, count: $count) {\n      pageInfo {\n        first\n        last\n        hasNext\n        hasPrevious\n        __typename\n      }\n      totalCount\n      edges {\n        cursor\n        transaction {\n          hash\n          from\n          to\n          value\n          gasUsed\n          block {\n            number\n            timestamp\n            __typename\n          }\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    staker {\n      id\n      createdTime\n      isActive\n      __typename\n    }\n    delegation {\n      toStakerId\n      createdTime\n      amount\n      claimedReward\n      pendingRewards {\n        amount\n        fromEpoch\n        toEpoch\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}\n"
+        "query": "query AccountByAddress($address: Address!, $cursor: Cursor, $count: Int!) {\n  account(address: $address) {\n    address\n    contract {\n      address\n      deployedBy {\n        hash\n        contractAddress\n        __typename\n      }\n      name\n      version\n      compiler\n      sourceCode\n      abi\n      validated\n      supportContact\n      timestamp\n      __typename\n    }\n    balance\n    totalValue\n    stashed\n    txCount\n    txList(cursor: $cursor, count: $count) {\n      pageInfo {\n        first\n        last\n        hasNext\n        hasPrevious\n        __typename\n      }\n      totalCount\n      edges {\n        cursor\n        transaction {\n          hash\n          from\n          to\n          value\n          gasUsed\n          block {\n            number\n            timestamp\n            __typename\n          }\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    staker {\n      id\n      createdTime\n      isActive\n      __typename\n    }\n    delegations {\n      totalCount\n      edges {\n        delegation {\n          toStakerId\n          createdTime\n          amount\n          claimedReward\n          pendingRewards {\n            amount\n            fromEpoch\n            toEpoch\n            __typename\n          }\n          __typename\n        }\n        cursor\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}\n"
       },
       headers: headersOpt,
       json: true,
@@ -162,7 +172,7 @@ module.exports.getBalance = function(msg, myUser, round) {
 
 
         };
-
+        console.log('response,', response.body)
         _db.find("pricingFTM", {
 
         }, {}, false).then((count) => {
