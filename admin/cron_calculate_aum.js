@@ -66,8 +66,9 @@ setTimeout(() => {
 
 
   helper.getAllDatasNetwork().then((response) => {
-
-    fget.setDataByCollection("metrics_ablock_opera", "general", response)
+    console.log('response', response)
+    if (response !== null)
+      fget.setDataByCollection("metrics_ablock_opera", "general", response)
   })
 
   helper.getNode21Info().then((response) => {
@@ -102,12 +103,13 @@ setTimeout(() => {
 var prepareLTODatasMetrics = function() {
 
   return new Promise(function(resolve, reject) {
-
+    console.log('start lto')
     _db.find("pricingLTO", {}, {}, false).then((count) => {
+      console.log('count pricing', count)
       _dblto.find('charts', {
         _id: 'roi'
       }, {}, false).then((roi) => {
-
+        console.log('charts', roi)
         _dblto.find('leasing_metrics', {
 
         }, {}, false).then((res) => {
