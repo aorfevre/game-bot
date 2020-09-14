@@ -51,7 +51,7 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
       all.amount += r[i].amount
       all.stakers += r[i].stakers
     }
-
+    console.log('all', all)
 
     fget.setDataByCollection("metrics_ablock_public", "all", all)
   })
@@ -66,23 +66,24 @@ setTimeout(() => {
 
 
   helper.getAllDatasNetwork().then((response) => {
-    console.log('response', response)
+    console.log('getAllDatasNetwork response', response)
     if (response !== null)
       fget.setDataByCollection("metrics_ablock_opera", "general", response)
   })
 
   helper.getNode21Info().then((response) => {
-    console.log(response)
+    console.log("getNode21Info", response)
     fget.setDataByCollection("metrics_ablock_opera", "21", response)
   })
 
   Promise.all(_promises).then(r => {
-
+    console.log('promise all', r)
     let all = {
       amount: 0,
       stakers: 0
 
     }
+
 
     for (var i in r) {
       if (r[i].type === 'lto') {
@@ -95,7 +96,7 @@ setTimeout(() => {
       all.amount += r[i].amount
       all.stakers += r[i].stakers
     }
-
+    console.log('post final', all)
 
     fget.setDataByCollection("metrics_ablock_public", "all", all)
   })
@@ -113,12 +114,12 @@ var prepareLTODatasMetrics = function() {
         _dblto.find('leasing_metrics', {
 
         }, {}, false).then((res) => {
-
+          console.log('resolve lto')
           resolve({
             type: 'lto',
             roi: roi,
             total: res[0].totalLeased,
-            amount: res[0].totalLeased * count[0].value / Math.pow(10, 8),
+            amount: res[0].totalLeased * count[0].value,
             stakers: res[0].leaser_unpaid.length
 
           })
@@ -143,7 +144,7 @@ var prepareFTMDatasMetrics = function() {
 
       }, {}, false).then((res) => {
         // console.log(res[0]['20'])
-        console.log("Total amount FTM USD", res[0]);
+        // console.log("Total amount FTM USD", res[0]);
 
         var headersOpt = {
           "content-type": "application/json",
@@ -159,7 +160,7 @@ var prepareFTMDatasMetrics = function() {
                 "cursor": null,
                 "count": 40
               },
-              "query": "query DelegationList($staker: Long!, $cursor: Cursor, $count: Int!) {\n  delegationsOf(staker: $staker, cursor: $cursor, count: $count) {\n    totalCount\n    pageInfo {\n      first\n      last\n      hasNext\n      hasPrevious\n      __typename\n    }\n    edges {\n      cursor\n      delegator {\n        address\n        amount\n        createdEpoch\n        createdTime\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}\n"
+              "query": "query DelegationList($staker: Long!, $cursor: Cursor, $count: Int!) {\n  delegationsOf(staker: $staker, cursor: $cursor, count: $count) {\n    totalCount\n    pageInfo {\n      first\n      last\n      hasNext\n      hasPrevious\n      __typename\n    }\n    edges {\n      cursor\n      delegation {\n        address\n        amount\n        createdEpoch\n        createdTime\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}\n"
             },
             headers: headersOpt,
             json: true,
@@ -175,9 +176,9 @@ var prepareFTMDatasMetrics = function() {
                 }
               }
 
-              console.log('response.body.data', response.body.data)
+              console.log('response.body.data FTM', outputRes, response.body.data)
 
-              if (response.body.data !== undefined) {
+              if (outputRes !== undefined && outputRes !== null) {
                 resolve({
                   type: 'ftm',
                   amount: outputRes.totalStakedAmount * count[0].value,
