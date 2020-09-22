@@ -26,7 +26,7 @@ var getBalanceDatas = function(wallet) {
           "method": "avm.getBalance",
           "params": {
             "address": wallet,
-            "assetID": "AVA"
+            "assetID": "AVAX"
           }
         },
         headers: headersOpt,
@@ -68,14 +68,21 @@ module.exports.getAllBalances = function(myUser) {
         results.balance += r[i].balance;
       }
 
+      _db.find("pricingAVAX", {
 
-      console.log('Balance', results)
-      var _txt = "<b>AVA-X Mainnet Wallet Balance</b>\n\n" +
-        "Balance: <b>" + helper.numberWithCommas(results.balance) + "</b> AVA"
-      resolve({
-        usd: 0.5 * results.balance,
-        txt: _txt
+      }, {}, false).then((count) => {
+        var rateTxt = "\n<i>Rate: <a href='https://coinmarketcap.com/currencies/avalanche/' target='_blank'>1 AVAX = $" + helper.numberWithCommas(count[0].value, 5) + "</a></i>"
 
+        console.log('Balance', results)
+        var _txt = "<b>AVA-X Mainnet Wallet Balance</b>\n\n" +
+          "Balance: <b>" + helper.numberWithCommas(results.balance) + "</b> AVAX($" + helper.numberWithCommas(count[0].value * results.balance) + ")\n" +
+          rateTxt
+
+        resolve({
+
+          usd: count[0].value * results.balance,
+          txt: _txt
+        })
       })
     })
 
@@ -99,7 +106,7 @@ module.exports.getBalance = function(msg, myUser, round) {
         "method": "avm.getBalance",
         "params": {
           "address": myUser.AVAXWallets[round],
-          "assetID": "AVA"
+          "assetID": "AVAX"
         },
 
         "id": 1
@@ -128,12 +135,19 @@ module.exports.getBalance = function(msg, myUser, round) {
         //
         // }, {}, false).then((count) => {
         console.log('response', response.body)
-        var _txt = "<b>AVA Mainnet Wallet Balance</b>\n👉<a href='https://explorer.ava.network/address/" + myUser.AVAXWallets[round] + "'>" + myUser.AVAXWallets[round] + "</a>\n\n" +
-          "Balance: <b>" + helper.numberWithCommas(parseInt(response.body.result.balance, 10)) + "</b> AVA \n"
 
+        _db.find("pricingAVAX", {
 
-        bot.sendMessage(msg.chat.id, _txt, options)
-        // })
+        }, {}, false).then((count) => {
+          var rateTxt = "\n<i>Rate: <a href='https://coinmarketcap.com/currencies/avalanche/' target='_blank'>1 AVAX = $" + helper.numberWithCommas(count[0].value, 5) + "</a></i>"
+
+          var _txt = "<b>AVA Mainnet Wallet Balance</b>\n👉<a href='https://explorer.ava.network/address/" + myUser.AVAXWallets[round] + "'>" + myUser.AVAXWallets[round] + "</a>\n\n" +
+            "Balance: <b>" + helper.numberWithCommas(parseInt(response.body.result.balance, 10)) + "</b> AVAX ($" + helper.numberWithCommas(count[0].value * parseInt(response.body.result.balance, 10)) + ")\n" +
+            rateTxt
+
+          bot.sendMessage(msg.chat.id, _txt, options)
+
+        }) // })
       } else {
         console.log("ERROR", error)
       }

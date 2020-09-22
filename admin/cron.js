@@ -24,6 +24,21 @@ var rulePricing = new schedule.RecurrenceRule();
 
 rulePricing.second = [0]
 
+
+helper.getPrice('avalanche', 'USD').then((response) => {
+
+  var _datas = {
+    unit: 'USD',
+    amount: 1,
+    value: response
+  }
+
+  _db.set('pricingAVAX', 'avax', null, _datas, true).then(() => {
+
+  })
+
+
+})
 var _everyday = schedule.scheduleJob(rulePricing, () => {
 
   helper.getPrice('fantom', 'USD').then((response) => {

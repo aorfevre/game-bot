@@ -158,13 +158,15 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
     _txt += "</b>,\n\n"
   }
 
-  _txt += "⭐️ <i> This bot will send you a message every time a transaction happens on your wallets. Keep track of your wallet movements automatically (FTM/LTO)!\n" +
+  _txt += "⭐️ <i> This bot will send you a message every time a transaction happens on your wallets. Keep track of your wallet movements automatically (FTM/LTO/AVAX)!\n" +
     "</i>\n" +
 
     "🚨<b> The bot will NEVER ask you for your PRIVATE KEYS. Always type your PUBLIC KEYS.</b>.\n" +
 
     "\n" +
-    "💪 <b>Follow us on:</b>\n" +
+
+    "🚀 Stake with us <a href='https://ablock.io/lto'>LTO</a> | <a href='https://ablock.io/fantom'>FTM</a> | <a href='https://ablock.io/avalanche'>AVAX</a>  \n" +
+    "\n💪 <b>Follow us on:</b>\n" +
     "🔸 <a href='https://t.me/ablockio'>Telegram Discussion</a>\n" +
     "🔸 Telegram Whale Alert <a href='https://t.me/ablockLTOWhale'>LTO</a> | <a href='https://t.me/ablockLTOWhale'>FTM</a>\n" +
     "🔸 <a href='https://twitter.com/ablock_io'>Twitter</a>\n" +
