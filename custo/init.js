@@ -13,7 +13,7 @@ module.exports.setTelegram = function() {
   var telegramToken = TOKEN
 
   if (isDev)
-    telegramToken = telegramTest
+    telegramToken = TOKEN
   // return new TelegramBot(telegramToken, {
   //   polling: {
   //     interval: 200,
