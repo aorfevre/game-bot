@@ -19,9 +19,6 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
   var _promises = []
 
 
-  getAvaxAUM().then((response) => {
-    fget.setDataByCollection("metrics_avax", "general", response)
-  })
   helper.getAllDatasNetwork().then((response) => {
 
     fget.setDataByCollection("metrics_ablock_opera", "general", response)
@@ -32,6 +29,7 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
     fget.setDataByCollection("metrics_ablock_opera", "21", response)
   })
 
+  _promises.push(prepareAVAXDatasMetrics())
   _promises.push(prepareLTODatasMetrics())
   _promises.push(prepareFTMDatasMetrics())
 
@@ -61,49 +59,6 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
 
 })
 
-setTimeout(() => {
-  var _promises = []
-
-  _promises.push(prepareLTODatasMetrics())
-  _promises.push(prepareFTMDatasMetrics())
-
-
-  helper.getAllDatasNetwork().then((response) => {
-    console.log('getAllDatasNetwork response', response)
-    if (response !== null)
-      fget.setDataByCollection("metrics_ablock_opera", "general", response)
-  })
-
-  helper.getNode21Info().then((response) => {
-    console.log("getNode21Info", response)
-    fget.setDataByCollection("metrics_ablock_opera", "21", response)
-  })
-
-  Promise.all(_promises).then(r => {
-    console.log('promise all', r)
-    let all = {
-      amount: 0,
-      stakers: 0
-
-    }
-
-
-    for (var i in r) {
-      if (r[i].type === 'lto') {
-        fget.setDataByCollection("metrics_ablock_lto", "general", {
-          total: r[i].total,
-          roi: r[i].roi[0].roi.yearly
-        })
-      }
-
-      all.amount += r[i].amount
-      all.stakers += r[i].stakers
-    }
-    console.log('post final', all)
-
-    fget.setDataByCollection("metrics_ablock_public", "all", all)
-  })
-})
 var prepareLTODatasMetrics = function() {
 
   return new Promise(function(resolve, reject) {
@@ -210,7 +165,7 @@ var prepareFTMDatasMetrics = function() {
 
 
 
-var getAvaxAUM = function(wallet) {
+var prepareAVAXDatasMetrics = function(wallet) {
 
   return new Promise((resolve, reject) => {
     var headersOpt = {
@@ -233,42 +188,54 @@ var getAvaxAUM = function(wallet) {
         json: true,
       },
       (error, response, body) => {
+        _db.find("pricingAVAX", {}, {}, false).then((count) => {
 
+          var data = []
+          var amount = 0
+          for (var i in response.body.result.validators) {
+            if (response.body.result.validators[i].nodeID === 'NodeID-EkvXF2Sxi5XcHnscti1kYzdVCUA3WhdFW') {
+              data.push(response.body.result.validators[i])
+              if (Math.floor(Date.now() / 1000) > Number(response.body.result.validators[i].startTime) &&
+                Math.floor(Date.now() / 1000) < Number(response.body.result.validators[i].endTime)
+              ) {
 
-        var data = []
-        var amount = 0
-        for (var i in response.body.result.validators) {
-          if (response.body.result.validators[i].nodeID === 'NodeID-EkvXF2Sxi5XcHnscti1kYzdVCUA3WhdFW') {
-            data.push(response.body.result.validators[i])
-            if (Math.floor(Date.now() / 1000) > Number(response.body.result.validators[i].startTime) &&
-              Math.floor(Date.now() / 1000) < Number(response.body.result.validators[i].endTime)
-            ) {
+                amount += Number(response.body.result.validators[i].stakeAmount)
+              }
 
-              amount += Number(response.body.result.validators[i].stakeAmount)
             }
-
           }
-        }
-        for (var i in response.body.result.delegators) {
-          if (response.body.result.delegators[i].nodeID === 'NodeID-EkvXF2Sxi5XcHnscti1kYzdVCUA3WhdFW') {
-            data.push(response.body.result.delegators[i])
-            if (Math.floor(Date.now() / 1000) > Number(response.body.result.delegators[i].startTime) &&
-              Math.floor(Date.now() / 1000) < Number(response.body.result.delegators[i].endTime)
-            ) {
+          for (var i in response.body.result.delegators) {
+            if (response.body.result.delegators[i].nodeID === 'NodeID-EkvXF2Sxi5XcHnscti1kYzdVCUA3WhdFW') {
+              data.push(response.body.result.delegators[i])
+              if (Math.floor(Date.now() / 1000) > Number(response.body.result.delegators[i].startTime) &&
+                Math.floor(Date.now() / 1000) < Number(response.body.result.delegators[i].endTime)
+              ) {
 
-              amount += Number(response.body.result.delegators[i].stakeAmount)
+                amount += Number(response.body.result.delegators[i].stakeAmount)
+              }
+
             }
-
           }
-        }
-        var r = {
-          delegations: data,
-          amount: amount
-        }
-        _db.set('nodeAVAX', 'avax', null, r, true).then(() => {
+          var r = {
+            type: 'avax',
+            stakers: data.length,
 
+            amount: amount * count[0].value / 1000000000,
+            tokens: amount
+          }
+          _db.set('nodeAVAX', 'avax', null, {
+            type: 'avax',
+            stakers: data,
+
+            amount: amount * count[0].value / 1000000000,
+
+            tokens: amount
+          }, true).then(() => {
+            fget.setDataByCollection("metrics_avax", "general", r)
+            resolve(r)
+          })
         })
-        resolve(r)
+
       })
   })
 

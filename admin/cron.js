@@ -26,69 +26,6 @@ var _everyday = schedule.scheduleJob(onceAday, () => {
 // })
 
 
-var getAvaxAUM = function(wallet) {
-
-  return new Promise((resolve, reject) => {
-    var headersOpt = {
-      // "content-type": "application/json",
-    };
-
-
-    request({
-        method: 'post',
-        url: 'http://3.133.220.103:9650/ext/P',
-        body: {
-          "jsonrpc": "2.0",
-          "id": 3,
-          "method": "platform.getCurrentValidators",
-          "params": {
-
-          }
-        },
-        headers: headersOpt,
-        json: true,
-      },
-      (error, response, body) => {
-
-
-        var data = []
-        var amount = 0
-        for (var i in response.body.result.validators) {
-          if (response.body.result.validators[i].nodeID === 'NodeID-EkvXF2Sxi5XcHnscti1kYzdVCUA3WhdFW') {
-            data.push(response.body.result.validators[i])
-            if (Math.floor(Date.now() / 1000) > Number(response.body.result.validators[i].startTime) &&
-              Math.floor(Date.now() / 1000) < Number(response.body.result.validators[i].endTime)
-            ) {
-
-              amount += Number(response.body.result.validators[i].stakeAmount)
-            }
-
-          }
-        }
-        for (var i in response.body.result.delegators) {
-          if (response.body.result.delegators[i].nodeID === 'NodeID-EkvXF2Sxi5XcHnscti1kYzdVCUA3WhdFW') {
-            data.push(response.body.result.delegators[i])
-            if (Math.floor(Date.now() / 1000) > Number(response.body.result.delegators[i].startTime) &&
-              Math.floor(Date.now() / 1000) < Number(response.body.result.delegators[i].endTime)
-            ) {
-
-              amount += Number(response.body.result.delegators[i].stakeAmount)
-            }
-
-          }
-        }
-        var r = {
-          delegations: data,
-          amount: amount
-        }
-        _db.set('nodeAVAX', 'avax', null, r, true).then(() => {
-
-        })
-        resolve(r)
-      })
-  })
-
-}
 
 
 
@@ -230,7 +167,7 @@ var _everyday = schedule.scheduleJob(rulePricingPart2, () => {
   })
 
 
-  getAvaxAUM()
+
 })
 
 

@@ -288,7 +288,9 @@ var notifySingleUser = function(r, i, j, count, options, validators) {
     // bot.sendMessage(j, whaleTxt, options)
 
 
-  } else if (tx.decoded !== undefined && (tx.decoded.name === "createDelegation") && (tx.to === '0xFC00FACE00000000000000000000000000000000')) {
+  } else if (tx.decoded !== undefined && (tx.decoded.name === "createDelegation") && (tx.to === '0xFC00FACE00000000000000000000000000000000') &&
+    validators[tx.decoded.params[0].value + ''] !== undefined) {
+
 
     var usdValue = (count[0].value * (tx.value / Math.pow(10, 18)))
     var whaleTxt = "🚨" +
