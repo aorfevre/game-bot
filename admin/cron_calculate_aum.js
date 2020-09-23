@@ -139,6 +139,7 @@ var prepareFTMDatasMetrics = function() {
               if (outputRes !== undefined && outputRes !== null) {
                 resolve({
                   type: 'ftm',
+                  total: outputRes.totalStakedAmount,
                   amount: outputRes.totalStakedAmount * count[0].value,
                   stakers: parseInt(response.body.data.delegationsOf.totalCount, 16)
 
@@ -221,7 +222,7 @@ var prepareAVAXDatasMetrics = function(wallet) {
             stakers: data.length,
 
             amount: amount * count[0].value / 1000000000,
-            tokens: amount
+            total: amount
           }
           _db.set('nodeAVAX', 'avax', null, {
             type: 'avax',
@@ -229,7 +230,7 @@ var prepareAVAXDatasMetrics = function(wallet) {
 
             amount: amount * count[0].value / 1000000000,
 
-            tokens: amount
+            total: amount
           }, true).then(() => {
             fget.setDataByCollection("metrics_avax", "general", r)
             resolve(r)

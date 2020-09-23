@@ -8,7 +8,34 @@ var ftm = require('../chains/ftm.js')
 
 var request = require('request');
 
+// curl - d 'id=9&name=baeldung' https: //graphql.avascan.info
+var getAVAXTx = function(wallet) {
 
+  return new Promise((resolve, reject) => {
+    var headersOpt = {
+      "content-type": "application/json"
+    };
+
+    request({
+        method: 'post',
+        url: 'https://graphql.avascan.info/',
+        body: {
+          ooperationName: null,
+          query: "{↵  blockchains {↵    count↵  }↵}↵",
+          variables: {}
+        },
+        headers: headersOpt,
+        json: true,
+      },
+      (error, response, body) => {
+        console.log('response', response.body)
+        resolve(response)
+
+      })
+  })
+
+}
+getAVAXTx()
 
 var onceAday = new schedule.RecurrenceRule();
 onceAday.hour = [0]
