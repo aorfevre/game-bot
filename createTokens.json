@@ -80,3 +80,16 @@ curl -X POST --data '{
         "tx":"wYDq16XKphJZCgy6LMPfkaMefXfhar7Y2naCnhDFfbZ27WmmD"
     }
 }' -H 'content-type:application/json;' ec2-3-133-220-103.us-east-2.compute.amazonaws.com:9650/ext/bc/X
+
+
+
+
+curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"avm.getUTXOs",
+    "params" :{
+        "addresses":[],
+        "limit":5
+    }
+}' -H 'content-type:application/json;' ec2-3-133-220-103.us-east-2.compute.amazonaws.com:9650/ext/bc/X
