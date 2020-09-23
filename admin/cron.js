@@ -9,6 +9,8 @@ var ftm = require('../chains/ftm.js')
 var request = require('request');
 
 // curl - d 'id=9&name=baeldung' https: //graphql.avascan.info
+
+// curl -X POST -H "Content-Type: application/json" --data '@./testCurl.json' https://graphql.avascan.info
 var getAVAXTx = function(wallet) {
 
   return new Promise((resolve, reject) => {
