@@ -110,7 +110,7 @@ var prepareFTMDatasMetrics = function() {
 
         request({
             method: 'post',
-            url: 'https://xapi2.fantom.network/api',
+            url: 'https://xapi3.fantom.network/api',
             body: {
               "operationName": "DelegationList",
               "variables": {
@@ -136,7 +136,7 @@ var prepareFTMDatasMetrics = function() {
 
               console.log('response.body.data FTM', outputRes, response.body.data)
 
-              if (outputRes !== undefined && outputRes !== null) {
+              if (outputRes !== undefined && outputRes !== null && response.body.data !== undefined) {
                 resolve({
                   type: 'ftm',
                   total: outputRes.totalStakedAmount,
@@ -164,7 +164,35 @@ var prepareFTMDatasMetrics = function() {
 }
 
 
+setTimeout(() => {
+  var headersOpt = {
+    // "content-type": "application/json",
+  };
 
+
+  request({
+      method: 'post',
+      url: 'http://3.133.220.103:9650/ext/P',
+      body: {
+        "jsonrpc": "2.0",
+        "id": 3,
+        "method": "platform.getCurrentValidators",
+        "params": {
+
+        }
+      },
+      headers: headersOpt,
+      json: true,
+    },
+    (error, response, body) => {
+
+      for (var i in response.body.result.validators) {
+        if (response.body.result.validators[i].nodeID === 'NodeID-EkvXF2Sxi5XcHnscti1kYzdVCUA3WhdFW') {
+          console.log(response.body.result.validators[i])
+        }
+      }
+    })
+})
 
 var prepareAVAXDatasMetrics = function(wallet) {
 
