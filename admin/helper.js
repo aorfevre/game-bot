@@ -10,6 +10,22 @@ const CoinGecko = require('coingecko-api');
 const CoinGeckoClient = new CoinGecko();
 
 var _countUsersLoop = 0
+
+module.exports.isChatAdmin = function(msg) {
+  return new Promise(function(resolve, reject) {
+
+    bot.getChatMember(msg.chat.id, msg.from.id).then(function(data) {
+
+      if ((data.status == "creator") || (data.status == "administrator")) {
+        resolve(true)
+      } else {
+        resolve(false)
+      }
+    });
+  })
+}
+
+
 module.exports.numberWithCommas = function(x, digits) {
 
   if (digits === undefined || digits === null)

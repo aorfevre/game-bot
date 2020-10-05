@@ -3,7 +3,7 @@ var _db = require('../database/mongo_db.js')
 var human_control = require('../admin/human_control.js')
 var bulkMessagesAdmin = require('../admin/bulkMessagesAdmin.js')
 var ux = require('../admin/ux.js')
-
+var twitter = require('./twitter.js')
 bot.on('text', function(msg, match) {
 
 
@@ -91,6 +91,61 @@ bot.on('text', function(msg, match) {
               bot.sendMessage(msg.chat.id, "Data duplicated not allowed.")
             }
           })
+        })
+
+
+      } else if (myUser.type !== null && myUser.type.indexOf('CONTEST_') !== -1) {
+        //VERIFY TWITTER FORMAT
+
+        var _split = msg.text.toLowerCase().split('status/')[1]
+
+        twitter.checkTweet(_split).then(r => {
+
+          if (r.errors !== undefined && r.errors.length > 0) {
+            bot.sendMessage(msg.chat.id, "This is not a valid tweet. If you still have issues, contact us on @ablockio")
+          } else {
+
+
+            var _datas = {
+              user: myUser._id,
+              entry: msg.text.toLowerCase(),
+              status: null,
+              timestamp: new Date(),
+              myUser: myUser
+
+            }
+            var _markup = []
+
+            console.log('id', 'APPROVE-' + _split + "-" + myUser.type)
+            _markup.push([{
+                text: "Approve",
+                callback_data: 'APPROVE-' + _split + "-" + myUser.type
+              },
+              {
+                text: "Reject",
+                callback_data: 'REJECT-' + _split + "-" + myUser.type
+
+              }
+            ])
+            var options = {
+              parse_mode: "HTML",
+              disable_web_page_preview: false,
+              reply_markup: JSON.stringify({
+                inline_keyboard: _markup
+              })
+
+            };
+
+            _db.set(myUser.type, _split, null, _datas, false).then(() => {
+
+              bot.sendMessage("@ablockFTMContest100K", "New entry from " + myUser._id + "\n" +
+                msg.text.toLowerCase(), options).then(ms => {
+                bot.sendMessage(msg.chat.id, "Your entry is saved\n" +
+                  "Check it on https://t.me/ablockFTMContest100K/" + ms.message_id)
+              })
+            })
+          }
+
         })
 
 

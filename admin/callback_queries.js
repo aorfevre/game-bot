@@ -20,6 +20,9 @@ var avax = require('../chains/avax.js')
 var erd = require('../chains/erd.js')
 
 
+var contest = require('../admin/contest.js')
+
+
 bot.on("callback_query", function(callbackQuery) {
 
   var msg = callbackQuery.message
@@ -30,7 +33,7 @@ bot.on("callback_query", function(callbackQuery) {
 
 
     var control = callbackQuery.data
-
+    console.log('control', control)
 
 
     helper.getUser(msg, null).then(function(myUser) {
@@ -62,6 +65,7 @@ bot.on("callback_query", function(callbackQuery) {
         control = "CLOSE AIRDROP"
       } else if (control.indexOf("GET SOMEONE STATUS") !== -1) {
         control = "GET SOMEONE STATUS"
+
       } else if (control.indexOf("CHECK HUMAN CONTROL SMILEY") !== -1) {
         control = "CHECK HUMAN CONTROL SMILEY"
       } else if (control.indexOf("SURVEY") !== -1) {
@@ -112,7 +116,11 @@ bot.on("callback_query", function(callbackQuery) {
         control = "DELETE AVAX WALLET"
       } else if (control.indexOf("NOTIFY") !== -1) {
         control = "NOTIFY"
+      } else if (control.indexOf("SET CONTEST CAT") !== -1) {
+        control = "SET CONTEST CAT"
       }
+
+
 
       switch (control) {
 
@@ -400,6 +408,26 @@ bot.on("callback_query", function(callbackQuery) {
 
           admin_board.getDashBoard(msg)
           break;
+        case "GET CONTEST INFO":
+
+          contest.getContestInfo(msg)
+          break;
+        case "GET CONTEST RULES":
+
+          contest.getContestRules(msg)
+          break;
+        case "SUBMIT CONTEST ENTRY":
+
+          contest.getContestSubmitMenu(msg)
+          break;
+        case "GET CONTEST REFERRAL":
+
+          contest.getContestReferralLink(msg)
+          break;
+        case "SET CONTEST CAT":
+          var _round = callbackQuery.data.split("_")[1]
+          contest.setCatSubmit(msg, _round)
+          break;
         case "GET LTO BALANCE":
           var _round = callbackQuery.data.split("-")[1]
 
@@ -565,6 +593,85 @@ bot.on("callback_query", function(callbackQuery) {
           break;
       }
 
+    })
+
+  } else {
+    var control = callbackQuery.data
+    console.log('control', control)
+
+    var _chat = {
+      chat: msg.chat,
+      from: callbackQuery.from
+    }
+    helper.isChatAdmin(_chat).then(function(isAdmin) {
+
+      if (isAdmin) {
+
+
+        if (control.indexOf('APPROVE') !== -1) {
+          control = 'APPROVE'
+        } else if (control.indexOf('REJECT') !== -1) {
+          control = 'REJECT'
+        }
+        switch (control) {
+          case 'APPROVE':
+            console.log("IS CHAT ADMIN - ", callbackQuery)
+            var _msg = {
+              chat: {
+                id: callbackQuery.data.split("-")[1],
+                type: "private"
+              }
+            }
+
+            var _type = callbackQuery.data.split("-")[2]
+            var _id = callbackQuery.data.split("-")[1]
+            // console.log("SET DATAS",_type)
+            var _markup = []
+            var _text = msg.text + "\n\n@" + callbackQuery.from.username + " just approved that entry. Congratulations!\n"
+
+            bot.editMessageText(_text, {
+                message_id: msg.message_id,
+                chat_id: msg.chat.id,
+                parse_mode: "HTML",
+                disable_web_page_preview: false,
+
+                reply_markup: JSON.stringify({
+                  inline_keyboard: _markup
+                })
+              })
+              .then(function() {
+                _db.set(_type, _id, 'status', true)
+              })
+            break;
+          case 'REJECT':
+            var _markup = []
+            var _type = callbackQuery.data.split("-")[2]
+            var _id = callbackQuery.data.split("-")[1]
+            var _text = msg.text + "\n\n@" + callbackQuery.from.username + " just rejected that entry.\n"
+
+            bot.editMessageText(_text, {
+              message_id: msg.message_id,
+              chat_id: msg.chat.id,
+              parse_mode: "HTML",
+              disable_web_page_preview: false,
+
+              reply_markup: JSON.stringify({
+                inline_keyboard: _markup
+              })
+            }).then(() => {
+              // console.log('_type', _type, _id)
+              _db.set(_type, _id, 'status', false)
+            })
+            break;
+        }
+
+
+
+
+
+
+
+      }
     })
 
   }

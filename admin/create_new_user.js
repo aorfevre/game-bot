@@ -39,8 +39,10 @@ module.exports.createNewUser = function(msg, match) {
       if (resp.length > 7) {
         // add a father
         _tmp.father = resp
-        menu.addSon(resp, msg.chat.id)
-      } else {}
+        // menu.addSon(resp, msg.chat.id)
+      } else {
+
+      }
 
 
       _db.set('users', msg.chat.id, null, msg.chat, false)

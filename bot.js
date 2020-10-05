@@ -18,6 +18,7 @@ var configChains = require('./chains/config.js')
 var stakingrewards = require('./admin/stakingrewards.js')
 
 
+
 _db.init()
 //
 bot.on('message', function(event) {

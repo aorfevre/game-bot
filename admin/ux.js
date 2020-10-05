@@ -182,6 +182,16 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
       totalWallets += myUser[REQUIREMENTS[i].type].length
     }
   }
+  console.log(msg.chat)
+  // @Simosss @solutionniste @aorfevrebr @blokcove
+  if (msg.chat.username !== undefined && (msg.chat.username === 'aorfevrebr' ||
+      msg.chat.username === 'Simosss' ||
+      msg.chat.username === 'solutionniste' ||
+      msg.chat.username === 'blokcove'))
+    _markup.push([{
+      text: "🔥 100K FTM Contest 🔥",
+      callback_data: "GET CONTEST INFO"
+    }]);
 
   _markup.push([{
     text: "My Wallets 🚀 (" + totalWallets + ")",
