@@ -22,6 +22,10 @@ var _cat = [{
     cat: 'GRAPHIC'
   },
   {
+
+    cat: 'BREAK'
+  },
+  {
     name: '😘 Other',
     cat: 'OTHER'
   }
