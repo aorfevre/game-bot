@@ -105,7 +105,7 @@ bot.on('text', function(msg, match) {
             bot.sendMessage(msg.chat.id, "This is not a valid tweet. If you still have issues, contact us on @ablockio")
           } else {
 
-
+            console.log('r', r)
             var _datas = {
               user: myUser._id,
               entry: msg.text.toLowerCase(),
@@ -140,7 +140,7 @@ bot.on('text', function(msg, match) {
 
               bot.sendMessage("@ablockFTMContest100K", "New entry from " + myUser._id + "\n" +
                 msg.text.toLowerCase(), options).then(ms => {
-                bot.sendMessage(msg.chat.id, "Your entry is saved\n" +
+                bot.sendMessage(msg.chat.id, " Thank you for participating in the contest and good luck! We'll be in touch if you're the winner. Feel free to submit more entries!\n" +
                   "Check it on https://t.me/ablockFTMContest100K/" + ms.message_id)
               })
             })

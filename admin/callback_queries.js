@@ -627,7 +627,7 @@ bot.on("callback_query", function(callbackQuery) {
             var _id = callbackQuery.data.split("-")[1]
             // console.log("SET DATAS",_type)
             var _markup = []
-            var _text = msg.text + "\n\n@" + callbackQuery.from.username + " just approved that entry. Congratulations!\n"
+            var _text = msg.text + "\nReviewed"
 
             bot.editMessageText(_text, {
                 message_id: msg.message_id,
@@ -647,7 +647,7 @@ bot.on("callback_query", function(callbackQuery) {
             var _markup = []
             var _type = callbackQuery.data.split("-")[2]
             var _id = callbackQuery.data.split("-")[1]
-            var _text = msg.text + "\n\n@" + callbackQuery.from.username + " just rejected that entry.\n"
+            var _text = msg.text + "\nStatus: Reviewed"
 
             bot.editMessageText(_text, {
               message_id: msg.message_id,

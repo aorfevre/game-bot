@@ -27,6 +27,9 @@ module.exports.checkTweet = function(id) {
       }, function(error, tweet, response) {
 
         console.log(tweet); // Tweet body.
+
+
+
         resolve(tweet)
       });
     } catch (err) {

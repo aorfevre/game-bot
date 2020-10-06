@@ -73,7 +73,7 @@ module.exports.getContestRules = function(msg) {
 
   };
 
-  bot.sendMessage(msg.chat.id, "Contest Rules ", options)
+  bot.sendMessage(msg.chat.id, "For the complete rules of the contest, take a look at our blog post\nhttps://medium.com/@ablock.io", options)
 }
 module.exports.getContestSubmitMenu = function(msg) {
   var _markup = []
@@ -117,7 +117,9 @@ module.exports.setCatSubmit = function(msg, cat) {
 
     }
   }
-  _txt += "\nEnter your twitter contest entry"
+  _txt += "\n1. <b>Paste the link to your Tweet</b>\n" +
+    "Make sure you're embedding the content (if it's an image or video) or you're linking your content (if it's an article or a website), and you're using #FTMtothemoon and $FTM tags in your tweet.\n\n" +
+    "2. <b>Follow us (https://twitter.com/ablock_io) on Twitter</b>"
 
   _db.set('users_participating', msg.chat.id, "type", "CONTEST_" + myCat.cat, true)
 
@@ -165,6 +167,6 @@ module.exports.getContestReferralLink = function(msg) {
     })
 
   };
-  bot.sendMessage(msg.chat.id, "Invite your friends and get rewarded if they win a prize.\n\nYour referral link is " +
+  bot.sendMessage(msg.chat.id, "Invite a friend and get rewarded! If they win one of the first three prizes, you win too. Here's you referral link: link.\n" +
     "https://t.me/ablock_bot?start=" + msg.chat.id, options)
 }

@@ -189,7 +189,7 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
       msg.chat.username === 'solutionniste' ||
       msg.chat.username === 'blokcove'))
     _markup.push([{
-      text: "🔥 100K FTM Contest 🔥",
+      text: "🔥 Win 100k FTM contest 🔥",
       callback_data: "GET CONTEST INFO"
     }]);
 
