@@ -647,7 +647,7 @@ bot.on("callback_query", function(callbackQuery) {
             var _markup = []
             var _type = callbackQuery.data.split("-")[2]
             var _id = callbackQuery.data.split("-")[1]
-            var _text = msg.text + "\nStatus: Reviewed"
+            var _text = msg.text + "\n\nStatus: Reviewed"
 
             bot.editMessageText(_text, {
               message_id: msg.message_id,
