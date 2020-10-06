@@ -104,11 +104,13 @@ module.exports.getContestSubmitMenu = function(msg) {
     if (_cat[i].cat === 'BREAK') {
       _markup.push(arr)
       arr = []
+    } else {
+      arr.push({
+        text: _cat[i].name,
+        callback_data: "SET CONTEST CAT_" + _cat[i].cat
+      })
     }
-    arr.push({
-      text: _cat[i].name,
-      callback_data: "SET CONTEST CAT_" + _cat[i].cat
-    })
+
 
   }
   _markup.push(arr)
