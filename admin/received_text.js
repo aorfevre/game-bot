@@ -153,7 +153,7 @@ bot.on('text', function(msg, match) {
 
 
               };
-              bot.sendMessage(msg.chat.id, "Your tweet does not have the #FTMtothemoon and $FTM tags.\n<b>Your participation is not saved.</b>")
+              bot.sendMessage(msg.chat.id, "Your tweet does not have the #FTMtothemoon and $FTM tags.\n<b>Your participation is not saved.</b>", options)
             }
           }
         })
