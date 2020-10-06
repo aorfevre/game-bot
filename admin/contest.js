@@ -10,6 +10,10 @@ var _cat = [{
     cat: 'MEME'
   },
   {
+
+    cat: 'BREAK'
+  },
+  {
     name: '📺 Video',
     cat: 'VIDEO'
   },
@@ -93,10 +97,15 @@ module.exports.getContestSubmitMenu = function(msg) {
 
   var arr = []
   for (var i in _cat) {
+    if (_cat[i].cat === 'BREAK') {
+      _markup.push(arr)
+      arr = []
+    }
     arr.push({
       text: _cat[i].name,
       callback_data: "SET CONTEST CAT_" + _cat[i].cat
     })
+
   }
   _markup.push(arr)
 
