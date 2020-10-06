@@ -139,7 +139,10 @@ bot.on('text', function(msg, match) {
 
               _db.set(myUser.type, _split, null, _datas, false).then(() => {
 
-                bot.sendMessage("@ablockFTMContest100K", "New entry from " + myUser._id + "\n" +
+                var name = myUser.first_name;
+                if (myUser.username !== undefined)
+                  name = "@" + myUser.username
+                bot.sendMessage("@ablockFTMContest100K", "New entry from " + name + "\n" +
                   msg.text.toLowerCase(), options).then(ms => {
                   bot.sendMessage(msg.chat.id, "Thank you for participating in the contest and good luck! We'll be in touch if you're the winner. Feel free to submit more entries!\n" +
                     "Check it on https://t.me/ablockFTMContest100K/" + ms.message_id)
