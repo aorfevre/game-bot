@@ -156,7 +156,7 @@ bot.on('text', function(msg, match) {
 
 
               };
-              bot.sendMessage(msg.chat.id, "Your tweet does not have the #FTMtothemoon and $FTM tags.\n<b>Your participation is not saved.</b>", options)
+              bot.sendMessage(msg.chat.id, "<b>Looks like this isn't a valid Tweet! Review the guidelines and if you still have issues, contact us at @ablockio.</b>", options)
             }
           }
         })
