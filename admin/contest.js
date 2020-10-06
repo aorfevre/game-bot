@@ -21,20 +21,20 @@ var _cat = [{
 module.exports.getContestInfo = function(msg) {
 
   var _txt = "100 000 FTM context by ablock\n" +
-    "bla bla.... "
-  "Refer your friend and get rewarded if they win a prize"
+    "bla bla.... \n" +
+    "Refer your friend and get rewarded if they win a prize"
   var _markup = []
 
   _markup.push([{
-    text: 'Submit entry',
+    text: '📝 Submit entry 🚀',
     callback_data: 'SUBMIT CONTEST ENTRY'
   }])
   _markup.push([{
-      text: 'Invite your friend',
+      text: '🎉 Invite your friends',
       callback_data: 'GET CONTEST REFERRAL'
     },
     {
-      text: 'Rules',
+      text: '🚨 Rules',
       callback_data: 'GET CONTEST RULES'
     }
 
