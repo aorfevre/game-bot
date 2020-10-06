@@ -2,27 +2,29 @@ var _db = require('../database/mongo_db.js')
 
 
 var _cat = [{
-    name: 'Meme',
+    name: '🦆 Meme',
     cat: 'MEME'
   },
   {
-    name: 'Vidéo',
+    name: '📺 Vidéo',
     cat: 'VIDEO'
   },
   {
-    name: 'Article',
+    name: '🌐 Article',
     cat: 'PR'
   }, {
-    name: 'Dev',
+    name: '💯 Dev',
     cat: 'DEV'
   }
 ]
 
 module.exports.getContestInfo = function(msg) {
 
-  var _txt = "100 000 FTM context by ablock\n" +
-    "bla bla.... \n" +
-    "Refer your friend and get rewarded if they win a prize"
+  var _txt = "<b>Fantom to the moon contest 🚀</b>\n" +
+    "Win 100k FTM in prizes!\n" +
+    "\n" +
+    "https://docs.google.com/document/d/1QbTGWD3lMPFJFocYPENS9Bo-dhGskLqB_Rm12quTwTI/edit \n" +
+    "Refer your friend and get rewarded if they win a prize\n"
   var _markup = []
 
   _markup.push([{
@@ -119,7 +121,7 @@ module.exports.setCatSubmit = function(msg, cat) {
   }
   _txt += "\n1. <b>Paste the link to your Tweet</b>\n" +
     "Make sure you're embedding the content (if it's an image or video) or you're linking your content (if it's an article or a website), and you're using #FTMtothemoon and $FTM tags in your tweet.\n\n" +
-    "2. <b>Follow us (https://twitter.com/ablock_io) on Twitter</b>"
+    "2. <b>Follow <a href='https://www.twitter.com/ablock_io'>@ablock_io</a> and <a href='https://www.twitter.com/FantomFDN'>@FantomFDN</a></b>"
 
   _db.set('users_participating', msg.chat.id, "type", "CONTEST_" + myCat.cat, true)
 
