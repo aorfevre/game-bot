@@ -7,7 +7,7 @@ var human_control = require('../admin/human_control.js')
 
 
 bot.onText(/^\/[sS]tart(.+|\b)/, (msg, match) => {
-  console.log('test')
+
   helper.getUser(msg, match).then((myUser) => {
     if (myUser.human_smiley === undefined || myUser.human_smiley !== 'approved') {
       human_control.setHumanControlSmiley(msg, myUser)
@@ -185,7 +185,7 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
   console.log(msg.chat)
   // @Simosss @solutionniste @aorfevrebr @blokcove
   if (msg.chat.username !== undefined && (msg.chat.username === 'aorfevrebr' ||
-      msg.chat.username === 'Simosss' ||
+      msg.chat.username === 'theotherpomp' ||
       msg.chat.username === 'solutionniste' ||
       msg.chat.username === 'blokcove'))
     _markup.push([{
