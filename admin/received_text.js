@@ -98,7 +98,9 @@ bot.on('text', function(msg, match) {
         //VERIFY TWITTER FORMAT
 
         var _split = msg.text.toLowerCase().split('status/')[1]
-
+        if (_split.indexOf('?') !== -1) {
+          _split = _split.split('?')[0]
+        }
         twitter.checkTweet(_split).then(r => {
 
           if (r.errors !== undefined && r.errors.length > 0) {
