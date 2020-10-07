@@ -37,7 +37,7 @@ module.exports.getContestInfo = function(msg) {
   var _txt = "<b>Fantom to the moon contest 🚀</b>\n" +
     "Create content about Fantom and win 100k FTM in prizes!\n" +
     "\n" +
-    "Read all the rules here: https://docs.google.com/document/d/1QbTGWD3lMPFJFocYPENS9Bo-dhGskLqB_Rm12quTwTI/edit \n" +
+    "Read all the rules here: https://medium.com/@ablock.io/fantom-to-the-moon-contest-c2052bdc1e36 \n" +
     "\n" +
     "If you're not a content creator, you can still win by referring your friends!\n"
 
@@ -93,7 +93,7 @@ module.exports.getContestRules = function(msg) {
 
   };
 
-  bot.sendMessage(msg.chat.id, "For the complete rules of the contest, take a look at our blog post\nhttps://medium.com/@ablock.io", options)
+  bot.sendMessage(msg.chat.id, "For the complete rules of the contest, take a look at our blog post\nhttps://medium.com/@ablock.io/fantom-to-the-moon-contest-c2052bdc1e36", options)
 }
 module.exports.getContestSubmitMenu = function(msg) {
   var _markup = []
