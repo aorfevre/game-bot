@@ -184,14 +184,14 @@ module.exports.showWelcomeMessage = function(msg, myUser) {
   }
   console.log(msg.chat)
   // @Simosss @solutionniste @aorfevrebr @blokcove
-  if (msg.chat.username !== undefined && (msg.chat.username === 'aorfevrebr' ||
-      msg.chat.username === 'theotherpomp' ||
-      msg.chat.username === 'solutionniste' ||
-      msg.chat.username === 'blokcove'))
-    _markup.push([{
-      text: "🔥 Win 100k FTM contest 🔥",
-      callback_data: "GET CONTEST INFO"
-    }]);
+  // if (msg.chat.username !== undefined && (msg.chat.username === 'aorfevrebr' ||
+  //     msg.chat.username === 'theotherpomp' ||
+  //     msg.chat.username === 'solutionniste' ||
+  //     msg.chat.username === 'blokcove'))
+  _markup.push([{
+    text: "🔥 Win 100k FTM contest 🔥",
+    callback_data: "GET CONTEST INFO"
+  }]);
 
   _markup.push([{
     text: "My Wallets 🚀 (" + totalWallets + ")",
