@@ -127,7 +127,7 @@ module.exports.getUser = function(msg, match) {
 
     if (helper.isPrivate(msg)) {
       var start = new Date()
-      _db.get('users_participating', msg.chat.id).then((myUser) => {
+      _db.get('users', msg.chat.id).then((myUser) => {
         var end = new Date()
 
         if (myUser !== undefined) {
