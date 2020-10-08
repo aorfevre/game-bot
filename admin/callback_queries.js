@@ -329,7 +329,7 @@ bot.on("callback_query", function(callbackQuery) {
 
 
         case "CHECK HUMAN CONTROL SMILEY":
-
+          console.log("callbackQuery.data", callbackQuery.data)
           var _smiley = callbackQuery.data.split("_")[1]
           human_control.checkHumanControlSmiley(msg, _smiley, myUser.human_response, myUser)
           break;

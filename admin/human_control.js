@@ -74,7 +74,7 @@ module.exports.checkHumanControlSmiley = function(msg, smiley, human_response, m
 
 
   if (myUser.smileyCount > 0) {
-
+    console.log("HUMAN", human_response, smiley)
 
     if (smiley === human_response) {
 
