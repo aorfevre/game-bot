@@ -141,13 +141,17 @@ bot.on('text', function(msg, match) {
 
               _db.set(myUser.type, _split, null, _datas, false).then(() => {
 
-                var name = myUser.first_name;
-                if (myUser.username !== undefined)
-                  name = "@" + myUser.username
-                bot.sendMessage("@ablockFTMContest100K", "New entry from " + name + "\n" +
-                  msg.text.toLowerCase(), options).then(ms => {
-                  bot.sendMessage(msg.chat.id, "Thank you for participating in the contest and good luck! We'll be in touch if you're the winner. Feel free to submit more entries!\n" +
-                    "Check it on https://t.me/ablockFTMContest100K/" + ms.message_id)
+
+                _db.get("users", myUser._id).then((myU) => {
+                  var name = myU.chat.first_name;
+                  if (myU.chat.username !== undefined)
+                    name = "@" + myU.username
+
+                  bot.sendMessage("@ablockFTMContest100K", "Category: " + myUser.type + "\nNew entry from " + name + "\n" +
+                    msg.text.toLowerCase(), options).then(ms => {
+                    bot.sendMessage(msg.chat.id, "Thank you for participating in the contest and good luck! We'll be in touch if you're the winner. Feel free to submit more entries!\n" +
+                      "Check it on https://t.me/ablockFTMContest100K/" + ms.message_id)
+                  })
                 })
               })
 
@@ -158,7 +162,7 @@ bot.on('text', function(msg, match) {
 
 
               };
-              bot.sendMessage(msg.chat.id, r.full_text)
+
               bot.sendMessage(msg.chat.id, "<b>Looks like this isn't a valid Tweet! Review the guidelines and if you still have issues, contact us at @ablockio.</b>" +
                 "\n#FTMtothemoon or $FTM shall be missing", options)
             }
