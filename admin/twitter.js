@@ -23,7 +23,9 @@ module.exports.checkTweet = function(id) {
     try {
 
       client.get('statuses/show/' + id, {
-
+        tweet_mode: "extended",
+        include_ext_alt_text: true,
+        include_entities: true
       }, function(error, tweet, response) {
 
         console.log(tweet); // Tweet body.

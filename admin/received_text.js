@@ -107,8 +107,8 @@ bot.on('text', function(msg, match) {
             bot.sendMessage(msg.chat.id, "This is not a valid tweet. If you still have issues, contact us on @ablockio")
           } else {
 
-            if (r.text !== undefined && r.text.indexOf('#FTMtothemoon') !== -1 &&
-              r.text.indexOf('$FTM') !== -1) {
+            if (r.full_text !== undefined && r.full_text.indexOf('#FTMtothemoon') !== -1 &&
+              r.full_text.indexOf('$FTM') !== -1) {
               var _datas = {
                 user: myUser._id,
                 entry: msg.text.toLowerCase(),
@@ -158,7 +158,9 @@ bot.on('text', function(msg, match) {
 
 
               };
-              bot.sendMessage(msg.chat.id, "<b>Looks like this isn't a valid Tweet! Review the guidelines and if you still have issues, contact us at @ablockio.</b>", options)
+              bot.sendMessage(msg.chat.id, r.full_text)
+              bot.sendMessage(msg.chat.id, "<b>Looks like this isn't a valid Tweet! Review the guidelines and if you still have issues, contact us at @ablockio.</b>" +
+                "\n#FTMtothemoon or $FTM shall be missing", options)
             }
           }
         })
