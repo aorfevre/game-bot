@@ -214,6 +214,10 @@ bot.on("callback_query", function(callbackQuery) {
             menu.setAirdropInfo(msg, null, myUser)
           });
           break;
+        case "EXTRACT CONTEST 1":
+          var _round = callbackQuery.data.split("_")[1]
+          contest.getContest1Excel(msg, myUser)
+          break;
         case "OPEN AIRDROP":
           var _round = callbackQuery.data.split("_")[1]
           admin.setAirdropStatus(true, _round).then(function() {

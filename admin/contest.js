@@ -31,7 +31,56 @@ var _cat = [{
   }
 ]
 
+module.exports.getContest1Excel = function(msg, user) {
 
+  var _promises = []
+  for (var i in _cat) {
+    _promises.push(_db.find('CONTEST_' + _cat[i].cat, {}, {}, false))
+  }
+  Promise.all(_promises).then(r => {
+    console.log(r)
+
+    _txt = ''
+    total = 0
+    var users = [];
+
+    for (var i in r) {
+      if (_cat[i].name !== undefined) {
+        _cat[i].kpi = r[i].length
+        console.log("_cat[i]", _cat[i])
+        _txt += _cat[i].name + ' ' + r[i].length + "\n"
+        total += r[i].length
+
+
+
+      }
+
+      for (var k in r[i]) {
+
+        if (!users.includes(r[i][k].myUser._id)) {
+          users.push(r[i][k].myUser._id)
+        }
+      }
+
+    }
+
+
+    _txt += '------\n'
+    _txt += 'Total:' + total + '\n'
+    _txt += 'Uniq users:' + users.length
+
+    var options = {
+      parse_mode: "HTML",
+      disable_web_page_preview: true,
+    };
+
+
+
+    bot.sendMessage(msg.chat.id, _txt, options)
+
+  })
+
+}
 module.exports.getContestInfo = function(msg) {
 
   var _txt = "<b>Fantom to the moon contest 🚀</b>\n" +

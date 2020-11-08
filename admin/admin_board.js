@@ -73,6 +73,11 @@ module.exports.getDashBoard = function(msg) {
 
       ])
       _markup.push([{
+        text: "Extract Contest 1",
+        callback_data: "EXTRACT CONTEST 1"
+      }])
+
+      _markup.push([{
           text: 'Bulk Messages',
           callback_data: 'GET BULK MESSAGES LIST'
         }
