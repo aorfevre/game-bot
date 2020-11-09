@@ -57,7 +57,7 @@ module.exports.getContest1Excel = function(msg, user) {
 
       for (var k in r[i]) {
 
-        if (!users.includes(r[i][k].myUser._id)) {
+        if (!users.includes(r[i][k].myUser._id) && r[i][k].status === true) {
           users.push(r[i][k].myUser._id)
         }
       }
