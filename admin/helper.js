@@ -81,10 +81,16 @@ module.exports.getPrice = function(token, convert) {
   return new Promise((resolve, reject) => {
     //3. Make calls
     var func = async (token, convert) => {
-
+      console.log(token, convert)
 
       let data = await CoinGeckoClient.coins.fetch(token, {});
-      return (data.data.market_data.current_price[convert.toLowerCase()])
+      try {
+        return (data.data.market_data.current_price[convert.toLowerCase()])
+
+      } catch (e) {
+        console.log('ERROR', token, convert, data)
+        return 0;
+      }
     };
     resolve(func(token, convert))
   })

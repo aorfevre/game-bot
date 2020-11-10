@@ -59,6 +59,9 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
 
 })
 
+setTimeout(() => {
+  prepareAVAXDatasMetrics()
+}, 1000)
 var prepareLTODatasMetrics = function() {
 
   return new Promise(function(resolve, reject) {
@@ -164,35 +167,35 @@ var prepareFTMDatasMetrics = function() {
 }
 
 
-setTimeout(() => {
-  var headersOpt = {
-    // "content-type": "application/json",
-  };
-
-
-  request({
-      method: 'post',
-      url: 'http://3.133.220.103:9650/ext/P',
-      body: {
-        "jsonrpc": "2.0",
-        "id": 3,
-        "method": "platform.getCurrentValidators",
-        "params": {
-
-        }
-      },
-      headers: headersOpt,
-      json: true,
-    },
-    (error, response, body) => {
-
-      for (var i in response.body.result.validators) {
-        if (response.body.result.validators[i].nodeID === 'NodeID-EkvXF2Sxi5XcHnscti1kYzdVCUA3WhdFW') {
-          console.log(response.body.result.validators[i])
-        }
-      }
-    })
-})
+// setTimeout(() => {
+//   var headersOpt = {
+//     // "content-type": "application/json",
+//   };
+//
+//
+//   request({
+//       method: 'post',
+//       url: 'http://3.133.220.103:9650/ext/P',
+//       body: {
+//         "jsonrpc": "2.0",
+//         "id": 3,
+//         "method": "platform.getCurrentValidators",
+//         "params": {
+//
+//         }
+//       },
+//       headers: headersOpt,
+//       json: true,
+//     },
+//     (error, response, body) => {
+//
+//       for (var i in response.body.result.validators) {
+//         if (response.body.result.validators[i].nodeID === 'NodeID-EkvXF2Sxi5XcHnscti1kYzdVCUA3WhdFW') {
+//           console.log(response.body.result.validators[i])
+//         }
+//       }
+//     })
+// })
 
 var prepareAVAXDatasMetrics = function(wallet) {
 
@@ -260,6 +263,7 @@ var prepareAVAXDatasMetrics = function(wallet) {
 
             total: amount
           }, true).then(() => {
+            console.log('r', r)
             fget.setDataByCollection("metrics_avax", "general", r)
             resolve(r)
           })

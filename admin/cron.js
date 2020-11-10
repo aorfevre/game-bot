@@ -30,7 +30,7 @@ var rulePricing = new schedule.RecurrenceRule();
 rulePricing.second = [0]
 
 
-helper.getPrice('avalanche', 'USD').then((response) => {
+helper.getPrice('avalanche-2', 'USD').then((response) => {
 
   var _datas = {
     unit: 'USD',
