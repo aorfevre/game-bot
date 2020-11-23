@@ -59,6 +59,7 @@ module.exports.getContest1Excel = function(msg, user) {
 
         if (!users.includes(r[i][k].myUser._id) && r[i][k].status === true) {
           users.push(r[i][k].myUser._id)
+          console.log(r[i][k].myUser.type + ' ' + r[i][k].entry)
         }
       }
 
