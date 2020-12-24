@@ -19,15 +19,15 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
   var _promises = []
 
 
-  helper.getAllDatasNetwork().then((response) => {
+  // helper.getAllDatasNetwork().then((response) => {
+  //
+  //   fget.setDataByCollection("metrics_ablock_opera", "general", response)
+  // })
 
-    fget.setDataByCollection("metrics_ablock_opera", "general", response)
-  })
-
-  helper.getNode21Info().then((response) => {
-    console.log("getNode21Info", response)
-    fget.setDataByCollection("metrics_ablock_opera", "21", response)
-  })
+  // helper.getNode21Info().then((response) => {
+  //   console.log("getNode21Info", response)
+  //   fget.setDataByCollection("metrics_ablock_opera", "21", response)
+  // })
 
   _promises.push(prepareAVAXDatasMetrics())
   _promises.push(prepareLTODatasMetrics())
@@ -60,7 +60,47 @@ var _everyday = schedule.scheduleJob(rulePricing, () => {
 })
 
 setTimeout(() => {
-  prepareAVAXDatasMetrics()
+  var _promises = []
+
+
+  // helper.getAllDatasNetwork().then((response) => {
+  //
+  //   fget.setDataByCollection("metrics_ablock_opera", "general", response)
+  // })
+
+  // helper.getNode21Info().then((response) => {
+  //   console.log("getNode21Info", response)
+  //   fget.setDataByCollection("metrics_ablock_opera", "21", response)
+  // })
+
+  _promises.push(prepareAVAXDatasMetrics())
+  _promises.push(prepareLTODatasMetrics())
+  _promises.push(prepareFTMDatasMetrics())
+
+  Promise.all(_promises).then(r => {
+
+    let all = {
+      amount: 0,
+      stakers: 0
+
+    }
+    console.log('r', r)
+    for (var i in r) {
+      if (r[i].type === 'lto') {
+        fget.setDataByCollection("metrics_ablock_lto", "general", {
+          total: r[i].total,
+          roi: r[i].roi[0].roi.yearly
+        })
+      }
+
+      all.amount += r[i].amount
+      all.stakers += r[i].stakers
+    }
+    console.log('all', all)
+
+    fget.setDataByCollection("metrics_ablock_public", "all", all)
+  })
+
 }, 1000)
 var prepareLTODatasMetrics = function() {
 
@@ -75,7 +115,14 @@ var prepareLTODatasMetrics = function() {
         _dblto.find('leasing_metrics', {
 
         }, {}, false).then((res) => {
-          console.log('resolve lto')
+          console.log('resolve lto', {
+            type: 'lto',
+            roi: roi,
+            total: res[0].totalLeased,
+            amount: res[0].totalLeased * count[0].value,
+            stakers: res[0].leaser_unpaid.length
+
+          })
           resolve({
             type: 'lto',
             roi: roi,
@@ -113,7 +160,7 @@ var prepareFTMDatasMetrics = function() {
 
         request({
             method: 'post',
-            url: 'https://xapi3.fantom.network/api',
+            url: 'https://xapi4.fantom.network/api',
             body: {
               "operationName": "DelegationList",
               "variables": {
@@ -127,6 +174,7 @@ var prepareFTMDatasMetrics = function() {
             json: true,
           },
           (error, response, body) => {
+            console.log("err", error)
             if (!error) {
               // console.log("Total Stakers FTM ", parseInt(response.body.data.delegationsOf.totalCount, 16));
               // console.log(response.body.data)
@@ -220,13 +268,19 @@ var prepareAVAXDatasMetrics = function(wallet) {
         json: true,
       },
       (error, response, body) => {
+
         _db.find("pricingAVAX", {}, {}, false).then((count) => {
 
           var data = []
           var amount = 0
           for (var i in response.body.result.validators) {
+
             if (response.body.result.validators[i].nodeID === 'NodeID-EkvXF2Sxi5XcHnscti1kYzdVCUA3WhdFW') {
+              console.log('response.body.result.validators[i', response.body.result.validators[i])
+              console.log(Math.floor(Date.now() / 1000), Number(response.body.result.validators[i].startTime), Number(response.body.result.validators[i].endTime), "/", Math.floor(Date.now() / 1000) > Number(response.body.result.validators[i].startTime), Math.floor(Date.now() / 1000) < Number(response.body.result.validators[i].endTime))
+
               data.push(response.body.result.validators[i])
+              // console.log('Date.now() - vali', Math.floor(Date.now() / 1000), Number(response.body.result.validators[i].startTime))
               if (Math.floor(Date.now() / 1000) > Number(response.body.result.validators[i].startTime) &&
                 Math.floor(Date.now() / 1000) < Number(response.body.result.validators[i].endTime)
               ) {
@@ -234,20 +288,25 @@ var prepareAVAXDatasMetrics = function(wallet) {
                 amount += Number(response.body.result.validators[i].stakeAmount)
               }
 
-            }
-          }
-          for (var i in response.body.result.delegators) {
-            if (response.body.result.delegators[i].nodeID === 'NodeID-EkvXF2Sxi5XcHnscti1kYzdVCUA3WhdFW') {
-              data.push(response.body.result.delegators[i])
-              if (Math.floor(Date.now() / 1000) > Number(response.body.result.delegators[i].startTime) &&
-                Math.floor(Date.now() / 1000) < Number(response.body.result.delegators[i].endTime)
-              ) {
 
-                amount += Number(response.body.result.delegators[i].stakeAmount)
+              // console.log('response.body.result', response.body.result.delegators)
+              for (var j in response.body.result.validators[i].delegators) {
+                // console.log('response.body.result.delegators[i', response.body.result.delegators[i])
+
+
+                if (Math.floor(Date.now() / 1000) > Number(response.body.result.validators[i].delegators[j].startTime) &&
+                  Math.floor(Date.now() / 1000) < Number(response.body.result.validators[i].delegators[j].endTime)
+                ) {
+
+                  amount += Number(response.body.result.validators[i].delegators[j].stakeAmount)
+                }
+
               }
 
+
             }
           }
+
           var r = {
             type: 'avax',
             stakers: data.length,

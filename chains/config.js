@@ -155,23 +155,23 @@ global.REQUIREMENTS = {
     isLowerCase: false
 
   },
-  ERDWallets: {
-    btn_txt: "Add your Elrond Network wallet address",
-    type: "ERDWallets",
-    text_question: "1/ Type a Elrond Network wallet address\n" +
-      "2/ Enjoy!",
-    type_data: "text",
-    check: helper.noCheck,
-    checkNoPromise: helper.checkNoPromise,
-    allow_dup: true,
-    invalid: 'This is not a correct Elrond Network mainnet address',
-    explorer: 'https://explorer.elrond.com/address/',
-    name: 'Elrond Network',
-    balances: erd.getAllBalances,
-    ticker: 'ERD',
-    isLowerCase: false
-
-  },
+  // ERDWallets: {
+  //   btn_txt: "Add your Elrond Network wallet address",
+  //   type: "ERDWallets",
+  //   text_question: "1/ Type a Elrond Network wallet address\n" +
+  //     "2/ Enjoy!",
+  //   type_data: "text",
+  //   check: helper.noCheck,
+  //   checkNoPromise: helper.checkNoPromise,
+  //   allow_dup: true,
+  //   invalid: 'This is not a correct Elrond Network mainnet address',
+  //   explorer: 'https://explorer.elrond.com/address/',
+  //   name: 'Elrond Network',
+  //   balances: erd.getAllBalances,
+  //   ticker: 'ERD',
+  //   isLowerCase: false
+  //
+  // },
 
   notifyMinimum: {
     btn_txt: "-",
