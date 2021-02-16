@@ -77,7 +77,7 @@ setTimeout(() => {
   _promises.push(prepareLTODatasMetrics())
   _promises.push(prepareFTMDatasMetrics())
 
-  Promise.all(_promises).then(r => {
+  Promise.all(_promises).then(async (r) => {
 
     let all = {
       amount: 0,
@@ -87,7 +87,7 @@ setTimeout(() => {
     console.log('r', r)
     for (var i in r) {
       if (r[i].type === 'lto') {
-        fget.setDataByCollection("metrics_ablock_lto", "general", {
+        await fget.setDataByCollection("metrics_ablock_lto", "general", {
           total: r[i].total,
           roi: r[i].roi[0].roi.yearly
         })
