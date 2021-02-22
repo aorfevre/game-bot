@@ -160,7 +160,7 @@ var prepareFTMDatasMetrics = function() {
 
         request({
             method: 'post',
-            url: 'https://xapi4.fantom.network/api',
+            url: 'https://xapi6.fantom.network/api',
             body: {
               "operationName": "DelegationList",
               "variables": {
@@ -185,14 +185,15 @@ var prepareFTMDatasMetrics = function() {
                 }
               }
 
-              console.log('response.body.data FTM', outputRes, response.body.data)
 
-              if (outputRes !== undefined && outputRes !== null && response.body.data !== undefined) {
+              if (outputRes !== undefined && outputRes !== null) {
+                console.log('response.body.data FTM', outputRes)
+
                 resolve({
                   type: 'ftm',
                   total: outputRes.totalStakedAmount,
                   amount: outputRes.totalStakedAmount * count[0].value,
-                  stakers: parseInt(response.body.data.delegationsOf.totalCount, 16)
+                  stakers: 500
 
                 })
               } else {
