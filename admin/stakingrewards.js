@@ -237,8 +237,7 @@ stakingInfo = function(msg, match, waitPeriod) {
                 "Reward 24h change: " + ((info.reward24hChange.toFixed(2) > 0) ? '+' + info.reward24hChange.toFixed(2) : info.reward24hChange.toFixed(2)) + "%\n" +
                 "Reward 30d change: " + ((info.reward30dChange.toFixed(2) > 0) ? '+' + info.reward30dChange.toFixed(2) : info.reward30dChange.toFixed(2)) + "%\n" +
                 "Total Staked: " + info.totalStaked.toFixed(2) + "%\n"
-              if (p !== null && msg.chat !== undefined)
-                _txt += "Price: " + price + "\n"
+              _txt += "Price: $" + info.price + "\n"
 
               _txt +=
                 "\n🌟 stakingrewards.com/asset/" + asset.slug + " \n❤️ ablock.io\n"
