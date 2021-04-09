@@ -200,7 +200,8 @@ var _getWalletNode = function(item) {
 
   if (item === "3JxRvAGmuro9MUfJ3ZkznQjKSeGYXdx9odz")
     _txt = "Binance"
-
+  if (item === "3Jg3DZyhBnNacHiY13624NQDsxBmnwnqNRQ")
+    _txt = "LTO Blockchain Node"
   if (item === "3JnYB1TzHYS3gYDvczYtNUnmEbJsgmsdWY3")
     _txt = "LunarWhale Node"
 
