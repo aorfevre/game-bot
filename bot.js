@@ -22,9 +22,17 @@ var stakingrewards = require('./admin/stakingrewards.js')
 _db.init()
 //
 bot.on('message', function(event) {
+  console.log(event)
   if (event.text !== undefined &&
     event.text.toLowerCase().indexOf("@team") !== -1 && event.chat.id === -1001162960241) {
     var _txt = "☝️☝️☝️☝️☝️☝️☝️\n" + "@Simosss @solutionniste @aorfevrebr @blokcove"
     bot.sendMessage(event.chat.id, _txt)
+  } else if (event.text !== undefined &&
+    event.text.toLowerCase().indexOf("@team") !== -1 && event.chat.id === -1001345494110) {
+    var _txt = "☝️☝️☝️☝️☝️☝️☝️\n" + "@Simosss @solutionniste @aorfevrebr @blokcove @Javamu"
+    bot.sendMessage(event.chat.id, _txt)
   }
+
+
+
 })
