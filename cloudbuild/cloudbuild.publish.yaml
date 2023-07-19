@@ -1,6 +1,6 @@
 steps:
 # Run unit tests on the app
-- name:       'node:18-alpine'
+- name:       'node:16'
   id:         Test
   entrypoint: /bin/sh
   args:
