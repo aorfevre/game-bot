@@ -3,7 +3,7 @@
 const TelegramBot = require('node-telegram-bot-api');
 var async = require('async');
 
-global.TOKEN = '1157895976:AAHCaIQmcpUqAhb9hzRBPBOPtwVaGNdF0DM';
+global.TOKEN = '6375531801:AAGUXk_VVzPD4aQkcKYHoWAObpkzjMDeK6A';
 global.isDev = __dirname.indexOf("aorfevre") !== -1
 
 module.exports.setTelegram = function() {
@@ -26,8 +26,7 @@ module.exports.setTelegram = function() {
 
 
   var bot = null;
-  // if(!isDev){
-  if (false) {
+  if(!isDev){
     const options = {
 
       webHook: {
