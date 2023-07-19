@@ -1,6 +1,6 @@
 steps:
 # Run unit tests on the app
-- name:       'node:12-alpine'
+- name:       'node:18-alpine'
   id:         Test
   entrypoint: /bin/sh
   args:
@@ -29,7 +29,7 @@ steps:
   - '-c'
   - |
      gcloud run deploy $$SERVICE_NAME --image $$IMAGE_NAME --region europe-west1 --platform managed --allow-unauthenticated
-  env:        ['SERVICE_NAME=ablock-tg-bot']
+  env:        ['SERVICE_NAME=rpartners-bot']
 
 options:
   env:

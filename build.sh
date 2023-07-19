@@ -7,7 +7,7 @@ git push origin master
 keypath=`pwd`"/../pem/aor-ohio-ec2-t2small.pem"
 userEC2="ubuntu"
 instanceEC2="3.12.222.35"
-appname="ablock-tg-bot"
+appname="rpartners-bot"
 
 
 ssh -i $keypath $userEC2@$instanceEC2 -t -t './_pm2_'$appname'.sh'
