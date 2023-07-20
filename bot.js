@@ -6,10 +6,11 @@ global.bot = init.setTelegram();
 
 //
 bot.on('message', function(event) {
+  console.log('Message',event)
   if (event.text !== undefined &&
     event.text.toLowerCase().indexOf("@team") !== -1 && event.chat.id === -1001746527561) {
     var _txt = "☝️☝️☝️☝️☝️☝️☝️\n" + "@jr_yellow @Cryptoswiss108 @charlym04 @cto_rp"
-    bot.sendMessage(event.chat.id, _txt)
+    bot.sendMessage(event.chat.id, _txt,{reply_to_message_id: event.message_id})
   }
 
 
