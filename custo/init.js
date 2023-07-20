@@ -26,8 +26,8 @@ module.exports.setTelegram = function() {
 
 
   var bot = null;
-  // if(!isDev){
-  if(false){
+  if(!isDev){
+  // if(false){
     const options = {
 
       webHook: {
@@ -35,7 +35,7 @@ module.exports.setTelegram = function() {
         port: 443
       }
     };
-    var url = 'https://tg.ablock.io'
+    var url = 'https://rpartners-bot-r7biaqha5q-ew.a.run.app'
     // url = 'https://api.telegram.org'
     bot = new TelegramBot(telegramToken, options);
     bot.setWebHook(`${url}/bot${telegramToken}`);
