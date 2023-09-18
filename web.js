@@ -28,8 +28,7 @@ app.post(`/bot${TOKEN}`, (req, res) => {
 });
 
 app.post(`/payment-received`, (req, res) => {
-  console.log('payment received', req.body);
-  bot.sendMessage(-1001746527561,'New payment received')
+  bot.sendMessage(-1001746527561,'💸💸 New payment received 💸💸')
   res.sendStatus(200);
 });
 
