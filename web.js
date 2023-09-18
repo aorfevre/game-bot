@@ -27,6 +27,12 @@ app.post(`/bot${TOKEN}`, (req, res) => {
   res.sendStatus(200);
 });
 
+app.post(`/payment-received`, (req, res) => {
+  console.log('payment received', req.body);
+  bot.sendMessage(-1001746527561,'New payment received')
+  res.sendStatus(200);
+});
+
 app.listen(port, function() {
   console.log('Our app is running on http://localhost:' + port);
 });
