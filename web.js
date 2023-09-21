@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+const checkBalance = require('./custo/checkBalance.js')
 
 // set the port of our application
 // process.env.PORT lets the port be set by Heroku
@@ -29,6 +30,11 @@ app.post(`/bot${TOKEN}`, (req, res) => {
 
 app.post(`/payment-received`, (req, res) => {
   bot.sendMessage(-1001746527561,'💸💸 New payment received 💸💸')
+  res.sendStatus(200);
+});
+
+app.get(`/daily-balance`, (req, res) => {
+  checkBalance.checkBalanceOnceAday();
   res.sendStatus(200);
 });
 
