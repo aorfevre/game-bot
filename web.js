@@ -40,7 +40,7 @@ app.get(`/daily-balance`, (req, res) => {
   res.sendStatus(200);
 });
 app.get(`/new-comer`, (req, res) => {
-  bot.sendMessage(-1001746527561, "👍👍👍👍👍👍👍",{reply_to_message_id: 16239})
+  bot.sendMessage(-1001746527561, "New registration on app.raize.partners ",{reply_to_message_id: 16239})
 
   res.sendStatus(200);
 });
