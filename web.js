@@ -35,8 +35,11 @@ app.post(`/payment-received`, (req, res) => {
 
 app.get(`/daily-balance`, (req, res) => {
   checkBalance.checkBalanceOnceAday();
+  checkBalance.getRadom()
+
   res.sendStatus(200);
 });
+
 
 app.listen(port, function() {
   console.log('Our app is running on http://localhost:' + port);

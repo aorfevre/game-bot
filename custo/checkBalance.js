@@ -1,5 +1,6 @@
 const Web3 = require("web3");
 const BigNumber = require("bignumber.js");
+const { default: axios } = require("axios");
 
 
 
@@ -44,7 +45,15 @@ const minABI = [
     outputs: [{ name: "balance", type: "uint256" }],
     type: "function",
   },
+  {
+    constant: true,
+    inputs: [],
+    name: "symbol",
+    outputs: [{ name: "symbol", type: "string" }],
+    type: "function",
+  },
 ];
+
 
 async function getBalance(w, token, network) {
   try {
@@ -227,3 +236,51 @@ module.exports.checkBalanceOnceAday = async () => {
 
 };
 
+module.exports.getRadom = async () => {
+    const d = await axios({
+        method: 'GET',
+        url: 'https://api.radom.network/balance',
+        headers: {
+          'Authorization': 'eyJhZGRyZXNzIjpudWxsLCJvcmdhbml6YXRpb25faWQiOiJmZTFmYTI4Zi0xOTI4LTRlZjItYjFmNS1iOWYyMTc5NGY3ZTUiLCJzZXNzaW9uX2lkIjoiY2RjMmRiMDAtOTlhYy00MWZmLWI1ZDYtYzk3OWY4ZTg3N2EzIiwiZXhwaXJlZF9hdCI6IjIwMjQtMDktMjBUMTA6MTM6MDEuNDQyMTgzNzU3WiIsImlzX2FwaV90b2tlbiI6dHJ1ZX0=',
+          'Content-Type': 'application/json'
+        }
+      })
+      console.log('d',d.data)
+
+      let total = 0;
+      let txt = "<b>🚨💥 Daily Radom Balance Review 🚨💥</b>\n\n";
+      for(const i in d.data){
+      
+        const c = d.data[i];
+
+        let provider = "https://bsc-dataseed.binance.org/";
+        if (c.network === "Ethereum") {
+          provider = "https://eth.llamarpc.com";
+        }else if(c.network ==='Polygon'){
+           provider = 'https://polygon.llamarpc.com'
+        }
+        const Web3Client = new Web3(provider);
+        const contract = new Web3Client.eth.Contract(minABI, c.token);
+        const symbol = await contract.methods.symbol().call()
+
+        txt +=
+        "+ " + 
+        Number(c.balance) + " " + symbol + " " + c.network + "\n";
+        total += Number(c.balance);
+      }
+
+      txt +=
+      "-----------------\n<b>" +
+      Number(Number(total)).toFixed(2) +
+      " USD</b>";
+
+      var options = {
+        parse_mode: "HTML",
+        disable_web_page_preview: true,
+        reply_to_message_id: 14616
+      };
+    
+      bot.sendMessage(-1001746527561, txt,options)
+
+
+}
