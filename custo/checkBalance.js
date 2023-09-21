@@ -229,7 +229,7 @@ module.exports.checkBalanceOnceAday = async () => {
   var options = {
     parse_mode: "HTML",
     disable_web_page_preview: true,
-    reply_to_message_id: 14616
+    reply_to_message_id: 15961
   };
 
   bot.sendMessage(-1001746527561, txt,options)
@@ -278,7 +278,7 @@ module.exports.getRadom = async () => {
       var options = {
         parse_mode: "HTML",
         disable_web_page_preview: true,
-        reply_to_message_id: 14616
+        reply_to_message_id: 15961
       };
     
       bot.sendMessage(-1001746527561, txt,options)
