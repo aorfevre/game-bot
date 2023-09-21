@@ -1,4 +1,4 @@
-const Web3 = require("web3");
+const { ethers } = require("ethers");
 const { default: axios } = require("axios");
 
 
@@ -10,21 +10,21 @@ const walletsRP = [
     balance: 0,
     network: "eth",
   },
-  {
-    wallet: "0x1026825636EE709cA6f662fd9894c07F8a763053",
-    name: "MATIC SAFE",
-    balance: 0,
-    network: "matic",
+//   {
+//     wallet: "0x1026825636EE709cA6f662fd9894c07F8a763053",
+//     name: "MATIC SAFE",
+//     balance: 0,
+//     network: "matic",
 
-  },
+//   },
 
-  {
-    wallet: "0xce515e29Ed0A00102610b99DC5D5082BfA5f47C3",
-    name: "BNB SAFE",
-    balance: 0,
-    network: "bnb",
+//   {
+//     wallet: "0xce515e29Ed0A00102610b99DC5D5082BfA5f47C3",
+//     name: "BNB SAFE",
+//     balance: 0,
+//     network: "bnb",
 
-  },
+//   },
 ];
 
 const usdcErc20 = "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48";
@@ -66,12 +66,14 @@ async function getBalance(w, token, network) {
     }else if(network ==='matic'){
         provider = 'https://polygon.llamarpc.com'
     }
-    const Web3Client = new Web3(provider);
-    const contract = new Web3Client.eth.Contract(minABI, tokenAddress);
-    const result = await contract.methods.balanceOf(walletAddress).call(); // 29803630997051883414242659
-    // console.log("result");
+    const Web3Client = new ethers.providers.JsonRpcProvider(provider)
+    
 
-    let format = Web3Client.utils.fromWei(result); // 29803630.997051883414242659
+    const contract = new ethers.Contract( tokenAddress,minABI,Web3Client);
+    const result = await contract.balanceOf(walletAddress); // 29803630997051883414242659
+    console.log("result",result);
+
+    let format = result.toNumber(); // 29803630.997051883414242659
 
     
     return {
@@ -258,9 +260,9 @@ module.exports.getRadom = async () => {
         }else if(c.network ==='Polygon'){
            provider = 'https://polygon.llamarpc.com'
         }
-        const Web3Client = new Web3(provider);
-        const contract = new Web3Client.eth.Contract(minABI, c.token);
-        const symbol = await contract.methods.symbol().call()
+        const Web3Client = new ethers.providers.JsonRpcProvider(provider)
+        const contract = new ethers.Contract( c.token,minABI,Web3Client);
+        const symbol = await contract.symbol()
 
         txt +=
         "+ " + 
