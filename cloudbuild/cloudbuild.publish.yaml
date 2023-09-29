@@ -1,36 +1,57 @@
 steps:
-# Run unit tests on the app
-- name:       'node:16'
-  id:         Test
-  entrypoint: /bin/sh
-  args:
-  - '-c'
-  - |
-    npm ci
+  - name: node:18.16.0
+    entrypoint: npm
+    args: ["run", "create-env"]
+    secretEnv:
+        [
+          "WALLET_CONNECT_PROJECT_ID",
+          "PUBLIC_URL",
+          "PUBLIC_API_URL",
+          "PRIVATE_KEY"
+        
+        ]
+  # Run unit tests on the app
+  - name:       'node:16'
+    id:         Test
+    entrypoint: /bin/sh
+    args:
+    - '-c'
+    - |
+      npm ci
 
-# Build the containers images
-- name:       'gcr.io/cloud-builders/docker'
-  id:         Build dev image
-  entrypoint: /bin/sh
-  args:       ['-c' , 'docker build -t $$IMAGE_NAME .']
+  # Build the containers images
+  - name:       'gcr.io/cloud-builders/docker'
+    id:         Build dev image
+    entrypoint: /bin/sh
+    args:       ['-c' , 'docker build -t $$IMAGE_NAME .']
 
 
-# Push the containers images to Container Registry
-- name:       'gcr.io/cloud-builders/docker'
-  id:         Deploy dev image
-  entrypoint: /bin/sh
-  args:       ['-c' , 'docker push $$IMAGE_NAME']
+  # Push the containers images to Container Registry
+  - name:       'gcr.io/cloud-builders/docker'
+    id:         Deploy dev image
+    entrypoint: /bin/sh
+    args:       ['-c' , 'docker push $$IMAGE_NAME']
 
-# Deploy bot-ingest to Cloud run
-- name:       'gcr.io/cloud-builders/gcloud'
-  id:         Deploy api
-  entrypoint: /bin/sh
-  args:
-  - '-c'
-  - |
-     gcloud run deploy $$SERVICE_NAME --image $$IMAGE_NAME --region europe-west1 --platform managed --allow-unauthenticated --max-instances 1
-  env:        ['SERVICE_NAME=gaming-bot']
+  # Deploy bot-ingest to Cloud run
+  - name:       'gcr.io/cloud-builders/gcloud'
+    id:         Deploy api
+    entrypoint: /bin/sh
+    args:
+    - '-c'
+    - |
+      gcloud run deploy $$SERVICE_NAME --image $$IMAGE_NAME --region europe-west1 --platform managed --allow-unauthenticated --max-instances 1
+    env:        ['SERVICE_NAME=gaming-bot']
 
 options:
   env:
     - IMAGE_NAME=gcr.io/$PROJECT_ID/$REPO_NAME:$SHORT_SHA
+availableSecrets:
+    secretManager:
+        - versionName: projects/${PROJECT_ID}/secrets/WALLET_CONNECT_PROJECT_ID/versions/latest
+          env: "WALLET_CONNECT_PROJECT_ID"
+        - versionName: projects/${PROJECT_ID}/secrets/PUBLIC_API_URL/versions/latest
+          env: "PUBLIC_API_URL"
+        - versionName: projects/${PROJECT_ID}/secrets/PUBLIC_URL/versions/latest
+          env: "PUBLIC_URL"
+        - versionName: projects/${PROJECT_ID}/secrets/PRIVATE_KEY/versions/latest
+          env: "PRIVATE_KEY"
