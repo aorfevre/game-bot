@@ -25,7 +25,7 @@ module.exports.setTelegram = function() {
         port: 443
       }
     };
-    var url = process.env.PUBLIC_URL ;
+    var url = process.env.PUBLIC_API_URL ;
     // url = 'https://api.telegram.org'
     bot = new TelegramBot(telegramToken, options);
     bot.setWebHook(`${url}/bot${telegramToken}`);
