@@ -43,7 +43,6 @@ bot.onText(/^\/[p]ay(.+|\b)/, (msg, match) => {
     },
     
   ]);
-  console.log('URL: ',process.env.PUBLIC_URL_LOCALHOST +"?hash="+encodeURIComponent(data))
   
 
   var options = {
