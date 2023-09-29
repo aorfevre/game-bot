@@ -9,7 +9,8 @@ steps:
           "PUBLIC_API_URL",
           "PRIVATE_KEY",
           "PUBLIC_CHAIN_ID",
-          "PUBLIC_RECEIVING_WALLET"
+          "PUBLIC_RECEIVING_WALLET",
+          "PUBLIC_RPC_URL"
         
         ]
   # Run unit tests on the app
@@ -61,3 +62,5 @@ availableSecrets:
           env: "PUBLIC_CHAIN_ID"
         - versionName: projects/${PROJECT_ID}/secrets/PUBLIC_RECEIVING_WALLET/versions/latest
           env: "PUBLIC_RECEIVING_WALLET"
+        - versionName: projects/${PROJECT_ID}/secrets/PUBLIC_RPC_URL/versions/latest
+          env: "PUBLIC_RPC_URL"

@@ -1,5 +1,0 @@
-{
-          ooperationName: null,
-          query: "{↵  blockchains {↵    count↵  }↵}↵",
-          variables: {}
-        }

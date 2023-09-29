@@ -9,18 +9,9 @@ var port = process.env.PORT || 8508;
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
-// make express look in the public directory for assets (css/js/img)
-// app.use(express.static(__dirname + '/public'));
-
 // parse the updates to JSON
 app.use(express.json());
 app.use(cors())
-// // set the home page route
-// app.get('/', function(req, res) {
-//
-//   // ejs render automatically looks in the views folder
-//   res.render('index');
-// });
 
 // We are receiving updates at the route below!
 app.post(`/bot${TOKEN}`, (req, res) => {
@@ -30,11 +21,10 @@ app.post(`/bot${TOKEN}`, (req, res) => {
 
 app.get(`/decode`, (req, res) => {
   const {hash} = req.query;
-  console.log('Start decoding...',hash)
   if(hash){
     const result = helper.decode(decodeURIComponent(hash));
     if(result){
-      console.log('result',result)
+      console.log('Decoding Result',result)
       res.send(result);
 
     }else{
@@ -46,7 +36,15 @@ app.get(`/decode`, (req, res) => {
   }
 });
 
-
+app.post(`/play`, async(req, res) => {
+  const body = req.body;
+  const status = await helper.savePlayTransaction(body.hash,body.txhash);
+  if(status){
+    res.sendStatus(200);
+  }else{
+    res.sendStatus(400);
+  }
+})
 
 app.listen(port, function() {
   console.log('Our app is running on http://localhost:' + port);

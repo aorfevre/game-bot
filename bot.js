@@ -8,7 +8,12 @@ var helper = require('./custo/helper.js')
 
 global.bot = init.setTelegram();
 
-bot.onText(/^\/[p]ay(.+|\b)/, (msg, match) => {
+bot.on('message', async(msg) => {
+  helper.updateUser(msg);
+});
+
+
+bot.onText(/^\/[start](.+|\b)/, (msg, match) => {
   try{
 
   
@@ -43,6 +48,13 @@ bot.onText(/^\/[p]ay(.+|\b)/, (msg, match) => {
     },
     
   ]);
+  _markup.push([
+    {
+      text: "Verify pending transactions",
+      callback_data: "VERIFY_PENDING_TRANSACTIONS",
+    }
+    
+  ]);
   
 
   var options = {
@@ -58,3 +70,17 @@ bot.onText(/^\/[p]ay(.+|\b)/, (msg, match) => {
 }
 
 });
+
+// callback queries
+bot.on("callback_query", async (callbackQuery) => {
+    var msg = callbackQuery.message;
+    var control = callbackQuery.data;
+
+    
+
+  switch(control){
+    case "VERIFY_PENDING_TRANSACTIONS":
+      helper.findAllUnverifiedTransactions()
+      break; 
+  }
+})
