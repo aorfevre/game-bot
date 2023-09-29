@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+var cors = require('cors');
 const helper = require('./custo/helper.js');
 // set the port of our application
 // process.env.PORT lets the port be set by Heroku
@@ -13,7 +14,7 @@ app.set('view engine', 'ejs');
 
 // parse the updates to JSON
 app.use(express.json());
-
+app.use(cors())
 // // set the home page route
 // app.get('/', function(req, res) {
 //
@@ -29,10 +30,12 @@ app.post(`/bot${TOKEN}`, (req, res) => {
 
 app.get(`/decode`, (req, res) => {
   const {hash} = req.query;
+  console.log('Start decoding...',hash)
   if(hash){
     const result = helper.decode(decodeURIComponent(hash));
     if(result){
-      res.json(result);
+      console.log('result',result)
+      res.send(result);
 
     }else{
       res.sendStatus(400);
