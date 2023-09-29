@@ -29,7 +29,7 @@ steps:
   - '-c'
   - |
      gcloud run deploy $$SERVICE_NAME --image $$IMAGE_NAME --region europe-west1 --platform managed --allow-unauthenticated --max-instances 1
-  env:        ['SERVICE_NAME=rpartners-bot']
+  env:        ['SERVICE_NAME=gaming-bot']
 
 options:
   env:
