@@ -134,7 +134,12 @@ module.exports.tiers = async(msg,t) => {
         url: process.env.PUBLIC_URL +"?hash="+encodeURIComponent(betrayData),
       },
     ]);
-
+ _markup.push([
+      {
+        text: "Verify pending transactions",
+        callback_data: "VERIFY_PENDING_TRANSACTIONS",
+      }
+    ]);
     
     var options = {
       parse_mode: "HTML",
