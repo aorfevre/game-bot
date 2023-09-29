@@ -35,7 +35,7 @@ module.exports.setTelegram = function() {
         port: 443
       }
     };
-    var url = 'https://rpartners-bot-novlvic76a-ew.a.run.app'
+    var url = 'https://gaming-bot-urphktcmtq-ew.a.run.app'
     // url = 'https://api.telegram.org'
     bot = new TelegramBot(telegramToken, options);
     bot.setWebHook(`${url}/bot${telegramToken}`);
