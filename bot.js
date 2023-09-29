@@ -6,4 +6,7 @@ global.bot = init.setTelegram();
 //
 bot.on('message', function(event) {
  
+    console.log('Event', event)
+      bot.sendMessage(event.chat.id, "Pong")
+  
 })
