@@ -1,21 +1,31 @@
 "use strict";
+require('dotenv').config()
 
 process.env["NTBA_FIX_319"] = 1;
 var init = require('./custo/init.js')
+
+var helper = require('./custo/helper.js')
+
 global.bot = init.setTelegram();
-//
-bot.on('message', function(event) {
- 
-  
-})
 
 bot.onText(/^\/[p]ay(.+|\b)/, (msg, match) => {
-  console.log('msg',msg)
+  try{
+
+  
   var _markup = [];
+
+  const struct = {
+    price : 5,
+    mode : 'rock', 
+    user : msg.chat.id,
+    game : 'RockPaperScissors'
+  }
+  const data = helper.encode(struct);
+  console.log('DATA',encodeURIComponent(data))
   _markup.push([
     {
       text: "Pay 5 Rock",
-      url: "https://game-payment-urphktcmtq-ew.a.run.app?price=5&mode=rock",
+      url: process.env.PUBLIC_URL +"?hash="+encodeURIComponent(data),
     },
     
   ]);
@@ -30,5 +40,8 @@ bot.onText(/^\/[p]ay(.+|\b)/, (msg, match) => {
     }),
           };
   bot.sendMessage(msg.chat.id, "Let's create a payment link",options)
+}catch(e){
+  console.log('error',e);
+}
 
 });

@@ -14,16 +14,6 @@ module.exports.setTelegram = function() {
 
   if (isDev)
     telegramToken = TOKEN
-  // return new TelegramBot(telegramToken, {
-  //   polling: {
-  //     interval: 200,
-  //     limit: 75,
-  //     autoStart: true,
-  //     allowed_updates: ["message", "inline_query", "callback_query"]
-  //   }
-  // });
-
-
 
   var bot = null;
   if(!isDev){
@@ -35,7 +25,7 @@ module.exports.setTelegram = function() {
         port: 443
       }
     };
-    var url = 'https://gaming-bot-urphktcmtq-ew.a.run.app'
+    var url = process.env.PUBLIC_URL ;
     // url = 'https://api.telegram.org'
     bot = new TelegramBot(telegramToken, options);
     bot.setWebHook(`${url}/bot${telegramToken}`);
