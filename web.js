@@ -28,24 +28,6 @@ app.post(`/bot${TOKEN}`, (req, res) => {
   res.sendStatus(200);
 });
 
-app.post(`/payment-received`, (req, res) => {
-  bot.sendMessage(-1001746527561,'💸💸 New payment received 💸💸')
-  res.sendStatus(200);
-});
-
-app.get(`/daily-balance`, (req, res) => {
-  checkBalance.checkBalanceOnceAday();
-  checkBalance.getRadom()
-
-  res.sendStatus(200);
-});
-app.get(`/new-comer`, (req, res) => {
-  bot.sendMessage(-1001746527561, "New registration on app.raize.partners ",{reply_to_message_id: 16239})
-
-  res.sendStatus(200);
-});
-
-
 
 
 app.listen(port, function() {
