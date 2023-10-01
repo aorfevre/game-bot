@@ -1,3 +1,5 @@
+var db = require("../database/mongo.js");
+
 module.exports.getIntroText = async (msg) => {
   let txt = "🤔 <b>Guess the Number</b>\n\n";
 
@@ -65,69 +67,166 @@ module.exports.guide = async (msg,t) => {
       });
 }
 
-// module.exports.init = async(msg) => {
+module.exports.payout = async ()=>{
 
-//     let txt = `Short description of Number Guessing Game\n\n`;
+  const PARTICIPANTS = 2; 
 
-//     txt += "What do you want to do ? ";
-//     var _markup = [];
+  const client = await db.getClient();
 
-//     _markup.push([
-//       {
-//         text: "More info",
-//         callback_data: "GAME_NUMBERGUESSING_INFO",
-//       },
+  // find all tx that have decoded.game = NUMBERGUESSING and verified = true and processed = false and find only one 'decoded._id' per match; limit to 10
+  const tx = await client
+    .db("gaming")
+    .collection("tx")
+    .aggregate([
+      {
+        $match: {
+          "decoded.game": "NUMBERGUESSING",
+          verified: true,
+          processed: false,
+        },
+      },
+      {
+        $group: {
+          _id: "$decoded._id",
+          decoded: { $first: "$decoded" },
+        },
+      },
+      {
+        $limit: 10,
+      },
+    ])
+    .toArray();
+  console.log('Data',tx)
+  if (tx.length > 0 && tx.length === PARTICIPANTS) {
+    // calculate prize pool 
+    let prizePool = 0;
+    let gameFee = 0;
+    // We have participants for number guessing 
+    // We need to find the winner
+    
 
-//     ]);
-//     _markup.push([
-//         {
-//           text: "🔙 Back to Home",
-//           callback_data: "HOME",
-//         },
+    // Sum all decoded.action
+    let sum = 0;
+    for(const i in tx){
+      sum += Number(tx[i].decoded.action);
+      prizePool += (tx[i].decoded.price * 1000 )/1000 *0.9;
+      gameFee += (tx[i].decoded.price * 1000 )/1000 *0.1;
+        if(tx[i].iteration === undefined){
+          tx[i].iteration = 0;
+        }
+        tx[i].iteration++;
 
-//       ]);
-//     var options = {
-//       parse_mode: "HTML",
-//       disable_web_page_preview: true,
-//       reply_markup: JSON.stringify({
-//         inline_keyboard: _markup,
-//       }),
-//     };
 
-//     bot.sendMessage(msg.chat.id, txt, options);
+    }
+    // Calculate average
+    const avg = sum / tx.length;
+    // Calculate 2/3 of average
+    const twoThirds = avg * 2 / 3;
+    // Find the closest to 2/3 of average
+    let closest = 0;
+    let winner = null;
+    const ids = [];
+    const idsIteration = [];
 
-// };
+    for(const i in tx){
+      const diff = Math.abs(twoThirds - Number(tx[i].decoded.action));
+      if(closest === 0 || diff < closest){
+        closest = diff;
+        winner = tx[i];
+      }
+      // if(tx[i].iteration === tx[i].decoded.number){
+      //   await client
+      //   .db("gaming")
+      //   .collection("tx")
+      //   .updateOne({ _id: tx[i]._id }, { $set: { iteration: tx[i].iteration, processed: true,_updated_at: new Date() }});
+      // }else{
+      //   await client
+      //   .db("gaming")
+      //   .collection("tx")
+      //   .updateOne({ _id: tx[i]._id }, { $set: { iteration: tx[i].iteration, processed: false, _updated_at: new Date() }});
+      // }
 
-// module.exports.info = async(msg) => {
+    }
+    // find all loosers 
+    const loosers = [];
+    for(const i in tx){
+      if(winner._id !== tx[i]._id){
+        loosers.push(tx[i]);
+      }
+    }
 
-//     let txt = `More info of Number Guessing Game\n\n`;
 
-//     txt += "What do you want to do ? ";
-//     var _markup = [];
+    winner.prizePool = prizePool;
+    winner.gameFee = gameFee;
+    winner.loosers = loosers;
+    winner._created_at = new Date();  
 
-//     _markup.push([
-//       {
-//         text: "Go back to Number Guessing Game",
-//         callback_data: "GAME_NUMBERGUESSING",
-//       },
+    // Save the winner state 
+    await client
+      .db("gaming")
+      .collection("winners")
+      .insertOne(winner);
 
-//     ]);
-//     _markup.push([
-//         {
-//           text: "🔙 Back to Home",
-//           callback_data: "HOME",
-//         },
 
-//       ]);
+    // send prize pool to Winner
 
-//     var options = {
-//       parse_mode: "HTML",
-//       disable_web_page_preview: true,
-//       reply_markup: JSON.stringify({
-//         inline_keyboard: _markup,
-//       }),
-//     };
+    // send bot message to winner 
+//     *Match results*
 
-//     bot.sendMessage(msg.chat.id, txt, options);
+// Guess the Number match
+// #<number in database>
+// has finished
 
-// };
+// You won!
+
+// Your prize:
+// <player payout in database>
+
+// Your prize has been paid out
+
+    let txtWinner = "<b>Match results</b>\n\n" +
+    "Guess the Number match ###\n" +
+    "has finished\n\n" +
+    "You won!\n\n" +
+    "Your prize:\n" +
+    prizePool + " ETH\n\n" +
+    "Your prize has been paid out\n\n" +
+
+
+
+    bot.sendMessage(winner.decoded._id, "You won the prize pool of " + prizePool + " ETH"); 
+
+    // send Game fee to Safe MultiSig 
+
+    // send bot message to Loosers 
+    let txtLoosers = "<b>Match results</b>\n\n" +
+    "Guess the Number match ### has finished\n\n" +
+    "You didn't win.\n\n";
+    for(const i in loosers){
+      bot.sendMessage(loosers[i].decoded._id, txtLoosers, {
+        parse_mode: "HTML",
+        disable_web_page_preview: true,
+        reply_markup: JSON.stringify({
+          inline_keyboard: [
+            [
+              {
+                text: "🤔 Play Guess the Number",
+                callback_data: "GAME_INIT_NUMBERGUESSING",
+              },
+            ],
+            [
+              {
+                text: "🔙 Back to Home",
+                callback_data: "HOME",
+              },
+            ],
+          ],
+        }),  
+      });
+    }
+
+
+  }else{
+    // Stop looping
+  }
+}
