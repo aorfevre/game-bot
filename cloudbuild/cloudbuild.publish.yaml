@@ -10,7 +10,9 @@ steps:
           "PRIVATE_KEY",
           "PUBLIC_CHAIN_ID",
           "PUBLIC_RECEIVING_WALLET",
-          "PUBLIC_RPC_URL"
+          "PUBLIC_RPC_URL",
+          "PAYOUT_WALLET_PRISONER",
+          "PAYOUT_WALLET_NUMBERGUESSING"
         
         ]
   # Run unit tests on the app
