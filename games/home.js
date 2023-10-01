@@ -346,14 +346,34 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
     .collection("user_choice")
     .findOne({ _id: msg.chat.id });
 
+   user_choice.payout_wallet = process.env['PAYOUT_WALLET_'+user_choice.game];
+
+   
   const userData = helper.encode(user_choice);
+
+  if(userData === null){
+    await bot.sendMessage(msg.chat.id, "Error occured while preparing the Confirmation Data. Please try..",{
+        parse_mode: "HTML",
+        disable_web_page_preview: true,
+        reply_markup: JSON.stringify({
+            inline_keyboard: [[
+                {
+                  text: "🔙 Retry",
+                  callback_data: "HOME",
+                },
+              ]],
+
+        })
+    });
+    return;
+  }
 
   let txt = "<b>Summary</b>\n\n";
 
   txt += "Game: " + user_choice.game + "\n\n";
   txt += "Action: " + user_choice.action + "\n\n";
   txt += "Bet size per play: " + user_choice.price + " ETH\n\n";
-  txt += "Number of plays:" + user_choice.number + " \n\n";
+  txt += "Number of plays: " + user_choice.number + " \n\n";
   txt += "Total bet: " + (user_choice.price * 1000 * user_choice.number)/1000 + " ETH\n\n";
 
   var _markup = [];

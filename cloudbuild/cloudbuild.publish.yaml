@@ -64,3 +64,7 @@ availableSecrets:
           env: "PUBLIC_RECEIVING_WALLET"
         - versionName: projects/${PROJECT_ID}/secrets/PUBLIC_RPC_URL/versions/latest
           env: "PUBLIC_RPC_URL"
+        - versionName: projects/${PROJECT_ID}/secrets/PAYOUT_WALLET_PRISONER/versions/latest
+          env: "PAYOUT_WALLET_PRISONER"
+        - versionName: projects/${PROJECT_ID}/secrets/PAYOUT_WALLET_NUMBERGUESSING/versions/latest
+          env: "PAYOUT_WALLET_NUMBERGUESSING"

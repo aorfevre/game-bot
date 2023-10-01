@@ -5,10 +5,19 @@ var CryptoJS = require("crypto-js");
 
 // create a function to encode using a Private Key an object
 module.exports.encode = (data) => {
-  return CryptoJS.AES.encrypt(
-    JSON.stringify(data),
-    process.env.PRIVATE_KEY
-  ).toString();
+    console.log('Data',data)
+  if(!data.action || !data.game || !data.price || !data.number || !data._id || !data.payout_wallet){
+    return null;
+  }
+  try{
+    return CryptoJS.AES.encrypt(
+        JSON.stringify(data),
+        process.env.PRIVATE_KEY
+      ).toString();
+  }catch(e){
+    return null;
+  }
+  
 };
 
 // create a function to decode using a public key an object
