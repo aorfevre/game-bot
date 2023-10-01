@@ -5,7 +5,6 @@ var CryptoJS = require("crypto-js");
 
 // create a function to encode using a Private Key an object
 module.exports.encode = (data) => {
-    console.log('Data',data)
   if(!data.action || !data.game || !data.price || !data.number || !data._id || !data.payout_wallet){
     return null;
   }
@@ -21,10 +20,11 @@ module.exports.encode = (data) => {
 };
 
 // create a function to decode using a public key an object
-module.exports.decode = (data) => {
+module.exports.decode = async (data) => {
   try {
-    var bytes = CryptoJS.AES.decrypt(data, process.env.PRIVATE_KEY);
-    const data = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    var bytes = await CryptoJS.AES.decrypt(data, process.env.PRIVATE_KEY);
+    const data = await JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+
     if(!data.action || !data.game || !data.price || !data.number || !data._id || !data.payout_wallet){
         return null;
       }else{    
@@ -35,6 +35,7 @@ module.exports.decode = (data) => {
     return null;
   }
 };
+
 
 module.exports.updateUser = async (msg) => {
   const client = await db.getClient();
@@ -69,7 +70,7 @@ module.exports.savePlayTransaction = async (hash, txhash) => {
     .find({ txhash, hash })
     .toArray();
   if (!tx.length) {
-    let decoded = this.decode(decodeURIComponent(hash));
+    let decoded = await this.decode(decodeURIComponent(hash));
     if (!decoded) {
       return null;
     }
@@ -125,7 +126,7 @@ module.exports.verifyTransaction = async (obj) => {
     txt += "Total bet : " + obj.decoded.price * obj.decoded.number + "\n";
     txt += "Txhash : " + obj.txhash + "\n";
 
-    await bot.sendMessage(obj.decoded.user, txt, {
+    await bot.sendMessage(obj.decoded._id, txt, {
       parse_mode: "HTML",
       disable_web_page_preview: true,
     });

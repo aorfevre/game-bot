@@ -349,7 +349,7 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
    user_choice.payout_wallet = process.env['PAYOUT_WALLET_'+user_choice.game];
 
    
-  const userData = helper.encode(user_choice);
+  const userData = await helper.encode(user_choice);
 
   if(userData === null){
     await bot.sendMessage(msg.chat.id, "Error occured while preparing the Confirmation Data. Please try..",{
@@ -416,6 +416,44 @@ module.exports.guide = (msg,t)=>{
     }
 }
 
+module.exports.myOpenGAMES = async (msg) => {
+
+  var txt = "<b>My open games</b>\n\n";
+  txt += "TODO My open games - Under construction";
+  // *Your open games*
+
+
+  // <List of games the player
+  // participated in which are
+  // not finished yet>
+  
+  // Example:
+  
+  // Game: Prisoner's Dilemma
+  // Tournament #<number in db>
+  // Bet size: <bet size number>
+  // Your bets: <number of bets>
+  // Current prize pool:
+  // <prize pool in database>
+  // Your current points:
+  // <points in db>
+  // Your current leaderboard position:
+  // <leaderboard position in db>
+  // Tournament ends in:
+  // <xx hours yy minutes>
+  
+  // Game: Guess the Number
+  // Match #number in db>
+  // Bet size: <bet size number>
+  // Your bets: <number guessed>
+  // Players remaining until match ends:
+  // <10 - players currently in the match>
+  
+  // We'll notify you when a game 
+  // finishes!
+
+  bot.sendMessage(msg.chat.id, "TODO My open games - Under construction");
+}
 module.exports.frequencyInput = async (msg)=>{
     const client = await db.getClient();
 

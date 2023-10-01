@@ -52,7 +52,7 @@ bot.on("callback_query", async (callbackQuery) => {
       games.init(msg);
       break;
     case "MY_OPEN_GAMES":
-      bot.sendMessage(msg.chat.id, "TODO Open games - Under construction");
+      games.myOpenGAMES(msg);
       break;
     case "STATS_USER":
       bot.sendMessage(msg.chat.id, "TODO Stats - Under construction");
