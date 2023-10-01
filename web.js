@@ -46,6 +46,13 @@ app.post(`/play`, async(req, res) => {
   }
 })
 
+app.get(`/verify/pending-payouts`, async(req, res) => {
+
+  await helper.findAllUnverifiedTransactions()
+  res.sendStatus(200);
+  
+})
+
 app.listen(port, function() {
   console.log('Our app is running on http://localhost:' + port);
 });
