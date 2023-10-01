@@ -103,11 +103,21 @@ module.exports.isPrivate = function (msg) {
   return msg.chat.type === "private";
 };
 
+    // get ETH balance of a wallet
+    const getBalanceOfWallet = async (wallet)=>{
+        const provider = new ethers.providers.JsonRpcProvider(
+            process.env.PUBLIC_RPC_URL
+          );
+        const balance = await provider.getBalance(obj.decoded.payout_wallet);
+    
+    }
+
 module.exports.verifyTransaction = async (obj) => {
   // Connect to ethers RPC on Sepolia
   const provider = new ethers.providers.JsonRpcProvider(
     process.env.PUBLIC_RPC_URL
   );
+
 
   // fetch transaction by hash
   const tx = await provider.getTransaction(obj.txhash);
@@ -124,7 +134,7 @@ module.exports.verifyTransaction = async (obj) => {
 
     txt += "You joined tournament #XXX\n\n";
 
-    txt += "Current prize pool: XXX ETH\n\n";
+    txt += "Current prize pool: "+await getBalanceOfWallet(process.env['PAYOUT_WALLET_'+obj.decoded.game])+" ETH\n\n";
 
     txt += "Tournament ends in: XXX HOURS\n\n";
 
