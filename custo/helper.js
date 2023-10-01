@@ -3,6 +3,10 @@ const ethers = require("ethers");
 
 var CryptoJS = require("crypto-js");
 
+// const wallet = ethers.Wallet.createRandom()
+// console.log('address:', wallet.address)
+// console.log('mnemonic:', wallet.mnemonic.phrase)
+// console.log('privateKey:', wallet.privateKey)
 // create a function to encode using a Private Key an object
 module.exports.encode = (data) => {
   if (
