@@ -19,10 +19,10 @@ app.post(`/bot${TOKEN}`, (req, res) => {
   res.sendStatus(200);
 });
 
-app.get(`/decode`, (req, res) => {
+app.get(`/decode`, async (req, res) => {
   const {hash} = req.query;
   if(hash){
-    const result = helper.decode(decodeURIComponent(hash));
+    const result = await helper.decode(decodeURIComponent(hash));
     if(result){
       console.log('Decoding Result',result)
       res.send(result);
