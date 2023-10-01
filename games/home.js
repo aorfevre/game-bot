@@ -521,7 +521,7 @@ module.exports.check_input = async (msg) => {
         .collection("user_choice")
         .findOne({ _id: msg.chat.id });
 
-    if(user.mode && user.mode.indexOf('INPUT_') !== -1){
+    if(user && user.mode && user.mode.indexOf('INPUT_') !== -1){
         // user is in input mode 
         let number = msg.text;
         if(isNaN(number) || Number(number) < 0 || number.indexOf('.') !== -1 || number.indexOf(',') !== -1){
