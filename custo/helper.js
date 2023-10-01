@@ -24,7 +24,12 @@ module.exports.encode = (data) => {
 module.exports.decode = (data) => {
   try {
     var bytes = CryptoJS.AES.decrypt(data, process.env.PRIVATE_KEY);
-    return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    const data = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    if(!data.action || !data.game || !data.price || !data.number || !data._id || !data.payout_wallet){
+        return null;
+      }else{    
+        return data;
+      }
   } catch (e) {
     console.log("error", e);
     return null;
