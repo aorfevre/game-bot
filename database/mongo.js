@@ -44,7 +44,9 @@ async function createIndexes(){
       .db("gaming")
       .collection("user_choice")
       tx.createIndex( { user_choice:1}, { } )
+      tx.createIndex( { 'decoded._id': 1 ,verified:1,processed:1}, { } )
 
+      
     console.log("Index created")
 
   }

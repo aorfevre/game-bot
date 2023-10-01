@@ -420,40 +420,81 @@ module.exports.guide = (msg,t)=>{
 module.exports.myOpenGAMES = async (msg) => {
 
   var txt = "<b>My open games</b>\n\n";
-  txt += "TODO My open games - Under construction";
-  // *Your open games*
 
+  const client = await db.getClient();
 
-  // <List of games the player
-  // participated in which are
-  // not finished yet>
-  
-  // Example:
-  
-  // Game: Prisoner's Dilemma
-  // Tournament #<number in db>
-  // Bet size: <bet size number>
-  // Your bets: <number of bets>
-  // Current prize pool:
-  // <prize pool in database>
-  // Your current points:
-  // <points in db>
-  // Your current leaderboard position:
-  // <leaderboard position in db>
-  // Tournament ends in:
-  // <xx hours yy minutes>
-  
-  // Game: Guess the Number
-  // Match #number in db>
-  // Bet size: <bet size number>
-  // Your bets: <number guessed>
-  // Players remaining until match ends:
-  // <10 - players currently in the match>
-  
-  // We'll notify you when a game 
-  // finishes!
+   
+  const openGames = await client
+    .db("gaming")
+    .collection("tx")
+    .find({ 'decoded._id': msg.chat.id ,verified:true,processed:{$ne:true}})
+    .toArray();
 
-  bot.sendMessage(msg.chat.id, "TODO My open games - Under construction");
+  
+
+  if(openGames.length === 0){
+    txt += "You don't have any open games";
+    // add buttons 
+   
+  }else{
+    for(const i in openGames){
+
+      if(openGames[i].decoded.game === 'PRISONER'){
+
+        txt += "Game: Prisoner's Dilemma\n";
+        txt += "Tournament: #"+openGames[i].decoded.tiers+"\n";
+        txt += "Bet size: "+openGames[i].decoded.price+" ETH\n";
+        txt += "Your bets: "+openGames[i].decoded.number+"\n";
+        txt += "Your action: "+openGames[i].decoded.action+"\n";
+        txt += "Current prize pool: "+ await helper.getBalanceOfWallet(process.env['PAYOUT_WALLET_'+openGames[i].decoded.game])+" ETH\n";
+        txt += "Your current points: "+openGames[i].decoded.points+"\n";
+        txt += "Your current leaderboard position: "+openGames[i].decoded.leaderboard_position+"\n";
+        txt += "Tournament ends in: "+openGames[i].decoded.ends_in+"\n";
+        txt += "\n\n";
+        
+      }else{
+        txt += "Game: Guess the Number\n";
+        txt += "Match: #"+openGames[i].decoded.tiers+"\n";
+        txt += "Bet size: "+openGames[i].decoded.price+" ETH\n";
+        txt += "Your bets: "+openGames[i].decoded.number+"\n";
+        txt += "Current prize pool: "+ await helper.getBalanceOfWallet(process.env['PAYOUT_WALLET_'+openGames[i].decoded.game])+" ETH\n";
+        txt += "Players remaining until match ends: "+(10 - openGames[i].decoded.players)+"\n";
+        txt += "\n\n";
+      }
+
+      if(i % 2 === 0 && Number(i) !== 0 && i !== openGames.length){
+        await bot.sendMessage(msg.chat.id, txt, {
+          parse_mode: "HTML",
+          disable_web_page_preview: true,
+        });
+        txt = ''
+      }
+    }
+    txt+= "We'll notify you when a game finishes!";
+  }
+
+  var _markup = [];
+  // add a button to play games
+  _markup.push([
+    {
+      text: "🚀 Play games",
+      callback_data: "PLAY_MINI_GAMES",
+    },
+  ]);
+
+  _markup.push([
+    {
+      text: "🔙 Back to Home",
+      callback_data: "HOME",
+    },
+  ]);
+  bot.sendMessage(msg.chat.id, txt, {
+    parse_mode: "HTML",
+    disable_web_page_preview: true,
+    reply_markup: JSON.stringify({
+      inline_keyboard: _markup,
+    }),
+  });
 }
 module.exports.frequencyInput = async (msg)=>{
     const client = await db.getClient();

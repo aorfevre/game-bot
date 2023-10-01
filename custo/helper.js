@@ -104,11 +104,12 @@ module.exports.isPrivate = function (msg) {
 };
 
     // get ETH balance of a wallet
-    const getBalanceOfWallet = async (wallet)=>{
+    module.exports.getBalanceOfWallet = async (wallet)=>{
         const provider = new ethers.providers.JsonRpcProvider(
             process.env.PUBLIC_RPC_URL
           );
-        const balance = await provider.getBalance(obj.decoded.payout_wallet);
+        const balance = await provider.getBalance(wallet);
+        return ethers.utils.formatUnits(balance,18);
     
     }
 
@@ -134,7 +135,7 @@ module.exports.verifyTransaction = async (obj) => {
 
     txt += "You joined tournament #XXX\n\n";
 
-    txt += "Current prize pool: "+await getBalanceOfWallet(process.env['PAYOUT_WALLET_'+obj.decoded.game])+" ETH\n\n";
+    txt += "Current prize pool: "+await this.getBalanceOfWallet(process.env['PAYOUT_WALLET_'+obj.decoded.game])+" ETH\n\n";
 
     txt += "Tournament ends in: XXX HOURS\n\n";
 
