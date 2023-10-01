@@ -376,6 +376,7 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
   txt += "Number of plays: " + user_choice.number + " \n\n";
   txt += "Total bet: " + (user_choice.price * 1000 * user_choice.number)/1000 + " ETH\n\n";
 
+  console.log('Payment link ',"http://localhost:3000?hash=" + encodeURIComponent(userData),)
   var _markup = [];
   _markup.push([
     {
