@@ -90,14 +90,55 @@ module.exports.verifyTransaction = async (obj) => {
       .db("gaming")
       .collection("tx")
       .updateOne({ _id: obj._id }, { $set: { verified: true, tx } });
-    let txt = `Transaction ${obj.txhash} verified`;
-    txt += `\n\n`;
-    txt += `${obj.decoded.price} ${obj.decoded.mode} registered for ${obj.decoded.game}`;
-    const options = {
+
+    let txt = "<b>Payment confirmation</b>\n\n";
+
+    txt += "Your payment has been received.\n\n";
+
+    txt += "You joined tournament #XXX\n\n";
+
+    txt += "Current prize pool: XXX ETH\n\n";
+
+    txt += "Tournament ends in: XXX HOURS\n\n";
+
+    txt += "We'll notify you of your payout when the torunament finishes\n\n";
+
+    txt += "Summary of your participation:\n";
+    txt += "Game : " + obj.decoded.game + "\n";
+    txt += "Action : " + obj.decoded.action + "\n";
+    txt += "Bet size per play : " + obj.decoded.price + "\n";
+    txt += "Number of plays : " + obj.decoded.number + "\n";
+    txt += "Total bet : " + obj.decoded.price * obj.decoded.number + "\n";
+    txt += "Txhash : " + obj.txhash + "\n";
+
+    await bot.sendMessage(obj.decoded.user, txt, {
       parse_mode: "HTML",
       disable_web_page_preview: true,
-    };
-    bot.sendMessage(obj.decoded.user, txt, options);
+    });
+
+    txt = "For an overview of all your open games, click [My open games]";
+
+    let _markup = [];
+    _markup.push([
+      {
+        text: "My open games",
+        callback_data: "MY_OPEN_GAMES",
+      },
+    ]);
+    _markup.push([
+      {
+        text: "🔙 Back to Home",
+        callback_data: "HOME",
+      },
+    ]);
+
+    await bot.sendMessage(obj.decoded.user, txt, {
+      parse_mode: "HTML",
+      disable_web_page_preview: true,
+      reply_markup: JSON.stringify({
+        inline_keyboard: _markup,
+      }),
+    });
   } else {
     console.log("tx not found");
   }
@@ -114,51 +155,130 @@ module.exports.findAllUnverifiedTransactions = async () => {
   }
 };
 
-
 module.exports.home = async (msg) => {
+  if (this.isPrivate(msg)) {
+    let txt =
+      "Welcome to " +
+      msg.chat.username +
+      ", your hub for social deduction multiplayer minigames.\n\n";
 
-        if (this.isPrivate(msg)) {
-          let txt = `Good morning Sir\n\n`;
-          txt +=
-            "Welcome to GamingWeb3Bot, your hub for social deduction multiplayer minigames that require you to correctly guess your enemiers' actions.\n\n";
-          txt +=
-            "All mini games are based on theoretic concepts. You'll learn the unerlying theroies - and observe how hymans may deviate from optimal strategies.\n\n";
-          txt += "And as we all know you learn the best with skin in the game.";
-      
-          txt += "What do you want to do ? ";
-          var _markup = [];
-      
-          _markup.push([
-            {
-              text: "Play Mini Games",
-              callback_data: "PLAY_MINI_GAMES",
-            },
-          ]);
-      
-          _markup.push([
-            {
-              text: "Stats",
-              callback_data: "STATS_USER",
-            },
-            {
-              text: "Guide",
-              callback_data: "GUIDE_GAMES",
-            },
-            {
-              text: "Info",
-              callback_data: "INFO_GAMES",
-            },
-          ]);
-      
-          var options = {
-            parse_mode: "HTML",
-            disable_web_page_preview: true,
-            reply_markup: JSON.stringify({
-              inline_keyboard: _markup,
-            }),
-          };
-      
-          bot.sendMessage(msg.chat.id, txt, options);
-        }
-      };
-    
+    txt +=
+      "Correctly guess your enemies' actions to be victorious & win prizes.\n\n";
+
+    txt +=
+      "All mini games are based on game theoretic concepts. You'll learn the  underlying theories - and observe how humans may deviate from optimal strategies.\n\n";
+
+    txt += "And as we all know you learn the best with skin in the game.\n\n";
+
+    txt += "➡️ What do you want to do?";
+    var _markup = [];
+
+    _markup.push([
+      {
+        text: "Play Games",
+        callback_data: "PLAY_MINI_GAMES",
+      },
+    ]);
+
+    _markup.push([
+      {
+        text: "My open games",
+        callback_data: "MY_OPEN_GAMES",
+      },
+      {
+        text: "Guide",
+        callback_data: "GUIDE_GAMES",
+      },
+    ]);
+
+    _markup.push([
+      {
+        text: "Stats",
+        callback_data: "STATS_USER",
+      },
+
+      {
+        text: "Info",
+        callback_data: "INFO_GAMES",
+      },
+    ]);
+
+    var options = {
+      parse_mode: "HTML",
+      disable_web_page_preview: true,
+      reply_markup: JSON.stringify({
+        inline_keyboard: _markup,
+      }),
+    };
+
+    bot.sendMessage(msg.chat.id, txt, options);
+  }
+};
+module.exports.guide_games = (msg) => {
+  bot.sendMessage(msg.chat.id, "<b>Guides</b>\n\n➡️ Select game", {
+    parse_mode: "HTML",
+    disable_web_page_preview: true,
+    reply_markup: JSON.stringify({
+      inline_keyboard: [
+        [
+          {
+            text: "🚨 Prisoner's Dilemma",
+            callback_data: "GUIDE_GAME_PRISONER",
+          },
+        ],
+        [
+          {
+            text: "🤔 Guess the Number",
+            callback_data: "GUIDE_GAME_NUMBERGUESSING",
+          },
+        ],
+
+        [
+          {
+            text: "🔙 Back to Home",
+            callback_data: "HOME",
+          },
+        ],
+      ],
+    }),
+  });
+};
+module.exports.info_games = (msg) => {
+  let txt = "<b>Info</b>\n\n";
+  txt += "How are prize pools calculated?\n";
+  txt +=
+    "Prize pools consist of entry fees paid by players, minus a platform fee (currently set to 10%).\n\n";
+
+  txt += "Why do games have different bet sizes for me to chose from?\n";
+  txt +=
+    "We want to allow anyone to participate in the games with the amount of skin in the game they're comfortable with. Some players may prefer to make smaller but more bets to diversify while others may want to aim for the big prize\n\n";
+
+  txt += "How do the payments work?\n";
+  txt +=
+    "Each play comes with an associated entry fee. All entry fees together make up the prize pools.\n";
+  txt +=
+    "After defining your strategy for a game, you'll be asked to pay the entry fee to take part in the competition.\n";
+  txt += "Confirm the transaction in the browser pop-up. \n";
+  txt += "Payments are made in ETH on Base network.\n\n";
+
+  txt += "Which chain are you on?\n";
+  txt += "Base\n\n";
+
+  txt += "How do I contact you?\n";
+  txt += "TODO ADD A MAIL BOX";
+
+  bot.sendMessage(msg.chat.id, txt, {
+    parse_mode: "HTML",
+    disable_web_page_preview: true,
+    reply_markup: JSON.stringify({
+      inline_keyboard: [
+        [
+          {
+            text: "🔙 Back to Home",
+            callback_data: "HOME",
+          },
+        ],
+      ],
+    }),
+  });
+};

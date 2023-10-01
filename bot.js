@@ -6,21 +6,19 @@ var init = require("./custo/init.js");
 
 var helper = require("./custo/helper.js");
 var games = require("./games/home.js");
-var game_prisoner = require("./games/prisoner.js");
-var game_number_guessing = require("./games/number_guessing.js");
 
 global.bot = init.setTelegram();
 
 bot.on("message", async (msg) => {
   helper.updateUser(msg);
-});
 
+  games.check_input(msg)
+  
+});
 
 bot.onText(/^\/[start](.+|\b)/, (msg, match) => {
   try {
     helper.home(msg);
-   
-
   } catch (e) {
     console.log("error", e);
   }
@@ -31,10 +29,18 @@ bot.on("callback_query", async (callbackQuery) => {
   var msg = callbackQuery.message;
   var control = callbackQuery.data;
 
-  if(control.indexOf('GAME_PRISONER_TIERS_') !== -1){
-    control = "GAME_PRISONER_TIERS"
+  if (control.indexOf("GAME_INIT_") !== -1) {
+    control = "GAME_INIT";
+  } else if (control.indexOf("GAME_PRICE_") !== -1) {
+    control = "GAME_PRICE";
+  } else if (control.indexOf("GAME_ACTION_") !== -1) {
+    control = "GAME_ACTION";
+  } else if (control.indexOf("GAME_SUMMARY_") !== -1) {
+    control = "GAME_SUMMARY";
+  }else if (control.indexOf("GUIDE_GAME_") !== -1) {
+    control = "GUIDE_GAME";
   }
-  
+
   switch (control) {
     case "VERIFY_PENDING_TRANSACTIONS":
       helper.findAllUnverifiedTransactions();
@@ -43,37 +49,52 @@ bot.on("callback_query", async (callbackQuery) => {
       helper.home(msg);
       break;
     case "PLAY_MINI_GAMES":
-      games.init(msg)
+      games.init(msg);
+      break;
+    case "MY_OPEN_GAMES":
+      bot.sendMessage(msg.chat.id, "TODO Open games - Under construction");
       break;
     case "STATS_USER":
-      bot.sendMessage(msg.chat.id, "Stats - Under construction");
+      bot.sendMessage(msg.chat.id, "TODO Stats - Under construction");
       break;
     case "GUIDE_GAMES":
-      bot.sendMessage(msg.chat.id, "Guide - Under construction");
+      helper.guide_games(msg);
+
       break;
+    case "GUIDE_GAME":
+      var t = callbackQuery.data.split("GUIDE_GAME_")[1];
+      games.guide(msg, t);
+      break;
+    
     case "INFO_GAMES":
-      bot.sendMessage(msg.chat.id, "Info - Under construction");
+      helper.info_games(msg);
       break;
-    case "GAME_PRISONER":
-      game_prisoner.init(msg)
+    case "GAME_INIT":
+      var t = callbackQuery.data.split("GAME_INIT_")[1];
+      games.initGame(msg, t);
       break;
-    case "GAME_NUMBER_GUESSING":
-      game_number_guessing.init(msg)
+    case "GAME_PRICE":
+      var t = callbackQuery.data.split("GAME_PRICE_")[1].split("_");
+      games.price(msg, t[0], t[1]);
       break;
-    case "GAME_PRISONER_INFO":
-      console.log('Prisoner info')
+    case "GAME_ACTION":
+      var t = callbackQuery.data.split("GAME_ACTION_")[1].split("_");
+      if(t[2]=== 'INPUT'){
+        bot.sendMessage(msg.chat.id, "Type the number of your choice");
+        break;
+      }else{
+        games.action(msg, t[0], t[1], t[2]);
 
-      game_prisoner.info(msg)
+      }
       break;
-    case "GAME_NUMBER_GUESSING_INFO":
-      game_number_guessing.info(msg)
-      break;
-    case "GAME_PRISONER_TIERS":
-      var t = callbackQuery.data.split('_')[3]
-      game_prisoner.tiers(msg,t)
-      break;
+    case "GAME_SUMMARY":
+      var t = callbackQuery.data.split("GAME_SUMMARY_")[1].split("_");
 
-       
+      if(t[3]=== 'INPUT'){
+        games.frequencyInput(msg);
+        break;
+      }
+      games.summary(msg, t[0], t[1], t[2], t[3]);
+      break;
   }
-
 });
