@@ -5,18 +5,24 @@ var CryptoJS = require("crypto-js");
 
 // create a function to encode using a Private Key an object
 module.exports.encode = (data) => {
-  if(!data.action || !data.game || !data.price || !data.number || !data._id || !data.payout_wallet){
+  if (
+    !data.action ||
+    !data.game ||
+    !data.price ||
+    !data.number ||
+    !data._id ||
+    !data.payout_wallet
+  ) {
     return null;
   }
-  try{
+  try {
     return CryptoJS.AES.encrypt(
-        JSON.stringify(data),
-        process.env.PRIVATE_KEY
-      ).toString();
-  }catch(e){
+      JSON.stringify(data),
+      process.env.PRIVATE_KEY
+    ).toString();
+  } catch (e) {
     return null;
   }
-  
 };
 
 // create a function to decode using a public key an object
@@ -25,17 +31,23 @@ module.exports.decode = async (data) => {
     var bytes = await CryptoJS.AES.decrypt(data, process.env.PRIVATE_KEY);
     const d = await JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
-    if(!d.action || !d.game || !d.price || !d.number || !d._id || !d.payout_wallet){
-        return null;
-      }else{    
-        return d;
-      }
+    if (
+      !d.action ||
+      !d.game ||
+      !d.price ||
+      !d.number ||
+      !d._id ||
+      !d.payout_wallet
+    ) {
+      return null;
+    } else {
+      return d;
+    }
   } catch (e) {
     console.log("error", e);
     return null;
   }
 };
-
 
 module.exports.updateUser = async (msg) => {
   const client = await db.getClient();
@@ -165,9 +177,17 @@ module.exports.findAllUnverifiedTransactions = async () => {
     .collection("tx")
     .find({ verified: false })
     .toArray();
+
+  let _promises = [];
   for (const i in txs) {
-    await this.verifyTransaction(txs[i]);
+    _promises.push(this.verifyTransaction(txs[i]));
+
+    if (_promises.length === 10) {
+      await Promise.all(_promises);
+      _promises = [];
+    }
   }
+  await Promise.all(_promises);
 };
 
 module.exports.home = async (msg) => {
