@@ -147,7 +147,7 @@ module.exports.verifyTransaction = async (obj) => {
     txt += "Bet size per play : " + obj.decoded.price + "\n";
     txt += "Number of plays : " + obj.decoded.number + "\n";
     txt += "Total bet : " + obj.decoded.price * obj.decoded.number + "\n";
-    txt += "<a href='https://basescan.org/tx/"+obj.txhash+"'>Txhash</a>n";
+    txt += "<a href='https://basescan.org/tx/"+obj.txhash+"'>Txhash</a>";
 
     await bot.sendMessage(obj.decoded._id, txt, {
       parse_mode: "HTML",
