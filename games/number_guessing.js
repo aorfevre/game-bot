@@ -69,7 +69,7 @@ module.exports.guide = async (msg,t) => {
 
 module.exports.payout = async ()=>{
 
-  const PARTICIPANTS = 2; 
+  const PARTICIPANTS = 4; 
 
   const client = await db.getClient();
 
@@ -82,7 +82,7 @@ module.exports.payout = async ()=>{
         $match: {
           "decoded.game": "NUMBERGUESSING",
           verified: true,
-          processed: false,
+          processed: {$ne:true},
         },
       },
       {
@@ -91,12 +91,17 @@ module.exports.payout = async ()=>{
           decoded: { $first: "$decoded" },
         },
       },
+      // add a variable called user with 'decoded._id' as value
       {
-        $limit: 10,
+        $addFields: {
+          user: "$decoded._id",
+        },
+      },
+      {
+        $limit: PARTICIPANTS,
       },
     ])
     .toArray();
-  console.log('Data',tx)
   if (tx.length > 0 && tx.length === PARTICIPANTS) {
     // calculate prize pool 
     let prizePool = 0;
@@ -134,17 +139,17 @@ module.exports.payout = async ()=>{
         closest = diff;
         winner = tx[i];
       }
-      // if(tx[i].iteration === tx[i].decoded.number){
-      //   await client
-      //   .db("gaming")
-      //   .collection("tx")
-      //   .updateOne({ _id: tx[i]._id }, { $set: { iteration: tx[i].iteration, processed: true,_updated_at: new Date() }});
-      // }else{
-      //   await client
-      //   .db("gaming")
-      //   .collection("tx")
-      //   .updateOne({ _id: tx[i]._id }, { $set: { iteration: tx[i].iteration, processed: false, _updated_at: new Date() }});
-      // }
+      if(tx[i].iteration === tx[i].decoded.number){
+        await client
+        .db("gaming")
+        .collection("tx")
+        .updateOne({ _id: tx[i]._id }, { $set: { iteration: tx[i].iteration, processed: true,_updated_at: new Date() }});
+      }else{
+        await client
+        .db("gaming")
+        .collection("tx")
+        .updateOne({ _id: tx[i]._id }, { $set: { iteration: tx[i].iteration, processed: false, _updated_at: new Date() }});
+      }
 
     }
     // find all loosers 
@@ -158,14 +163,24 @@ module.exports.payout = async ()=>{
 
     winner.prizePool = prizePool;
     winner.gameFee = gameFee;
-    winner.loosers = loosers;
     winner._created_at = new Date();  
+    console.log('Winner',winner);
+    const result = {
+      winner,
+      loosers,
+      game: "NUMBERGUESSING",
+      prizePool,
+      gameFee,
+      _created_at: new Date(),
+      winnerId: winner._id,
+      loosersIds: loosers.map((l)=>l._id)
 
+    }
     // Save the winner state 
     await client
       .db("gaming")
       .collection("winners")
-      .insertOne(winner);
+      .insertOne(result);
 
 
     // send prize pool to Winner
@@ -173,16 +188,6 @@ module.exports.payout = async ()=>{
     // send bot message to winner 
 //     *Match results*
 
-// Guess the Number match
-// #<number in database>
-// has finished
-
-// You won!
-
-// Your prize:
-// <player payout in database>
-
-// Your prize has been paid out
 
     let txtWinner = "<b>Match results</b>\n\n" +
     "Guess the Number match ###\n" +
@@ -194,7 +199,26 @@ module.exports.payout = async ()=>{
 
 
 
-    bot.sendMessage(winner.decoded._id, "You won the prize pool of " + prizePool + " ETH"); 
+    bot.sendMessage(winner.decoded._id, txtWinner,{
+      parse_mode: "HTML",
+      disable_web_page_preview: true,
+      reply_markup: JSON.stringify({
+        inline_keyboard: [
+          [
+            {
+              text: "🤔 Play Guess the Number",
+              callback_data: "GAME_INIT_NUMBERGUESSING",
+            },
+          ],
+          [
+            {
+              text: "🔙 Back to Home",
+              callback_data: "HOME",
+            },
+          ],
+        ],
+      }),  
+    }); 
 
     // send Game fee to Safe MultiSig 
 
