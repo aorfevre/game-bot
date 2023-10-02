@@ -166,7 +166,7 @@ module.exports.price = async (msg, t, tiers) => {
       _markup = await prisoner.getActions(tiers);
       break;
     case "NUMBERGUESSING":
-        curData.mode = 'INPUT_NUMBERGUESSING';
+      curData.mode = "INPUT_NUMBERGUESSING";
       txt += "\n\n" + number_guessing.getSpecificActionMsg();
       _markup = await number_guessing.getActions(tiers);
       break;
@@ -181,8 +181,6 @@ module.exports.price = async (msg, t, tiers) => {
       callback_data: "GAME_INIT_" + t,
     },
   ]);
-
-
 
   //Saving user choice
   const user_choice = await client
@@ -346,25 +344,29 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
     .collection("user_choice")
     .findOne({ _id: msg.chat.id });
 
-   user_choice.payout_wallet = process.env['PAYOUT_WALLET_'+user_choice.game];
+  user_choice.payout_wallet = process.env["PAYOUT_WALLET_" + user_choice.game];
 
-   
   const userData = await helper.encode(user_choice);
 
-  if(userData === null){
-    await bot.sendMessage(msg.chat.id, "Error occured while preparing the Confirmation Data. Please try..",{
+  if (userData === null) {
+    await bot.sendMessage(
+      msg.chat.id,
+      "Error occured while preparing the Confirmation Data. Please try..",
+      {
         parse_mode: "HTML",
         disable_web_page_preview: true,
         reply_markup: JSON.stringify({
-            inline_keyboard: [[
-                {
-                  text: "🔙 Retry",
-                  callback_data: "HOME",
-                },
-              ]],
-
-        })
-    });
+          inline_keyboard: [
+            [
+              {
+                text: "🔙 Retry",
+                callback_data: "HOME",
+              },
+            ],
+          ],
+        }),
+      }
+    );
     return;
   }
 
@@ -374,9 +376,15 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
   txt += "Action: " + user_choice.action + "\n\n";
   txt += "Bet size per play: " + user_choice.price + " ETH\n\n";
   txt += "Number of plays: " + user_choice.number + " \n\n";
-  txt += "Total bet: " + (user_choice.price * 1000 * user_choice.number)/1000 + " ETH\n\n";
+  txt +=
+    "Total bet: " +
+    (user_choice.price * 1000 * user_choice.number) / 1000 +
+    " ETH\n\n";
 
-  console.log('Payment link ',"http://localhost:3000?hash=" + encodeURIComponent(userData),)
+  console.log(
+    "Payment link ",
+    "http://localhost:3000?hash=" + encodeURIComponent(userData)
+  );
   var _markup = [];
   _markup.push([
     {
@@ -401,76 +409,143 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
   });
 };
 
-
-module.exports.guide = (msg,t)=>{
-    console.log('t',t)
-    switch(t){
-        case 'PRISONER':
-            prisoner.guide(msg);
-            break;
-        case 'NUMBERGUESSING':
-            number_guessing.guide(msg);
-            break;
-        case 'CENTIPEDE':
-            centipede.guide(msg);
-            break;
-    }
-}
+module.exports.guide = (msg, t) => {
+  console.log("t", t);
+  switch (t) {
+    case "PRISONER":
+      prisoner.guide(msg);
+      break;
+    case "NUMBERGUESSING":
+      number_guessing.guide(msg);
+      break;
+    case "CENTIPEDE":
+      centipede.guide(msg);
+      break;
+  }
+};
 
 module.exports.myOpenGAMES = async (msg) => {
-
   var txt = "<b>My open games</b>\n\n";
 
   const client = await db.getClient();
 
-   
   const openGames = await client
     .db("gaming")
     .collection("tx")
-    .find({ 'decoded._id': msg.chat.id ,verified:true,processed:false})
+    .find({ "decoded._id": msg.chat.id, verified: true, processed: false })
     .toArray();
-
   
+    console.log('Query',{ "decoded._id": msg.chat.id, verified: true, processed: false })
 
-  if(openGames.length === 0){
+  if (openGames.length === 0) {
     txt += "You don't have any open games";
-    // add buttons 
-   
-  }else{
-    for(const i in openGames){
+    // add buttons
+  } else {
+    for (const i in openGames) {
+      const remainingIteration = !openGames[i]?.iteration
+        ? Number(openGames[i].decoded.number)
+        : Number(openGames[i].decoded.number) - Number(openGames[i]?.iteration);
 
-      if(openGames[i].decoded.game === 'PRISONER'){
-
+      if (openGames[i].decoded.game === "PRISONER") {
+        const count = await client
+          .db("gaming")
+          .collection("winners")
+          .countDocuments({ game: "PRISONER" });
+          const participantsCount = await client
+          .db("gaming")
+          .collection("tx")
+          .aggregate([
+            {
+              $match: {
+                "decoded.game": "PRISONER",
+                verified: true,
+                processed: false,
+                "decoded.tiers": openGames[i].decoded.tiers,
+              },
+            },
+            {
+              $group: {
+                _id: "$decoded._id",
+                decoded: { $first: "$decoded" },
+              },
+            },
+            // add a variable called user with 'decoded._id' as value
+            { $group: { _id: null, myCount: { $sum: 1 } } },
+            { $project: { _id: 0 } },
+          ]).toArray()
         txt += "Game: Prisoner's Dilemma\n";
-        txt += "Tournament: #"+openGames[i].decoded.tiers+"\n";
-        txt += "Bet size: "+openGames[i].decoded.price+" ETH\n";
-        txt += "Your bets: "+openGames[i].decoded.number+"\n";
-        txt += "Your action: "+openGames[i].decoded.action+"\n";
-        txt += "Current prize pool: "+ await helper.getBalanceOfWallet(process.env['PAYOUT_WALLET_'+openGames[i].decoded.game])+" ETH\n";
-        txt += "Your current points: "+openGames[i].decoded.points+"\n";
-        txt += "Your current leaderboard position: "+openGames[i].decoded.leaderboard_position+"\n";
-        txt += "Tournament ends in: "+openGames[i].decoded.ends_in+"\n";
+        txt += "Tournament: #" + (count + 1) + "\n";
+        txt += "Bet size: " + openGames[i].decoded.price + " ETH\n";
+        txt += "Your Iteration Remaining: " + remainingIteration + "\n";
+        txt += "Your action: " + openGames[i].decoded.action + "\n";
+        txt +=
+          "Current prize pool: " +
+          (await helper.getBalanceOfWallet(
+            process.env["PAYOUT_WALLET_" + openGames[i].decoded.game]
+          )) +
+          " ETH\n";
+        // txt += "Your current points: " + openGames[i].decoded.points + "\n";
+        // txt +=
+        //   "Your current leaderboard position: " +
+        //   openGames[i].decoded.leaderboard_position +
+        //   "\n";
+          txt +=
+          "Players registered: " + participantsCount[0].myCount + "\n";
+        txt += "Tournament ends in: " + openGames[i].decoded.ends_in + "\n";
         txt += "\n\n";
-        
-      }else{
+      } else {
+        const count = await client
+          .db("gaming")
+          .collection("winners")
+          .countDocuments({ game: "NUMBERGUESSING" });
+
+        const participantsCount = await client
+          .db("gaming")
+          .collection("tx")
+          .aggregate([
+            {
+              $match: {
+                "decoded.game": "NUMBERGUESSING",
+                verified: true,
+                processed: false,
+                "decoded.tiers": openGames[i].decoded.tiers,
+              },
+            },
+            {
+              $group: {
+                _id: "$decoded._id",
+                decoded: { $first: "$decoded" },
+              },
+            },
+            // add a variable called user with 'decoded._id' as value
+            { $group: { _id: null, myCount: { $sum: 1 } } },
+            { $project: { _id: 0 } },
+          ]).toArray()
+          console.log('participantsCount')
         txt += "Game: Guess the Number\n";
-        txt += "Match: #"+openGames[i].decoded.tiers+"\n";
-        txt += "Bet size: "+openGames[i].decoded.price+" ETH\n";
-        txt += "Your bets: "+openGames[i].decoded.number+"\n";
-        txt += "Current prize pool: "+ await helper.getBalanceOfWallet(process.env['PAYOUT_WALLET_'+openGames[i].decoded.game])+" ETH\n";
-        txt += "Players remaining until match ends: "+(10 - openGames[i].decoded.players)+"\n";
+        txt += "Match: #" + (count + 1) + "\n";
+        txt += "Bet size: " + openGames[i].decoded.price + " ETH\n";
+        txt += "Your Iteration remaining: " + remainingIteration + "\n";
+        txt +=
+          "Current prize pool: " +
+          (await helper.getBalanceOfWallet(
+            process.env["PAYOUT_WALLET_" + openGames[i].decoded.game]
+          )) +
+          " ETH\n";
+        txt +=
+          "Players remaining until match ends: " + (10 - participantsCount[0].myCount) + "\n";
         txt += "\n\n";
       }
 
-      if(i % 2 === 0 && Number(i) !== 0 && i !== openGames.length){
+      if (i % 2 === 0 && Number(i) !== 0 && i !== openGames.length) {
         await bot.sendMessage(msg.chat.id, txt, {
           parse_mode: "HTML",
           disable_web_page_preview: true,
         });
-        txt = ''
+        txt = "";
       }
     }
-    txt+= "We'll notify you when a game finishes!";
+    txt += "We'll notify you when a game finishes!";
   }
 
   var _markup = [];
@@ -495,64 +570,87 @@ module.exports.myOpenGAMES = async (msg) => {
       inline_keyboard: _markup,
     }),
   });
-}
-module.exports.frequencyInput = async (msg)=>{
-    const client = await db.getClient();
+};
+module.exports.frequencyInput = async (msg) => {
+  const client = await db.getClient();
 
-   
-    await client
-      .db("gaming")
-      .collection("user_choice")
-      .updateOne({ _id: msg.chat.id }, { $set: {mode:'INPUT_FREQUENCY'} }, { upsert: true });
-  
-        // User wants to input a number
-        bot.sendMessage(msg.chat.id, "Type the number of your choice\n\n<b>Only numbers greater than 0 are allowed</b>",{
-            parse_mode: "HTML",
-            disable_web_page_preview: true,
-        });
-    
-}
+  await client
+    .db("gaming")
+    .collection("user_choice")
+    .updateOne(
+      { _id: msg.chat.id },
+      { $set: { mode: "INPUT_FREQUENCY" } },
+      { upsert: true }
+    );
+
+  // User wants to input a number
+  bot.sendMessage(
+    msg.chat.id,
+    "Type the number of your choice\n\n<b>Only numbers greater than 0 are allowed</b>",
+    {
+      parse_mode: "HTML",
+      disable_web_page_preview: true,
+    }
+  );
+};
 
 module.exports.check_input = async (msg) => {
-    const client = await db.getClient();
+  const client = await db.getClient();
 
-    const user = await client
-        .db("gaming")
-        .collection("user_choice")
-        .findOne({ _id: msg.chat.id });
+  const user = await client
+    .db("gaming")
+    .collection("user_choice")
+    .findOne({ _id: msg.chat.id });
 
-    if(user && user.mode && user.mode.indexOf('INPUT_') !== -1){
-        // user is in input mode 
-        let number = msg.text;
-        if(isNaN(number) || Number(number) < 0 || number.indexOf('.') !== -1 || number.indexOf(',') !== -1){
-            bot.sendMessage(msg.chat.id, "Please enter a valid number or a number greater than 0");
-            return;
-        }else{
-
-            // save the number of the user 
-            if(user.mode === 'INPUT_FREQUENCY'){
-                if(Number(number) <= 0 ){
-                    bot.sendMessage(msg.chat.id, "Please enter a number greater than 0");
-                    return;
-                }
-                await client
-                  .db("gaming")
-                  .collection("user_choice")
-                  .updateOne({ _id: msg.chat.id }, { $set: {number:Number(number),mode:null} }, { upsert: true });
-               this.summary(msg,user.game,user.tiers,user.action,number);
-            } else if(user.mode === 'INPUT_NUMBERGUESSING'){
-                if(Number(number) > 100 || Number(number) < 0){
-                    bot.sendMessage(msg.chat.id, "Please enter a number between 0 and 100");
-                    return;
-                }else{
-                    await client
-                    .db("gaming")
-                    .collection("user_choice")
-                    .updateOne({ _id: msg.chat.id }, { $set: {action:Number(number),mode:null} }, { upsert: true });  
-                    this.action(msg, user.game, user.tiers, Number(number));
-                }
-            }
+  if (user && user.mode && user.mode.indexOf("INPUT_") !== -1) {
+    // user is in input mode
+    let number = msg.text;
+    if (
+      isNaN(number) ||
+      Number(number) < 0 ||
+      number.indexOf(".") !== -1 ||
+      number.indexOf(",") !== -1
+    ) {
+      bot.sendMessage(
+        msg.chat.id,
+        "Please enter a valid number or a number greater than 0"
+      );
+      return;
+    } else {
+      // save the number of the user
+      if (user.mode === "INPUT_FREQUENCY") {
+        if (Number(number) <= 0) {
+          bot.sendMessage(msg.chat.id, "Please enter a number greater than 0");
+          return;
         }
-
+        await client
+          .db("gaming")
+          .collection("user_choice")
+          .updateOne(
+            { _id: msg.chat.id },
+            { $set: { number: Number(number), mode: null } },
+            { upsert: true }
+          );
+        this.summary(msg, user.game, user.tiers, user.action, number);
+      } else if (user.mode === "INPUT_NUMBERGUESSING") {
+        if (Number(number) > 100 || Number(number) < 0) {
+          bot.sendMessage(
+            msg.chat.id,
+            "Please enter a number between 0 and 100"
+          );
+          return;
+        } else {
+          await client
+            .db("gaming")
+            .collection("user_choice")
+            .updateOne(
+              { _id: msg.chat.id },
+              { $set: { action: Number(number), mode: null } },
+              { upsert: true }
+            );
+          this.action(msg, user.game, user.tiers, Number(number));
+        }
+      }
     }
-}
+  }
+};
