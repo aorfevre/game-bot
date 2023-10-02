@@ -2,6 +2,7 @@ var db = require("../database/mongo.js");
 var prisoner = require("./prisoner.js");
 var number_guessing = require("./number_guessing.js");
 var centipede = require("./centipede.js");
+var rock_paper_scissors = require("./rock_paper_scissors.js");
 var helper = require("../custo/helper.js");
 
 module.exports.structChoice = () => {
@@ -50,12 +51,12 @@ module.exports.init = async (msg) => {
     },
   ]);
 
-  //   _markup.push([
-  //     {
-  //       text: "🐛 Centipede game",
-  //       callback_data: "GAME_INIT_CENTIPEDE",
-  //     },
-  //   ]);
+    _markup.push([
+      {
+        text: "🐛 Rock Paper Scissors game",
+        callback_data: "GAME_INIT_ROCKPAPERSCISSORS",
+      },
+    ]);
 
   _markup.push([
     {
@@ -106,6 +107,9 @@ module.exports.initGame = async (msg, t) => {
       break;
     case "CENTIPEDE":
       intro = await centipede.getIntroText();
+      break;
+    case "ROCKPAPERSCISSORS":
+      intro = await rock_paper_scissors.getIntroText();
       break;
   }
 
@@ -173,6 +177,9 @@ module.exports.price = async (msg, t, tiers) => {
     case "CENTIPEDE":
       _markup = await centipede.getActions(tiers);
       break;
+      case "ROCKPAPERSCISSORS":
+        _markup = await rock_paper_scissors.getActions(tiers);
+        break;
   }
 
   _markup.push([
@@ -224,6 +231,9 @@ module.exports.frequency = async (msg, t, tiers) => {
     case "CENTIPEDE":
       _markup = await centipede.getActions();
       break;
+      case "ROCKPAPERSCISSORS":
+        _markup = await rock_paper_scissors.getActions();
+        break;
   }
 
   _markup.push([
@@ -286,7 +296,11 @@ module.exports.action = async (msg, t, tiers, action) => {
     case "CENTIPEDE":
       txt += centipede.actionText();
       break;
-  }
+      case "ROCKPAPERSCISSORS":
+      txt += rock_paper_scissors.actionText();
+      break;
+    }
+
 
   var _markup = [];
   _markup.push([
@@ -421,6 +435,9 @@ module.exports.guide = (msg, t) => {
     case "CENTIPEDE":
       centipede.guide(msg);
       break;
+      case "ROCKPAPERSCISSORS":
+        rock_paper_scissors.guide(msg);
+        break;
   }
 };
 
