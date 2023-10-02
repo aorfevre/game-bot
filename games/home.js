@@ -427,7 +427,7 @@ module.exports.myOpenGAMES = async (msg) => {
   const openGames = await client
     .db("gaming")
     .collection("tx")
-    .find({ 'decoded._id': msg.chat.id ,verified:true,processed:{$ne:true}})
+    .find({ 'decoded._id': msg.chat.id ,verified:true,processed:false})
     .toArray();
 
   

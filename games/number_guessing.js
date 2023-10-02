@@ -1,3 +1,4 @@
+const { ethers } = require("ethers");
 var db = require("../database/mongo.js");
 
 module.exports.getIntroText = async (msg) => {
@@ -69,7 +70,7 @@ module.exports.guide = async (msg,t) => {
 
 module.exports.payout = async ()=>{
 
-  const PARTICIPANTS = 4; 
+  const PARTICIPANTS = 3; 
 
   const client = await db.getClient();
 
@@ -82,7 +83,7 @@ module.exports.payout = async ()=>{
         $match: {
           "decoded.game": "NUMBERGUESSING",
           verified: true,
-          processed: {$ne:true},
+          processed:false
         },
       },
       {
@@ -102,6 +103,15 @@ module.exports.payout = async ()=>{
       },
     ])
     .toArray();
+
+    // count number of games NUMBERGUESSING in winners collection
+    const count = await client
+    .db("gaming")
+    .collection("winners")
+    .countDocuments({game:"NUMBERGUESSING"});
+    
+    console.log('tx',tx.length)
+  // Print me _id of decoded
   if (tx.length > 0 && tx.length === PARTICIPANTS) {
     // calculate prize pool 
     let prizePool = 0;
@@ -164,7 +174,7 @@ module.exports.payout = async ()=>{
     winner.prizePool = prizePool;
     winner.gameFee = gameFee;
     winner._created_at = new Date();  
-    console.log('Winner',winner);
+
     const result = {
       winner,
       loosers,
@@ -173,33 +183,23 @@ module.exports.payout = async ()=>{
       gameFee,
       _created_at: new Date(),
       winnerId: winner._id,
-      loosersIds: loosers.map((l)=>l._id)
+      loosersIds: loosers.map((l)=>l._id),
+      match : count+1
 
     }
-    // Save the winner state 
+    // // Save the winner state 
     await client
       .db("gaming")
       .collection("winners")
       .insertOne(result);
 
-
-    // send prize pool to Winner
-
-    // send bot message to winner 
-//     *Match results*
-
-
     let txtWinner = "<b>Match results</b>\n\n" +
-    "Guess the Number match ###\n" +
-    "has finished\n\n" +
+    "Guess the Number match #" + (count+1) + " has finished\n\n" +
     "You won!\n\n" +
-    "Your prize:\n" +
-    prizePool + " ETH\n\n" +
-    "Your prize has been paid out\n\n" +
+    "Prize pool: " + prizePool + " ETH\n\n" +
+    "Your prize has been paid out\n\n" ;
 
-
-
-    bot.sendMessage(winner.decoded._id, txtWinner,{
+    bot.sendMessage(result.winner.decoded._id, txtWinner,{
       parse_mode: "HTML",
       disable_web_page_preview: true,
       reply_markup: JSON.stringify({
@@ -220,14 +220,16 @@ module.exports.payout = async ()=>{
       }),  
     }); 
 
-    // send Game fee to Safe MultiSig 
 
     // send bot message to Loosers 
     let txtLoosers = "<b>Match results</b>\n\n" +
-    "Guess the Number match ### has finished\n\n" +
-    "You didn't win.\n\n";
-    for(const i in loosers){
-      bot.sendMessage(loosers[i].decoded._id, txtLoosers, {
+    "Guess the Number match #" + (count+1) + " has finished\n\n" +
+    "You didn't win.\n\n"+
+    "Prize pool: " + prizePool + " ETH\n\n" +
+    "Your prize has been paid out\n\n" ;
+
+    for(const i in result.loosers){
+      bot.sendMessage(result.loosers[i].decoded._id, txtLoosers, {
         parse_mode: "HTML",
         disable_web_page_preview: true,
         reply_markup: JSON.stringify({
@@ -248,6 +250,11 @@ module.exports.payout = async ()=>{
         }),  
       });
     }
+
+    // Send the prize pool in ETH to the winner pool wallet using etherjs 
+
+    // Send the game fee to the platform pool
+
 
 
   }else{

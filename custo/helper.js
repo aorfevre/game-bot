@@ -96,6 +96,7 @@ module.exports.savePlayTransaction = async (hash, txhash) => {
       decoded,
       _created_at: new Date(),
       verified: false,
+      processed:false
     };
     await client.db("gaming").collection("tx").insertOne(tx);
     return tx;
