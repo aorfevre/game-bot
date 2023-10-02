@@ -172,11 +172,7 @@ module.exports.payoutByTiers = async (tiers) => {
               }
             );
         } else {
-          console.log('SET FALSE',{
-            iteration: tx[i].iteration,
-            processed: false,
-            _updated_at: new Date(),
-          },Number(tx[i].decoded.number),{ _id: tx[i]._id })
+
           await client
             .db("gaming")
             .collection("tx")
