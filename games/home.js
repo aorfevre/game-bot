@@ -521,7 +521,6 @@ module.exports.myOpenGAMES = async (msg) => {
             { $group: { _id: null, myCount: { $sum: 1 } } },
             { $project: { _id: 0 } },
           ]).toArray()
-          console.log('participantsCount')
         txt += "Game: Guess the Number\n";
         txt += "Match: #" + (count + 1) + "\n";
         txt += "Bet size: " + openGames[i].decoded.price + " ETH\n";
