@@ -67,8 +67,16 @@ module.exports.guide = async (msg,t) => {
         }),
       });
 }
-
 module.exports.payout = async ()=>{
+
+  const tiers = ['1','2','3'];
+  for(const i in tiers){
+    this.payoutByTiers(tiers[i]);
+  }
+
+}
+
+module.exports.payoutByTiers = async (tiers)=>{
 
   const PARTICIPANTS = 3; 
 
@@ -83,7 +91,8 @@ module.exports.payout = async ()=>{
         $match: {
           "decoded.game": "NUMBERGUESSING",
           verified: true,
-          processed:false
+          processed:false,
+          'decoded.tiers':tiers
         },
       },
       {
