@@ -358,7 +358,6 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
     .findOne({ _id: msg.chat.id });
 
   user_choice.payout_wallet = process.env["PAYOUT_WALLET_" + user_choice.game];
-  console.log('WALLET',"PAYOUT_WALLET_" + user_choice.game)
   const userData = await helper.encode(user_choice);
 
   if (userData === null) {
@@ -423,7 +422,6 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
 };
 
 module.exports.guide = (msg, t) => {
-  console.log("t", t);
   switch (t) {
     case "PRISONER":
       prisoner.guide(msg);
@@ -451,11 +449,7 @@ module.exports.myOpenGAMES = async (msg) => {
     .find({ "decoded._id": msg.chat.id, verified: true, processed: false })
     .toArray();
 
-  console.log("Query", {
-    "decoded._id": msg.chat.id,
-    verified: true,
-    processed: false,
-  });
+
 
   if (openGames.length === 0) {
     txt += "You don't have any open games";

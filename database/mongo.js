@@ -35,8 +35,13 @@ async function createIndexes() {
   tx.createIndex({ verified: 1 }, {});
 
   const user_choice = await client.db("gaming").collection("user_choice");
-  tx.createIndex({ user_choice: 1 }, {});
-  tx.createIndex({ "decoded._id": 1, verified: 1, processed: 1 }, {});
+  user_choice.createIndex({ user_choice: 1 }, {});
+  user_choice.createIndex({ "decoded._id": 1, verified: 1, processed: 1 }, {});
+
+  const refCodes = await client.db("gaming").collection("user_choice");
+  refCodes.createIndex({ code: 1 ,is_valid:1}, {});
+  refCodes.createIndex({ referrer: 1, is_valid:1 }, {});
+
 
   console.log("Index created");
 }

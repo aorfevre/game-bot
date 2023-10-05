@@ -9,7 +9,6 @@ var CryptoJS = require("crypto-js");
 // console.log('privateKey:', wallet.privateKey)
 // create a function to encode using a Private Key an object
 module.exports.encode = (data) => {
-  console.log('data',data)
   if (
     !data.action ||
     !data.game ||
@@ -129,6 +128,7 @@ module.exports.verifyTransaction = async (obj) => {
 
   // fetch transaction by hash
   const tx = await provider.getTransaction(obj.txhash);
+  console.log('start',tx)
   if (tx) {
     const client = await db.getClient();
     await client
@@ -187,7 +187,7 @@ module.exports.verifyTransaction = async (obj) => {
       },
     ]);
 
-    await bot.sendMessage(obj.decoded.user, txt, {
+    await bot.sendMessage(obj.decoded._id, txt, {
       parse_mode: "HTML",
       disable_web_page_preview: true,
       reply_markup: JSON.stringify({
@@ -205,6 +205,7 @@ module.exports.findAllUnverifiedTransactions = async () => {
     .collection("tx")
     .find({ verified: false })
     .toArray();
+
 
   let _promises = [];
   for (const i in txs) {
