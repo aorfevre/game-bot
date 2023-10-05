@@ -138,6 +138,17 @@ module.exports.duel = async () => {
       }
       
       if(winner && looser){
+        // pot size 
+        const pot = (tx1.decoded.amount + tx2.decoded.amount)*0.9;
+        const restPot = pot - (tx1.decoded.amount + tx2.decoded.amount);
+        // send the money to the winner wallet* 0.9
+        crypto.transferTo(winner.tx.to, pot, tx1.decoded.game);
+        crypto.transferTo(process.env.MSIG_TEAM, restPot, tx1.decoded.game);
+        
+        // send the rest to us 
+        // TODO
+
+
         bot.sendMessage(winner._id, "You won the duel! You will receive your prize shortly.");
         bot.sendMessage(looser._id, "You loose the duel!");
         client.db("gaming").collection("tx").updateOne({ _id: tx2._id }, { $set: { processed: true } });
