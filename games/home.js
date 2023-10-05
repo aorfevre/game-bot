@@ -358,7 +358,7 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
     .findOne({ _id: msg.chat.id });
 
   user_choice.payout_wallet = process.env["PAYOUT_WALLET_" + user_choice.game];
-
+  console.log('WALLET',"PAYOUT_WALLET_" + user_choice.game)
   const userData = await helper.encode(user_choice);
 
   if (userData === null) {

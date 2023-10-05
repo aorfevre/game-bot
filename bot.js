@@ -10,16 +10,28 @@ var games = require("./games/home.js");
 global.bot = init.setTelegram();
 
 bot.on("message", async (msg) => {
-  helper.updateUser(msg);
-
-  games.check_input(msg);
+  const user = await helper.updateUser(msg);
+  if (helper.isPrivate(msg)) {
+    if (user.isReferred) {
+      games.check_input(msg);
+    } else {
+      helper.checkReferralSystem(msg);
+    }
+  }
 });
 
-bot.onText(/^\/[start](.+|\b)/, (msg, match) => {
-  try {
-    helper.home(msg);
-  } catch (e) {
-    console.log("error", e);
+bot.onText(/^\/[start](.+|\b)/, async (msg, match) => {
+  if (helper.isPrivate(msg)) {
+    try {
+      const user = await helper.updateUser(msg);
+      if (user.isReferred) {
+        helper.home(msg);
+      } else {
+        helper.referralSystem(msg);
+      }
+    } catch (e) {
+      console.log("error", e);
+    }
   }
 });
 
@@ -93,6 +105,12 @@ bot.on("callback_query", async (callbackQuery) => {
         break;
       }
       games.summary(msg, t[0], t[1], t[2], t[3]);
+      break;
+    case "INVITE_CODES":
+      helper.invite_codes(msg);
+      break;
+    case "CREATE_5_CODES":
+      helper.create_5_codes(msg);
       break;
   }
 });
