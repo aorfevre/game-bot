@@ -158,7 +158,7 @@ module.exports.verifyTransaction = async (obj) => {
     participation += "Bet size per play : " + obj.decoded.price + "\n";
     participation += "Number of plays : " + obj.decoded.number + "\n";
     participation += "Total bet : " + obj.decoded.price * obj.decoded.number + "\n";
-    participation += "<a href='https://basescan.org/tx/" + obj.txhash + "'>Txhash</a>";
+    participation += "<a href='"+process.env.PUBLIC_EXPLORER_URL +"/tx/"+ obj.txhash + "'>Txhash</a>";
     txt+= participation;
 
     await bot.sendMessage(DD_FLOOD,participation, {

@@ -5,6 +5,7 @@ process.env["NTBA_FIX_319"] = 1;
 var init = require("./custo/init.js");
 
 var helper = require("./custo/helper.js");
+var crypto = require("./custo/crypto.js");
 var games = require("./games/home.js");
 
 global.bot = init.setTelegram();
