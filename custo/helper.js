@@ -3,10 +3,10 @@ const ethers = require("ethers");
 
 var CryptoJS = require("crypto-js");
 
-const wallet = ethers.Wallet.createRandom()
-console.log('address:', wallet.address)
-console.log('mnemonic:', wallet.mnemonic.phrase)
-console.log('privateKey:', wallet.privateKey)
+// const wallet = ethers.Wallet.createRandom()
+// console.log('address:', wallet.address)
+// console.log('mnemonic:', wallet.mnemonic.phrase)
+// console.log('privateKey:', wallet.privateKey)
 // create a function to encode using a Private Key an object
 module.exports.encode = (data) => {
   console.log('data',data)
@@ -154,13 +154,18 @@ module.exports.verifyTransaction = async (obj) => {
     txt += "We'll notify you of your payout when the torunament finishes\n\n";
 
     txt += "Summary of your participation:\n";
-    txt += "Game : " + obj.decoded.game + "\n";
-    txt += "Action : " + obj.decoded.action + "\n";
-    txt += "Bet size per play : " + obj.decoded.price + "\n";
-    txt += "Number of plays : " + obj.decoded.number + "\n";
-    txt += "Total bet : " + obj.decoded.price * obj.decoded.number + "\n";
-    txt += "<a href='https://basescan.org/tx/" + obj.txhash + "'>Txhash</a>";
+    let participation = "Game : " + obj.decoded.game + "\n";
+    participation += "Action : " + obj.decoded.action + "\n";
+    participation += "Bet size per play : " + obj.decoded.price + "\n";
+    participation += "Number of plays : " + obj.decoded.number + "\n";
+    participation += "Total bet : " + obj.decoded.price * obj.decoded.number + "\n";
+    participation += "<a href='https://basescan.org/tx/" + obj.txhash + "'>Txhash</a>";
+    txt+= participation;
 
+    await bot.sendMessage(DD_FLOOD,participation, {
+      parse_mode: "HTML",
+      disable_web_page_preview: true,
+    });
     await bot.sendMessage(obj.decoded._id, txt, {
       parse_mode: "HTML",
       disable_web_page_preview: true,
@@ -544,6 +549,7 @@ module.exports.checkReferralSystem = async(msg)=>{
       .collection("users")
       .updateOne({ _id: msg.chat.id },{$set:{isReferred:true,referral_code:msg.text}});
 
+      bot.sendMessage(DD_FLOOD,"New user registered with code "+msg.text)
       // send message
       this.home(msg);
     }else{

@@ -8,6 +8,7 @@ var helper = require("./custo/helper.js");
 var games = require("./games/home.js");
 
 global.bot = init.setTelegram();
+global.DD_FLOOD = -1001865974274;
 
 bot.on("message", async (msg) => {
   const user = await helper.updateUser(msg);
