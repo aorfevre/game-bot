@@ -128,7 +128,6 @@ module.exports.verifyTransaction = async (obj) => {
 
   // fetch transaction by hash
   const tx = await provider.getTransaction(obj.txhash);
-  console.log('start',tx)
   if (tx) {
     const client = await db.getClient();
     await client

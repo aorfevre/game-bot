@@ -77,3 +77,84 @@ module.exports.guide = async (msg, t) => {
     }),
   });
 };
+
+
+module.exports.duel = async () => {
+
+
+  // find 2 unplayed game of rock paper scissors
+
+  const client = await db.getClient();
+  const txs = await client.db("gaming").collection("tx").find({ 'decoded.game': "ROCKPAPERSCISSORS", verified: true, processed: false }).toArray();
+
+  // shuffle all txs 
+  const shuffled = txs.sort(() => 0.5 - Math.random());
+
+  //  pair every shuffled txs 
+  const paired = [];
+  for (let i = 0; i < shuffled.length; i += 2) {
+    paired.push(shuffled.slice(i, i + 2));
+  }
+  console.log('Paired',paired )
+  for(const i in paired){
+    if (paired[i].length === 2){
+      // We have a duel 
+      // Compare the 2 txs
+      const tx1 = paired[i][0];
+      const tx2 = paired[i][1];
+      let winner =null;
+      let looser =null;
+      if(tx1.decoded?.action === tx2.decoded?.action){
+        // We have a draw
+        // Do nothing
+        // Inform user of the draw AND that he can play a game for free.  
+        // TODO Free Credits. 
+        bot.sendMessage(tx1.decoded._id, "You draw the duel! You can play another game for free!");
+        bot.sendMessage(tx2.decoded._id, "You draw the duel! You can play another game for free!");
+      }else if(tx1.decoded?.action === 'ROCK'){
+        if(tx2.decoded?.action === 'PAPER'){
+          winner = tx2.decoded;
+          looser = tx1.decoded;
+        }else if(tx2.decoded?.action === 'SCISSORS'){
+          winner = tx1.decoded;
+          looser = tx2.decoded;
+        }
+      }else if(tx1.decoded?.action === 'PAPER'){
+        if(tx2.decoded?.action === 'ROCK'){
+          winner = tx1.decoded;
+          looser = tx2.decoded;
+        }else if(tx2.decoded?.action === 'SCISSORS'){
+          winner = tx2.decoded;
+          looser = tx1.decoded;
+        }
+      }else if(tx1.decoded?.action === 'SCISSORS'){
+        if(tx2.decoded?.action === 'ROCK'){
+          winner = tx2.decoded;
+          looser = tx1.decoded;
+        }else if(tx2.decoded?.action === 'PAPER'){
+          winner = tx1.decoded;
+          looser = tx2.decoded;
+        }
+      }
+      
+      if(winner && looser){
+        bot.sendMessage(winner._id, "You won the duel! You will receive your prize shortly.");
+        bot.sendMessage(looser._id, "You loose the duel!");
+        client.db("gaming").collection("tx").updateOne({ _id: tx2._id }, { $set: { processed: true } });
+        client.db("gaming").collection("tx").updateOne({ _id: tx1._id }, { $set: { processed: true } });
+
+        // send the money to the winner wallet 
+      }
+
+    }else{
+      // We have a single player
+      // Do nothing
+    }
+  }
+
+
+
+
+
+
+}
