@@ -22,7 +22,7 @@ module.exports.encode = (data) => {
   try {
     return CryptoJS.AES.encrypt(
       JSON.stringify(data),
-      process.env.PRIVATE_KEY
+      process.env.PRIVATE_KEY,
     ).toString();
   } catch (e) {
     return null;
@@ -96,7 +96,7 @@ module.exports.savePlayTransaction = async (hash, txhash) => {
       decoded,
       _created_at: new Date(),
       verified: false,
-      processed:false
+      processed: false,
     };
     await client.db("gaming").collection("tx").insertOne(tx);
     return tx;
@@ -108,22 +108,20 @@ module.exports.isPrivate = function (msg) {
   return msg.chat.type === "private";
 };
 
-    // get ETH balance of a wallet
-    module.exports.getBalanceOfWallet = async (wallet)=>{
-        const provider = new ethers.providers.JsonRpcProvider(
-            process.env.PUBLIC_RPC_URL
-          );
-        const balance = await provider.getBalance(wallet);
-        return ethers.utils.formatUnits(balance,18);
-    
-    }
+// get ETH balance of a wallet
+module.exports.getBalanceOfWallet = async (wallet) => {
+  const provider = new ethers.providers.JsonRpcProvider(
+    process.env.PUBLIC_RPC_URL,
+  );
+  const balance = await provider.getBalance(wallet);
+  return ethers.utils.formatUnits(balance, 18);
+};
 
 module.exports.verifyTransaction = async (obj) => {
   // Connect to ethers RPC on Sepolia
   const provider = new ethers.providers.JsonRpcProvider(
-    process.env.PUBLIC_RPC_URL
+    process.env.PUBLIC_RPC_URL,
   );
-
 
   // fetch transaction by hash
   const tx = await provider.getTransaction(obj.txhash);
@@ -140,7 +138,12 @@ module.exports.verifyTransaction = async (obj) => {
 
     txt += "You joined tournament #XXX\n\n";
 
-    txt += "Current prize pool: "+await this.getBalanceOfWallet(process.env['PAYOUT_WALLET_'+obj.decoded.game])+" ETH\n\n";
+    txt +=
+      "Current prize pool: " +
+      (await this.getBalanceOfWallet(
+        process.env["PAYOUT_WALLET_" + obj.decoded.game],
+      )) +
+      " ETH\n\n";
 
     txt += "Tournament ends in: XXX HOURS\n\n";
 
@@ -152,7 +155,7 @@ module.exports.verifyTransaction = async (obj) => {
     txt += "Bet size per play : " + obj.decoded.price + "\n";
     txt += "Number of plays : " + obj.decoded.number + "\n";
     txt += "Total bet : " + obj.decoded.price * obj.decoded.number + "\n";
-    txt += "<a href='https://basescan.org/tx/"+obj.txhash+"'>Txhash</a>";
+    txt += "<a href='https://basescan.org/tx/" + obj.txhash + "'>Txhash</a>";
 
     await bot.sendMessage(obj.decoded._id, txt, {
       parse_mode: "HTML",

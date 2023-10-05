@@ -4,9 +4,9 @@ var db = require("../database/mongo.js");
 module.exports.getIntroText = async (msg) => {
   let txt = "🤔 <b>Rock Paper Scissors</b>\n\n";
 
-  // Define the rules of rock paper scissors 
+  // Define the rules of rock paper scissors
   txt += "Rock beats scissors, scissors beats paper, paper beats rock.\n\n";
-  txt += "If there is a draw, you can play another game for FREE! \n\n"
+  txt += "If there is a draw, you can play another game for FREE! \n\n";
 
   return txt;
 };
@@ -47,7 +47,7 @@ module.exports.guide = async (msg, t) => {
     "<b>Guide: Rock Paper Scissors</b>\n\n" +
     "2 players join a match.\n" +
     "Each player guesses a Rock, Paper or Scissors.\n\n" +
-    "Rock beats scissors, scissors beats paper, paper beats rock.\n\n" + 
+    "Rock beats scissors, scissors beats paper, paper beats rock.\n\n" +
     "Whoever is closest to the average number guessed * 2/3 wins the prize pool.\n\n";
 
   bot.sendMessage(msg.chat.id, txt, {

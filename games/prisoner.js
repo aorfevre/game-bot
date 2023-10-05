@@ -184,51 +184,61 @@ module.exports.duelByTiers = async (tiers) => {
         if (tx[0].decoded.action === "COOPERATE") {
           tx[0].score += 1;
           tx[1].score += 1;
-          const txt =  "<b>Prisoner Battle</b>\n\n" +
-          "Both players cooperated\n\n" + 
-          "Both players get 1 point\n\n";
-        bot.sendMessage(tx[0].decoded._id,txt, options);
-        bot.sendMessage(tx[1].decoded._id,txt, options);
-
+          const txt =
+            "<b>Prisoner Battle</b>\n\n" +
+            "Both players cooperated\n\n" +
+            "Both players get 1 point\n\n";
+          bot.sendMessage(tx[0].decoded._id, txt, options);
+          bot.sendMessage(tx[1].decoded._id, txt, options);
         } else {
           tx[0].score += 0;
           tx[1].score += 0;
-          const txt =  "<b>Prisoner Battle</b>\n\n" +
-          "Both players betrayed\n\n" + 
-          "Both players get 0 point\n\n";
-        bot.sendMessage(tx[0].decoded._id,txt, options);
-        bot.sendMessage(tx[1].decoded._id,txt, options);
+          const txt =
+            "<b>Prisoner Battle</b>\n\n" +
+            "Both players betrayed\n\n" +
+            "Both players get 0 point\n\n";
+          bot.sendMessage(tx[0].decoded._id, txt, options);
+          bot.sendMessage(tx[1].decoded._id, txt, options);
         }
       } else {
         // Choice are different
         if (tx[0].decoded.action === "COOPERATE") {
           tx[0].score += 0;
           tx[1].score += 2;
-          bot.sendMessage(tx[0].decoded._id,"<b>Prisoner Battle</b>\n\n" +
-          "You Cooperated and the other player Betrayed you!\n\n" + 
-          "You get 0 point. The other player get 2 points\n\n", options);
-          bot.sendMessage(tx[1].decoded._id,"<b>Prisoner Battle</b>\n\n" +
-          "You Betrayed the other player that has cooperated!\n\n" + 
-          "You get 2 points. The other player get 0 point\n\n", options);
+          bot.sendMessage(
+            tx[0].decoded._id,
+            "<b>Prisoner Battle</b>\n\n" +
+              "You Cooperated and the other player Betrayed you!\n\n" +
+              "You get 0 point. The other player get 2 points\n\n",
+            options,
+          );
+          bot.sendMessage(
+            tx[1].decoded._id,
+            "<b>Prisoner Battle</b>\n\n" +
+              "You Betrayed the other player that has cooperated!\n\n" +
+              "You get 2 points. The other player get 0 point\n\n",
+            options,
+          );
         } else {
           tx[0].score += 2;
           tx[1].score += 0;
-          bot.sendMessage(tx[0].decoded._id,txt, options);
-          bot.sendMessage(tx[1].decoded._id,"<b>Prisoner Battle</b>\n\n" +
-          "You Cooperated and the other player Betrayed you!\n\n" + 
-          "You get 0 point. The other player get 2 points\n\n", options);
+          bot.sendMessage(tx[0].decoded._id, txt, options);
+          bot.sendMessage(
+            tx[1].decoded._id,
+            "<b>Prisoner Battle</b>\n\n" +
+              "You Cooperated and the other player Betrayed you!\n\n" +
+              "You get 0 point. The other player get 2 points\n\n",
+            options,
+          );
         }
       }
 
-        
-
       for (const i in tx) {
-       
-        if(tx[i].iteration === undefined){
+        if (tx[i].iteration === undefined) {
           tx[i].iteration = 0;
-        } 
+        }
         tx[i].iteration += 1;
-        
+
         if (tx[i].iteration === Number(tx[i].decoded.number)) {
           await client
             .db("gaming")
@@ -242,7 +252,7 @@ module.exports.duelByTiers = async (tiers) => {
                   score: tx[i].score,
                   _updated_at: new Date(),
                 },
-              }
+              },
             );
         } else {
           await client
@@ -257,7 +267,7 @@ module.exports.duelByTiers = async (tiers) => {
                   score: tx[i].score,
                   _updated_at: new Date(),
                 },
-              }
+              },
             );
         }
       }

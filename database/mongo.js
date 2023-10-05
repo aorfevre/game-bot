@@ -12,8 +12,6 @@ const client = new MongoClient(uri, {
   },
 });
 
-
-
 module.exports.getClient = async () => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -28,41 +26,33 @@ module.exports.getClient = async () => {
   });
 };
 
-async function createIndexes(){
-  const users = await client
-      .db("gaming")
-      .collection("users")
-      users.createIndex( { _id: 1, _update_at:1}, { unique: true } )
-      const tx = await client
-      .db("gaming")
-      .collection("tx")
-      tx.createIndex( { txhash: 1, hash:1}, { } )
-      tx.createIndex( { _id:1}, { } )
-      tx.createIndex( { verified:1}, { } )
+async function createIndexes() {
+  const users = await client.db("gaming").collection("users");
+  users.createIndex({ _id: 1, _update_at: 1 }, { unique: true });
+  const tx = await client.db("gaming").collection("tx");
+  tx.createIndex({ txhash: 1, hash: 1 }, {});
+  tx.createIndex({ _id: 1 }, {});
+  tx.createIndex({ verified: 1 }, {});
 
-      const user_choice = await client
-      .db("gaming")
-      .collection("user_choice")
-      tx.createIndex( { user_choice:1}, { } )
-      tx.createIndex( { 'decoded._id': 1 ,verified:1,processed:1}, { } )
+  const user_choice = await client.db("gaming").collection("user_choice");
+  tx.createIndex({ user_choice: 1 }, {});
+  tx.createIndex({ "decoded._id": 1, verified: 1, processed: 1 }, {});
 
-      
-    console.log("Index created")
+  console.log("Index created");
+}
 
+async function run() {
+  try {
+    // Connect the client to the server	(optional starting in v4.7)
+    await client.connect();
+    // Send a ping to confirm a successful connection
+    await client.db("gaming").command({ ping: 1 });
+    console.log(
+      "Pinged your deployment. You successfully connected to MongoDB!",
+    );
+    // createIndexes();
+  } finally {
+    // Ensures that the client will close when you finish/error
+    // await client.close();
   }
-
-  async function run() {
-    try {
-      // Connect the client to the server	(optional starting in v4.7)
-      await client.connect();
-      // Send a ping to confirm a successful connection
-      await client.db("gaming").command({ ping: 1 });
-      console.log(
-        "Pinged your deployment. You successfully connected to MongoDB!"
-      );
-      // createIndexes();
-    } finally {
-      // Ensures that the client will close when you finish/error
-      // await client.close();
-    }
-  }
+}

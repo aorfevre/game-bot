@@ -131,11 +131,11 @@ module.exports.payoutByTiers = async (tiers) => {
       // Sum all decoded.action
       let sum = 0;
       for (const i in tx) {
-        console.log('tx[i]',tx[i])
+        console.log("tx[i]", tx[i]);
         sum += Number(tx[i].decoded.action);
         prizePool += ((tx[i].decoded.price * 1000) / 1000) * 0.9;
         gameFee += ((tx[i].decoded.price * 1000) / 1000) * 0.1;
-        
+
         if (tx[i].iteration === undefined) {
           tx[i].iteration = 0;
         }
@@ -155,9 +155,8 @@ module.exports.payoutByTiers = async (tiers) => {
           closest = diff;
           winner = tx[i];
         }
-       
+
         if (tx[i].iteration === Number(tx[i].decoded.number)) {
-         
           await client
             .db("gaming")
             .collection("tx")
@@ -169,10 +168,9 @@ module.exports.payoutByTiers = async (tiers) => {
                   processed: true,
                   _updated_at: new Date(),
                 },
-              }
+              },
             );
         } else {
-
           await client
             .db("gaming")
             .collection("tx")
@@ -184,7 +182,7 @@ module.exports.payoutByTiers = async (tiers) => {
                   processed: false,
                   _updated_at: new Date(),
                 },
-              }
+              },
             );
         }
       }

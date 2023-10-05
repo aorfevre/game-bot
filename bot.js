@@ -12,8 +12,7 @@ global.bot = init.setTelegram();
 bot.on("message", async (msg) => {
   helper.updateUser(msg);
 
-  games.check_input(msg)
-  
+  games.check_input(msg);
 });
 
 bot.onText(/^\/[start](.+|\b)/, (msg, match) => {
@@ -37,7 +36,7 @@ bot.on("callback_query", async (callbackQuery) => {
     control = "GAME_ACTION";
   } else if (control.indexOf("GAME_SUMMARY_") !== -1) {
     control = "GAME_SUMMARY";
-  }else if (control.indexOf("GUIDE_GAME_") !== -1) {
+  } else if (control.indexOf("GUIDE_GAME_") !== -1) {
     control = "GUIDE_GAME";
   }
 
@@ -65,7 +64,7 @@ bot.on("callback_query", async (callbackQuery) => {
       var t = callbackQuery.data.split("GUIDE_GAME_")[1];
       games.guide(msg, t);
       break;
-    
+
     case "INFO_GAMES":
       helper.info_games(msg);
       break;
@@ -79,18 +78,17 @@ bot.on("callback_query", async (callbackQuery) => {
       break;
     case "GAME_ACTION":
       var t = callbackQuery.data.split("GAME_ACTION_")[1].split("_");
-      if(t[2]=== 'INPUT'){
+      if (t[2] === "INPUT") {
         bot.sendMessage(msg.chat.id, "Type the number of your choice");
         break;
-      }else{
+      } else {
         games.action(msg, t[0], t[1], t[2]);
-
       }
       break;
     case "GAME_SUMMARY":
       var t = callbackQuery.data.split("GAME_SUMMARY_")[1].split("_");
 
-      if(t[3]=== 'INPUT'){
+      if (t[3] === "INPUT") {
         games.frequencyInput(msg);
         break;
       }
