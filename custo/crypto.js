@@ -2,7 +2,7 @@ const ethers = require("ethers");
 
 
 module.exports.transferTo = async(to,amount,game)=>{
-
+  console.log('Starting payment',to,amount,game)
   try{
 // do a token transfer from private key wallet to to of 1000 USDT on Arbitrum 
     // https://docs.ethers.io/v5/api/signer/#Signer-sendTransaction

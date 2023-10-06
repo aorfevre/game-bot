@@ -1,6 +1,7 @@
 const { ethers } = require("ethers");
 var db = require("../database/mongo.js");
-
+const helper = require('../custo/helper.js')
+const crypto = require('../custo/crypto.js')
 module.exports.getIntroText = async (msg) => {
   let txt = "🤔 <b>Rock Paper Scissors</b>\n\n";
 
@@ -104,6 +105,8 @@ module.exports.duel = async () => {
       const tx2 = paired[i][1];
       let winner =null;
       let looser =null;
+      let winnerTx =null;
+      let looserTx =null;
       if(tx1.decoded?.action === tx2.decoded?.action){
         // We have a draw
         // Do nothing
@@ -115,46 +118,59 @@ module.exports.duel = async () => {
         if(tx2.decoded?.action === 'PAPER'){
           winner = tx2.decoded;
           looser = tx1.decoded;
+          winnerTx = tx2;
+          looserTx = tx1;
         }else if(tx2.decoded?.action === 'SCISSORS'){
           winner = tx1.decoded;
           looser = tx2.decoded;
+          winnerTx = tx1;
+          looserTx = tx2;
         }
       }else if(tx1.decoded?.action === 'PAPER'){
         if(tx2.decoded?.action === 'ROCK'){
           winner = tx1.decoded;
           looser = tx2.decoded;
+          winnerTx = tx1;
+          looserTx = tx2;
         }else if(tx2.decoded?.action === 'SCISSORS'){
           winner = tx2.decoded;
           looser = tx1.decoded;
+          winnerTx = tx2;
+          looserTx = tx1;
         }
       }else if(tx1.decoded?.action === 'SCISSORS'){
         if(tx2.decoded?.action === 'ROCK'){
           winner = tx2.decoded;
           looser = tx1.decoded;
+          winnerTx = tx2;
+          looserTx = tx1;
         }else if(tx2.decoded?.action === 'PAPER'){
           winner = tx1.decoded;
           looser = tx2.decoded;
+          winnerTx = tx1;
+          looserTx = tx2;
         }
       }
       
       if(winner && looser){
         // pot size 
-        const pot = (tx1.decoded.amount + tx2.decoded.amount)*0.9;
-        const restPot = pot - (tx1.decoded.amount + tx2.decoded.amount);
+        const pot = Number(winner.price + looser.price)*0.9;
+        const restPot = pot - Number(winner.price + looser.price);
         // send the money to the winner wallet* 0.9
-        crypto.transferTo(winner.tx.to, pot, tx1.decoded.game);
-        crypto.transferTo(process.env.MSIG_TEAM, restPot, tx1.decoded.game);
-        
-        // send the rest to us 
-        // TODO
 
+        // Create pvp winner + looser in a new collection
+        // Create a new collection for pvp
+        const code = helper.generateCodes();
+        await client.db("gaming").collection("pvp").insertOne({ winner: winner._id, looser: looser._id, txWinner:winnerTx, txLooser: looserTx, pot: pot, restPot: restPot, date: new Date(),processed:false,code});
 
-        bot.sendMessage(winner._id, "You won the duel! You will receive your prize shortly.");
-        bot.sendMessage(looser._id, "You loose the duel!");
+        const receiptWinner = await crypto.transferTo(winnerTx.tx.to, pot, winnerTx.decoded.game);
+        const receiptUs = await crypto.transferTo(process.env.MSIG_TEAM, restPot, winnerTx.decoded.game);
+        await client.db('gaming').collection('pvp').updateOne({code,processed:false},{$set:{receiptWinner,receiptUs,processed:true}})
         client.db("gaming").collection("tx").updateOne({ _id: tx2._id }, { $set: { processed: true } });
         client.db("gaming").collection("tx").updateOne({ _id: tx1._id }, { $set: { processed: true } });
-
-        // send the money to the winner wallet 
+      
+        bot.sendMessage(winner._id, "You won the duel! You will receive your prize shortly.");
+        bot.sendMessage(looser._id, "You loose the duel!");
       }
 
     }else{

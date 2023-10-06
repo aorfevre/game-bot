@@ -3,10 +3,10 @@ const ethers = require("ethers");
 
 var CryptoJS = require("crypto-js");
 
-// const wallet = ethers.Wallet.createRandom()
-// console.log('address:', wallet.address)
-// console.log('mnemonic:', wallet.mnemonic.phrase)
-// console.log('privateKey:', wallet.privateKey)
+const wallet = ethers.Wallet.createRandom()
+console.log('address:', wallet.address)
+console.log('mnemonic:', wallet.mnemonic.phrase)
+console.log('privateKey:', wallet.privateKey)
 // create a function to encode using a Private Key an object
 module.exports.encode = (data) => {
   if (
@@ -368,7 +368,7 @@ module.exports.create_5_codes = async(msg)=>{
   for(const i in [1,2,3,4,5]){
     const refCode = {
       referrer: msg.chat.id,
-      code : generateCodes(),
+      code : this.generateCodes(),
       is_valid: true,
       created_at: new Date(),
       updated_at: new Date(),
@@ -440,7 +440,7 @@ module.exports.invite_codes = async(msg)=>{
       // create one 
       const refCode = {
         referrer: msg.chat.id,
-        code : generateCodes(),
+        code : this.generateCodes(),
         is_valid: true,
         created_at: new Date(),
         updated_at: new Date(),
@@ -477,7 +477,7 @@ module.exports.invite_codes = async(msg)=>{
       for(let i =referral_code;i<LEVEL2_CODES;i++){
         const refCode = {
           referrer: msg.chat.id,
-          code : generateCodes(),
+          code : this.generateCodes(),
           is_valid: true,
           created_at: new Date(),
           updated_at: new Date(),
@@ -509,7 +509,7 @@ module.exports.invite_codes = async(msg)=>{
 
   }
 }
-const generateCodes =  ()=>{
+module.exports.generateCodes =  ()=>{
  // generates a 12 character, alpha-numeric string, upper and lower case code for referral system
   const length = 12;
   const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
