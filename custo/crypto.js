@@ -13,7 +13,7 @@ module.exports.transferTo = async(to,amount,game)=>{
 
       const tx = {
           to: to,
-          value: ethers.utils.parseEther(amount),
+          value: ethers.utils.parseEther(amount.toString()),
       };
       const sendPromise = await wallet.sendTransaction(tx);
 
@@ -29,5 +29,3 @@ module.exports.transferTo = async(to,amount,game)=>{
    
 
 }
-
-// this.transferTo('0x2fd47ADaD57a79DE43ECaafdF06E4047f6e13f08','0.00001','ROCKPAPERSCISSORS')

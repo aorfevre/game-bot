@@ -87,6 +87,7 @@ module.exports.guide = async (msg) => {
 };
 
 module.exports.duel = async () => {
+  const tiers = ["1","2","3"];
   for (const i in tiers) {
     this.duelByTiers(tiers[i]);
   }

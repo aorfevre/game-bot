@@ -4,6 +4,7 @@ var number_guessing = require("./number_guessing.js");
 var centipede = require("./centipede.js");
 var rock_paper_scissors = require("./rock_paper_scissors.js");
 var helper = require("../custo/helper.js");
+var ObjectId = require('mongodb').ObjectId;
 
 module.exports.structChoice = () => {
   return {
@@ -37,12 +38,12 @@ module.exports.init = async (msg) => {
   let txt = `➡️ Which game would you like to play?`;
   var _markup = [];
 
-  _markup.push([
-    {
-      text: "🚨 Prisoner's Dilemma",
-      callback_data: "GAME_INIT_PRISONER",
-    },
-  ]);
+  // _markup.push([
+  //   {
+  //     text: "🚨 Prisoner's Dilemma",
+  //     callback_data: "GAME_INIT_PRISONER",
+  //   },
+  // ]);
 
   _markup.push([
     {
@@ -670,3 +671,52 @@ module.exports.check_input = async (msg) => {
     }
   }
 };
+
+
+module.exports.freeGame = async (msg, id) => {
+  console.log('FREE GAME')
+  // User has a free game following t id  
+  const client = await db.getClient();
+  // getting tx of id
+
+  const tx = await client
+    .db("gaming")
+    .collection("tx")
+    .findOne({ _id:  new ObjectId(id) })
+
+  if (tx) {
+    // User must select the free game he wants to play 
+
+    switch(tx.decoded.game){
+      case "ROCKPAPERSCISSORS":
+        rock_paper_scissors.freeGame(msg,tx);
+        break;
+    }
+
+  }
+
+}
+
+module.exports.freeGamePlayed = async (msg, id, choice) => {
+  // User has a free game following t id  
+  const client = await db.getClient();
+  // getting tx of id
+
+  const tx = await client
+    .db("gaming")
+    .collection("tx")
+    .findOne({ _id:  new ObjectId(id) })
+
+  if (tx) {
+    console.log('tx',tx.decoded)
+    // User must select the free game he wants to play 
+
+    switch(tx.decoded.game){
+      case "ROCKPAPERSCISSORS":
+        rock_paper_scissors.freeGamePlayed(msg,tx,choice);
+        break;
+    }
+
+  }
+
+}

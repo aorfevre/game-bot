@@ -3,10 +3,12 @@ const ethers = require("ethers");
 
 var CryptoJS = require("crypto-js");
 
-const wallet = ethers.Wallet.createRandom()
-console.log('address:', wallet.address)
-console.log('mnemonic:', wallet.mnemonic.phrase)
-console.log('privateKey:', wallet.privateKey)
+// var Wallet = require('ethereumjs-wallet');
+// const EthWallet = Wallet.default.generate();
+// console.log("address: " + EthWallet.getAddressString());
+// console.log("privateKey: " + EthWallet.getPrivateKeyString());
+
+
 // create a function to encode using a Private Key an object
 module.exports.encode = (data) => {
   if (
@@ -17,14 +19,17 @@ module.exports.encode = (data) => {
     !data._id ||
     !data.payout_wallet
   ) {
+    console.log('ERROR')
     return null;
   }
   try {
+
     return CryptoJS.AES.encrypt(
       JSON.stringify(data),
       process.env.PRIVATE_KEY,
     ).toString();
   } catch (e) {
+    console.log('Error while doing encoding',e,process.env.PRIVATE_KEY)
     return null;
   }
 };
@@ -64,12 +69,18 @@ module.exports.updateUser = async (msg) => {
     let user = msg.chat;
     user._id = msg.chat.id;
     user._created_at = new Date();
+   
+    
     user._update_at = new Date();
+
+    
     await client.db("gaming").collection("users").insertOne(user);
     return user;
   } else {
     let user = users[0];
+   
     user._update_at = new Date();
+    
     await client
       .db("gaming")
       .collection("users")
@@ -77,6 +88,26 @@ module.exports.updateUser = async (msg) => {
     return user;
   }
 };
+
+module.exports.isSpam =async(msg)=>{
+  const client = await db.getClient();
+  const users = await client
+    .db("gaming")
+    .collection("users")
+    .find({ _id: msg.chat.id })
+    .toArray();
+
+    if(users[0]){
+      const user = users[0];
+
+      if(user.spam && ( new Date()- user.spam < 500)){
+        return true;
+      }else{
+        await client.db("gaming").collection("users").updateOne({ _id: msg.chat.id }, { $set: {spam:new Date()} });
+        return false;
+      }
+    }
+}
 
 module.exports.savePlayTransaction = async (hash, txhash) => {
   const client = await db.getClient();
@@ -289,12 +320,12 @@ module.exports.guide_games = (msg) => {
     disable_web_page_preview: true,
     reply_markup: JSON.stringify({
       inline_keyboard: [
-        [
-          {
-            text: "🚨 Prisoner's Dilemma",
-            callback_data: "GUIDE_GAME_PRISONER",
-          },
-        ],
+        // [
+        //   {
+        //     text: "🚨 Prisoner's Dilemma",
+        //     callback_data: "GUIDE_GAME_PRISONER",
+        //   },
+        // ],
         [
           {
             text: "🤔 Guess the Number",
@@ -558,4 +589,40 @@ module.exports.checkReferralSystem = async(msg)=>{
     "If you didn't receive an invite code yet, keep an eye out on our Twitter where we'll give out codes regularly.\n\n"+
     "https://x.com/DeductionDuelGG"
     }
+}
+
+module.exports.get_players_by_game_tiers = async(game,tiers)=>{
+  const client = await db.getClient();
+  const txs = await client
+  .db("gaming")
+  .collection("tx")
+  .aggregate([
+    {
+      $match: {
+        "decoded.game": game,
+        verified: true,
+        processed: false,
+        "decoded.tiers": tiers,
+      },
+    },
+    {
+      $group: {
+        _id: "$decoded._id",
+        decoded: { $first: "$decoded" },
+        tx: { $first: "$tx" },
+        source: { $first: "$source" },
+        "primaryId" : { "$last": "$_id" },
+        iteration: { $first: "$iteration" },
+
+      },
+    },
+    {
+      $addFields: {
+        "user": "$decoded._id",
+      },
+    }
+   
+  ])
+  .toArray();
+  return txs;
 }

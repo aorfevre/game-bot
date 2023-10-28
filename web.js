@@ -27,7 +27,6 @@ app.get(`/decode`, async (req, res) => {
   if (hash) {
     const result = await helper.decode(decodeURIComponent(hash));
     if (result) {
-      console.log("Decoding Result", result);
       res.send(result);
     } else {
       res.sendStatus(400);
