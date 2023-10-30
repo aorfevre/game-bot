@@ -236,7 +236,6 @@ module.exports.findAllUnverifiedTransactions = async () => {
     .find({ verified: false })
     .toArray();
 
-
   let _promises = [];
   for (const i in txs) {
     _promises.push(this.verifyTransaction(txs[i]));
@@ -603,6 +602,7 @@ module.exports.get_players_by_game_tiers = async(game,tiers)=>{
         verified: true,
         processed: false,
         "decoded.tiers": tiers,
+        "decoded.action": {$exists:true},
       },
     },
     {
@@ -612,7 +612,42 @@ module.exports.get_players_by_game_tiers = async(game,tiers)=>{
         tx: { $first: "$tx" },
         source: { $first: "$source" },
         "primaryId" : { "$last": "$_id" },
-        iteration: { $first: "$iteration" },
+
+      },
+    },
+    {
+      $addFields: {
+        "user": "$decoded._id",
+      },
+    }
+   
+  ])
+  .toArray();
+  return txs;
+}
+
+module.exports.get_free_games = async(game,tiers)=>{
+  const client = await db.getClient();
+  const txs = await client
+  .db("gaming")
+  .collection("tx")
+  .aggregate([
+    {
+      $match: {
+        "decoded.game": game,
+        verified: true,
+        processed: false,
+        "decoded.tiers": tiers,
+        "decoded.action": {$exists:false},
+      },
+    },
+    {
+      $group: {
+        _id: "$decoded._id",
+        decoded: { $first: "$decoded" },
+        tx: { $first: "$tx" },
+        source: { $first: "$source" },
+        "primaryId" : { "$last": "$_id" },
 
       },
     },

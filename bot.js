@@ -58,6 +58,8 @@ bot.on("callback_query", async (callbackQuery) => {
       control = "FREE";
     } else if(control.indexOf("FREEGAME_") !== -1){
       control = "FREEGAME"
+    } else if(control.indexOf("FREETIERSGAME_") !== -1){
+      control = "FREETIERSGAME"
     }
 
     switch (control) {
@@ -122,15 +124,23 @@ bot.on("callback_query", async (callbackQuery) => {
         break;    
       case "FREE":
         var t = callbackQuery.data.split("FREE_")[1]
-
         games.freeGame(msg,t);
+        console.log('Free games',t)
         break;
-        case "FREEGAME":
-          var t = callbackQuery.data.split("FREEGAME_")[1].split('_')[0]
-          var choice = callbackQuery.data.split("FREEGAME_")[1].split('_')[1]
-    
-          games.freeGamePlayed(msg,t,choice);
-          break;
+      case "FREEGAME":
+        var game = callbackQuery.data.split("FREEGAME_")[1].split('_')[0]
+        var tiers = callbackQuery.data.split("FREEGAME_")[1].split('_')[1]
+        var choice = callbackQuery.data.split("FREEGAME_")[1].split('_')[2]
+  
+        games.freeGamePlayed(msg,game,tiers,choice);
+        break;
+      case "FREETIERSGAME":
+        var game = callbackQuery.data.split("FREETIERSGAME_")[1]
+        var tiers = callbackQuery.data.split("FREETIERSGAME_")[1]
+        games.freeGame(msg,game,tiers);
+        console.log('Free games',t)
+        break;
+       
     }
   }else{
     bot.sendMessage(msg.chat.id,"You are spamming the bot, please stop");

@@ -245,6 +245,109 @@ describe("Rock Paper Scissors PvP", () => {
 
 
   });
+
+  test("After a draw, the user has a free game", async() => {
+    const client = await db.getClient();
+
+    const tx3 = {
+      action: "ROCK",
+      game: "ROCKPAPERSCISSORS",
+      price: 0.0006,
+      number: 1,
+      tiers: "1",
+      _id: 3,
+      payout_wallet: "0x1234",
+    };
+
+    await helperJest.addTx(tx3);
+
+    const tx = {
+      action: "ROCK",
+      game: "ROCKPAPERSCISSORS",
+      price: 0.0006,
+      number: 1,
+      tiers: "1",
+      _id: 1,
+      payout_wallet: "0x123",
+    };
+
+    await helperJest.addTx(tx);
+    let transactions2 = await helper.get_players_by_game_tiers(
+      "ROCKPAPERSCISSORS",
+      "1"
+    );
+    expect(transactions2.length).toEqual(2);
+
+    // Do the duel and check that the number of play remaining is 4
+    await rps.duel();
+    let transactions5 = await helper.get_players_by_game_tiers(
+      "ROCKPAPERSCISSORS",
+      "1"
+    );
+    expect(transactions5.length).toEqual(0);
+
+    //check if we have free games available 
+
+    let transactions_free = await helper.get_free_games(
+      "ROCKPAPERSCISSORS",
+      "1"
+    );
+    expect(transactions_free.length).toEqual(2);
+    
+  });
+
+  test("After a draw, iteration is decreased", async() => {
+    const client = await db.getClient();
+
+    const tx3 = {
+      action: "ROCK",
+      game: "ROCKPAPERSCISSORS",
+      price: 0.0006,
+      number: 5,
+      tiers: "1",
+      _id: 3,
+      payout_wallet: "0x1234",
+    };
+
+    await helperJest.addTx(tx3);
+
+    const tx = {
+      action: "ROCK",
+      game: "ROCKPAPERSCISSORS",
+      price: 0.0006,
+      number: 1,
+      tiers: "1",
+      _id: 1,
+      payout_wallet: "0x123",
+    };
+
+    await helperJest.addTx(tx);
+    let transactions2 = await helper.get_players_by_game_tiers(
+      "ROCKPAPERSCISSORS",
+      "1"
+    );
+    expect(transactions2.length).toEqual(2);
+
+    // Do the duel and check that the number of play remaining is 4
+    await rps.duel();
+    let trx_final = await helper.get_players_by_game_tiers(
+      "ROCKPAPERSCISSORS",
+      "1"
+    );
+    expect(trx_final.length).toEqual(1);
+    expect(trx_final[0].decoded.number).toEqual(4);
+
+
+  });
+
+
+
+  test("After a draw, the user has a free game and use it", async() => {
+    expect(1).toBe(2)
+  });
+
+  // Iteration after a draw are reduced
+
   //   test("Can not play more games than the number of iteration ", () => {
   //     expect(1).toBe(2)
   //   });

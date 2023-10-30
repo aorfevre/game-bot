@@ -4,7 +4,7 @@ var number_guessing = require("./number_guessing.js");
 var centipede = require("./centipede.js");
 var rock_paper_scissors = require("./rock_paper_scissors.js");
 var helper = require("../custo/helper.js");
-var ObjectId = require('mongodb').ObjectId;
+var ObjectId = require("mongodb").ObjectId;
 
 module.exports.structChoice = () => {
   return {
@@ -96,7 +96,7 @@ module.exports.initGame = async (msg, t) => {
       {
         $set: curData,
       },
-      { upsert: true },
+      { upsert: true }
     );
   let intro = "";
   switch (t) {
@@ -199,7 +199,7 @@ module.exports.price = async (msg, t, tiers) => {
       {
         $set: curData,
       },
-      { upsert: true },
+      { upsert: true }
     );
 
   bot.sendMessage(msg.chat.id, txt, {
@@ -258,7 +258,7 @@ module.exports.frequency = async (msg, t, tiers) => {
       {
         $set: curData,
       },
-      { upsert: true },
+      { upsert: true }
     );
 
   bot.sendMessage(msg.chat.id, txt, {
@@ -378,7 +378,7 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
             ],
           ],
         }),
-      },
+      }
     );
     return;
   }
@@ -396,7 +396,7 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
 
   console.log(
     "Payment link ",
-    "http://localhost:3000?hash=" + encodeURIComponent(userData),
+    "http://localhost:3000?hash=" + encodeURIComponent(userData)
   );
   var _markup = [];
   _markup.push([
@@ -450,8 +450,6 @@ module.exports.myOpenGAMES = async (msg) => {
     .find({ "decoded._id": msg.chat.id, verified: true, processed: false })
     .toArray();
 
-
-
   if (openGames.length === 0) {
     txt += "You don't have any open games";
     // add buttons
@@ -497,7 +495,7 @@ module.exports.myOpenGAMES = async (msg) => {
         txt +=
           "Current prize pool: " +
           (await helper.getBalanceOfWallet(
-            process.env["PAYOUT_WALLET_" + openGames[i].decoded.game],
+            process.env["PAYOUT_WALLET_" + openGames[i].decoded.game]
           )) +
           " ETH\n";
         // txt += "Your current points: " + openGames[i].decoded.points + "\n";
@@ -544,7 +542,7 @@ module.exports.myOpenGAMES = async (msg) => {
         txt +=
           "Current prize pool: " +
           (await helper.getBalanceOfWallet(
-            process.env["PAYOUT_WALLET_" + openGames[i].decoded.game],
+            process.env["PAYOUT_WALLET_" + openGames[i].decoded.game]
           )) +
           " ETH\n";
         txt +=
@@ -597,7 +595,7 @@ module.exports.frequencyInput = async (msg) => {
     .updateOne(
       { _id: msg.chat.id },
       { $set: { mode: "INPUT_FREQUENCY" } },
-      { upsert: true },
+      { upsert: true }
     );
 
   // User wants to input a number
@@ -607,7 +605,7 @@ module.exports.frequencyInput = async (msg) => {
     {
       parse_mode: "HTML",
       disable_web_page_preview: true,
-    },
+    }
   );
 };
 
@@ -630,7 +628,7 @@ module.exports.check_input = async (msg) => {
     ) {
       bot.sendMessage(
         msg.chat.id,
-        "Please enter a valid number or a number greater than 0",
+        "Please enter a valid number or a number greater than 0"
       );
       return;
     } else {
@@ -646,14 +644,14 @@ module.exports.check_input = async (msg) => {
           .updateOne(
             { _id: msg.chat.id },
             { $set: { number: Number(number), mode: null } },
-            { upsert: true },
+            { upsert: true }
           );
         this.summary(msg, user.game, user.tiers, user.action, number);
       } else if (user.mode === "INPUT_NUMBERGUESSING") {
         if (Number(number) > 100 || Number(number) < 0) {
           bot.sendMessage(
             msg.chat.id,
-            "Please enter a number between 0 and 100",
+            "Please enter a number between 0 and 100"
           );
           return;
         } else {
@@ -663,7 +661,7 @@ module.exports.check_input = async (msg) => {
             .updateOne(
               { _id: msg.chat.id },
               { $set: { action: Number(number), mode: null } },
-              { upsert: true },
+              { upsert: true }
             );
           this.action(msg, user.game, user.tiers, Number(number));
         }
@@ -672,51 +670,108 @@ module.exports.check_input = async (msg) => {
   }
 };
 
-
-module.exports.freeGame = async (msg, id) => {
-  console.log('FREE GAME')
-  // User has a free game following t id  
+module.exports.freeGame = async (msg, game) => {
+  // User has a free game following t id
   const client = await db.getClient();
   // getting tx of id
 
-  const tx = await client
+  const items = await client
     .db("gaming")
     .collection("tx")
-    .findOne({ _id:  new ObjectId(id) })
+    .aggregate([
+      {
+        $match: {
+          "decoded._id": msg.chat.id,
+          processed: false,
+          "decoded.action": { $exists: false },
+        },
+      },
+      {
+        $group: {
+          _id: { tiers: "$decoded.tiers", game: "$decoded.game" },
+          count: { $sum: 1 },
+        },
+      },
+    ])
+    .toArray();
+  if (items.length > 0) {
+    // User has a free game
+    const totalGames = items.reduce((a, b) => a + b.count, 0);
+    if (items.length === 1) {
+      switch (game) {
+        case "ROCKPAPERSCISSORS":
+          rock_paper_scissors.freeGameByTiers(msg, game, items[0]._id.tiers);
+          break;
+      }
+    } else {
+      const arr = [];
+      const _markup = [];
+      let txt =
+        "You have more than one free game, please select the tiers you want to play\nmais pas ";
+      for (const i in items) {
+        if (items[i]._id.tiers === "1") {
+          txt += "\nTier 1: 0,0006 ETH - " + items[i].count + " free game";
+          arr.push({
+            text: "0,0006 ETH",
+            callback_data: "FREETIERSGAME_" + game + "_1",
+          });
+        } else if (items[i]._id.tiers === "2") {
+          txt += "\nTier 2: 0,003 ETH - " + items[i].count + " free game";
 
-  if (tx) {
-    // User must select the free game he wants to play 
+          arr.push({
+            text: "0,003 ETH",
+            callback_data: "FREETIERSGAME_" + game + "_2",
+          });
+        } else if (items[i]._id.tiers === "3") {
+          txt += "\nTier 3: 0,012 ETH - " + items[i].count + " free game";
 
-    switch(tx.decoded.game){
-      case "ROCKPAPERSCISSORS":
-        rock_paper_scissors.freeGame(msg,tx);
-        break;
+          arr.push({
+            text: "0,012 ETH",
+            callback_data: "FREETIERSGAME_" + game + "_3",
+          });
+        }
+      }
+      _markup.push(arr);
+      var options = {
+        parse_mode: "HTML",
+        disable_web_page_preview: true,
+        reply_markup: JSON.stringify({
+          inline_keyboard: _markup,
+        }),
+      };
+
+      await bot.sendMessage(msg.chat.id, txt, options);
     }
-
   }
+};
 
-}
-
-module.exports.freeGamePlayed = async (msg, id, choice) => {
-  // User has a free game following t id  
+module.exports.freeGamePlayed = async (msg, game, tiers, choice) => {
+  // User has a free game following t id
   const client = await db.getClient();
   // getting tx of id
 
-  const tx = await client
+  const count = await client
     .db("gaming")
     .collection("tx")
-    .findOne({ _id:  new ObjectId(id) })
+    .countDocuments({
+      "decoded.game": game,
+      "decoded._id": msg.chat.id,
+      processed: false,
+      "decoded.action": { $exists: false },
+      "decoded.tiers": tiers,
 
-  if (tx) {
-    console.log('tx',tx.decoded)
-    // User must select the free game he wants to play 
+    });
 
-    switch(tx.decoded.game){
+    console.log('Game',game,'Tiers',tiers,'Count',count,'Choice',choice)
+  if (count > 0) {
+    // User must select the free game he wants to play
+
+    switch (game) {
       case "ROCKPAPERSCISSORS":
-        rock_paper_scissors.freeGamePlayed(msg,tx,choice);
+        rock_paper_scissors.freeGamePlayed(msg, game, tiers,choice);
         break;
     }
-
+  }else{
+    bot.sendMessage(msg.chat.id, "You don't have any free game for this tiers");
   }
-
-}
+};
