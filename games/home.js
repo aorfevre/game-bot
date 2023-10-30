@@ -675,25 +675,7 @@ module.exports.freeGame = async (msg, game) => {
   const client = await db.getClient();
   // getting tx of id
 
-  const items = await client
-    .db("gaming")
-    .collection("tx")
-    .aggregate([
-      {
-        $match: {
-          "decoded._id": msg.chat.id,
-          processed: false,
-          "decoded.action": { $exists: false },
-        },
-      },
-      {
-        $group: {
-          _id: { tiers: "$decoded.tiers", game: "$decoded.game" },
-          count: { $sum: 1 },
-        },
-      },
-    ])
-    .toArray();
+  const items = await helper.get_free_games_by_user_game (msg.chat.id,game);
   if (items.length > 0) {
     // User has a free game
     const totalGames = items.reduce((a, b) => a + b.count, 0);

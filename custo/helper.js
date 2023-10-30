@@ -661,3 +661,54 @@ module.exports.get_free_games = async(game,tiers)=>{
   .toArray();
   return txs;
 }
+
+module.exports.get_free_games_by_user = async(id)=>{
+  const client = await db.getClient();
+
+  const items = await client
+  .db("gaming")
+  .collection("tx")
+  .aggregate([
+    {
+      $match: {
+        "decoded._id":id,
+        processed: false,
+        "decoded.action": { $exists: false },
+      },
+    },
+    {
+      $group: {
+        _id: { tiers: "$decoded.tiers", game: "$decoded.game" },
+        count: { $sum: 1 },
+      },
+    },
+  ])
+  .toArray();
+  return items;
+}
+
+module.exports.get_free_games_by_user_game = async(id,game)=>{
+  const client = await db.getClient();
+
+  const items = await client
+  .db("gaming")
+  .collection("tx")
+  .aggregate([
+    {
+      $match: {
+        "decoded._id":id,
+        processed: false,
+        "decoded.game":game,
+        "decoded.action": { $exists: false },
+      },
+    },
+    {
+      $group: {
+        _id: { tiers: "$decoded.tiers", game },
+        count: { $sum: 1 },
+      },
+    },
+  ])
+  .toArray();
+  return items;
+}

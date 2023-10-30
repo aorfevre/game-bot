@@ -131,7 +131,7 @@ bot.on("callback_query", async (callbackQuery) => {
         var game = callbackQuery.data.split("FREEGAME_")[1].split('_')[0]
         var tiers = callbackQuery.data.split("FREEGAME_")[1].split('_')[1]
         var choice = callbackQuery.data.split("FREEGAME_")[1].split('_')[2]
-  
+
         games.freeGamePlayed(msg,game,tiers,choice);
         break;
       case "FREETIERSGAME":

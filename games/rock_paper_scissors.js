@@ -83,7 +83,6 @@ module.exports.duel = async () => {
   const tiers = ["1", "2", "3"];
   const promises = [];
   for (const i in tiers) {
-    console.log("Doing duel", tiers[i]);
     promises.push(this.duelByTiers(tiers[i]));
   }
   await Promise.all(promises);
@@ -191,7 +190,6 @@ module.exports.duelByTiers = async (tiers) => {
   );
   // shuffle all txs
   const paired = this.shuffle(txs);
-  console.log("paired", paired);
   for (const i in paired) {
     if (paired[i].length === 2 && paired[i][0].user !== paired[i][1].user) {
       // We have a duel
@@ -253,7 +251,6 @@ module.exports.duelByTiers = async (tiers) => {
           .db("gaming")
           .collection("tx")
           .countDocuments({ _id: tx2.primaryId });
-        console.log("tx1", tx1.primaryId, c, tx2.primaryId, c2);
 
         const promises = [];
         promises.push(
@@ -336,8 +333,8 @@ module.exports.duelByTiers = async (tiers) => {
             .db("gaming")
             .collection("pvp")
             .updateOne(
-              { code, processed: false },
-              { $set: { receiptWinner, processed: "partially" } }
+              { code, processed: true },
+              { $set: { receiptWinner} }
             )
         );
         promises.push(
@@ -346,7 +343,7 @@ module.exports.duelByTiers = async (tiers) => {
             .collection("tx")
             .updateOne(
               { _id: winnerTx.primaryId },
-              { $set: { processed: true, status: "winner", pot, code } }
+              { $set: { processed: true, paid:true,status: "winner", pot, code } }
             )
         );
         promises.push(
@@ -362,39 +359,7 @@ module.exports.duelByTiers = async (tiers) => {
         promises.push(this.setIteration(winnerTx));
         promises.push(this.setIteration(looserTx));
         await Promise.all(promises);
-        // check if it is necessary to send us the money.
-
-        // Sum all tx of loosers that are not processed
-        // console.log('GAME IS PROCESSED LOOSERS')
-
-        // const txsLoosers = await client.db("gaming").collection("tx").find({ verified: true, 'decoded.game': 'ROCKPAPERSCISSORS', processed:true,paid:false }).toArray();
-        // let sumLoosers = 0;
-        // for(const i in txsLoosers){
-        //   sumLoosers += Number(txsLoosers[i].price);
-        // }
-        // console.log('sumLoosers',txsLoosers,sumLoosers)
-        // if(sumLoosers > 0.1){
-        //   // // Send us the money
-        //   // let receiptUs = null
-        //   // if(process.env.JEST_TEST !== '1'){
-        //   //    receiptUs = await crypto.transferTo(process.env.MSIG_TEAM, sumLoosers, winnerTx.decoded.game);
-
-        //   //   bot.sendMessage(DD_FLOOD,"POT send to us => " + sumLoosers + " ETH\n" + "<a href='" + process.env.PUBLIC_EXPLORER_URL + "/tx/" + receiptUs.transactionHash + "'>View on Explorer</a>",{parse_mode:'HTML'});
-        //   // }else{
-        //   //   receiptUs = {transactionHash:'0x123'}
-        //   // }
-
-        //   // await client.db('gaming').collection('pvp').updateOne({code,processed:false},{$set:{receiptUs,processed:true}})
-        //   // for(const i in txsLoosers){
-        //   //   client.db("gaming").collection("tx").updateOne({ _id: txsLoosers[i]._id }, { $set: {  paid:true } });
-        //   // }
-        // }else{
-        //   client.db("gaming").collection("tx").updateOne({ _id: looserTx._id }, { $set: { processed: true, paid:false } });
-        //   if(process.env.JEST_TEST !== '1'){
-
-        //     bot.sendMessage(DD_FLOOD,"Game Paper Scissors pot size : " + sumLoosers + " ETH ");
-        //   }
-        // }
+        
         if (process.env.JEST_TEST !== "1") {
           bot.sendMessage(
             winner._id,
@@ -410,6 +375,9 @@ module.exports.duelByTiers = async (tiers) => {
           );
           bot.sendMessage(looser._id, "You loose the duel!");
         }
+
+        crypto.looserPotTransfer("ROCKPAPERSCISSORS");
+
       }
     } else {
       // We have a single player
