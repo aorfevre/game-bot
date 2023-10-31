@@ -42,8 +42,7 @@ bot.on("callback_query", async (callbackQuery) => {
   var msg = callbackQuery.message;
   var control = callbackQuery.data;
   const isSpam = await helper.isSpam(msg);
-  if(!isSpam){
-
+  if (!isSpam) {
     if (control.indexOf("GAME_INIT_") !== -1) {
       control = "GAME_INIT";
     } else if (control.indexOf("GAME_PRICE_") !== -1) {
@@ -54,12 +53,12 @@ bot.on("callback_query", async (callbackQuery) => {
       control = "GAME_SUMMARY";
     } else if (control.indexOf("GUIDE_GAME_") !== -1) {
       control = "GUIDE_GAME";
-    }else if (control.indexOf("FREE_") !== -1) {
+    } else if (control.indexOf("FREE_") !== -1) {
       control = "FREE";
-    } else if(control.indexOf("FREEGAME_") !== -1){
-      control = "FREEGAME"
-    } else if(control.indexOf("FREETIERSGAME_") !== -1){
-      control = "FREETIERSGAME"
+    } else if (control.indexOf("FREEGAME_") !== -1) {
+      control = "FREEGAME";
+    } else if (control.indexOf("FREETIERSGAME_") !== -1) {
+      control = "FREETIERSGAME";
     }
 
     switch (control) {
@@ -121,28 +120,27 @@ bot.on("callback_query", async (callbackQuery) => {
         break;
       case "CREATE_5_CODES":
         helper.create_5_codes(msg);
-        break;    
+        break;
       case "FREE":
-        var t = callbackQuery.data.split("FREE_")[1]
-        games.freeGame(msg,t);
-        console.log('Free games',t)
+        var t = callbackQuery.data.split("FREE_")[1];
+        games.freeGame(msg, t);
+        console.log("Free games", t);
         break;
       case "FREEGAME":
-        var game = callbackQuery.data.split("FREEGAME_")[1].split('_')[0]
-        var tiers = callbackQuery.data.split("FREEGAME_")[1].split('_')[1]
-        var choice = callbackQuery.data.split("FREEGAME_")[1].split('_')[2]
+        var game = callbackQuery.data.split("FREEGAME_")[1].split("_")[0];
+        var tiers = callbackQuery.data.split("FREEGAME_")[1].split("_")[1];
+        var choice = callbackQuery.data.split("FREEGAME_")[1].split("_")[2];
 
-        games.freeGamePlayed(msg,game,tiers,choice);
+        games.freeGamePlayed(msg, game, tiers, choice);
         break;
       case "FREETIERSGAME":
-        var game = callbackQuery.data.split("FREETIERSGAME_")[1]
-        var tiers = callbackQuery.data.split("FREETIERSGAME_")[1]
-        games.freeGame(msg,game,tiers);
-        console.log('Free games',t)
+        var game = callbackQuery.data.split("FREETIERSGAME_")[1];
+        var tiers = callbackQuery.data.split("FREETIERSGAME_")[1];
+        games.freeGame(msg, game, tiers);
+        console.log("Free games", t);
         break;
-       
     }
-  }else{
-    bot.sendMessage(msg.chat.id,"You are spamming the bot, please stop");
+  } else {
+    bot.sendMessage(msg.chat.id, "You are spamming the bot, please stop");
   }
 });

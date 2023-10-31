@@ -19,9 +19,9 @@ steps:
         "PK_PRISONER",
         "PK_NUMBERGUESSING",
         "PK_ROCKPAPERSCISSORS",
-         "NODE_ENV",
-         "TELEGRAM_BOT_TOKEN",
-         "MONGODB_URL"
+        "NODE_ENV",
+        "TELEGRAM_BOT_TOKEN",
+        "MONGODB_URL",
       ]
   # Run unit tests on the app
   - name: "node:16"

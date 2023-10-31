@@ -45,7 +45,7 @@ describe("Rock Paper Scissors PvP", () => {
 
     const transactions = await helper.get_players_by_game_tiers(
       "ROCKPAPERSCISSORS",
-      "1"
+      "1",
     );
 
     expect(transactions.length).toEqual(2);
@@ -69,7 +69,7 @@ describe("Rock Paper Scissors PvP", () => {
     // No more game available
     const transactions2 = await helper.get_players_by_game_tiers(
       "ROCKPAPERSCISSORS",
-      "1"
+      "1",
     );
     expect(transactions2.length).toEqual(0);
 
@@ -111,12 +111,12 @@ describe("Rock Paper Scissors PvP", () => {
 
     let transactions = await helper.get_players_by_game_tiers(
       "ROCKPAPERSCISSORS",
-      "1"
+      "1",
     );
     expect(transactions.length).toEqual(1);
     let transactions2 = await helper.get_players_by_game_tiers(
       "ROCKPAPERSCISSORS",
-      "2"
+      "2",
     );
     expect(transactions2.length).toEqual(1);
     const tx3 = {
@@ -133,12 +133,12 @@ describe("Rock Paper Scissors PvP", () => {
 
     transactions = await helper.get_players_by_game_tiers(
       "ROCKPAPERSCISSORS",
-      "1"
+      "1",
     );
     expect(transactions.length).toEqual(1);
     transactions2 = await helper.get_players_by_game_tiers(
       "ROCKPAPERSCISSORS",
-      "2"
+      "2",
     );
 
     expect(transactions2.length).toEqual(2);
@@ -160,7 +160,7 @@ describe("Rock Paper Scissors PvP", () => {
     await helperJest.addTx(tx3);
     let transactions = await helper.get_players_by_game_tiers(
       "ROCKPAPERSCISSORS",
-      "1"
+      "1",
     );
     expect(transactions.length).toEqual(1);
 
@@ -177,11 +177,9 @@ describe("Rock Paper Scissors PvP", () => {
     await helperJest.addTx(tx);
     let transactions2 = await helper.get_players_by_game_tiers(
       "ROCKPAPERSCISSORS",
-      "1"
+      "1",
     );
     expect(transactions2.length).toEqual(1);
-
-
   });
 
   test("Player has played 5 times. After a play remains 4 play", async () => {
@@ -212,7 +210,7 @@ describe("Rock Paper Scissors PvP", () => {
     await helperJest.addTx(tx);
     let transactions2 = await helper.get_players_by_game_tiers(
       "ROCKPAPERSCISSORS",
-      "1"
+      "1",
     );
     expect(transactions2.length).toEqual(2);
 
@@ -220,33 +218,31 @@ describe("Rock Paper Scissors PvP", () => {
     await rps.duel();
     let transactions3 = await helper.get_players_by_game_tiers(
       "ROCKPAPERSCISSORS",
-      "1"
+      "1",
     );
     expect(transactions3.length).toEqual(1);
 
-    for(let i = 0; i<4; i++){
-        await helperJest.addTx(tx);
-        let transactions6 = await helper.get_players_by_game_tiers(
-          "ROCKPAPERSCISSORS",
-          "1"
-        );
-        expect(transactions6.length).toEqual(2);
-        await rps.duel();
-        let transactions4 = await helper.get_players_by_game_tiers(
-          "ROCKPAPERSCISSORS",
-          "1"
-        );
+    for (let i = 0; i < 4; i++) {
+      await helperJest.addTx(tx);
+      let transactions6 = await helper.get_players_by_game_tiers(
+        "ROCKPAPERSCISSORS",
+        "1",
+      );
+      expect(transactions6.length).toEqual(2);
+      await rps.duel();
+      let transactions4 = await helper.get_players_by_game_tiers(
+        "ROCKPAPERSCISSORS",
+        "1",
+      );
     }
     let transactions5 = await helper.get_players_by_game_tiers(
       "ROCKPAPERSCISSORS",
-      "1"
+      "1",
     );
     expect(transactions5.length).toEqual(0);
-
-
   });
 
-  test("After a draw, the user has a free game", async() => {
+  test("After a draw, the user has a free game", async () => {
     const client = await db.getClient();
 
     const tx3 = {
@@ -274,7 +270,7 @@ describe("Rock Paper Scissors PvP", () => {
     await helperJest.addTx(tx);
     let transactions2 = await helper.get_players_by_game_tiers(
       "ROCKPAPERSCISSORS",
-      "1"
+      "1",
     );
     expect(transactions2.length).toEqual(2);
 
@@ -282,21 +278,20 @@ describe("Rock Paper Scissors PvP", () => {
     await rps.duel();
     let transactions5 = await helper.get_players_by_game_tiers(
       "ROCKPAPERSCISSORS",
-      "1"
+      "1",
     );
     expect(transactions5.length).toEqual(0);
 
-    //check if we have free games available 
+    //check if we have free games available
 
     let transactions_free = await helper.get_free_games(
       "ROCKPAPERSCISSORS",
-      "1"
+      "1",
     );
     expect(transactions_free.length).toEqual(2);
-    
   });
 
-  test("After a draw, iteration is decreased", async() => {
+  test("After a draw, iteration is decreased", async () => {
     const client = await db.getClient();
 
     const tx3 = {
@@ -324,7 +319,7 @@ describe("Rock Paper Scissors PvP", () => {
     await helperJest.addTx(tx);
     let transactions2 = await helper.get_players_by_game_tiers(
       "ROCKPAPERSCISSORS",
-      "1"
+      "1",
     );
     expect(transactions2.length).toEqual(2);
 
@@ -332,18 +327,13 @@ describe("Rock Paper Scissors PvP", () => {
     await rps.duel();
     let trx_final = await helper.get_players_by_game_tiers(
       "ROCKPAPERSCISSORS",
-      "1"
+      "1",
     );
     expect(trx_final.length).toEqual(1);
     expect(trx_final[0].decoded.number).toEqual(4);
-
-
   });
 
-
-
-  test("After a draw, the user has a free game and use it", async() => {
-    
+  test("After a draw, the user has a free game and use it", async () => {
     const client = await db.getClient();
 
     const tx3 = {
@@ -371,19 +361,19 @@ describe("Rock Paper Scissors PvP", () => {
     await helperJest.addTx(tx);
     let transactions2 = await helper.get_players_by_game_tiers(
       "ROCKPAPERSCISSORS",
-      "1"
+      "1",
     );
     expect(transactions2.length).toEqual(2);
 
     // Do the duel and check that the number of play remaining is 4
     await rps.duel();
     let count = await helper.get_free_games_by_user_game(
-      1,"ROCKPAPERSCISSORS"
+      1,
+      "ROCKPAPERSCISSORS",
     );
-    expect(count.length).toBe(1)
+    expect(count.length).toBe(1);
     // expect(count[0]._id.tiers).toBe("1")
-    expect(count[0].count).toBe(1)
-      // user can play one game for free 
+    expect(count[0].count).toBe(1);
+    // user can play one game for free
   });
 });
-

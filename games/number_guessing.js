@@ -70,14 +70,12 @@ module.exports.guide = async (msg, t) => {
   });
 };
 module.exports.payout = async () => {
- 
-  const tiers = home.getAllTiers()
+  const tiers = home.getAllTiers();
   const promises = [];
   for (const i in tiers) {
     promises.push(this.payoutByTiers(i));
   }
   await Promise.all(promises);
-
 };
 
 module.exports.payoutByTiers = async (tiers) => {
@@ -87,10 +85,7 @@ module.exports.payoutByTiers = async (tiers) => {
     const client = await db.getClient();
 
     // find all tx that have decoded.game = NUMBERGUESSING and verified = true and processed = false and find only one 'decoded._id' per match; limit to 10
-    const tx = await helper.get_players_by_game_tiers(
-      "NUMBERGUESSING",
-      tiers
-    );
+    const tx = await helper.get_players_by_game_tiers("NUMBERGUESSING", tiers);
     console.log("Start Payout => Tiers", tiers, tx.length);
 
     // count number of games NUMBERGUESSING in winners collection

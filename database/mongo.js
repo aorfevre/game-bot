@@ -1,10 +1,8 @@
 const { MongoClient, ServerApiVersion } = require("mongodb");
 
-
-
 module.exports.getClient = async () => {
-  const uri = process.env.MONGODB_URL ;
-// var mongojs = require("mongojs");
+  const uri = process.env.MONGODB_URL;
+  // var mongojs = require("mongojs");
   const client = new MongoClient(uri, {
     serverApi: {
       version: ServerApiVersion.v1,
@@ -38,9 +36,8 @@ async function createIndexes() {
   user_choice.createIndex({ "decoded._id": 1, verified: 1, processed: 1 }, {});
 
   const refCodes = await client.db("gaming").collection("user_choice");
-  refCodes.createIndex({ code: 1 ,is_valid:1}, {});
-  refCodes.createIndex({ referrer: 1, is_valid:1 }, {});
-
+  refCodes.createIndex({ code: 1, is_valid: 1 }, {});
+  refCodes.createIndex({ referrer: 1, is_valid: 1 }, {});
 
   console.log("Index created");
 }
@@ -51,7 +48,7 @@ async function run(client) {
     await client.connect();
     // Send a ping to confirm a successful connection
     await client.db("gaming").command({ ping: 1 });
-    
+
     // createIndexes();
   } finally {
     // Ensures that the client will close when you finish/error

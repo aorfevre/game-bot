@@ -328,20 +328,19 @@ describe("Rock Paper Scissors", () => {
   test("No participants", async () => {
     const users = await helper.get_players_by_game_tiers(
       "ROCKPAPERSCISSORS",
-      1
+      1,
     );
     expect(users.length).toEqual(0);
   });
 
-//   test("Adding 2 partipants and drawing a game", async () => {
-//     const users = await helper.get_players_by_game_tiers(
-//       "ROCKPAPERSCISSORS",
-//       1
-//     );
-//     expect(users.length).toEqual(0);
-//     const shuffled = rps.shuffle(users);
-//     console.log('Shuffled',shuffled)
-//     expect(shuffled.length).toEqual(1);
-//   });
-  
+  //   test("Adding 2 partipants and drawing a game", async () => {
+  //     const users = await helper.get_players_by_game_tiers(
+  //       "ROCKPAPERSCISSORS",
+  //       1
+  //     );
+  //     expect(users.length).toEqual(0);
+  //     const shuffled = rps.shuffle(users);
+  //     console.log('Shuffled',shuffled)
+  //     expect(shuffled.length).toEqual(1);
+  //   });
 });

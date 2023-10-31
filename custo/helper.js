@@ -8,7 +8,6 @@ var CryptoJS = require("crypto-js");
 // console.log("address: " + EthWallet.getAddressString());
 // console.log("privateKey: " + EthWallet.getPrivateKeyString());
 
-
 // create a function to encode using a Private Key an object
 module.exports.encode = (data) => {
   if (
@@ -19,17 +18,16 @@ module.exports.encode = (data) => {
     !data._id ||
     !data.payout_wallet
   ) {
-    console.log('ERROR')
+    console.log("ERROR");
     return null;
   }
   try {
-
     return CryptoJS.AES.encrypt(
       JSON.stringify(data),
       process.env.PRIVATE_KEY,
     ).toString();
   } catch (e) {
-    console.log('Error while doing encoding',e,process.env.PRIVATE_KEY)
+    console.log("Error while doing encoding", e, process.env.PRIVATE_KEY);
     return null;
   }
 };
@@ -69,18 +67,16 @@ module.exports.updateUser = async (msg) => {
     let user = msg.chat;
     user._id = msg.chat.id;
     user._created_at = new Date();
-   
-    
+
     user._update_at = new Date();
 
-    
     await client.db("gaming").collection("users").insertOne(user);
     return user;
   } else {
     let user = users[0];
-   
+
     user._update_at = new Date();
-    
+
     await client
       .db("gaming")
       .collection("users")
@@ -89,7 +85,7 @@ module.exports.updateUser = async (msg) => {
   }
 };
 
-module.exports.isSpam =async(msg)=>{
+module.exports.isSpam = async (msg) => {
   const client = await db.getClient();
   const users = await client
     .db("gaming")
@@ -97,17 +93,20 @@ module.exports.isSpam =async(msg)=>{
     .find({ _id: msg.chat.id })
     .toArray();
 
-    if(users[0]){
-      const user = users[0];
+  if (users[0]) {
+    const user = users[0];
 
-      if(user.spam && ( new Date()- user.spam < 500)){
-        return true;
-      }else{
-        await client.db("gaming").collection("users").updateOne({ _id: msg.chat.id }, { $set: {spam:new Date()} });
-        return false;
-      }
+    if (user.spam && new Date() - user.spam < 500) {
+      return true;
+    } else {
+      await client
+        .db("gaming")
+        .collection("users")
+        .updateOne({ _id: msg.chat.id }, { $set: { spam: new Date() } });
+      return false;
     }
-}
+  }
+};
 
 module.exports.savePlayTransaction = async (hash, txhash) => {
   const client = await db.getClient();
@@ -139,8 +138,10 @@ module.exports.isPrivate = function (msg) {
   return msg.chat.type === "private";
 };
 module.exports.isSuperAdmin = function (msg) {
-  return (msg.chat.username === 'AlexandreBR' || msg.chat.username === 'blokcove')
-}
+  return (
+    msg.chat.username === "AlexandreBR" || msg.chat.username === "blokcove"
+  );
+};
 
 // get ETH balance of a wallet
 module.exports.getBalanceOfWallet = async (wallet) => {
@@ -188,11 +189,17 @@ module.exports.verifyTransaction = async (obj) => {
     participation += "Action : " + obj.decoded.action + "\n";
     participation += "Bet size per play : " + obj.decoded.price + "\n";
     participation += "Number of plays : " + obj.decoded.number + "\n";
-    participation += "Total bet : " + obj.decoded.price * obj.decoded.number + "\n";
-    participation += "<a href='"+process.env.PUBLIC_EXPLORER_URL +"/tx/"+ obj.txhash + "'>Txhash</a>";
-    txt+= participation;
+    participation +=
+      "Total bet : " + obj.decoded.price * obj.decoded.number + "\n";
+    participation +=
+      "<a href='" +
+      process.env.PUBLIC_EXPLORER_URL +
+      "/tx/" +
+      obj.txhash +
+      "'>Txhash</a>";
+    txt += participation;
 
-    await bot.sendMessage(DD_FLOOD,participation, {
+    await bot.sendMessage(DD_FLOOD, participation, {
       parse_mode: "HTML",
       disable_web_page_preview: true,
     });
@@ -300,7 +307,6 @@ module.exports.home = async (msg) => {
         text: "Invite Codes",
         callback_data: "INVITE_CODES",
       },
-
     ]);
     var options = {
       parse_mode: "HTML",
@@ -382,46 +388,44 @@ module.exports.info_games = (msg) => {
   });
 };
 
-module.exports.referralSystem = async(msg)=>{
-  const txt = "Welcome to Deduction Duel, your hub for social deduction multiplayer minigames.\n\n"+
-  
-  "We're currently in closed alpha.\n\n"+
-  "Please enter an invite code to play.\n\n";
+module.exports.referralSystem = async (msg) => {
+  const txt =
+    "Welcome to Deduction Duel, your hub for social deduction multiplayer minigames.\n\n" +
+    "We're currently in closed alpha.\n\n" +
+    "Please enter an invite code to play.\n\n";
   bot.sendMessage(msg.chat.id, txt, {
     parse_mode: "HTML",
-    disable_web_page_preview: true
+    disable_web_page_preview: true,
   });
-}
-module.exports.create_5_codes = async(msg)=>{
+};
+module.exports.create_5_codes = async (msg) => {
   const client = await db.getClient();
 
-  for(const i in [1,2,3,4,5]){
+  for (const i in [1, 2, 3, 4, 5]) {
     const refCode = {
       referrer: msg.chat.id,
-      code : this.generateCodes(),
+      code: this.generateCodes(),
       is_valid: true,
       created_at: new Date(),
       updated_at: new Date(),
-    }
+    };
     // write to db
 
-    await client.db('gaming')
-    .collection("referral_codes")
-    .insertOne(refCode);
+    await client.db("gaming").collection("referral_codes").insertOne(refCode);
   }
-  this.invite_codes(msg)
-}
+  this.invite_codes(msg);
+};
 
-module.exports.invite_codes = async(msg)=>{
+module.exports.invite_codes = async (msg) => {
   // Count how many transaction the user has played before
   const LEVEL2_REFERRAL = 10;
   const LEVEL2_CODES = 3; // SUM LVL1 + 2
   const client = await db.getClient();
   const txs = await client
-  .db('gaming') 
-  .collection("tx")
-  .countDocuments({ 'decoded._id':msg.chat.id })
-  let options =  {
+    .db("gaming")
+    .collection("tx")
+    .countDocuments({ "decoded._id": msg.chat.id });
+  let options = {
     parse_mode: "HTML",
     disable_web_page_preview: true,
     reply_markup: JSON.stringify({
@@ -434,8 +438,8 @@ module.exports.invite_codes = async(msg)=>{
         ],
       ],
     }),
-  }
-  if(this.isSuperAdmin(msg)){
+  };
+  if (this.isSuperAdmin(msg)) {
     options.reply_markup = JSON.stringify({
       inline_keyboard: [
         [
@@ -451,264 +455,280 @@ module.exports.invite_codes = async(msg)=>{
           },
         ],
       ],
-    })
+    });
   }
-  if(txs === 0 ){
-    // 
-    const txt = "You have no invite codes to share.\n\n"+
-    
-    "Play 1 game to generate 1 invite code\n\n";
-    bot.sendMessage(msg.chat.id, txt,options);
-  }else if (txs >0 && txs< LEVEL2_REFERRAL){
+  if (txs === 0) {
+    //
+    const txt =
+      "You have no invite codes to share.\n\n" +
+      "Play 1 game to generate 1 invite code\n\n";
+    bot.sendMessage(msg.chat.id, txt, options);
+  } else if (txs > 0 && txs < LEVEL2_REFERRAL) {
     // get the referarl code or create one if it does not exist
     const referral_code = await client
-    .db('gaming')
-    .collection("referral_codes")
-    .find({ referrer: msg.chat.id })
-    .toArray();
-    if(referral_code.length === 0){
-      // create one 
+      .db("gaming")
+      .collection("referral_codes")
+      .find({ referrer: msg.chat.id })
+      .toArray();
+    if (referral_code.length === 0) {
+      // create one
       const refCode = {
         referrer: msg.chat.id,
-        code : this.generateCodes(),
+        code: this.generateCodes(),
         is_valid: true,
         created_at: new Date(),
         updated_at: new Date(),
-      }
+      };
       // write to db
 
-      await client.db('gaming')
-      .collection("referral_codes")
-      .insertOne(refCode);
+      await client.db("gaming").collection("referral_codes").insertOne(refCode);
       // send message
-      const txt = "You have 1 invite code to share.\n\n"+
-      
-      "Play 10 games in total to generate 2 more invite codes\n\n"+
-      "Game Played : "+txs+"\n\n"+
-      "Code : "+refCode.code+" (unused)\n\n" 
-      bot.sendMessage(msg.chat.id,txt,options)
-    }else if(referral_code.length > 0){
-      let txt = "You have 1 invite code to share.\n\n"+
-      
-      "Play 10 games in total to generate 2 more invite codes\n\n"+
-      "Game Played : "+txs+"\n\n"+
-      "Codes \n";
-      for(const i in referral_code){
-        txt+=referral_code[i].code+" " + (referral_code[i].is_valid ?"(unused)":"(used)") + "\n" 
+      const txt =
+        "You have 1 invite code to share.\n\n" +
+        "Play 10 games in total to generate 2 more invite codes\n\n" +
+        "Game Played : " +
+        txs +
+        "\n\n" +
+        "Code : " +
+        refCode.code +
+        " (unused)\n\n";
+      bot.sendMessage(msg.chat.id, txt, options);
+    } else if (referral_code.length > 0) {
+      let txt =
+        "You have 1 invite code to share.\n\n" +
+        "Play 10 games in total to generate 2 more invite codes\n\n" +
+        "Game Played : " +
+        txs +
+        "\n\n" +
+        "Codes \n";
+      for (const i in referral_code) {
+        txt +=
+          referral_code[i].code +
+          " " +
+          (referral_code[i].is_valid ? "(unused)" : "(used)") +
+          "\n";
       }
-      bot.sendMessage(msg.chat.id,txt,options)
+      bot.sendMessage(msg.chat.id, txt, options);
     }
-  }else if(txs >=LEVEL2_REFERRAL){
+  } else if (txs >= LEVEL2_REFERRAL) {
     const referral_code = await client
-    .db('gaming')
-    .collection("referral_codes")
-    .countDocuments({ referrer: msg.chat.id })
-    if(referral_code <LEVEL2_CODES){
-      for(let i =referral_code;i<LEVEL2_CODES;i++){
+      .db("gaming")
+      .collection("referral_codes")
+      .countDocuments({ referrer: msg.chat.id });
+    if (referral_code < LEVEL2_CODES) {
+      for (let i = referral_code; i < LEVEL2_CODES; i++) {
         const refCode = {
           referrer: msg.chat.id,
-          code : this.generateCodes(),
+          code: this.generateCodes(),
           is_valid: true,
           created_at: new Date(),
           updated_at: new Date(),
-        }
+        };
         // write to db
-  
-        await client.db('gaming')
-        .collection("referral_codes")
-        .insertOne(refCode);
+
+        await client
+          .db("gaming")
+          .collection("referral_codes")
+          .insertOne(refCode);
       }
     }
     const refCodes = await client
-    .db('gaming')
-    .collection("referral_codes")
-    .find({ referrer: msg.chat.id })
-    .toArray()
+      .db("gaming")
+      .collection("referral_codes")
+      .find({ referrer: msg.chat.id })
+      .toArray();
 
-    let txt = "You have "+LEVEL2_CODES+" invite code to share.\n\n"+
-    "Game Played : "+txs+"\n\n"+
-      
-    "Codes \n";
-    for(const i in refCodes){
-      txt+=refCodes[i].code+" " + (refCodes[i].is_valid ?"(unused)":"(used)") + "\n" 
+    let txt =
+      "You have " +
+      LEVEL2_CODES +
+      " invite code to share.\n\n" +
+      "Game Played : " +
+      txs +
+      "\n\n" +
+      "Codes \n";
+    for (const i in refCodes) {
+      txt +=
+        refCodes[i].code +
+        " " +
+        (refCodes[i].is_valid ? "(unused)" : "(used)") +
+        "\n";
     }
-    bot.sendMessage(msg.chat.id,txt,options)
-
-
-    
-
+    bot.sendMessage(msg.chat.id, txt, options);
   }
-}
-module.exports.generateCodes =  ()=>{
- // generates a 12 character, alpha-numeric string, upper and lower case code for referral system
+};
+module.exports.generateCodes = () => {
+  // generates a 12 character, alpha-numeric string, upper and lower case code for referral system
   const length = 12;
-  const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const charset =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let retVal = "";
   for (let i = 0; i < length; i++) {
     retVal += charset.charAt(Math.floor(Math.random() * charset.length));
-    // third character must be a - 
-    if(i === 2){
-      retVal += "-"
+    // third character must be a -
+    if (i === 2) {
+      retVal += "-";
     }
-    if(i === 7){
-      retVal += "-"
+    if (i === 7) {
+      retVal += "-";
     }
   }
-  return "DD-"+retVal;
-}
+  return "DD-" + retVal;
+};
 
-
-module.exports.checkReferralSystem = async(msg)=>{
-  console.log('msg',msg)
+module.exports.checkReferralSystem = async (msg) => {
+  console.log("msg", msg);
   const client = await db.getClient();
   const ref = await client
     .db("gaming")
     .collection("referral_codes")
-    .countDocuments({ code: msg.text , is_valid: true});
+    .countDocuments({ code: msg.text, is_valid: true });
 
-    if(ref === 1){
-      // Code is valid, register user
-      // update the code usage 
-      await client
+  if (ref === 1) {
+    // Code is valid, register user
+    // update the code usage
+    await client
       .db("gaming")
       .collection("referral_codes")
-      .updateOne({ code: msg.text , is_valid: true},{$set:{is_valid:false,used_by:msg.chat.id}});
-      // update the user
-      await client
+      .updateOne(
+        { code: msg.text, is_valid: true },
+        { $set: { is_valid: false, used_by: msg.chat.id } },
+      );
+    // update the user
+    await client
       .db("gaming")
       .collection("users")
-      .updateOne({ _id: msg.chat.id },{$set:{isReferred:true,referral_code:msg.text}});
+      .updateOne(
+        { _id: msg.chat.id },
+        { $set: { isReferred: true, referral_code: msg.text } },
+      );
 
-      bot.sendMessage(DD_FLOOD,"New user registered with code "+msg.text)
-      // send message
-      this.home(msg);
-    }else{
-      // code is invalid or already used. 
-      let txt = "The code you entered is invalid.\n\n"+
-    "If you didn't receive an invite code yet, keep an eye out on our Twitter where we'll give out codes regularly.\n\n"+
-    "https://x.com/DeductionDuelGG"
-    }
-}
+    bot.sendMessage(DD_FLOOD, "New user registered with code " + msg.text);
+    // send message
+    this.home(msg);
+  } else {
+    // code is invalid or already used.
+    let txt =
+      "The code you entered is invalid.\n\n" +
+      "If you didn't receive an invite code yet, keep an eye out on our Twitter where we'll give out codes regularly.\n\n" +
+      "https://x.com/DeductionDuelGG";
+  }
+};
 
-module.exports.get_players_by_game_tiers = async(game,tiers)=>{
+module.exports.get_players_by_game_tiers = async (game, tiers) => {
   const client = await db.getClient();
   const txs = await client
-  .db("gaming")
-  .collection("tx")
-  .aggregate([
-    {
-      $match: {
-        "decoded.game": game,
-        verified: true,
-        processed: false,
-        "decoded.tiers": tiers,
-        "decoded.action": {$exists:true},
+    .db("gaming")
+    .collection("tx")
+    .aggregate([
+      {
+        $match: {
+          "decoded.game": game,
+          verified: true,
+          processed: false,
+          "decoded.tiers": tiers,
+          "decoded.action": { $exists: true },
+        },
       },
-    },
-    {
-      $group: {
-        _id: "$decoded._id",
-        decoded: { $first: "$decoded" },
-        tx: { $first: "$tx" },
-        source: { $first: "$source" },
-        "primaryId" : { "$last": "$_id" },
-
+      {
+        $group: {
+          _id: "$decoded._id",
+          decoded: { $first: "$decoded" },
+          tx: { $first: "$tx" },
+          source: { $first: "$source" },
+          primaryId: { $last: "$_id" },
+        },
       },
-    },
-    {
-      $addFields: {
-        "user": "$decoded._id",
+      {
+        $addFields: {
+          user: "$decoded._id",
+        },
       },
-    }
-   
-  ])
-  .toArray();
+    ])
+    .toArray();
   return txs;
-}
+};
 
-module.exports.get_free_games = async(game,tiers)=>{
+module.exports.get_free_games = async (game, tiers) => {
   const client = await db.getClient();
   const txs = await client
-  .db("gaming")
-  .collection("tx")
-  .aggregate([
-    {
-      $match: {
-        "decoded.game": game,
-        verified: true,
-        processed: false,
-        "decoded.tiers": tiers,
-        "decoded.action": {$exists:false},
+    .db("gaming")
+    .collection("tx")
+    .aggregate([
+      {
+        $match: {
+          "decoded.game": game,
+          verified: true,
+          processed: false,
+          "decoded.tiers": tiers,
+          "decoded.action": { $exists: false },
+        },
       },
-    },
-    {
-      $group: {
-        _id: "$decoded._id",
-        decoded: { $first: "$decoded" },
-        tx: { $first: "$tx" },
-        source: { $first: "$source" },
-        "primaryId" : { "$last": "$_id" },
-
+      {
+        $group: {
+          _id: "$decoded._id",
+          decoded: { $first: "$decoded" },
+          tx: { $first: "$tx" },
+          source: { $first: "$source" },
+          primaryId: { $last: "$_id" },
+        },
       },
-    },
-    {
-      $addFields: {
-        "user": "$decoded._id",
+      {
+        $addFields: {
+          user: "$decoded._id",
+        },
       },
-    }
-   
-  ])
-  .toArray();
+    ])
+    .toArray();
   return txs;
-}
+};
 
-module.exports.get_free_games_by_user = async(id)=>{
+module.exports.get_free_games_by_user = async (id) => {
   const client = await db.getClient();
 
   const items = await client
-  .db("gaming")
-  .collection("tx")
-  .aggregate([
-    {
-      $match: {
-        "decoded._id":id,
-        processed: false,
-        "decoded.action": { $exists: false },
+    .db("gaming")
+    .collection("tx")
+    .aggregate([
+      {
+        $match: {
+          "decoded._id": id,
+          processed: false,
+          "decoded.action": { $exists: false },
+        },
       },
-    },
-    {
-      $group: {
-        _id: { tiers: "$decoded.tiers", game: "$decoded.game" },
-        count: { $sum: 1 },
+      {
+        $group: {
+          _id: { tiers: "$decoded.tiers", game: "$decoded.game" },
+          count: { $sum: 1 },
+        },
       },
-    },
-  ])
-  .toArray();
+    ])
+    .toArray();
   return items;
-}
+};
 
-module.exports.get_free_games_by_user_game = async(id,game)=>{
+module.exports.get_free_games_by_user_game = async (id, game) => {
   const client = await db.getClient();
 
   const items = await client
-  .db("gaming")
-  .collection("tx")
-  .aggregate([
-    {
-      $match: {
-        "decoded._id":id,
-        processed: false,
-        "decoded.game":game,
-        "decoded.action": { $exists: false },
+    .db("gaming")
+    .collection("tx")
+    .aggregate([
+      {
+        $match: {
+          "decoded._id": id,
+          processed: false,
+          "decoded.game": game,
+          "decoded.action": { $exists: false },
+        },
       },
-    },
-    {
-      $group: {
-        _id: { tiers: "$decoded.tiers", game },
-        count: { $sum: 1 },
+      {
+        $group: {
+          _id: { tiers: "$decoded.tiers", game },
+          count: { $sum: 1 },
+        },
       },
-    },
-  ])
-  .toArray();
+    ])
+    .toArray();
   return items;
-}
+};

@@ -88,13 +88,12 @@ module.exports.guide = async (msg) => {
 };
 
 module.exports.duel = async () => {
-  const tiers = home.getAllTiers()
+  const tiers = home.getAllTiers();
   const promises = [];
   for (const i in tiers) {
     promises.push(this.duelByTiers(i));
   }
   await Promise.all(promises);
-
 };
 
 module.exports.duelByTiers = async (tiers) => {

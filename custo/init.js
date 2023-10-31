@@ -3,9 +3,7 @@
 const TelegramBot = require("node-telegram-bot-api");
 var async = require("async");
 
-
 module.exports.setTelegram = function () {
-
   var bot = null;
   if (process.env.NODE_ENV === "production") {
     // if(false){
@@ -24,7 +22,10 @@ module.exports.setTelegram = function () {
       console.log("Webhook error", error.code, error); // => 'EPARSE'
     });
   } else {
-    console.log('process.env.TELEGRAM_BOT_TOKEN',process.env.TELEGRAM_BOT_TOKEN)
+    console.log(
+      "process.env.TELEGRAM_BOT_TOKEN",
+      process.env.TELEGRAM_BOT_TOKEN,
+    );
     const options = {
       polling: {
         autoStart: true,
