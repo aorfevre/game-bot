@@ -21,6 +21,7 @@ steps:
         "PK_ROCKPAPERSCISSORS",
          "NODE_ENV",
          "TELEGRAM_BOT_TOKEN",
+         "MONGODB_URL"
       ]
   # Run unit tests on the app
   - name: "node:16"
@@ -92,3 +93,5 @@ availableSecrets:
       env: "NODE_ENV"
     - versionName: projects/${PROJECT_ID}/secrets/TELEGRAM_BOT_TOKEN/versions/latest
       env: "TELEGRAM_BOT_TOKEN"
+    - versionName: projects/${PROJECT_ID}/secrets/MONGODB_URL/versions/latest
+      env: "MONGODB_URL"
