@@ -19,6 +19,8 @@ steps:
         "PK_PRISONER",
         "PK_NUMBERGUESSING",
         "PK_ROCKPAPERSCISSORS",
+         "NODE_ENV",
+         "TELEGRAM_BOT_TOKEN",
       ]
   # Run unit tests on the app
   - name: "node:16"
@@ -86,3 +88,7 @@ availableSecrets:
       env: "PK_ROCKPAPERSCISSORS"
     - versionName: projects/${PROJECT_ID}/secrets/MSIG_TEAM/versions/latest
       env: "MSIG_TEAM"
+    - versionName: projects/${PROJECT_ID}/secrets/NODE_ENV/versions/latest
+      env: "NODE_ENV"
+    - versionName: projects/${PROJECT_ID}/secrets/TELEGRAM_BOT_TOKEN/versions/latest
+      env: "TELEGRAM_BOT_TOKEN"

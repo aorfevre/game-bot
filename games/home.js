@@ -17,19 +17,21 @@ module.exports.structChoice = () => {
     _updated_at: new Date(),
   };
 };
+const allTiers = {
+  1: 0.0006,
+  2: 0.003,
+  3: 0.012,
+};
+
+module.exports.getAllTiers = ()=>{
+  return allTiers;
+}
+
 module.exports.getPriceByTiers = (tiers) => {
   // Price by tiers
   let priceEth = 0.0006;
-  switch (tiers) {
-    case "1":
-      priceEth = 0.0006;
-      break;
-    case "2":
-      priceEth = 0.003;
-      break;
-    case "3":
-      priceEth = 0.012;
-      break;
+  if(allTiers[tiers]){
+    priceEth = allTiers[tiers];
   }
   return priceEth;
 };

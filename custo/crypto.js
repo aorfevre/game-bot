@@ -54,10 +54,6 @@ module.exports.looserPotTransfer = async (game) => {
     }else{
       receiptUs = {transactionHash:'0x123'}
     }
-
-
-
-
   }else{
     if(process.env.JEST_TEST !== '1'){
 

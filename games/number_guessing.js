@@ -1,5 +1,7 @@
 const { ethers } = require("ethers");
 var db = require("../database/mongo.js");
+var home = require("./home.js");
+const helper = require("../custo/helper.js");
 
 module.exports.getIntroText = async (msg) => {
   let txt = "🤔 <b>Guess the Number</b>\n\n";
@@ -68,49 +70,27 @@ module.exports.guide = async (msg, t) => {
   });
 };
 module.exports.payout = async () => {
-  const tiers = ["1", "2", "3"];
+ 
+  const tiers = home.getAllTiers()
+  const promises = [];
   for (const i in tiers) {
-    this.payoutByTiers(tiers[i]);
+    promises.push(this.payoutByTiers(i));
   }
+  await Promise.all(promises);
+
 };
 
 module.exports.payoutByTiers = async (tiers) => {
   try {
-    const PARTICIPANTS = 3;
+    const PARTICIPANTS = 10;
 
     const client = await db.getClient();
 
     // find all tx that have decoded.game = NUMBERGUESSING and verified = true and processed = false and find only one 'decoded._id' per match; limit to 10
-    const tx = await client
-      .db("gaming")
-      .collection("tx")
-      .aggregate([
-        {
-          $match: {
-            "decoded.game": "NUMBERGUESSING",
-            verified: true,
-            processed: false,
-            "decoded.tiers": tiers,
-          },
-        },
-        {
-          $group: {
-            _id: "$_id",
-            decoded: { $first: "$decoded" },
-            iteration: { $first: "$iteration" },
-          },
-        },
-        // add a variable called user with 'decoded._id' as value
-        {
-          $addFields: {
-            user: "$decoded._id",
-          },
-        },
-        {
-          $limit: PARTICIPANTS,
-        },
-      ])
-      .toArray();
+    const tx = await helper.get_players_by_game_tiers(
+      "NUMBERGUESSING",
+      tiers
+    );
     console.log("Start Payout => Tiers", tiers, tx.length);
 
     // count number of games NUMBERGUESSING in winners collection

@@ -1,4 +1,5 @@
 var helper = require("../custo/helper.js");
+var home = require("./home.js");
 
 module.exports.getIntroText = async (msg) => {
   let txt = "🚨  <b>Prisoner's Dilemma</b>\n\n";
@@ -87,10 +88,13 @@ module.exports.guide = async (msg) => {
 };
 
 module.exports.duel = async () => {
-  const tiers = ["1","2","3"];
+  const tiers = home.getAllTiers()
+  const promises = [];
   for (const i in tiers) {
-    this.duelByTiers(tiers[i]);
+    promises.push(this.duelByTiers(i));
   }
+  await Promise.all(promises);
+
 };
 
 module.exports.duelByTiers = async (tiers) => {
