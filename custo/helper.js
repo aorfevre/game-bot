@@ -257,18 +257,18 @@ module.exports.findAllUnverifiedTransactions = async () => {
 
 module.exports.home = async (msg) => {
   if (this.isPrivate(msg)) {
+    // bot.sendPhoto(msg.chat.id,'./img/banner.png')
     let txt =
-      "Welcome to " +
+      "Welcome " +
       msg.chat.username +
-      ", your hub for social deduction multiplayer minigames.\n\n";
+      " to <b>Deduction Duel</b>, your hub for social deduction multiplayer minigames.\n\n";
 
     txt +=
-      "Correctly guess your enemies' actions to be victorious & win prizes.\n\n";
+      "🏆 Correctly guess your enemies' actions to be victorious & win prizes.\n\n";
 
     txt +=
-      "All mini games are based on game theoretic concepts. You'll learn the  underlying theories - and observe how humans may deviate from optimal strategies.\n\n";
+      "ℹ️ All mini games are based on game theoretic concepts. You'll learn the  underlying theories - and observe how humans may deviate from optimal strategies. And as we all know you learn the best with skin in the game.\n\n";
 
-    txt += "And as we all know you learn the best with skin in the game.\n\n";
 
     txt += "➡️ What do you want to do?";
     var _markup = [];

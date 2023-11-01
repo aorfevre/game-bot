@@ -5,7 +5,7 @@ const crypto = require("../custo/crypto.js");
 var home = require("./home.js");
 
 module.exports.getIntroText = async (msg) => {
-  let txt = "🤔 <b>Rock Paper Scissors</b>\n\n";
+  let txt = "🖐 <b>Rock Paper Scissors</b>\n\n";
 
   // Define the rules of rock paper scissors
   txt += "Rock beats scissors, scissors beats paper, paper beats rock.\n\n";
@@ -20,19 +20,19 @@ module.exports.getActions = async (tiers) => {
   return [
     [
       {
-        text: "Rock",
+        text: "👊 Rock",
         callback_data: "GAME_ACTION_ROCKPAPERSCISSORS_" + tiers + "_ROCK",
       },
     ],
     [
       {
-        text: "Paper",
+        text: "🖐 Paper",
         callback_data: "GAME_ACTION_ROCKPAPERSCISSORS_" + tiers + "_PAPER",
       },
     ],
     [
       {
-        text: "Scissors",
+        text: "✌️ Scissors",
         callback_data: "GAME_ACTION_ROCKPAPERSCISSORS_" + tiers + "_SCISSORS",
       },
     ],

@@ -56,7 +56,7 @@ module.exports.init = async (msg) => {
 
   _markup.push([
     {
-      text: "🐛 Rock Paper Scissors game",
+      text: "🖐 Rock Paper Scissors",
       callback_data: "GAME_INIT_ROCKPAPERSCISSORS",
     },
   ]);
