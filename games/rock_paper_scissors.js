@@ -402,19 +402,19 @@ module.exports.freeGameByTiers = async (msg, game, tiers) => {
       inline_keyboard: [
         [
           {
-            text: "Rock",
+            text: "👊 Rock",
             callback_data: "FREEGAME_" + game + "_" + tiers + "_ROCK",
           },
         ],
         [
           {
-            text: "Paper",
+            text: "🖐 Paper",
             callback_data: "FREEGAME_" + game + "_" + tiers + "_PAPER",
           },
         ],
         [
           {
-            text: "Scissors",
+            text: "✌️ Scissors",
             callback_data: "FREEGAME_" + game + "_" + tiers + "_SCISSORS",
           },
         ],

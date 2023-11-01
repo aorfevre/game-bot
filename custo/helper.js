@@ -257,7 +257,6 @@ module.exports.findAllUnverifiedTransactions = async () => {
 
 module.exports.home = async (msg) => {
   if (this.isPrivate(msg)) {
-    // bot.sendPhoto(msg.chat.id,'./img/banner.png')
     let txt =
       "Welcome " +
       msg.chat.username +
@@ -310,41 +309,39 @@ module.exports.home = async (msg) => {
     ]);
     var options = {
       parse_mode: "HTML",
+      caption:txt,
       disable_web_page_preview: true,
       reply_markup: JSON.stringify({
         inline_keyboard: _markup,
       }),
     };
+    await bot.sendPhoto(msg.chat.id,'./img/banner.jpeg',options)
 
-    bot.sendMessage(msg.chat.id, txt, options);
+    // bot.sendMessage(msg.chat.id, txt, options);
   }
 };
 module.exports.guide_games = (msg) => {
+
+  const arr = [];
+  for(const i in allGames){
+    arr.push([{
+      text: allGames[i].btn,
+      callback_data: "GUIDE_GAME_"+allGames[i].name,
+    }
+  ])
+  }
+  arr.push( [
+    {
+      text: "🔙 Back to Home",
+      callback_data: "HOME",
+    },
+  ])
+  console.log('arr',arr)
   bot.sendMessage(msg.chat.id, "<b>Guides</b>\n\n➡️ Select game", {
     parse_mode: "HTML",
     disable_web_page_preview: true,
     reply_markup: JSON.stringify({
-      inline_keyboard: [
-        // [
-        //   {
-        //     text: "🚨 Prisoner's Dilemma",
-        //     callback_data: "GUIDE_GAME_PRISONER",
-        //   },
-        // ],
-        [
-          {
-            text: "🤔 Guess the Number",
-            callback_data: "GUIDE_GAME_NUMBERGUESSING",
-          },
-        ],
-
-        [
-          {
-            text: "🔙 Back to Home",
-            callback_data: "HOME",
-          },
-        ],
-      ],
+      inline_keyboard: arr,
     }),
   });
 };

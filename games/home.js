@@ -6,6 +6,18 @@ var rock_paper_scissors = require("./rock_paper_scissors.js");
 var helper = require("../custo/helper.js");
 var ObjectId = require("mongodb").ObjectId;
 
+
+global.allGames = [
+  {
+    name: 'NUMBERGUESSING',
+    btn:  "🤔 Guess the Number"
+  },
+  {
+    name: 'ROCKPAPERSCISSORS',
+    btn:  "🖐 Rock Paper Scissors",
+  },
+
+];
 module.exports.structChoice = () => {
   return {
     game: null,
@@ -47,19 +59,15 @@ module.exports.init = async (msg) => {
   //   },
   // ]);
 
-  _markup.push([
-    {
-      text: "🤔 Guess the Number",
-      callback_data: "GAME_INIT_NUMBERGUESSING",
-    },
-  ]);
+  for(const i in allGames){
+    _markup.push([{
+      text: allGames[i].btn,
+      callback_data: "GAME_INIT_"+allGames[i].name,
+    }
+  ])
+  }
 
-  _markup.push([
-    {
-      text: "🖐 Rock Paper Scissors",
-      callback_data: "GAME_INIT_ROCKPAPERSCISSORS",
-    },
-  ]);
+  
 
   _markup.push([
     {
@@ -425,20 +433,48 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
 };
 
 module.exports.guide = (msg, t) => {
+  const text = ''
   switch (t) {
-    case "PRISONER":
-      prisoner.guide(msg);
-      break;
+    // case "PRISONER":
+    //   txt = prisoner.guide(msg);
+    //   break;
     case "NUMBERGUESSING":
-      number_guessing.guide(msg);
+      txt = number_guessing.guide(msg);
       break;
-    case "CENTIPEDE":
-      centipede.guide(msg);
-      break;
+    // case "CENTIPEDE":
+    //   txt = centipede.guide(msg);
+    //   break;
     case "ROCKPAPERSCISSORS":
-      rock_paper_scissors.guide(msg);
+      txt = rock_paper_scissors.guide(msg);
       break;
   }
+  bot.sendMessage(msg.chat.id, txt, {
+    parse_mode: "HTML",
+    disable_web_page_preview: true,
+    reply_markup: JSON.stringify({
+      inline_keyboard: [
+        [
+          {
+            text: "🤔 ",
+            callback_data: "GAME_INIT_"+t,
+          },
+        ],
+        [
+          {
+            text: "🔙 Back to Guides",
+            callback_data: "GUIDE_GAMES",
+          },
+        ],
+        [
+          {
+            text: "🔙 Back to Home",
+            callback_data: "HOME",
+          },
+        ],
+      ],
+    }),
+  });
+
 };
 
 module.exports.myOpenGAMES = async (msg) => {

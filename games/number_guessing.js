@@ -41,33 +41,8 @@ module.exports.guide = async (msg, t) => {
     "Each player guesses a number between 0 and 100.\n\n" +
     "Whoever is closest to the average number guessed * 2/3 wins the prize pool.\n\n" +
     "The prize pool is made up of all entry fees paid by players. minus a platform fee (currently set to 10%).\n\n";
-
-  bot.sendMessage(msg.chat.id, txt, {
-    parse_mode: "HTML",
-    disable_web_page_preview: true,
-    reply_markup: JSON.stringify({
-      inline_keyboard: [
-        [
-          {
-            text: "🤔 Play Guess the Number",
-            callback_data: "GAME_INIT_NUMBERGUESSING",
-          },
-        ],
-        [
-          {
-            text: "🔙 Back to Guides",
-            callback_data: "GUIDE_GAMES",
-          },
-        ],
-        [
-          {
-            text: "🔙 Back to Home",
-            callback_data: "HOME",
-          },
-        ],
-      ],
-    }),
-  });
+ return txt; 
+  
 };
 module.exports.payout = async () => {
   const tiers = home.getAllTiers();
