@@ -129,8 +129,8 @@ module.exports.initGame = async (msg, t) => {
     disable_web_page_preview: true,
   });
 
-  let txt = "➡️  How much would you like to bet per play?\n\n";
-  txt += "(Tournaments are divided by bet amounts)";
+  let txt = "➡️  How much would you like to wager per play?\n\n";
+  txt += "(Tournaments are divided by wager amounts)";
   var _markup = [];
 
   _markup.push([
@@ -195,7 +195,7 @@ module.exports.price = async (msg, t, tiers) => {
 
   _markup.push([
     {
-      text: "🔙 Back to bet size",
+      text: "🔙 Back to wager size",
       callback_data: "GAME_INIT_" + t,
     },
   ]);
@@ -249,7 +249,7 @@ module.exports.frequency = async (msg, t, tiers) => {
 
   _markup.push([
     {
-      text: "🔙 Back to bet size",
+      text: "🔙 Back to wager size",
       callback_data: "GAME_INIT_" + t,
     },
   ]);
@@ -397,10 +397,10 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
 
   txt += "Game: " + user_choice.game + "\n\n";
   txt += "Action: " + user_choice.action + "\n\n";
-  txt += "Bet size per play: " + user_choice.price + " ETH\n\n";
+  txt += "Wager size per play: " + user_choice.price + " ETH\n\n";
   txt += "Number of plays: " + user_choice.number + " \n\n";
   txt +=
-    "Total bet: " +
+    "Total wager: " +
     (user_choice.price * 1000 * user_choice.number) / 1000 +
     " ETH\n\n";
 

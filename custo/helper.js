@@ -187,10 +187,10 @@ module.exports.verifyTransaction = async (obj) => {
     txt += "Summary of your participation:\n";
     let participation = "Game : " + obj.decoded.game + "\n";
     participation += "Action : " + obj.decoded.action + "\n";
-    participation += "Bet size per play : " + obj.decoded.price + "\n";
+    participation += "wager size per play : " + obj.decoded.price + "\n";
     participation += "Number of plays : " + obj.decoded.number + "\n";
     participation +=
-      "Total bet : " + obj.decoded.price * obj.decoded.number + "\n";
+      "Total wager : " + obj.decoded.price * obj.decoded.number + "\n";
     participation +=
       "<a href='" +
       process.env.PUBLIC_EXPLORER_URL +
@@ -351,9 +351,9 @@ module.exports.info_games = (msg) => {
   txt +=
     "Prize pools consist of entry fees paid by players, minus a platform fee (currently set to 10%).\n\n";
 
-  txt += "Why do games have different bet sizes for me to chose from?\n";
+  txt += "Why do games have different wager sizes for me to chose from?\n";
   txt +=
-    "We want to allow anyone to participate in the games with the amount of skin in the game they're comfortable with. Some players may prefer to make smaller but more bets to diversify while others may want to aim for the big prize\n\n";
+    "We want to allow anyone to participate in the games with the amount of skin in the game they're comfortable with. Some players may prefer to make smaller but more wagers to diversify while others may want to aim for the big prize\n\n";
 
   txt += "How do the payments work?\n";
   txt +=
@@ -728,4 +728,42 @@ module.exports.get_free_games_by_user_game = async (id, game) => {
     ])
     .toArray();
   return items;
+};
+
+
+module.exports.setIteration = async (id) => {
+  if (trx.decoded.number > 1) {
+    const client = await db.getClient();
+    const tx = await client
+      .db("gaming")
+      .collection("tx")
+      .findOne({ _id: id });
+    tx.decoded.number--;
+
+    let copy = JSON.parse(JSON.stringify(tx));
+    delete copy._id;
+    copy.processed = false;
+    copy._created_at = new Date();
+
+    await client.db("gaming").collection("tx").insertOne(copy);
+  } else {
+    return;
+  }
+};
+
+module.exports.setFreeGame = async (id) => {
+  const client = await db.getClient();
+  const tx = await client
+    .db("gaming")
+    .collection("tx")
+    .findOne({ _id: id });
+  let copy = JSON.parse(JSON.stringify(tx));
+  delete copy._id;
+  delete copy.code;
+  delete copy.draw;
+  delete copy.decoded.action;
+  copy.processed = false;
+  copy.decoded.number = 1;
+  copy._created_at = new Date();
+  await client.db("gaming").collection("tx").insertOne(copy);
 };

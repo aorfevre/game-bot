@@ -7,6 +7,7 @@ var init = require("./custo/init.js");
 var helper = require("./custo/helper.js");
 var crypto = require("./custo/crypto.js");
 var games = require("./games/home.js");
+var disperse = require("./custo/disperse.js");
 
 global.bot = init.setTelegram();
 global.DD_FLOOD = -1001865974274;

@@ -50,35 +50,8 @@ module.exports.guide = async (msg, t) => {
     "<b>Guide: Rock Paper Scissors</b>\n\n" +
     "2 players join a match.\n" +
     "Each player guesses a Rock, Paper or Scissors.\n\n" +
-    "Rock beats scissors, scissors beats paper, paper beats rock.\n\n" +
-    "Whoever is closest to the average number guessed * 2/3 wins the prize pool.\n\n";
-
-  bot.sendMessage(msg.chat.id, txt, {
-    parse_mode: "HTML",
-    disable_web_page_preview: true,
-    reply_markup: JSON.stringify({
-      inline_keyboard: [
-        [
-          {
-            text: "🤔 Play Guess the Number",
-            callback_data: "GAME_INIT_ROCKPAPERSCISSORS",
-          },
-        ],
-        [
-          {
-            text: "🔙 Back to Guides",
-            callback_data: "GUIDE_GAMES",
-          },
-        ],
-        [
-          {
-            text: "🔙 Back to Home",
-            callback_data: "HOME",
-          },
-        ],
-      ],
-    }),
-  });
+    "Rock beats scissors, scissors beats paper, paper beats rock.\n\n" 
+  return txt;
 };
 
 module.exports.duel = async () => {
@@ -146,42 +119,9 @@ module.exports.getWinnerLooser = (tx1, tx2) => {
   }
   return { winner, looser, winnerTx, looserTx, draw };
 };
-module.exports.setIteration = async (trx) => {
-  if (trx.decoded.number > 1) {
-    const client = await db.getClient();
-    const tx = await client
-      .db("gaming")
-      .collection("tx")
-      .findOne({ _id: trx.primaryId });
-    tx.decoded.number--;
 
-    let copy = JSON.parse(JSON.stringify(tx));
-    delete copy._id;
-    copy.processed = false;
-    copy._created_at = new Date();
 
-    await client.db("gaming").collection("tx").insertOne(copy);
-  } else {
-    return;
-  }
-};
 
-module.exports.setFreeGame = async (trx) => {
-  const client = await db.getClient();
-  const tx = await client
-    .db("gaming")
-    .collection("tx")
-    .findOne({ _id: trx.primaryId });
-  let copy = JSON.parse(JSON.stringify(tx));
-  delete copy._id;
-  delete copy.code;
-  delete copy.draw;
-  delete copy.decoded.action;
-  copy.processed = false;
-  copy.decoded.number = 1;
-  copy._created_at = new Date();
-  await client.db("gaming").collection("tx").insertOne(copy);
-};
 module.exports.duelByTiers = async (tiers) => {
   // find 2 unplayed game of rock paper scissors
 
@@ -288,10 +228,10 @@ module.exports.duelByTiers = async (tiers) => {
               code,
             }),
         );
-        promises.push(this.setIteration(tx1));
-        promises.push(this.setIteration(tx2));
-        promises.push(this.setFreeGame(tx1));
-        promises.push(this.setFreeGame(tx2));
+        promises.push(helper.setIteration(tx1.primaryId));
+        promises.push(helper.setIteration(tx2.primaryId));
+        promises.push(helper.setFreeGame(tx1.primaryId));
+        promises.push(helper.setFreeGame(tx2.primaryId));
         await Promise.all(promises);
       } else if (winner && looser) {
         // pot size
@@ -313,6 +253,7 @@ module.exports.duelByTiers = async (tiers) => {
           processed: false,
           code,
           draw: false,
+          game: 'ROCKPAPERSCISSORS'
         });
 
         // Send the money to the winner
