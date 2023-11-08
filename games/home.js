@@ -406,13 +406,13 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
 
   console.log(
     "Payment link ",
-    "http://localhost:3000?hash=" + encodeURIComponent(userData),
+    "http://localhost:3000/payment?hash=" + encodeURIComponent(userData),
   );
   var _markup = [];
   _markup.push([
     {
       text: "Confirm - Proceed to payment",
-      url: process.env.PUBLIC_URL + "?hash=" + encodeURIComponent(userData),
+      url: process.env.PUBLIC_URL + "/payment?hash=" + encodeURIComponent(userData),
     },
   ]);
 
