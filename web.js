@@ -66,6 +66,16 @@ app.get(`/duel/rockpaperscissors`, async (req, res) => {
   res.sendStatus(200);
 });
 
+app.get(`/home/stats`, async (req, res) => {
+ 
+  
+  res.send([
+    { title: '0', subheading: 'Matches played'},
+    { title: '0', subheading: 'Players'},
+    { title: '0', subheading: 'in Prizes paid out'},
+  ]);
+});
+
 app.listen(port, function () {
   console.log("Our app is running on http://localhost:" + port);
 });
