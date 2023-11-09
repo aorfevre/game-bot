@@ -1,67 +1,37 @@
 require("dotenv").config();
-const { Web3 } = require('web3');
-const HDWalletProvider = require("@truffle/hdwallet-provider");
+const ethers = require("ethers");
+
+const DISPERSE_CONTRACT = "0xD152f549545093347A162Dce210e7293f1452150";
+// const PK_TEST =
+//   "0x9211ecc01758559ccb97dc5232350e14dbf6f11c7e7549acda5c64a32520b488";
 const disperse = this;
-// if (dotenv.error) throw result.error
-// const env = dotenv.parsed
-
-const DISPERSE_CONTRACT = "0xD152f549545093347A162Dce210e7293f1452150"
-
-
-
-
+const DISPERSE_ABI = require("./abi.json");
 
 async function main({ data, PRIVATE_KEY }) {
   try {
-    const provider = new HDWalletProvider([PRIVATE_KEY], process.env.PUBLIC_RPC_URL);
-    const web3 = new Web3(provider);
+    const provider = new ethers.providers.JsonRpcProvider(
+      process.env.PUBLIC_RPC_URL
+    );
+    const wallet = new ethers.Wallet(PRIVATE_KEY, provider);
 
-    // let account = web3.eth.accounts.create(web3.utils.randomHex(32));
-    // let wallet = web3.eth.accounts.wallet.add(account);
-    // let  = wallet.encrypt(web3.utils.randomHex(32));
-
-    // Set up web3 object
-    // const web3 = new Web3(new Web3.providers.HttpProvider(env.URL)); // For test
-    await bot.sendMessage(359774701, "Connecting to Network...");
     // Get sender address
-    const accountObj = web3.eth.accounts.privateKeyToAccount(PRIVATE_KEY);
-    const SENDER_ADDRESS = accountObj.address;
+    console.log("wallet", wallet);
+    const SENDER_ADDRESS = wallet.address;
 
     // Get CSV data
-    const dataResult = await parseData(data,web3);
+    const dataResult = await parseData(data);
     const addresses = dataResult.addresses;
     const values = dataResult.values;
     const totalAmount = dataResult.totalAmount;
     console.log("totalAmount", totalAmount);
-    await bot.sendMessage(359774701, "Approving senders..." + totalAmount);
-
-
 
     // // Initialize contract and send token
-    // var contract = new web3.eth.Contract(
-    //   require("../abi.json"),
-    //   CONTRACT_ADDRESS
-    // );
-    // await bot.sendMessage(359774701, "Gas fee estimate...");
+    var contract = new ethers.Contract(DISPERSE_CONTRACT, DISPERSE_ABI, wallet);
 
-    // var gasEstimate = await contract.methods
-    //   .disperseToken(TOKEN_ADDRESS, addresses, values)
-    //   .estimateGas({
-    //     from: SENDER_ADDRESS,
-    //   });
+    console.log("addresses, values", addresses.length, values.length);
 
-    // var averageGasPrice = await getGasFee();
-
-    // await bot.sendMessage(359774701, "Disperse token...");
-
-    // const res = await contract.methods
-    //   .disperseToken(TOKEN_ADDRESS, addresses, values)
-    //   .send({
-    //     gas: gasEstimate,
-    //     gasPrice: averageGasPrice,
-    //     from: SENDER_ADDRESS,
-    //   });
-    // await bot.sendMessage(359774701, "Finished Disperse");
+    const res = await contract.disperseEther(addresses, values,{value:totalAmount});
+    console.log("res", res);
 
     // console.log(res);
     // return res;
@@ -70,60 +40,52 @@ async function main({ data, PRIVATE_KEY }) {
   }
 }
 
-
-async function getGasFee() {
-  // const result = await ('https://ethgasstation.info/api/ethgasAPI.json?', {
-  //   json: true
-  // })
-  //
-  // return result.body.fastest / 10
-
-  return await web3.eth.getGasPrice();
-}
-
-async function parseData(data,web3) {
+async function parseData(data) {
   let result = {
     addresses: [],
     values: [],
-    totalAmount: BigInt(0),
+    totalAmount:  ethers.utils.parseUnits("0", "ether").toBigInt()
   };
 
   for (const d of data) {
     const address = d.address;
-    const value = d.value
-    var isAdr = await disperse.checkSum(address,  web3);
+    const value = d.value;
+    var isAdr = await disperse.checkSum(address);
     if (isAdr) {
-      if (!isNaN(value * Math.pow(10, 18))) {
-        const bigIntValue = BigInt(value * Math.pow(10, 18));
+      if (!isNaN(value)) {
+        const bigIntValue = ethers.utils.parseUnits(value.toString(), "ether");
         result.addresses.push(address);
         result.values.push(bigIntValue);
-        result.totalAmount += bigIntValue;
+        result.totalAmount += bigIntValue.toBigInt();
+        console.log("bigIntValue", result);
       }
     } else {
       console.log("ADDRESS IS NOT ADDED");
     }
   }
-  console.log("RESULT", result);
   return result;
 }
 
-module.exports.pay = async (data,pk) => {
+module.exports.pay = async (data, pk) => {
   return await main({
     data,
-    PRIVATE_KEY:pk
+    PRIVATE_KEY: pk,
   });
 };
 
-module.exports.checkSum = async (adr,web3) => {
-  return await web3.utils.isAddress(adr);
+module.exports.checkSum = async (adr) => {
+  const r = await ethers.utils.isAddress(adr);
+  console.log("Result", r);
+  return r;
 };
 
-
-setTimeout(async()=>{
-    console.log('Start Payment',process.env.PK_NUMBERGUESSING)
-    this.pay(
-        [{address: '0x22F5A5280f2f18f1EC5342987704ff56eAbA9860',value: 0.00000001},
-        {address: '0xd251C79fC507305879CeF512708d8f97599239f4',value: 0.00000001}],
-        process.env.PK_NUMBERGUESSING
-    )
-})
+// setTimeout(async () => {
+//   console.log("Start Payment", process.env.PK_NUMBERGUESSING);
+//   this.pay(
+//     [
+//       { address: "0x22F5A5280f2f18f1EC5342987704ff56eAbA9860", value: 0.0001 },
+//       { address: "0xd251C79fC507305879CeF512708d8f97599239f4", value: 0.0001 },
+//     ],
+//     process.env.PK_NUMBERGUESSING
+//   );
+// });
