@@ -31,10 +31,9 @@ async function main({ data, PRIVATE_KEY }) {
     console.log("addresses, values", addresses.length, values.length);
 
     const res = await contract.disperseEther(addresses, values,{value:totalAmount});
-    console.log("res", res);
 
     // console.log(res);
-    // return res;
+    return res;
   } catch (error) {
     console.error("Error during disperse", error);
   }
@@ -75,7 +74,6 @@ module.exports.pay = async (data, pk) => {
 
 module.exports.checkSum = async (adr) => {
   const r = await ethers.utils.isAddress(adr);
-  console.log("Result", r);
   return r;
 };
 

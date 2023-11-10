@@ -228,8 +228,8 @@ module.exports.duelByTiers = async (tiers) => {
               code,
             }),
         );
-        promises.push(helper.setIteration(tx1.primaryId));
-        promises.push(helper.setIteration(tx2.primaryId));
+        promises.push(helper.setIteration(tx1));
+        promises.push(helper.setIteration(tx2));
         promises.push(helper.setFreeGame(tx1.primaryId));
         promises.push(helper.setFreeGame(tx2.primaryId));
         await Promise.all(promises);
@@ -303,8 +303,8 @@ module.exports.duelByTiers = async (tiers) => {
             ),
         );
 
-        promises.push(this.setIteration(winnerTx));
-        promises.push(this.setIteration(looserTx));
+        promises.push(helper.setIteration(winnerTx));
+        promises.push(helper.setIteration(looserTx));
         await Promise.all(promises);
 
         if (process.env.JEST_TEST !== "1") {

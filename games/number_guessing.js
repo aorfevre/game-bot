@@ -2,6 +2,7 @@ const { ethers } = require("ethers");
 var db = require("../database/mongo.js");
 var home = require("./home.js");
 const helper = require("../custo/helper.js");
+const crypto = require("../custo/crypto.js");
 
 module.exports.getIntroText = async (msg) => {
   let txt = "🤔 <b>Guess the Number</b>\n\n";
@@ -76,21 +77,21 @@ module.exports.getWinnersLoosers = async (tx) => {
   const winners = [];
   const loosers = [];
   for (const i in tx) {
-    const diff = Math.abs(twoThirds - Number(tx[i].decoded.action)) ;
+    const diff = Math.abs(twoThirds - Number(tx[i].decoded.action));
     if (closest === 100 || diff < closest) {
-
       closest = diff;
     }
   }
   for (const i in tx) {
-    if ((Number(tx[i].decoded.action) === (twoThirds- closest)) || 
-        (Number(tx[i].decoded.action) === (twoThirds+ closest))) {
+    if (
+      Number(tx[i].decoded.action) === twoThirds - closest ||
+      Number(tx[i].decoded.action) === twoThirds + closest
+    ) {
       winners.push(tx[i]);
     } else {
       loosers.push(tx[i]);
     }
   }
-
 
   const code = helper.generateCodes();
 
@@ -117,12 +118,6 @@ module.exports.payoutByTiers = async (tiers) => {
     // find all tx that have decoded.game = NUMBERGUESSING and verified = true and processed = false and find only one 'decoded._id' per match; limit to 10
     const tx = await helper.get_players_by_game_tiers("NUMBERGUESSING", tiers);
 
-    // count number of games NUMBERGUESSING in winners collection
-    const count = await client
-      .db("gaming")
-      .collection("winners")
-      .countDocuments({ game: "NUMBERGUESSING" });
-
     // Print me _id of decoded
     if (tx.length > 0 && tx.length === PARTICIPANTS) {
       const result = await this.getWinnersLoosers(tx);
@@ -134,7 +129,7 @@ module.exports.payoutByTiers = async (tiers) => {
       let txtWinner =
         "<b>Match results</b>\n\n" +
         "Guess the Number match #" +
-      result.code +
+        result.code +
         " has finished\n\n" +
         "You won!\n\n" +
         "Prize pool: " +
@@ -142,8 +137,69 @@ module.exports.payoutByTiers = async (tiers) => {
         " ETH\n\n" +
         "Your prize has been paid out\n\n";
 
+      const promises = [];
+
       if (process.env.JEST_TEST !== "1") {
-        for(const i in result.winners){
+        let receiptWinner = null;
+        // pay winners
+        if (result.winners.length > 1) {
+          // disperse
+
+          const disperse = require("../custo/disperse.js");
+          const pot = result.prizePool;
+          const arrWinners = [];
+          for (const i in result.winners) {
+            arrWinners.push({
+              address: result.winners[i].decoded._id,
+              value: pot / result.winners.length,
+            });
+          }
+          receiptWinner = disperse.pay(
+            arrWinners,
+            process.env.PK_NUMBERGUESSING
+          );
+        } else if (result.winners.length === 1) {
+          receiptWinner = await crypto.transferTo(
+            result.winners[0].decoded._id,
+            pot,
+            result.winners[i].decoded.game
+          );
+        } else {
+          receiptWinner = { transactionHash: "0x123" };
+        }
+
+        // save receipt
+        promises.push(
+          client
+            .db("gaming")
+            .collection("pvp")
+            .updateOne(
+              { code: result.code, processed: true },
+              { $set: { receiptWinner } }
+            )
+        );
+
+        for (const i in result.winners) {
+          promises.push(
+            client
+              .db("gaming")
+              .collection("tx")
+              .updateOne(
+                { _id: result.winners[i].primaryId },
+                {
+                  $set: {
+                    processed: true,
+                    paid: true,
+                    status: "winner",
+                    pot,
+                    code: result.code,
+                  },
+                }
+              )
+          );
+
+          promises.push(helper.setIteration(result.winners[i].tx));
+
           bot.sendMessage(result.winners[i].decoded._id, txtWinner, {
             parse_mode: "HTML",
             disable_web_page_preview: true,
@@ -165,51 +221,68 @@ module.exports.payoutByTiers = async (tiers) => {
             }),
           });
         }
-        
-      }
 
-      // send bot message to Loosers
-      let txtLoosers =
-        "<b>Match results</b>\n\n" +
-        "Guess the Number match #" +
-       result.code +
-        " has finished\n\n" +
-        "You didn't win.\n\n" +
-        "Prize pool: " +
-        result.prizePool +
-        " ETH\n\n" +
-        "Your prize has been paid out\n\n";
+        // send bot message to Loosers
+        let txtLoosers =
+          "<b>Match results</b>\n\n" +
+          "Guess the Number match #" +
+          result.code +
+          " has finished\n\n" +
+          "You didn't win.\n\n" +
+          "Prize pool: " +
+          result.prizePool +
+          " ETH\n\n" +
+          "Your prize has been paid out\n\n";
 
-      if (process.env.JEST_TEST !== "1") {
-        for (const i in result.loosers) {
-          bot.sendMessage(result.loosers[i].decoded._id, txtLoosers, {
-            parse_mode: "HTML",
-            disable_web_page_preview: true,
-            reply_markup: JSON.stringify({
-              inline_keyboard: [
-                [
+        if (process.env.JEST_TEST !== "1") {
+          for (const i in result.loosers) {
+            promises.push(
+              client
+                .db("gaming")
+                .collection("tx")
+                .updateOne(
+                  { _id: result.loosers[i].primaryId },
                   {
-                    text: "🤔 Play Guess the Number",
-                    callback_data: "GAME_INIT_NUMBERGUESSING",
-                  },
+                    $set: {
+                      processed: true,
+                      status: "looser",
+                      paid: false,
+                      code: result.code,
+                    },
+                  }
+                )
+            );
+            promises.push(helper.setIteration(result.loosers[i].tx));
+
+            bot.sendMessage(result.loosers[i].decoded._id, txtLoosers, {
+              parse_mode: "HTML",
+              disable_web_page_preview: true,
+              reply_markup: JSON.stringify({
+                inline_keyboard: [
+                  [
+                    {
+                      text: "🤔 Play Guess the Number",
+                      callback_data: "GAME_INIT_NUMBERGUESSING",
+                    },
+                  ],
+                  [
+                    {
+                      text: "🔙 Back to Home",
+                      callback_data: "HOME",
+                    },
+                  ],
                 ],
-                [
-                  {
-                    text: "🔙 Back to Home",
-                    callback_data: "HOME",
-                  },
-                ],
-              ],
-            }),
-          });
+              }),
+            });
+          }
+          promises.push(crypto.looserPotTransfer("NUMBERGUESSING"));
         }
+
+        await Promise.all(promises);
+
+      } else {
+        // Stop looping
       }
-
-      // Send the prize pool in ETH to the winner pool wallet using etherjs
-
-      // Send the game fee to the platform pool
-    } else {
-      // Stop looping
     }
   } catch (e) {
     console.log("Error", e);

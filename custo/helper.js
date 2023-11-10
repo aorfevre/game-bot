@@ -731,13 +731,13 @@ module.exports.get_free_games_by_user_game = async (id, game) => {
 };
 
 
-module.exports.setIteration = async (id) => {
+module.exports.setIteration = async (trx) => {
   if (trx.decoded.number > 1) {
     const client = await db.getClient();
     const tx = await client
       .db("gaming")
       .collection("tx")
-      .findOne({ _id: id });
+      .findOne({ _id: trx.primaryId });
     tx.decoded.number--;
 
     let copy = JSON.parse(JSON.stringify(tx));
