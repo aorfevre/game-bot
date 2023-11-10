@@ -3,7 +3,6 @@ var app = express();
 var cors = require("cors");
 const helper = require("./custo/helper.js");
 const number_guessing = require("./games/number_guessing.js");
-const prisoner = require("./games/prisoner.js");
 const rock_paper_scissors = require("./games/rock_paper_scissors.js");
 // set the port of our application
 // process.env.PORT lets the port be set by Heroku
@@ -53,11 +52,6 @@ app.get(`/verify/pending-payouts`, async (req, res) => {
 
 app.get(`/payout/number-guessing`, async (req, res) => {
   await number_guessing.payout();
-  res.sendStatus(200);
-});
-
-app.get(`/duel/prisoner`, async (req, res) => {
-  await prisoner.duel();
   res.sendStatus(200);
 });
 

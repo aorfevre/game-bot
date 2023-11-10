@@ -1,5 +1,5 @@
-var helper = require("../custo/helper.js");
-var home = require("./home.js");
+var helper = require("../../custo/helper.js");
+var home = require("../home.js");
 
 module.exports.getIntroText = async (msg) => {
   let txt = "🚨  <b>Prisoner's Dilemma</b>\n\n";

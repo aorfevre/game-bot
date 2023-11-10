@@ -122,7 +122,6 @@ module.exports.payoutByTiers = async (tiers) => {
     if (tx.length > 0 && tx.length === PARTICIPANTS) {
       const result = await this.getWinnersLoosers(tx);
 
-      console.log("Result", result);
       // // Save the winner state
       await client.db("gaming").collection("pvp").insertOne(result);
 

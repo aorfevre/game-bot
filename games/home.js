@@ -1,22 +1,18 @@
 var db = require("../database/mongo.js");
-var prisoner = require("./prisoner.js");
 var number_guessing = require("./number_guessing.js");
-var centipede = require("./centipede.js");
 var rock_paper_scissors = require("./rock_paper_scissors.js");
 var helper = require("../custo/helper.js");
 var ObjectId = require("mongodb").ObjectId;
 
-
 global.allGames = [
   {
-    name: 'NUMBERGUESSING',
-    btn:  "🤔 Guess the Number"
+    name: "NUMBERGUESSING",
+    btn: "🤔 Guess the Number",
   },
   {
-    name: 'ROCKPAPERSCISSORS',
-    btn:  "🖐 Rock Paper Scissors",
+    name: "ROCKPAPERSCISSORS",
+    btn: "🖐 Rock Paper Scissors",
   },
-
 ];
 module.exports.structChoice = () => {
   return {
@@ -52,22 +48,14 @@ module.exports.init = async (msg) => {
   let txt = `➡️ Which game would you like to play?`;
   var _markup = [];
 
-  // _markup.push([
-  //   {
-  //     text: "🚨 Prisoner's Dilemma",
-  //     callback_data: "GAME_INIT_PRISONER",
-  //   },
-  // ]);
-
-  for(const i in allGames){
-    _markup.push([{
-      text: allGames[i].btn,
-      callback_data: "GAME_INIT_"+allGames[i].name,
-    }
-  ])
+  for (const i in allGames) {
+    _markup.push([
+      {
+        text: allGames[i].btn,
+        callback_data: "GAME_INIT_" + allGames[i].name,
+      },
+    ]);
   }
-
-  
 
   _markup.push([
     {
@@ -106,18 +94,12 @@ module.exports.initGame = async (msg, t) => {
       {
         $set: curData,
       },
-      { upsert: true },
+      { upsert: true }
     );
   let intro = "";
   switch (t) {
-    case "PRISONER":
-      intro = await prisoner.getIntroText();
-      break;
     case "NUMBERGUESSING":
       intro = await number_guessing.getIntroText();
-      break;
-    case "CENTIPEDE":
-      intro = await centipede.getIntroText();
       break;
     case "ROCKPAPERSCISSORS":
       intro = await rock_paper_scissors.getIntroText();
@@ -177,17 +159,12 @@ module.exports.price = async (msg, t, tiers) => {
   let txt = `➡️  What in-game action would you like to make?`;
   var _markup = [];
   switch (t) {
-    case "PRISONER":
-      _markup = await prisoner.getActions(tiers);
-      break;
     case "NUMBERGUESSING":
       curData.mode = "INPUT_NUMBERGUESSING";
       txt += "\n\n" + number_guessing.getSpecificActionMsg();
       _markup = await number_guessing.getActions(tiers);
       break;
-    case "CENTIPEDE":
-      _markup = await centipede.getActions(tiers);
-      break;
+
     case "ROCKPAPERSCISSORS":
       _markup = await rock_paper_scissors.getActions(tiers);
       break;
@@ -209,7 +186,7 @@ module.exports.price = async (msg, t, tiers) => {
       {
         $set: curData,
       },
-      { upsert: true },
+      { upsert: true }
     );
 
   bot.sendMessage(msg.chat.id, txt, {
@@ -231,16 +208,10 @@ module.exports.frequency = async (msg, t, tiers) => {
   var _markup = [];
   let mode = "choice";
   switch (t) {
-    case "PRISONER":
-      _markup = await prisoner.getActions();
-      break;
     case "NUMBERGUESSING":
       mode = "input";
       txt += "\n\n" + number_guessing.getSpecificActionMsg();
       _markup = await number_guessing.getActions();
-      break;
-    case "CENTIPEDE":
-      _markup = await centipede.getActions();
       break;
     case "ROCKPAPERSCISSORS":
       _markup = await rock_paper_scissors.getActions();
@@ -268,7 +239,7 @@ module.exports.frequency = async (msg, t, tiers) => {
       {
         $set: curData,
       },
-      { upsert: true },
+      { upsert: true }
     );
 
   bot.sendMessage(msg.chat.id, txt, {
@@ -298,15 +269,10 @@ module.exports.action = async (msg, t, tiers, action) => {
   let txt = "➡️ How often do you want to make this play?\n\n";
 
   switch (t) {
-    case "PRISONER":
-      txt += prisoner.actionText();
-      break;
     case "NUMBERGUESSING":
       txt += number_guessing.actionText();
       break;
-    case "CENTIPEDE":
-      txt += centipede.actionText();
-      break;
+
     case "ROCKPAPERSCISSORS":
       txt += rock_paper_scissors.actionText();
       break;
@@ -388,7 +354,7 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
             ],
           ],
         }),
-      },
+      }
     );
     return;
   }
@@ -406,13 +372,16 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
 
   console.log(
     "Payment link ",
-    "http://localhost:3000/payment?hash=" + encodeURIComponent(userData),
+    "http://localhost:3000/payment?hash=" + encodeURIComponent(userData)
   );
   var _markup = [];
   _markup.push([
     {
       text: "Confirm - Proceed to payment",
-      url: process.env.PUBLIC_URL + "/payment?hash=" + encodeURIComponent(userData),
+      url:
+        process.env.PUBLIC_URL +
+        "/payment?hash=" +
+        encodeURIComponent(userData),
     },
   ]);
 
@@ -433,17 +402,12 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
 };
 
 module.exports.guide = (msg, t) => {
-  const text = ''
+  const text = "";
   switch (t) {
-    // case "PRISONER":
-    //   txt = prisoner.guide(msg);
-    //   break;
     case "NUMBERGUESSING":
       txt = number_guessing.guide(msg);
       break;
-    // case "CENTIPEDE":
-    //   txt = centipede.guide(msg);
-    //   break;
+
     case "ROCKPAPERSCISSORS":
       txt = rock_paper_scissors.guide(msg);
       break;
@@ -456,7 +420,7 @@ module.exports.guide = (msg, t) => {
         [
           {
             text: "🤔 ",
-            callback_data: "GAME_INIT_"+t,
+            callback_data: "GAME_INIT_" + t,
           },
         ],
         [
@@ -474,7 +438,6 @@ module.exports.guide = (msg, t) => {
       ],
     }),
   });
-
 };
 
 module.exports.myOpenGAMES = async (msg) => {
@@ -497,54 +460,8 @@ module.exports.myOpenGAMES = async (msg) => {
         ? Number(openGames[i].decoded.number)
         : Number(openGames[i].decoded.number) - Number(openGames[i]?.iteration);
 
-      if (openGames[i].decoded.game === "PRISONER") {
-        const count = await client
-          .db("gaming")
-          .collection("winners")
-          .countDocuments({ game: "PRISONER" });
-        const participantsCount = await client
-          .db("gaming")
-          .collection("tx")
-          .aggregate([
-            {
-              $match: {
-                "decoded.game": "PRISONER",
-                verified: true,
-                processed: false,
-                "decoded.tiers": openGames[i].decoded.tiers,
-              },
-            },
-            {
-              $group: {
-                _id: "$decoded._id",
-                decoded: { $first: "$decoded" },
-              },
-            },
-            // add a variable called user with 'decoded._id' as value
-            { $group: { _id: null, myCount: { $sum: 1 } } },
-            { $project: { _id: 0 } },
-          ])
-          .toArray();
-        txt += "Game: Prisoner's Dilemma\n";
-        txt += "Tournament: #" + (count + 1) + "\n";
-        txt += "Bet size: " + openGames[i].decoded.price + " ETH\n";
-        txt += "Your Iteration Remaining: " + remainingIteration + "\n";
-        txt += "Your action: " + openGames[i].decoded.action + "\n";
-        txt +=
-          "Current prize pool: " +
-          (await helper.getBalanceOfWallet(
-            process.env["PAYOUT_WALLET_" + openGames[i].decoded.game],
-          )) +
-          " ETH\n";
-        // txt += "Your current points: " + openGames[i].decoded.points + "\n";
-        // txt +=
-        //   "Your current leaderboard position: " +
-        //   openGames[i].decoded.leaderboard_position +
-        //   "\n";
-        txt += "Players registered: " + participantsCount[0].myCount + "\n";
-        txt += "Tournament ends in: " + openGames[i].decoded.ends_in + "\n";
-        txt += "\n\n";
-      } else {
+      if (openGames[i].decoded.game === "NUMBERGUESSING") {
+       
         const count = await client
           .db("gaming")
           .collection("winners")
@@ -580,7 +497,7 @@ module.exports.myOpenGAMES = async (msg) => {
         txt +=
           "Current prize pool: " +
           (await helper.getBalanceOfWallet(
-            process.env["PAYOUT_WALLET_" + openGames[i].decoded.game],
+            process.env["PAYOUT_WALLET_" + openGames[i].decoded.game]
           )) +
           " ETH\n";
         txt +=
@@ -633,7 +550,7 @@ module.exports.frequencyInput = async (msg) => {
     .updateOne(
       { _id: msg.chat.id },
       { $set: { mode: "INPUT_FREQUENCY" } },
-      { upsert: true },
+      { upsert: true }
     );
 
   // User wants to input a number
@@ -643,7 +560,7 @@ module.exports.frequencyInput = async (msg) => {
     {
       parse_mode: "HTML",
       disable_web_page_preview: true,
-    },
+    }
   );
 };
 
@@ -666,7 +583,7 @@ module.exports.check_input = async (msg) => {
     ) {
       bot.sendMessage(
         msg.chat.id,
-        "Please enter a valid number or a number greater than 0",
+        "Please enter a valid number or a number greater than 0"
       );
       return;
     } else {
@@ -682,14 +599,14 @@ module.exports.check_input = async (msg) => {
           .updateOne(
             { _id: msg.chat.id },
             { $set: { number: Number(number), mode: null } },
-            { upsert: true },
+            { upsert: true }
           );
         this.summary(msg, user.game, user.tiers, user.action, number);
       } else if (user.mode === "INPUT_NUMBERGUESSING") {
         if (Number(number) > 100 || Number(number) < 0) {
           bot.sendMessage(
             msg.chat.id,
-            "Please enter a number between 0 and 100",
+            "Please enter a number between 0 and 100"
           );
           return;
         } else {
@@ -699,7 +616,7 @@ module.exports.check_input = async (msg) => {
             .updateOne(
               { _id: msg.chat.id },
               { $set: { action: Number(number), mode: null } },
-              { upsert: true },
+              { upsert: true }
             );
           this.action(msg, user.game, user.tiers, Number(number));
         }
