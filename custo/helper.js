@@ -285,7 +285,7 @@ module.exports.home = async (msg) => {
         callback_data: "MY_OPEN_GAMES",
       },
       {
-        text: "Guide",
+        text: "Guides",
         callback_data: "GUIDE_GAMES",
       },
     ]);
@@ -337,7 +337,7 @@ module.exports.guide_games = (msg) => {
     },
   ])
   console.log('arr',arr)
-  bot.sendMessage(msg.chat.id, "<b>Guides</b>\n\n➡️ Select game", {
+  bot.sendMessage(msg.chat.id, "<b>Guides</b>\n\n➡️ Learn the rules of our minigames", {
     parse_mode: "HTML",
     disable_web_page_preview: true,
     reply_markup: JSON.stringify({

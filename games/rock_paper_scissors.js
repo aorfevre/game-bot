@@ -130,6 +130,8 @@ module.exports.duelByTiers = async (tiers) => {
     "ROCKPAPERSCISSORS",
     tiers,
   );
+  const code = helper.generateCodes();
+
   // shuffle all txs
   const paired = this.shuffle(txs);
   for (const i in paired) {
@@ -148,7 +150,9 @@ module.exports.duelByTiers = async (tiers) => {
       let draw = wl.draw;
       if (draw) {
         // We have a draw
-        const txt = "You draw the duel! You can play another game for free!";
+        const txt = "<b>Match result<b>\n\n"+
+        "Rock Paper Scissors match #"+code +"ended in a draw! Both players keep their wagered ETH and can select another move\n\n"+
+        "➡️ Select a new move";
         const options_txt1 = {
           parse_mode: "HTML",
           disable_web_page_preview: true,
@@ -183,7 +187,6 @@ module.exports.duelByTiers = async (tiers) => {
           bot.sendMessage(tx1.decoded._id, txt, options_txt1);
           bot.sendMessage(tx2.decoded._id, txt, options_txt2);
         }
-        const code = helper.generateCodes();
 
         const c = await client
           .db("gaming")

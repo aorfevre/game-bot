@@ -359,16 +359,18 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
     return;
   }
 
-  let txt = "<b>Summary</b>\n\n";
+  let txt = "<b>Game Summary</b>\n\n";
 
-  txt += "Game: " + user_choice.game + "\n\n";
-  txt += "Action: " + user_choice.action + "\n\n";
-  txt += "Wager size per play: " + user_choice.price + " ETH\n\n";
-  txt += "Number of plays: " + user_choice.number + " \n\n";
+  txt += "Game: " + user_choice.game + "\n";
+  txt += "Your action: " + user_choice.action + "\n\n";
+
+  txt+= "<u>Wager info</u>\n"
+  txt += "Wager size per play: " + user_choice.price + " ETH\n";
+  txt += "Number of plays: " + user_choice.number + " \n";
   txt +=
     "Total wager: " +
     (user_choice.price * 1000 * user_choice.number) / 1000 +
-    " ETH\n\n";
+    " ETH\n";
 
   console.log(
     "Payment link ",
