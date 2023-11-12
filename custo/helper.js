@@ -266,7 +266,7 @@ module.exports.home = async (msg) => {
       "🏆 Correctly guess your enemies' actions to be victorious & win prizes.\n\n";
 
     txt +=
-      "ℹ️ All mini games are based on game theoretic concepts. You'll learn the  underlying theories - and observe how humans may deviate from optimal strategies. And as we all know you learn the best with skin in the game.\n\n";
+      "ℹ️ All minigames are based on game theoretic concepts. You'll learn the underlying theories - and observe how humans may deviate from optimal strategies. And as we all know, you learn the best when you have skin in the game.\n\n";
 
 
     txt += "➡️ What do you want to do?";
@@ -399,7 +399,7 @@ module.exports.info_games = (msg) => {
 
 module.exports.referralSystem = async (msg) => {
   const txt =
-    "Welcome to Deduction Duel, your hub for social deduction multiplayer minigames.\n\n" +
+    "Welcome "+msg.chat.username + " to Deduction Duel, your hub for social deduction multiplayer minigames.\n\n" +
     "We're currently in closed alpha.\n\n" +
     "Please enter an invite code to play.\n\n";
   bot.sendMessage(msg.chat.id, txt, {
