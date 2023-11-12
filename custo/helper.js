@@ -320,6 +320,18 @@ module.exports.home = async (msg) => {
     // bot.sendMessage(msg.chat.id, txt, options);
   }
 };
+
+module.exports.findGame = (t)=>{
+    // find t in allGames
+    let game = null;
+    for (const i in allGames) {
+      if (allGames[i].name === t) {
+        game = allGames[i];
+        break;
+      }
+    }
+    return game;
+}
 module.exports.guide_games = (msg) => {
 
   const arr = [];

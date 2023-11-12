@@ -35,7 +35,7 @@ module.exports.actionText = () => {
   );
 };
 
-module.exports.guide = async (msg, t) => {
+module.exports.guide =  (msg, t) => {
   const txt =
     "<b>Guide: Guess the Number</b>\n\n" +
     "10 players join a match.\n" +

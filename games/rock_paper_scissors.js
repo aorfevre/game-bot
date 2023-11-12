@@ -45,7 +45,7 @@ module.exports.actionText = () => {
   );
 };
 
-module.exports.guide = async (msg, t) => {
+module.exports.guide =  (msg, t) => {
   const txt =
     "<b>Guide: Rock Paper Scissors</b>\n\n" +
     "2 players join a match.\n" +

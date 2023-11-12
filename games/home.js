@@ -404,7 +404,7 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
 };
 
 module.exports.guide = (msg, t) => {
-  const text = "";
+  let txt = "";
   switch (t) {
     case "NUMBERGUESSING":
       txt = number_guessing.guide(msg);
@@ -414,6 +414,8 @@ module.exports.guide = (msg, t) => {
       txt = rock_paper_scissors.guide(msg);
       break;
   }
+  const game = helper.findGame(t);
+
   bot.sendMessage(msg.chat.id, txt, {
     parse_mode: "HTML",
     disable_web_page_preview: true,
@@ -421,7 +423,7 @@ module.exports.guide = (msg, t) => {
       inline_keyboard: [
         [
           {
-            text: "🤔 ",
+            text: game.btn,
             callback_data: "GAME_INIT_" + t,
           },
         ],
