@@ -767,6 +767,7 @@ module.exports.setFreeGame = async (id) => {
 };
 
 module.exports.getGameSummary = (user_choice) => {
+  let txt= ''
   txt += "Game: " + user_choice.game + "\n";
   txt += "Your action: " + user_choice.action + "\n\n";
 
