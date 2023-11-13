@@ -4,15 +4,13 @@ require("dotenv").config();
 process.env["NTBA_FIX_319"] = 1;
 var init = require("./custo/init.js");
 
-var helper = require("./custo/helper.js");
-var crypto = require("./custo/crypto.js");
-var games = require("./games/home.js");
-var disperse = require("./custo/disperse.js");
-
 global.bot = init.setTelegram();
 global.DD_FLOOD = -1001865974274;
 
 bot.on("message", async (msg) => {
+  var helper = require("./custo/helper.js");
+  var games = require("./games/home.js");
+
   const user = await helper.updateUser(msg);
   if (helper.isPrivate(msg)) {
     if (user.isReferred) {
@@ -24,6 +22,8 @@ bot.on("message", async (msg) => {
 });
 
 bot.onText(/^\/[start](.+|\b)/, async (msg, match) => {
+var helper = require("./custo/helper.js");
+
   if (helper.isPrivate(msg)) {
     try {
       const user = await helper.updateUser(msg);
@@ -42,6 +42,9 @@ bot.onText(/^\/[start](.+|\b)/, async (msg, match) => {
 bot.on("callback_query", async (callbackQuery) => {
   var msg = callbackQuery.message;
   var control = callbackQuery.data;
+  var helper = require("./custo/helper.js");
+  var games = require("./games/home.js");
+
   const isSpam = await helper.isSpam(msg);
   if (!isSpam) {
     if (control.indexOf("GAME_INIT_") !== -1) {
