@@ -24,7 +24,7 @@ module.exports.encode = (data) => {
   try {
     return CryptoJS.AES.encrypt(
       JSON.stringify(data),
-      process.env.PRIVATE_KEY,
+      process.env.PRIVATE_KEY
     ).toString();
   } catch (e) {
     console.log("Error while doing encoding", e, process.env.PRIVATE_KEY);
@@ -146,7 +146,7 @@ module.exports.isSuperAdmin = function (msg) {
 // get ETH balance of a wallet
 module.exports.getBalanceOfWallet = async (wallet) => {
   const provider = new ethers.providers.JsonRpcProvider(
-    process.env.PUBLIC_RPC_URL,
+    process.env.PUBLIC_RPC_URL
   );
   const balance = await provider.getBalance(wallet);
   return ethers.utils.formatUnits(balance, 18);
@@ -155,7 +155,7 @@ module.exports.getBalanceOfWallet = async (wallet) => {
 module.exports.verifyTransaction = async (obj) => {
   // Connect to ethers RPC on Sepolia
   const provider = new ethers.providers.JsonRpcProvider(
-    process.env.PUBLIC_RPC_URL,
+    process.env.PUBLIC_RPC_URL
   );
 
   // fetch transaction by hash
@@ -169,35 +169,20 @@ module.exports.verifyTransaction = async (obj) => {
 
     let txt = "<b>Payment confirmation</b>\n\n";
 
-    txt += "Your payment has been received.\n\n";
-
-    txt += "You joined tournament #XXX\n\n";
+    txt += "🤑 Your payment has been received.\n\n";
 
     txt +=
-      "Current prize pool: " +
-      (await this.getBalanceOfWallet(
-        process.env["PAYOUT_WALLET_" + obj.decoded.game],
-      )) +
-      " ETH\n\n";
-
-    txt += "Tournament ends in: XXX HOURS\n\n";
-
-    txt += "We'll notify you of your payout when the torunament finishes\n\n";
+      "ℹ️ We'll notify you of your payout when the tournament finishes!\n\n";
 
     txt += "Summary of your participation:\n";
-    let participation = "Game : " + obj.decoded.game + "\n";
-    participation += "Action : " + obj.decoded.action + "\n";
-    participation += "wager size per play : " + obj.decoded.price + "\n";
-    participation += "Number of plays : " + obj.decoded.number + "\n";
-    participation +=
-      "Total wager : " + obj.decoded.price * obj.decoded.number + "\n";
-    participation +=
+
+    txt += this.getGameSummary(obj.decoded);
+    txt +=
       "<a href='" +
       process.env.PUBLIC_EXPLORER_URL +
       "/tx/" +
       obj.txhash +
       "'>Txhash</a>";
-    txt += participation;
 
     await bot.sendMessage(DD_FLOOD, participation, {
       parse_mode: "HTML",
@@ -268,7 +253,6 @@ module.exports.home = async (msg) => {
     txt +=
       "ℹ️ All minigames are based on game theoretic concepts. You'll learn the underlying theories - and observe how humans may deviate from optimal strategies. And as we all know, you learn the best when you have skin in the game.\n\n";
 
-
     txt += "➡️ What do you want to do?";
     var _markup = [];
 
@@ -309,53 +293,57 @@ module.exports.home = async (msg) => {
     ]);
     var options = {
       parse_mode: "HTML",
-      caption:txt,
+      caption: txt,
       disable_web_page_preview: true,
       reply_markup: JSON.stringify({
         inline_keyboard: _markup,
       }),
     };
-    await bot.sendPhoto(msg.chat.id,'./img/banner.jpeg',options)
+    await bot.sendPhoto(msg.chat.id, "./img/banner.jpeg", options);
 
     // bot.sendMessage(msg.chat.id, txt, options);
   }
 };
 
-module.exports.findGame = (t)=>{
-    // find t in allGames
-    let game = null;
-    for (const i in allGames) {
-      if (allGames[i].name === t) {
-        game = allGames[i];
-        break;
-      }
+module.exports.findGame = (t) => {
+  // find t in allGames
+  let game = null;
+  for (const i in allGames) {
+    if (allGames[i].name === t) {
+      game = allGames[i];
+      break;
     }
-    return game;
-}
-module.exports.guide_games = (msg) => {
-
-  const arr = [];
-  for(const i in allGames){
-    arr.push([{
-      text: allGames[i].btn,
-      callback_data: "GUIDE_GAME_"+allGames[i].name,
-    }
-  ])
   }
-  arr.push( [
+  return game;
+};
+module.exports.guide_games = (msg) => {
+  const arr = [];
+  for (const i in allGames) {
+    arr.push([
+      {
+        text: allGames[i].btn,
+        callback_data: "GUIDE_GAME_" + allGames[i].name,
+      },
+    ]);
+  }
+  arr.push([
     {
       text: "🔙 Back to Home",
       callback_data: "HOME",
     },
-  ])
-  console.log('arr',arr)
-  bot.sendMessage(msg.chat.id, "<b>Guides</b>\n\n➡️ Learn the rules of our minigames", {
-    parse_mode: "HTML",
-    disable_web_page_preview: true,
-    reply_markup: JSON.stringify({
-      inline_keyboard: arr,
-    }),
-  });
+  ]);
+  console.log("arr", arr);
+  bot.sendMessage(
+    msg.chat.id,
+    "<b>Guides</b>\n\n➡️ Learn the rules of our minigames",
+    {
+      parse_mode: "HTML",
+      disable_web_page_preview: true,
+      reply_markup: JSON.stringify({
+        inline_keyboard: arr,
+      }),
+    }
+  );
 };
 module.exports.info_games = (msg) => {
   let txt = "<b>Info</b>\n\n";
@@ -399,7 +387,9 @@ module.exports.info_games = (msg) => {
 
 module.exports.referralSystem = async (msg) => {
   const txt =
-    "Welcome "+msg.chat.username + " to Deduction Duel, your hub for social deduction multiplayer minigames.\n\n" +
+    "Welcome " +
+    msg.chat.username +
+    " to Deduction Duel, your hub for social deduction multiplayer minigames.\n\n" +
     "We're currently in closed alpha.\n\n" +
     "Please enter an invite code to play.\n\n";
   bot.sendMessage(msg.chat.id, txt, {
@@ -600,7 +590,7 @@ module.exports.checkReferralSystem = async (msg) => {
       .collection("referral_codes")
       .updateOne(
         { code: msg.text, is_valid: true },
-        { $set: { is_valid: false, used_by: msg.chat.id } },
+        { $set: { is_valid: false, used_by: msg.chat.id } }
       );
     // update the user
     await client
@@ -608,7 +598,7 @@ module.exports.checkReferralSystem = async (msg) => {
       .collection("users")
       .updateOne(
         { _id: msg.chat.id },
-        { $set: { isReferred: true, referral_code: msg.text } },
+        { $set: { isReferred: true, referral_code: msg.text } }
       );
 
     bot.sendMessage(DD_FLOOD, "New user registered with code " + msg.text);
@@ -742,7 +732,6 @@ module.exports.get_free_games_by_user_game = async (id, game) => {
   return items;
 };
 
-
 module.exports.setIteration = async (trx) => {
   if (trx.decoded.number > 1) {
     const client = await db.getClient();
@@ -765,10 +754,7 @@ module.exports.setIteration = async (trx) => {
 
 module.exports.setFreeGame = async (id) => {
   const client = await db.getClient();
-  const tx = await client
-    .db("gaming")
-    .collection("tx")
-    .findOne({ _id: id });
+  const tx = await client.db("gaming").collection("tx").findOne({ _id: id });
   let copy = JSON.parse(JSON.stringify(tx));
   delete copy._id;
   delete copy.code;
@@ -778,4 +764,18 @@ module.exports.setFreeGame = async (id) => {
   copy.decoded.number = 1;
   copy._created_at = new Date();
   await client.db("gaming").collection("tx").insertOne(copy);
+};
+
+module.exports.getGameSummary = (user_choice) => {
+  txt += "Game: " + user_choice.game + "\n";
+  txt += "Your action: " + user_choice.action + "\n\n";
+
+  txt += "<u>Wager info</u>\n";
+  txt += "Wager size per play: " + user_choice.price + " ETH\n";
+  txt += "Number of plays: " + user_choice.number + " \n";
+  txt +=
+    "Total wager: " +
+    (user_choice.price * 1000 * user_choice.number) / 1000 +
+    " ETH\n";
+  return txt;
 };

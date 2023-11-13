@@ -361,16 +361,7 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
 
   let txt = "<b>Game Summary</b>\n\n";
 
-  txt += "Game: " + user_choice.game + "\n";
-  txt += "Your action: " + user_choice.action + "\n\n";
-
-  txt+= "<u>Wager info</u>\n"
-  txt += "Wager size per play: " + user_choice.price + " ETH\n";
-  txt += "Number of plays: " + user_choice.number + " \n";
-  txt +=
-    "Total wager: " +
-    (user_choice.price * 1000 * user_choice.number) / 1000 +
-    " ETH\n";
+  txt += helper.getGameSummary(user_choice)
 
   console.log(
     "Payment link ",
