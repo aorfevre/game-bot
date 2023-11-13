@@ -1,9 +1,6 @@
 var express = require("express");
 var app = express();
 var cors = require("cors");
-const helper = require("./custo/helper.js");
-const number_guessing = require("./games/number_guessing.js");
-const rock_paper_scissors = require("./games/rock_paper_scissors.js");
 // set the port of our application
 // process.env.PORT lets the port be set by Heroku
 var port = process.env.PORT || 8508;
@@ -22,6 +19,8 @@ app.post(`/bot${process.env.TELEGRAM_BOT_TOKEN}`, (req, res) => {
 });
 
 app.get(`/decode`, async (req, res) => {
+  const helper = require("./custo/helper.js");
+
   const { hash } = req.query;
   if (hash) {
     const result = await helper.decode(decodeURIComponent(hash));
@@ -36,6 +35,8 @@ app.get(`/decode`, async (req, res) => {
 });
 
 app.post(`/play`, async (req, res) => {
+  const helper = require("./custo/helper.js");
+
   const body = req.body;
   const status = await helper.savePlayTransaction(body.hash, body.txhash);
   if (status) {
@@ -46,22 +47,28 @@ app.post(`/play`, async (req, res) => {
 });
 
 app.get(`/verify/pending-payouts`, async (req, res) => {
+  const helper = require("./custo/helper.js");
+
   await helper.findAllUnverifiedTransactions();
   res.sendStatus(200);
 });
 
 app.get(`/payout/number-guessing`, async (req, res) => {
+  const number_guessing = require("./games/number_guessing.js");
   await number_guessing.payout();
   res.sendStatus(200);
 });
 
 app.get(`/duel/rockpaperscissors`, async (req, res) => {
+  const rock_paper_scissors = require("./games/rock_paper_scissors.js");
   await rock_paper_scissors.duel();
+
   res.sendStatus(200);
 });
 
 app.get(`/home/stats`, async (req, res) => {
- 
+  const helper = require("./custo/helper.js");
+
   const promises = [];
   promises.push(helper.countGames());
   promises.push(helper.countPlayers());
@@ -69,9 +76,9 @@ app.get(`/home/stats`, async (req, res) => {
 
   const result = await Promise.all(promises);
   res.send([
-    { title: result[0], subheading: 'Matches played'},
-    { title: result[1], subheading: 'Players'},
-    { title: result[2] + ' ETH', subheading: 'in Prizes paid out'},
+    { title: result[0], subheading: "Matches played" },
+    { title: result[1], subheading: "Players" },
+    { title: result[2] + " ETH", subheading: "in Prizes paid out" },
   ]);
 });
 
