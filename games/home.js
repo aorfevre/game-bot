@@ -451,56 +451,10 @@ module.exports.myOpenGAMES = async (msg) => {
     // add buttons
   } else {
     for (const i in openGames) {
-      const remainingIteration = !openGames[i]?.iteration
-        ? Number(openGames[i].decoded.number)
-        : Number(openGames[i].decoded.number) - Number(openGames[i]?.iteration);
-
-      if (openGames[i].decoded.game === "NUMBERGUESSING") {
-       
-        const count = await client
-          .db("gaming")
-          .collection("winners")
-          .countDocuments({ game: "NUMBERGUESSING" });
-
-        const participantsCount = await client
-          .db("gaming")
-          .collection("tx")
-          .aggregate([
-            {
-              $match: {
-                "decoded.game": "NUMBERGUESSING",
-                verified: true,
-                processed: false,
-                "decoded.tiers": openGames[i].decoded.tiers,
-              },
-            },
-            {
-              $group: {
-                _id: "$decoded._id",
-                decoded: { $first: "$decoded" },
-              },
-            },
-            // add a variable called user with 'decoded._id' as value
-            { $group: { _id: null, myCount: { $sum: 1 } } },
-            { $project: { _id: 0 } },
-          ])
-          .toArray();
-        txt += "Game: Guess the Number\n";
-        txt += "Match: #" + (count + 1) + "\n";
-        txt += "Bet size: " + openGames[i].decoded.price + " ETH\n";
-        txt += "Your Iteration remaining: " + remainingIteration + "\n";
-        txt +=
-          "Current prize pool: " +
-          (await helper.getBalanceOfWallet(
-            process.env["PAYOUT_WALLET_" + openGames[i].decoded.game]
-          )) +
-          " ETH\n";
-        txt +=
-          "Players remaining until match ends: " +
-          (10 - participantsCount[0].myCount) +
-          "\n";
-        txt += "\n\n";
-      }
+      txt += "🔹 🔹 🔹 🔹\n\n";
+    
+      txt += helper.getGameSummary(openGames[i].decoded)
+      txt += "\n";
 
       if (i % 2 === 0 && Number(i) !== 0 && i !== openGames.length) {
         await bot.sendMessage(msg.chat.id, txt, {

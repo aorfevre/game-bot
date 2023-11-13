@@ -176,13 +176,15 @@ module.exports.verifyTransaction = async (obj) => {
 
     txt += "Summary of your participation:\n";
 
-    txt += this.getGameSummary(obj.decoded);
-    txt +=
+    let participation = this.getGameSummary(obj.decoded);
+    participation +=
       "<a href='" +
       process.env.PUBLIC_EXPLORER_URL +
       "/tx/" +
       obj.txhash +
       "'>Txhash</a>";
+
+      txt+=participation;
 
     await bot.sendMessage(DD_FLOOD, participation, {
       parse_mode: "HTML",
@@ -767,8 +769,11 @@ module.exports.setFreeGame = async (id) => {
 };
 
 module.exports.getGameSummary = (user_choice) => {
+
+  const game = this.findGame(user_choice.game);
+
   let txt= ''
-  txt += "Game: " + user_choice.game + "\n";
+  txt += "Game: " + game.btn + "\n";
   txt += "Your action: " + user_choice.action + "\n\n";
 
   txt += "<u>Wager info</u>\n";
