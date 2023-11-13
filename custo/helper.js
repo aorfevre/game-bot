@@ -334,7 +334,6 @@ module.exports.guide_games = (msg) => {
       callback_data: "HOME",
     },
   ]);
-  console.log("arr", arr);
   bot.sendMessage(
     msg.chat.id,
     "<b>Guides</b>\n\n➡️ Learn the rules of our minigames",
