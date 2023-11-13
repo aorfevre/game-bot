@@ -785,3 +785,30 @@ module.exports.getGameSummary = (user_choice) => {
     " ETH\n";
   return txt;
 };
+
+
+module.exports.countGames = async () => {
+  const client = await db.getClient();
+  const txs = await client.db("gaming").collection("pvp").countDocuments();
+  return txs;
+}
+
+module.exports.countPlayers = async () => {
+  const client = await db.getClient();
+  const txs = await client.db("gaming").collection("users").countDocuments();
+  return txs;
+}
+
+module.exports.countPrizePaid = async () => {
+  const client = await db.getClient();
+  // sum all prizePool of pvp collection
+  const txs = await client.db("gaming").collection("pvp").aggregate([
+    {
+      $group: {
+        _id: null,
+        total: { $sum: "$prizePool" },
+      },
+    },
+  ]).toArray();
+  return txs[0].total;
+}

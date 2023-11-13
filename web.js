@@ -62,11 +62,16 @@ app.get(`/duel/rockpaperscissors`, async (req, res) => {
 
 app.get(`/home/stats`, async (req, res) => {
  
-  
+  const promises = [];
+  promises.push(helper.countGames());
+  promises.push(helper.countPlayers());
+  promises.push(helper.countPrizePaid());
+
+  const result = await Promise.all(promises);
   res.send([
-    { title: '0', subheading: 'Matches played'},
-    { title: '0', subheading: 'Players'},
-    { title: '0', subheading: 'in Prizes paid out'},
+    { title: result[0], subheading: 'Matches played'},
+    { title: result[1], subheading: 'Players'},
+    { title: result[2] + ' ETH', subheading: 'in Prizes paid out'},
   ]);
 });
 
