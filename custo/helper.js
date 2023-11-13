@@ -269,7 +269,7 @@ module.exports.home = async (msg) => {
       "ℹ️ All minigames are based on game theoretic concepts. You'll learn the underlying theories - and observe how humans may deviate from optimal strategies. And as we all know, you learn the best when you have skin in the game.\n\n";
 
 
-    txt += "➡️ What do you want to do?";wh
+    txt += "➡️ What do you want to do?";
     var _markup = [];
 
     _markup.push([
