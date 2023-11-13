@@ -111,17 +111,18 @@ module.exports.getWinnersLoosers = async (tx) => {
 };
 module.exports.payoutByTiers = async (tiers) => {
   try {
-    const PARTICIPANTS = 10;
+    const PARTICIPANTS = 2;
 
     const client = await db.getClient();
 
     // find all tx that have decoded.game = NUMBERGUESSING and verified = true and processed = false and find only one 'decoded._id' per match; limit to 10
-    const tx = await helper.get_players_by_game_tiers("NUMBERGUESSING", tiers);
+    const txs = await helper.get_players_by_game_tiers("NUMBERGUESSING", tiers);
+    const tx = txs.splice(0,PARTICIPANTS);
 
     // Print me _id of decoded
     if (tx.length > 0 && tx.length === PARTICIPANTS) {
       const result = await this.getWinnersLoosers(tx);
-
+      console.log('result',result)
       // // Save the winner state
       await client.db("gaming").collection("pvp").insertOne(result);
 
@@ -135,6 +136,7 @@ module.exports.payoutByTiers = async (tiers) => {
         result.prizePool +
         " ETH\n\n" +
         "Your prize has been paid out\n\n";
+        const pot = result.prizePool ;
 
       const promises = [];
 
@@ -145,11 +147,10 @@ module.exports.payoutByTiers = async (tiers) => {
           // disperse
 
           const disperse = require("../custo/disperse.js");
-          const pot = result.prizePool;
           const arrWinners = [];
           for (const i in result.winners) {
             arrWinners.push({
-              address: result.winners[i].decoded._id,
+              address: result.winners[i].tx.from,
               value: pot / result.winners.length,
             });
           }
@@ -159,9 +160,9 @@ module.exports.payoutByTiers = async (tiers) => {
           );
         } else if (result.winners.length === 1) {
           receiptWinner = await crypto.transferTo(
-            result.winners[0].decoded._id,
+            result.winners[0].tx.from,
             pot,
-            result.winners[i].decoded.game
+            result.winners[0].decoded.game
           );
         } else {
           receiptWinner = { transactionHash: "0x123" };
@@ -196,8 +197,7 @@ module.exports.payoutByTiers = async (tiers) => {
                 }
               )
           );
-
-          promises.push(helper.setIteration(result.winners[i].tx));
+          promises.push(helper.setIteration(result.winners[i]));
 
           bot.sendMessage(result.winners[i].decoded._id, txtWinner, {
             parse_mode: "HTML",
@@ -251,7 +251,7 @@ module.exports.payoutByTiers = async (tiers) => {
                   }
                 )
             );
-            promises.push(helper.setIteration(result.loosers[i].tx));
+            promises.push(helper.setIteration(result.loosers[i]));
 
             bot.sendMessage(result.loosers[i].decoded._id, txtLoosers, {
               parse_mode: "HTML",
