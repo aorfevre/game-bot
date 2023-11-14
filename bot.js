@@ -8,21 +8,25 @@ global.bot = init.setTelegram();
 global.DD_FLOOD = -1001865974274;
 
 bot.on("message", async (msg) => {
-  var helper = require("./custo/helper.js");
-  var games = require("./games/home.js");
+  if (msg.text !== "/start") {
+    var helper = require("./custo/helper.js");
+    var games = require("./games/home.js");
 
-  const user = await helper.updateUser(msg);
-  if (helper.isPrivate(msg)) {
-    if (user.isReferred) {
-      games.check_input(msg);
-    } else {
-      helper.checkReferralSystem(msg);
+    const user = await helper.updateUser(msg);
+    if (helper.isPrivate(msg)) {
+      if (user.isReferred) {
+        games.check_input(msg);
+      } else {
+        helper.checkReferralSystem(msg);
+      }
     }
   }
 });
 
 bot.onText(/^\/[start](.+|\b)/, async (msg, match) => {
-var helper = require("./custo/helper.js");
+  console.log("START", msg);
+
+  var helper = require("./custo/helper.js");
 
   if (helper.isPrivate(msg)) {
     try {
