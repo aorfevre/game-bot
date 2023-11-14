@@ -62,10 +62,11 @@ bot.on("callback_query", async (callbackQuery) => {
   var msg = callbackQuery.message;
   var control = callbackQuery.data;
   var helper = require("./custo/helper.js");
-  var games = require("./games/home.js");
 
   const isSpam = await helper.isSpam(msg);
   if (!isSpam) {
+   var games = require("./games/home.js");
+
     if (control.indexOf("GAME_INIT_") !== -1) {
       control = "GAME_INIT";
     } else if (control.indexOf("GAME_PRICE_") !== -1) {
