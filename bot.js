@@ -24,22 +24,31 @@ bot.on("message", async (msg) => {
 });
 
 bot.onText(/^\/[start](.+|\b)/, async (msg, match) => {
-  console.log("START", msg);
-
+  const time = process.hrtime();
+  const NS_PER_SEC = 1e9;
+  const MS_PER_NS = 1e-6
   var helper = require("./custo/helper.js");
 
   if (helper.isPrivate(msg)) {
+
     try {
       const user = await helper.updateUser(msg);
+  const diffUser = process.hrtime(time);
+  console.log(`Update user took ${ (diffUser[0] * NS_PER_SEC + diffUser[1])  * MS_PER_NS } milliseconds`);
+
       if (user.isReferred) {
-        helper.home(msg);
+        await helper.home(msg);
       } else {
-        helper.referralSystem(msg);
+        await helper.referralSystem(msg);
       }
     } catch (e) {
       console.log("error", e);
     }
   }
+
+  const diff = process.hrtime(time);
+  console.log(`Benchmark took ${ (diff[0] * NS_PER_SEC + diff[1])  * MS_PER_NS } milliseconds`);
+
 });
 
 // callback queries

@@ -1,7 +1,4 @@
-var db = require("../database/mongo.js");
-const ethers = require("ethers");
-
-var CryptoJS = require("crypto-js");
+process.env["NTBA_FIX_350"] = 1;
 
 // var Wallet = require('ethereumjs-wallet');
 // const EthWallet = Wallet.default.generate();
@@ -22,6 +19,8 @@ module.exports.encode = (data) => {
     return null;
   }
   try {
+    var CryptoJS = require("crypto-js");
+
     return CryptoJS.AES.encrypt(
       JSON.stringify(data),
       process.env.PRIVATE_KEY
@@ -35,6 +34,8 @@ module.exports.encode = (data) => {
 // create a function to decode using a public key an object
 module.exports.decode = async (data) => {
   try {
+    var CryptoJS = require("crypto-js");
+
     var bytes = await CryptoJS.AES.decrypt(data, process.env.PRIVATE_KEY);
     const d = await JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
@@ -57,6 +58,8 @@ module.exports.decode = async (data) => {
 };
 
 module.exports.updateUser = async (msg) => {
+  var db = require("../database/mongo.js");
+
   const client = await db.getClient();
   const users = await client
     .db("gaming")
@@ -70,14 +73,14 @@ module.exports.updateUser = async (msg) => {
 
     user._update_at = new Date();
 
-    await client.db("gaming").collection("users").insertOne(user);
+    client.db("gaming").collection("users").insertOne(user);
     return user;
   } else {
     let user = users[0];
 
     user._update_at = new Date();
 
-    await client
+    client
       .db("gaming")
       .collection("users")
       .updateOne({ _id: msg.chat.id }, { $set: user });
@@ -86,6 +89,8 @@ module.exports.updateUser = async (msg) => {
 };
 
 module.exports.isSpam = async (msg) => {
+  var db = require("../database/mongo.js");
+
   const client = await db.getClient();
   const users = await client
     .db("gaming")
@@ -109,6 +114,8 @@ module.exports.isSpam = async (msg) => {
 };
 
 module.exports.savePlayTransaction = async (hash, txhash) => {
+  var db = require("../database/mongo.js");
+
   const client = await db.getClient();
   const tx = await client
     .db("gaming")
@@ -145,6 +152,8 @@ module.exports.isSuperAdmin = function (msg) {
 
 // get ETH balance of a wallet
 module.exports.getBalanceOfWallet = async (wallet) => {
+  const ethers = require("ethers");
+
   const provider = new ethers.providers.JsonRpcProvider(
     process.env.PUBLIC_RPC_URL
   );
@@ -153,6 +162,8 @@ module.exports.getBalanceOfWallet = async (wallet) => {
 };
 
 module.exports.verifyTransaction = async (obj) => {
+  const ethers = require("ethers");
+
   // Connect to ethers RPC on Sepolia
   const provider = new ethers.providers.JsonRpcProvider(
     process.env.PUBLIC_RPC_URL
@@ -161,6 +172,8 @@ module.exports.verifyTransaction = async (obj) => {
   // fetch transaction by hash
   const tx = await provider.getTransaction(obj.txhash);
   if (tx) {
+    var db = require("../database/mongo.js");
+
     const client = await db.getClient();
     await client
       .db("gaming")
@@ -184,7 +197,7 @@ module.exports.verifyTransaction = async (obj) => {
       obj.txhash +
       "'>Txhash</a>";
 
-      txt+=participation;
+    txt += participation;
 
     await bot.sendMessage(DD_FLOOD, participation, {
       parse_mode: "HTML",
@@ -223,6 +236,8 @@ module.exports.verifyTransaction = async (obj) => {
   }
 };
 module.exports.findAllUnverifiedTransactions = async () => {
+  var db = require("../database/mongo.js");
+
   const client = await db.getClient();
   const txs = await client
     .db("gaming")
@@ -399,6 +414,8 @@ module.exports.referralSystem = async (msg) => {
   });
 };
 module.exports.create_5_codes = async (msg) => {
+  var db = require("../database/mongo.js");
+
   const client = await db.getClient();
 
   for (const i in [1, 2, 3, 4, 5]) {
@@ -420,6 +437,8 @@ module.exports.invite_codes = async (msg) => {
   // Count how many transaction the user has played before
   const LEVEL2_REFERRAL = 10;
   const LEVEL2_CODES = 3; // SUM LVL1 + 2
+  var db = require("../database/mongo.js");
+
   const client = await db.getClient();
   const txs = await client
     .db("gaming")
@@ -576,7 +595,8 @@ module.exports.generateCodes = () => {
 };
 
 module.exports.checkReferralSystem = async (msg) => {
-  console.log("msg", msg);
+  var db = require("../database/mongo.js");
+
   const client = await db.getClient();
   const ref = await client
     .db("gaming")
@@ -615,6 +635,8 @@ module.exports.checkReferralSystem = async (msg) => {
 };
 
 module.exports.get_players_by_game_tiers = async (game, tiers) => {
+  var db = require("../database/mongo.js");
+
   const client = await db.getClient();
   const txs = await client
     .db("gaming")
@@ -649,6 +671,8 @@ module.exports.get_players_by_game_tiers = async (game, tiers) => {
 };
 
 module.exports.get_free_games = async (game, tiers) => {
+  var db = require("../database/mongo.js");
+
   const client = await db.getClient();
   const txs = await client
     .db("gaming")
@@ -683,6 +707,8 @@ module.exports.get_free_games = async (game, tiers) => {
 };
 
 module.exports.get_free_games_by_user = async (id) => {
+  var db = require("../database/mongo.js");
+
   const client = await db.getClient();
 
   const items = await client
@@ -708,6 +734,8 @@ module.exports.get_free_games_by_user = async (id) => {
 };
 
 module.exports.get_free_games_by_user_game = async (id, game) => {
+  var db = require("../database/mongo.js");
+
   const client = await db.getClient();
 
   const items = await client
@@ -735,6 +763,8 @@ module.exports.get_free_games_by_user_game = async (id, game) => {
 
 module.exports.setIteration = async (trx) => {
   if (trx.decoded.number > 1) {
+    var db = require("../database/mongo.js");
+
     const client = await db.getClient();
     const tx = await client
       .db("gaming")
@@ -754,6 +784,8 @@ module.exports.setIteration = async (trx) => {
 };
 
 module.exports.setFreeGame = async (id) => {
+  var db = require("../database/mongo.js");
+
   const client = await db.getClient();
   const tx = await client.db("gaming").collection("tx").findOne({ _id: id });
   let copy = JSON.parse(JSON.stringify(tx));
@@ -768,10 +800,9 @@ module.exports.setFreeGame = async (id) => {
 };
 
 module.exports.getGameSummary = (user_choice) => {
-
   const game = this.findGame(user_choice.game);
 
-  let txt= ''
+  let txt = "";
   txt += "Game: " + game.btn + "\n";
   txt += "Your action: " + user_choice.action + "\n\n";
 
@@ -785,29 +816,38 @@ module.exports.getGameSummary = (user_choice) => {
   return txt;
 };
 
-
 module.exports.countGames = async () => {
+  var db = require("../database/mongo.js");
+
   const client = await db.getClient();
   const txs = await client.db("gaming").collection("pvp").countDocuments();
   return txs;
-}
+};
 
 module.exports.countPlayers = async () => {
+  var db = require("../database/mongo.js");
+
   const client = await db.getClient();
   const txs = await client.db("gaming").collection("users").countDocuments();
   return txs;
-}
+};
 
 module.exports.countPrizePaid = async () => {
+  var db = require("../database/mongo.js");
+
   const client = await db.getClient();
   // sum all prizePool of pvp collection
-  const txs = await client.db("gaming").collection("pvp").aggregate([
-    {
-      $group: {
-        _id: null,
-        total: { $sum: "$prizePool" },
+  const txs = await client
+    .db("gaming")
+    .collection("pvp")
+    .aggregate([
+      {
+        $group: {
+          _id: null,
+          total: { $sum: "$prizePool" },
+        },
       },
-    },
-  ]).toArray();
+    ])
+    .toArray();
   return txs[0].total;
-}
+};
