@@ -41,7 +41,7 @@ module.exports.guide =  (msg, t) => {
     "10 players join a match.\n" +
     "Each player guesses a number between 0 and 100.\n\n" +
     "Whoever is closest to the average number guessed * 2/3 wins the prize pool.\n\n" +
-    "The prize pool is made up of all entry fees paid by players. minus a platform fee (currently set to 10%).\n\n";
+    "The prize pool is made up of all entry fees paid by players. minus a platform fee (currently set to "+RATE_FEE+"%).\n\n";
   return txt;
 };
 module.exports.payout = async () => {
@@ -65,8 +65,8 @@ module.exports.getWinnersLoosers = async (tx) => {
   // Sum all decoded.action
   for (const i in tx) {
     sum += Number(tx[i].decoded.action);
-    prizePool += ((tx[i].decoded.price * 1000) / 1000) * 0.9;
-    gameFee += ((tx[i].decoded.price * 1000) / 1000) * 0.1;
+    prizePool += ((tx[i].decoded.price * 1000) / 1000) * (100 - RATE_FEE)/100;
+    gameFee += ((tx[i].decoded.price * 1000) / 1000) * RATE_FEE/100;
   }
   // Calculate average
   const avg = sum / tx.length;

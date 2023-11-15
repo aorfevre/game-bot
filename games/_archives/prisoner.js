@@ -55,7 +55,7 @@ module.exports.guide = async (msg) => {
   txt =
     "All matches within a period are part of a tournament.\n\n" +
     "All points a player accrues during this period count towards the tournament leaderboard. \n\n" +
-    "All entry fees paid by players are collected in the tournament prize pool, minus a platform fee (currently set to 10%).\n\n" +
+    "All entry fees paid by players are collected in the tournament prize pool, minus a platform fee (currently set to "+RATE_FEE+"%).\n\n" +
     "After the tournament period ends, players will be paid from the prize pool.\n\n" +
     "A new tournament will start automatically";
 

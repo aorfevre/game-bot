@@ -6,6 +6,7 @@ var init = require("./custo/init.js");
 
 global.bot = init.setTelegram();
 global.DD_FLOOD = -1001865974274;
+global.RATE_FEE = 5;
 
 bot.on("message", async (msg) => {
   if (msg.text !== "/start") {

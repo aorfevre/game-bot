@@ -238,8 +238,8 @@ module.exports.duelByTiers = async (tiers) => {
         await Promise.all(promises);
       } else if (winner && looser) {
         // pot size
-        const pot = Number(winner.price + looser.price) * 0.9;
-        const restPot = (Number(winner.price + looser.price) - pot) * 0.9;
+        const pot = Number(winner.price + looser.price) * (100 - RATE_FEE)/100;
+        const restPot = (Number(winner.price + looser.price) - pot) * (100 - RATE_FEE)/100;
         // send the money to the winner wallet* 0.9
 
         // Create pvp winner + looser in a new collection

@@ -365,7 +365,7 @@ module.exports.info_games = (msg) => {
   let txt = "<b>Info</b>\n\n";
   txt += "How are prize pools calculated?\n";
   txt +=
-    "Prize pools consist of entry fees paid by players, minus a platform fee (currently set to 10%).\n\n";
+    "Prize pools consist of entry fees paid by players, minus a platform fee (currently set to "+RATE_FEE+"%).\n\n";
 
   txt += "Why do games have different wager sizes for me to chose from?\n";
   txt +=
