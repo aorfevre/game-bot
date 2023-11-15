@@ -362,27 +362,26 @@ module.exports.guide_games = (msg) => {
   );
 };
 module.exports.info_games = (msg) => {
-  let txt = "<b>Info</b>\n\n";
-  txt += "How are prize pools calculated?\n";
+  let txt = "<b>ℹ️ Info</b>\n\n";
+  txt += "▶️ How are prize pools calculated?\n";
   txt +=
     "Prize pools consist of entry fees paid by players, minus a platform fee (currently set to "+RATE_FEE+"%).\n\n";
 
-  txt += "Why do games have different wager sizes for me to chose from?\n";
+  txt += "▶️ Why do games have different wager sizes for me to choose from?\n";
   txt +=
-    "We want to allow anyone to participate in the games with the amount of skin in the game they're comfortable with. Some players may prefer to make smaller but more wagers to diversify while others may want to aim for the big prize\n\n";
+    "We want to allow anyone to participate in the games with the amount of skin in the game they're comfortable with. Some players may prefer to make smaller but more wagers to diversify while others may want to aim for the big prize.\n\n";
 
-  txt += "How do the payments work?\n";
+  txt += "▶️ How do the payments work?\n";
   txt +=
     "Each play comes with an associated entry fee. All entry fees together make up the prize pools.\n";
   txt +=
-    "After defining your strategy for a game, you'll be asked to pay the entry fee to take part in the competition.\n";
-  txt += "Confirm the transaction in the browser pop-up. \n";
+    "After defining your strategy for a game, you'll be asked to pay the entry fee to take part in the competition. Confirm the transaction in the browser pop-up.\n";
   txt += "Payments are made in ETH on Base network.\n\n";
 
-  txt += "Which chain are you on?\n";
+  txt += "▶️ Which chain are you on?\n";
   txt += "Base\n\n";
 
-  txt += "How do I contact you?\n";
+  txt += "▶️ How do I contact you?\n";
   txt += "hello.deductionduel@gmail.com";
 
   bot.sendMessage(msg.chat.id, txt, {
