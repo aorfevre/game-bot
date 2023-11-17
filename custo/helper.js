@@ -844,7 +844,6 @@ module.exports.deleteProcessingMessages = async (msg) => {
   }
   messages.messages = messages.messages.splice(messages.messages.length - 1, 1);
 
-  console.log("messages.messages", messages.messages.length);
   await client
     .db("gaming")
     .collection("messages")

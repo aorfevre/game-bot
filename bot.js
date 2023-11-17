@@ -78,7 +78,6 @@ bot.on("callback_query", async (callbackQuery) => {
     } else if (control.indexOf("FREETIERSGAME_") !== -1) {
       control = "FREETIERSGAME";
     }
-    console.log("CONTROL", control);
     switch (control) {
       case "VERIFY_PENDING_TRANSACTIONS":
         await helper.findAllUnverifiedTransactions();
@@ -159,6 +158,5 @@ bot.on("callback_query", async (callbackQuery) => {
   } else {
     await helper.sendMessage(msg.chat.id, "You are spamming the bot, please stop");
   }
-  console.log("Delete from callback");
   helper.deleteProcessingMessages(msg);
 });
