@@ -1,7 +1,6 @@
 "use strict";
 
 const TelegramBot = require("node-telegram-bot-api");
-var async = require("async");
 
 module.exports.setTelegram = function () {
   var bot = null;

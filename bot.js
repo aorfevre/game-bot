@@ -9,25 +9,28 @@ global.DD_FLOOD = -1001865974274;
 global.RATE_FEE = 5;
 
 bot.on("message", async (msg) => {
-  if (msg.text !== "/start") {
-    var helper = require("./custo/helper.js");
-    var games = require("./games/home.js");
+  var helper = require("./custo/helper.js");
 
-    const user = await helper.updateUser(msg);
-    if (helper.isPrivate(msg)) {
-      if (user.isReferred) {
-        games.check_input(msg);
-      } else {
-        helper.checkReferralSystem(msg);
+  if (helper.isPrivate(msg)) {
+  const processing = await helper.setProcessing(msg);
+
+    if (msg.text !== "/start") {
+      var games = require("./games/home.js");
+
+      const user = await helper.updateUser(msg);
+      if (helper.isPrivate(msg)) {
+        if (user.isReferred) {
+          games.check_input(msg);
+        } else {
+          helper.checkReferralSystem(msg);
+        }
       }
-    }
-  }else{
-    const time = process.hrtime();
-    const NS_PER_SEC = 1e9;
-    const MS_PER_NS = 1e-6;
-    var helper = require("./custo/helper.js");
-  
-    if (helper.isPrivate(msg)) {
+    } else {
+      const time = process.hrtime();
+      const NS_PER_SEC = 1e9;
+      const MS_PER_NS = 1e-6;
+      var helper = require("./custo/helper.js");
+
       try {
         const user = await helper.updateUser(msg);
         const diffUser = process.hrtime(time);
@@ -36,7 +39,7 @@ bot.on("message", async (msg) => {
             (diffUser[0] * NS_PER_SEC + diffUser[1]) * MS_PER_NS
           } milliseconds`
         );
-  
+
         if (user.isReferred) {
           await helper.home(msg);
         } else {
@@ -46,27 +49,29 @@ bot.on("message", async (msg) => {
         console.log("error", e);
       }
     }
-  
+
     const diff = process.hrtime(time);
     console.log(
       `Benchmark took ${
         (diff[0] * NS_PER_SEC + diff[1]) * MS_PER_NS
       } milliseconds`
     );
+    helper.deleteProcessingMessages(msg, processing);
   }
 });
 
-
-
 // callback queries
 bot.on("callback_query", async (callbackQuery) => {
-  var msg = callbackQuery.message;
-  var control = callbackQuery.data;
   var helper = require("./custo/helper.js");
+
+  var msg = callbackQuery.message;
+  const processing = await helper.setProcessing(msg);
+
+  var control = callbackQuery.data;
 
   const isSpam = await helper.isSpam(msg);
   if (!isSpam) {
-   var games = require("./games/home.js");
+    var games = require("./games/home.js");
 
     if (control.indexOf("GAME_INIT_") !== -1) {
       control = "GAME_INIT";
@@ -85,87 +90,87 @@ bot.on("callback_query", async (callbackQuery) => {
     } else if (control.indexOf("FREETIERSGAME_") !== -1) {
       control = "FREETIERSGAME";
     }
-
+    console.log("CONTROL", control);
     switch (control) {
       case "VERIFY_PENDING_TRANSACTIONS":
-        helper.findAllUnverifiedTransactions();
+        await helper.findAllUnverifiedTransactions();
         break;
       case "HOME":
-        helper.home(msg);
+        await helper.home(msg);
         break;
       case "PLAY_MINI_GAMES":
-        games.init(msg);
+        await games.init(msg);
         break;
       case "MY_OPEN_GAMES":
-        games.myOpenGAMES(msg);
+        await games.myOpenGAMES(msg);
         break;
       case "STATS_USER":
-        bot.sendMessage(msg.chat.id, "TODO Stats - Under construction");
+        await bot.sendMessage(msg.chat.id, "TODO Stats - Under construction");
         break;
       case "GUIDE_GAMES":
-        helper.guide_games(msg);
+        await helper.guide_games(msg);
 
         break;
       case "GUIDE_GAME":
         var t = callbackQuery.data.split("GUIDE_GAME_")[1];
-        games.guide(msg, t);
+        await games.guide(msg, t);
         break;
 
       case "INFO_GAMES":
-        helper.info_games(msg);
+        await helper.info_games(msg);
         break;
       case "GAME_INIT":
         var t = callbackQuery.data.split("GAME_INIT_")[1];
-        games.initGame(msg, t);
+        await games.initGame(msg, t);
         break;
       case "GAME_PRICE":
         var t = callbackQuery.data.split("GAME_PRICE_")[1].split("_");
-        games.price(msg, t[0], t[1]);
+        await games.price(msg, t[0], t[1]);
         break;
       case "GAME_ACTION":
         var t = callbackQuery.data.split("GAME_ACTION_")[1].split("_");
         if (t[2] === "INPUT") {
-          bot.sendMessage(msg.chat.id, "Type the number of your choice");
-          break;
+          await bot.sendMessage(msg.chat.id, "Type the number of your choice");
         } else {
-          games.action(msg, t[0], t[1], t[2]);
+          await games.action(msg, t[0], t[1], t[2]);
         }
         break;
       case "GAME_SUMMARY":
         var t = callbackQuery.data.split("GAME_SUMMARY_")[1].split("_");
 
         if (t[3] === "INPUT") {
-          games.frequencyInput(msg);
+          await games.frequencyInput(msg);
           break;
+        } else {
+          await games.summary(msg, t[0], t[1], t[2], t[3]);
         }
-        games.summary(msg, t[0], t[1], t[2], t[3]);
         break;
       case "INVITE_CODES":
-        helper.invite_codes(msg);
+        await helper.invite_codes(msg);
         break;
       case "CREATE_5_CODES":
-        helper.create_5_codes(msg);
+        await helper.create_5_codes(msg);
         break;
       case "FREE":
         var t = callbackQuery.data.split("FREE_")[1];
-        games.freeGame(msg, t);
-        console.log("Free games", t);
+        await games.freeGame(msg, t);
         break;
       case "FREEGAME":
         var game = callbackQuery.data.split("FREEGAME_")[1].split("_")[0];
         var tiers = callbackQuery.data.split("FREEGAME_")[1].split("_")[1];
         var choice = callbackQuery.data.split("FREEGAME_")[1].split("_")[2];
 
-        games.freeGamePlayed(msg, game, tiers, choice);
+        await games.freeGamePlayed(msg, game, tiers, choice);
         break;
       case "FREETIERSGAME":
         var game = callbackQuery.data.split("FREETIERSGAME_")[1];
         var tiers = callbackQuery.data.split("FREETIERSGAME_")[1];
-        games.freeGame(msg, game, tiers);
-        console.log("Free games", t);
+        await games.freeGame(msg, game, tiers);
         break;
     }
   } else {
-    bot.sendMessage(msg.chat.id, "You are spamming the bot, please stop");
+    await bot.sendMessage(msg.chat.id, "You are spamming the bot, please stop");
   }
+  console.log("Delete from callback");
+  helper.deleteProcessingMessages(msg, processing);
 });

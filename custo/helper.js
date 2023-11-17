@@ -333,7 +333,7 @@ module.exports.findGame = (t) => {
   }
   return game;
 };
-module.exports.guide_games = (msg) => {
+module.exports.guide_games = async(msg) => {
   const arr = [];
   for (const i in allGames) {
     arr.push([
@@ -349,7 +349,7 @@ module.exports.guide_games = (msg) => {
       callback_data: "HOME",
     },
   ]);
-  bot.sendMessage(
+  await bot.sendMessage(
     msg.chat.id,
     "<b>Guides</b>\n\n➡️ Learn the rules of our minigames",
     {
@@ -361,11 +361,13 @@ module.exports.guide_games = (msg) => {
     }
   );
 };
-module.exports.info_games = (msg) => {
+module.exports.info_games = async (msg) => {
   let txt = "<b>ℹ️ Info</b>\n\n";
   txt += "▶️ How are prize pools calculated?\n";
   txt +=
-    "Prize pools consist of entry fees paid by players, minus a platform fee (currently set to "+RATE_FEE+"%).\n\n";
+    "Prize pools consist of entry fees paid by players, minus a platform fee (currently set to " +
+    RATE_FEE +
+    "%).\n\n";
 
   txt += "▶️ Why do games have different wager sizes for me to choose from?\n";
   txt +=
@@ -384,7 +386,7 @@ module.exports.info_games = (msg) => {
   txt += "▶️ How do I contact you?\n";
   txt += "hello.deductionduel@gmail.com";
 
-  bot.sendMessage(msg.chat.id, txt, {
+  await bot.sendMessage(msg.chat.id, txt, {
     parse_mode: "HTML",
     disable_web_page_preview: true,
     reply_markup: JSON.stringify({
@@ -407,7 +409,7 @@ module.exports.referralSystem = async (msg) => {
     " to Deduction Duel, your hub for social deduction multiplayer minigames.\n\n" +
     "We're currently in closed alpha.\n\n" +
     "Please enter an invite code to play.\n\n";
-  bot.sendMessage(msg.chat.id, txt, {
+  await bot.sendMessage(msg.chat.id, txt, {
     parse_mode: "HTML",
     disable_web_page_preview: true,
   });
@@ -480,7 +482,7 @@ module.exports.invite_codes = async (msg) => {
     const txt =
       "You have no invite codes to share.\n\n" +
       "Play 1 game to generate 1 invite code\n\n";
-    bot.sendMessage(msg.chat.id, txt, options);
+    await bot.sendMessage(msg.chat.id, txt, options);
   } else if (txs > 0 && txs < LEVEL2_REFERRAL) {
     // get the referarl code or create one if it does not exist
     const referral_code = await client
@@ -510,7 +512,7 @@ module.exports.invite_codes = async (msg) => {
         "Code : " +
         refCode.code +
         " (unused)\n\n";
-      bot.sendMessage(msg.chat.id, txt, options);
+      await bot.sendMessage(msg.chat.id, txt, options);
     } else if (referral_code.length > 0) {
       let txt =
         "You have 1 invite code to share.\n\n" +
@@ -526,7 +528,7 @@ module.exports.invite_codes = async (msg) => {
           (referral_code[i].is_valid ? "(unused)" : "(used)") +
           "\n";
       }
-      bot.sendMessage(msg.chat.id, txt, options);
+      await bot.sendMessage(msg.chat.id, txt, options);
     }
   } else if (txs >= LEVEL2_REFERRAL) {
     const referral_code = await client
@@ -571,7 +573,7 @@ module.exports.invite_codes = async (msg) => {
         (refCodes[i].is_valid ? "(unused)" : "(used)") +
         "\n";
     }
-    bot.sendMessage(msg.chat.id, txt, options);
+    await bot.sendMessage(msg.chat.id, txt, options);
   }
 };
 module.exports.generateCodes = () => {
@@ -850,3 +852,32 @@ module.exports.countPrizePaid = async () => {
     .toArray();
   return txs[0].total;
 };
+
+module.exports.waitMs = async (ms) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+};
+module.exports.deleteProcessingMessages = async (msg, processing) => {
+  try{
+  // wait 1sec to delete the processing message
+  await this.waitMs(250);
+  await bot.deleteMessage(msg.chat.id, processing.message_id);
+  }catch(e){
+    console.log('Error1')
+  }
+
+};
+
+
+module.exports.setProcessing = async(msg)=>{
+  const processing = await bot.sendMessage(msg.chat.id, "🚶‍♀️Processing...");
+  try{
+    await bot.deleteMessage(msg.chat.id, msg.message_id);
+
+  }catch(e){
+    console.log('Error2')
+
+  }
+  return processing;
+}
