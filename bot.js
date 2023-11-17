@@ -26,19 +26,12 @@ bot.on("message", async (msg) => {
         }
       }
     } else {
-      const time = process.hrtime();
-      const NS_PER_SEC = 1e9;
-      const MS_PER_NS = 1e-6;
+
       var helper = require("./custo/helper.js");
 
       try {
         const user = await helper.updateUser(msg);
-        const diffUser = process.hrtime(time);
-        console.log(
-          `Update user took ${
-            (diffUser[0] * NS_PER_SEC + diffUser[1]) * MS_PER_NS
-          } milliseconds`
-        );
+
 
         if (user.isReferred) {
           await helper.home(msg);
@@ -50,12 +43,7 @@ bot.on("message", async (msg) => {
       }
     }
 
-    const diff = process.hrtime(time);
-    console.log(
-      `Benchmark took ${
-        (diff[0] * NS_PER_SEC + diff[1]) * MS_PER_NS
-      } milliseconds`
-    );
+
     helper.deleteProcessingMessages(msg, processing);
   }
 });
