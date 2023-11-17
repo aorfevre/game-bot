@@ -1,5 +1,6 @@
 const { MongoClient, ServerApiVersion } = require("mongodb");
 
+const mongo = this;
 module.exports.getClient = async () => {
   const uri = process.env.MONGODB_URL;
   // var mongojs = require("mongojs");
@@ -23,13 +24,16 @@ module.exports.getClient = async () => {
   });
 };
 
-async function createIndexes() {
+async function createIndexes(client) {
   const users = await client.db("gaming").collection("users");
   users.createIndex({ _id: 1, _update_at: 1 }, { unique: true });
   const tx = await client.db("gaming").collection("tx");
   tx.createIndex({ txhash: 1, hash: 1 }, {});
   tx.createIndex({ _id: 1 }, {});
-  tx.createIndex({ verified: 1 }, {});
+  tx.createIndex({ verified: 1, 'decoded.game':1,processed:1,paid:1,'decoded.tiers':1,'decoded.action':1}, {});
+  tx.createIndex({ txhash: 1, hash: 1 }, {});
+  tx.createIndex({ 'decoded._id': 1 }, {});
+
 
   const user_choice = await client.db("gaming").collection("user_choice");
   user_choice.createIndex({ user_choice: 1 }, {});
@@ -39,7 +43,17 @@ async function createIndexes() {
   refCodes.createIndex({ code: 1, is_valid: 1 }, {});
   refCodes.createIndex({ referrer: 1, is_valid: 1 }, {});
 
-  console.log("Index created");
+  const messages = await client.db("gaming").collection("messages");
+  messages.createIndex({ _id:1}, {});
+
+  const referral_codes = await client.db("gaming").collection("referral_codes");
+  referral_codes.createIndex({ referrer:1}, {});
+  referral_codes.createIndex({ code:1,is_valid:1}, {});
+
+  const pvp = await client.db("gaming").collection("pvp");
+  pvp.createIndex({ _id:1, prizePool:1}, {});
+  pvp.createIndex({ code:1, processed:1}, {});
+
 }
 
 async function run(client) {
@@ -49,7 +63,7 @@ async function run(client) {
     // Send a ping to confirm a successful connection
     await client.db("gaming").command({ ping: 1 });
 
-    // createIndexes();
+    // createIndexes(client);
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
