@@ -77,7 +77,7 @@ module.exports.init = async (msg) => {
     }),
   };
 
-  await bot.sendMessage(msg.chat.id, txt, options);
+  await helper.sendMessage(msg.chat.id, txt, options);
 };
 
 module.exports.initGame = async (msg, t) => {
@@ -106,7 +106,7 @@ module.exports.initGame = async (msg, t) => {
       break;
   }
 
-  // await bot.sendMessage(msg.chat.id, intro, {
+  // await helper.sendMessage(msg.chat.id, intro, {
   //   parse_mode: "HTML",
   //   disable_web_page_preview: true,
   // });
@@ -143,7 +143,7 @@ module.exports.initGame = async (msg, t) => {
     }),
   };
 
-  await bot.sendMessage(msg.chat.id, txt, options);
+  await helper.sendMessage(msg.chat.id, txt, options);
 };
 module.exports.price = async (msg, t, tiers) => {
   const client = await db.getClient();
@@ -189,7 +189,7 @@ module.exports.price = async (msg, t, tiers) => {
       { upsert: true }
     );
 
-  await bot.sendMessage(msg.chat.id, txt, {
+  await helper.sendMessage(msg.chat.id, txt, {
     parse_mode: "HTML",
     disable_web_page_preview: true,
     reply_markup: JSON.stringify({
@@ -242,7 +242,7 @@ module.exports.frequency = async (msg, t, tiers) => {
       { upsert: true }
     );
 
-  await bot.sendMessage(msg.chat.id, txt, {
+  await helper.sendMessage(msg.chat.id, txt, {
     parse_mode: "HTML",
     disable_web_page_preview: true,
     reply_markup: JSON.stringify({
@@ -305,7 +305,7 @@ module.exports.action = async (msg, t, tiers, action) => {
     },
   ]);
 
-  await bot.sendMessage(msg.chat.id, txt, {
+  await helper.sendMessage(msg.chat.id, txt, {
     parse_mode: "HTML",
     disable_web_page_preview: true,
     reply_markup: JSON.stringify({
@@ -338,7 +338,7 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
   const userData = await helper.encode(user_choice);
 
   if (userData === null) {
-    await bot.sendMessage(
+    await helper.sendMessage(
       msg.chat.id,
       "Error occured while preparing the Confirmation Data. Please try..",
       {
@@ -385,7 +385,7 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
     },
   ]);
 
-  await bot.sendMessage(msg.chat.id, txt, {
+  await helper.sendMessage(msg.chat.id, txt, {
     parse_mode: "HTML",
     disable_web_page_preview: true,
     reply_markup: JSON.stringify({
@@ -407,7 +407,7 @@ module.exports.guide = async(msg, t) => {
   }
   const game = helper.findGame(t);
 
-  await bot.sendMessage(msg.chat.id, txt, {
+  await helper.sendMessage(msg.chat.id, txt, {
     parse_mode: "HTML",
     disable_web_page_preview: true,
     reply_markup: JSON.stringify({
@@ -457,7 +457,7 @@ module.exports.myOpenGAMES = async (msg) => {
       txt += "\n";
 
       if (i % 2 === 0 && Number(i) !== 0 && i !== openGames.length) {
-        await bot.sendMessage(msg.chat.id, txt, {
+        await helper.sendMessage(msg.chat.id, txt, {
           parse_mode: "HTML",
           disable_web_page_preview: true,
         });
@@ -482,7 +482,7 @@ module.exports.myOpenGAMES = async (msg) => {
       callback_data: "HOME",
     },
   ]);
-  await bot.sendMessage(msg.chat.id, txt, {
+  await helper.sendMessage(msg.chat.id, txt, {
     parse_mode: "HTML",
     disable_web_page_preview: true,
     reply_markup: JSON.stringify({
@@ -503,7 +503,7 @@ module.exports.frequencyInput = async (msg) => {
     );
 
   // User wants to input a number
-  await bot.sendMessage(
+  await helper.sendMessage(
     msg.chat.id,
     "Type the number of your choice\n\n<b>Only numbers greater than 0 are allowed</b>",
     {
@@ -530,7 +530,7 @@ module.exports.check_input = async (msg) => {
       number.indexOf(".") !== -1 ||
       number.indexOf(",") !== -1
     ) {
-      await bot.sendMessage(
+      await helper.sendMessage(
         msg.chat.id,
         "Please enter a valid number or a number greater than 0"
       );
@@ -539,7 +539,7 @@ module.exports.check_input = async (msg) => {
       // save the number of the user
       if (user.mode === "INPUT_FREQUENCY") {
         if (Number(number) <= 0) {
-          await bot.sendMessage(msg.chat.id, "Please enter a number greater than 0");
+          await helper.sendMessage(msg.chat.id, "Please enter a number greater than 0");
           return;
         }
         await client
@@ -553,7 +553,7 @@ module.exports.check_input = async (msg) => {
         this.summary(msg, user.game, user.tiers, user.action, number);
       } else if (user.mode === "INPUT_NUMBERGUESSING") {
         if (Number(number) > 100 || Number(number) < 0) {
-          await bot.sendMessage(
+          await helper.sendMessage(
             msg.chat.id,
             "Please enter a number between 0 and 100"
           );
@@ -626,7 +626,7 @@ module.exports.freeGame = async (msg, game) => {
         }),
       };
 
-      await bot.sendMessage(msg.chat.id, txt, options);
+      await helper.sendMessage(msg.chat.id, txt, options);
     }
   }
 };
@@ -657,6 +657,6 @@ module.exports.freeGamePlayed = async (msg, game, tiers, choice) => {
         break;
     }
   } else {
-   await bot.sendMessage(msg.chat.id, "You don't have any free game for this tiers");
+   await helper.sendMessage(msg.chat.id, "You don't have any free game for this tiers");
   }
 };

@@ -365,7 +365,7 @@ module.exports.freeGameByTiers = async (msg, game, tiers) => {
       ],
     }),
   };
-  await bot.sendMessage(
+  await helper.sendMessage(
     msg.chat.id,
     "Select the game you want to play for free!\n",
     options,
@@ -388,7 +388,7 @@ module.exports.freeGamePlayed = async (msg, game, tiers, choice) => {
       },
       { $set: { "decoded.action": choice, _created_at: new Date() } },
     );
-  await bot.sendMessage(
+  await helper.sendMessage(
     msg.chat.id,
     "Free registration saved.\nWaiting for the other player to play",
     {

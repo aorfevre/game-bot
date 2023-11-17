@@ -44,7 +44,7 @@ bot.on("message", async (msg) => {
     }
 
 
-    helper.deleteProcessingMessages(msg, processing);
+    helper.deleteProcessingMessages(msg);
   }
 });
 
@@ -93,7 +93,7 @@ bot.on("callback_query", async (callbackQuery) => {
         await games.myOpenGAMES(msg);
         break;
       case "STATS_USER":
-        await bot.sendMessage(msg.chat.id, "TODO Stats - Under construction");
+        await helper.sendMessage(msg.chat.id, "TODO Stats - Under construction");
         break;
       case "GUIDE_GAMES":
         await helper.guide_games(msg);
@@ -118,7 +118,7 @@ bot.on("callback_query", async (callbackQuery) => {
       case "GAME_ACTION":
         var t = callbackQuery.data.split("GAME_ACTION_")[1].split("_");
         if (t[2] === "INPUT") {
-          await bot.sendMessage(msg.chat.id, "Type the number of your choice");
+          await helper.sendMessage(msg.chat.id, "Type the number of your choice");
         } else {
           await games.action(msg, t[0], t[1], t[2]);
         }
@@ -157,8 +157,8 @@ bot.on("callback_query", async (callbackQuery) => {
         break;
     }
   } else {
-    await bot.sendMessage(msg.chat.id, "You are spamming the bot, please stop");
+    await helper.sendMessage(msg.chat.id, "You are spamming the bot, please stop");
   }
   console.log("Delete from callback");
-  helper.deleteProcessingMessages(msg, processing);
+  helper.deleteProcessingMessages(msg);
 });

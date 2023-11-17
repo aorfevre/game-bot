@@ -1,4 +1,5 @@
 process.env["NTBA_FIX_350"] = 1;
+var db = require("../database/mongo.js");
 
 // var Wallet = require('ethereumjs-wallet');
 // const EthWallet = Wallet.default.generate();
@@ -58,8 +59,6 @@ module.exports.decode = async (data) => {
 };
 
 module.exports.updateUser = async (msg) => {
-  var db = require("../database/mongo.js");
-
   const client = await db.getClient();
   const users = await client
     .db("gaming")
@@ -89,8 +88,6 @@ module.exports.updateUser = async (msg) => {
 };
 
 module.exports.isSpam = async (msg) => {
-  var db = require("../database/mongo.js");
-
   const client = await db.getClient();
   const users = await client
     .db("gaming")
@@ -114,8 +111,6 @@ module.exports.isSpam = async (msg) => {
 };
 
 module.exports.savePlayTransaction = async (hash, txhash) => {
-  var db = require("../database/mongo.js");
-
   const client = await db.getClient();
   const tx = await client
     .db("gaming")
@@ -172,8 +167,6 @@ module.exports.verifyTransaction = async (obj) => {
   // fetch transaction by hash
   const tx = await provider.getTransaction(obj.txhash);
   if (tx) {
-    var db = require("../database/mongo.js");
-
     const client = await db.getClient();
     await client
       .db("gaming")
@@ -199,11 +192,11 @@ module.exports.verifyTransaction = async (obj) => {
 
     txt += participation;
 
-    await bot.sendMessage(DD_FLOOD, participation, {
+    await this.sendMessage(DD_FLOOD, participation, {
       parse_mode: "HTML",
       disable_web_page_preview: true,
     });
-    await bot.sendMessage(obj.decoded._id, txt, {
+    await this.sendMessage(obj.decoded._id, txt, {
       parse_mode: "HTML",
       disable_web_page_preview: true,
     });
@@ -224,7 +217,7 @@ module.exports.verifyTransaction = async (obj) => {
       },
     ]);
 
-    await bot.sendMessage(obj.decoded._id, txt, {
+    await this.sendMessage(obj.decoded._id, txt, {
       parse_mode: "HTML",
       disable_web_page_preview: true,
       reply_markup: JSON.stringify({
@@ -236,8 +229,6 @@ module.exports.verifyTransaction = async (obj) => {
   }
 };
 module.exports.findAllUnverifiedTransactions = async () => {
-  var db = require("../database/mongo.js");
-
   const client = await db.getClient();
   const txs = await client
     .db("gaming")
@@ -316,9 +307,13 @@ module.exports.home = async (msg) => {
         inline_keyboard: _markup,
       }),
     };
-    await bot.sendPhoto(msg.chat.id, "./img/banner.jpeg", options);
-
-    // bot.sendMessage(msg.chat.id, txt, options);
+    await this.sendMessage(
+      msg.chat.id,
+      null,
+      options,
+      true,
+      "./img/banner.jpeg"
+    );
   }
 };
 
@@ -333,7 +328,7 @@ module.exports.findGame = (t) => {
   }
   return game;
 };
-module.exports.guide_games = async(msg) => {
+module.exports.guide_games = async (msg) => {
   const arr = [];
   for (const i in allGames) {
     arr.push([
@@ -349,7 +344,7 @@ module.exports.guide_games = async(msg) => {
       callback_data: "HOME",
     },
   ]);
-  await bot.sendMessage(
+  await this.sendMessage(
     msg.chat.id,
     "<b>Guides</b>\n\n➡️ Learn the rules of our minigames",
     {
@@ -386,7 +381,7 @@ module.exports.info_games = async (msg) => {
   txt += "▶️ How do I contact you?\n";
   txt += "hello.deductionduel@gmail.com";
 
-  await bot.sendMessage(msg.chat.id, txt, {
+  await this.sendMessage(msg.chat.id, txt, {
     parse_mode: "HTML",
     disable_web_page_preview: true,
     reply_markup: JSON.stringify({
@@ -409,14 +404,12 @@ module.exports.referralSystem = async (msg) => {
     " to Deduction Duel, your hub for social deduction multiplayer minigames.\n\n" +
     "We're currently in closed alpha.\n\n" +
     "Please enter an invite code to play.\n\n";
-  await bot.sendMessage(msg.chat.id, txt, {
+  await this.sendMessage(msg.chat.id, txt, {
     parse_mode: "HTML",
     disable_web_page_preview: true,
   });
 };
 module.exports.create_5_codes = async (msg) => {
-  var db = require("../database/mongo.js");
-
   const client = await db.getClient();
 
   for (const i in [1, 2, 3, 4, 5]) {
@@ -438,7 +431,6 @@ module.exports.invite_codes = async (msg) => {
   // Count how many transaction the user has played before
   const LEVEL2_REFERRAL = 10;
   const LEVEL2_CODES = 3; // SUM LVL1 + 2
-  var db = require("../database/mongo.js");
 
   const client = await db.getClient();
   const txs = await client
@@ -482,7 +474,7 @@ module.exports.invite_codes = async (msg) => {
     const txt =
       "You have no invite codes to share.\n\n" +
       "Play 1 game to generate 1 invite code\n\n";
-    await bot.sendMessage(msg.chat.id, txt, options);
+    await this.sendMessage(msg.chat.id, txt, options);
   } else if (txs > 0 && txs < LEVEL2_REFERRAL) {
     // get the referarl code or create one if it does not exist
     const referral_code = await client
@@ -512,7 +504,7 @@ module.exports.invite_codes = async (msg) => {
         "Code : " +
         refCode.code +
         " (unused)\n\n";
-      await bot.sendMessage(msg.chat.id, txt, options);
+      await this.sendMessage(msg.chat.id, txt, options);
     } else if (referral_code.length > 0) {
       let txt =
         "You have 1 invite code to share.\n\n" +
@@ -528,7 +520,7 @@ module.exports.invite_codes = async (msg) => {
           (referral_code[i].is_valid ? "(unused)" : "(used)") +
           "\n";
       }
-      await bot.sendMessage(msg.chat.id, txt, options);
+      await this.sendMessage(msg.chat.id, txt, options);
     }
   } else if (txs >= LEVEL2_REFERRAL) {
     const referral_code = await client
@@ -573,7 +565,7 @@ module.exports.invite_codes = async (msg) => {
         (refCodes[i].is_valid ? "(unused)" : "(used)") +
         "\n";
     }
-    await bot.sendMessage(msg.chat.id, txt, options);
+    await this.sendMessage(msg.chat.id, txt, options);
   }
 };
 module.exports.generateCodes = () => {
@@ -596,8 +588,6 @@ module.exports.generateCodes = () => {
 };
 
 module.exports.checkReferralSystem = async (msg) => {
-  var db = require("../database/mongo.js");
-
   const client = await db.getClient();
   const ref = await client
     .db("gaming")
@@ -636,8 +626,6 @@ module.exports.checkReferralSystem = async (msg) => {
 };
 
 module.exports.get_players_by_game_tiers = async (game, tiers) => {
-  var db = require("../database/mongo.js");
-
   const client = await db.getClient();
   const txs = await client
     .db("gaming")
@@ -672,8 +660,6 @@ module.exports.get_players_by_game_tiers = async (game, tiers) => {
 };
 
 module.exports.get_free_games = async (game, tiers) => {
-  var db = require("../database/mongo.js");
-
   const client = await db.getClient();
   const txs = await client
     .db("gaming")
@@ -708,8 +694,6 @@ module.exports.get_free_games = async (game, tiers) => {
 };
 
 module.exports.get_free_games_by_user = async (id) => {
-  var db = require("../database/mongo.js");
-
   const client = await db.getClient();
 
   const items = await client
@@ -735,8 +719,6 @@ module.exports.get_free_games_by_user = async (id) => {
 };
 
 module.exports.get_free_games_by_user_game = async (id, game) => {
-  var db = require("../database/mongo.js");
-
   const client = await db.getClient();
 
   const items = await client
@@ -764,8 +746,6 @@ module.exports.get_free_games_by_user_game = async (id, game) => {
 
 module.exports.setIteration = async (trx) => {
   if (trx.decoded.number > 1) {
-    var db = require("../database/mongo.js");
-
     const client = await db.getClient();
     const tx = await client
       .db("gaming")
@@ -785,8 +765,6 @@ module.exports.setIteration = async (trx) => {
 };
 
 module.exports.setFreeGame = async (id) => {
-  var db = require("../database/mongo.js");
-
   const client = await db.getClient();
   const tx = await client.db("gaming").collection("tx").findOne({ _id: id });
   let copy = JSON.parse(JSON.stringify(tx));
@@ -818,24 +796,18 @@ module.exports.getGameSummary = (user_choice) => {
 };
 
 module.exports.countGames = async () => {
-  var db = require("../database/mongo.js");
-
   const client = await db.getClient();
   const txs = await client.db("gaming").collection("pvp").countDocuments();
   return txs;
 };
 
 module.exports.countPlayers = async () => {
-  var db = require("../database/mongo.js");
-
   const client = await db.getClient();
   const txs = await client.db("gaming").collection("users").countDocuments();
   return txs;
 };
 
 module.exports.countPrizePaid = async () => {
-  var db = require("../database/mongo.js");
-
   const client = await db.getClient();
   // sum all prizePool of pvp collection
   const txs = await client
@@ -858,26 +830,61 @@ module.exports.waitMs = async (ms) => {
     setTimeout(resolve, ms);
   });
 };
-module.exports.deleteProcessingMessages = async (msg, processing) => {
-  try{
+module.exports.deleteProcessingMessages = async (msg) => {
   // wait 1sec to delete the processing message
-  await this.waitMs(250);
-  await bot.deleteMessage(msg.chat.id, processing.message_id);
-  }catch(e){
-    console.log('Error1')
-  }
+  const client = await db.getClient();
 
+  let messages = await client.db("gaming").collection("messages").findOne({
+    _id: msg.chat.id,
+  });
+  for (let i = 0; i < messages.messages.length - 1; i++) {
+    try {
+      await bot.deleteMessage(msg.chat.id, messages.messages[i].message_id);
+    } catch (e) {}
+  }
+  messages.messages = messages.messages.splice(messages.messages.length - 1, 1);
+
+  console.log("messages.messages", messages.messages.length);
+  await client
+    .db("gaming")
+    .collection("messages")
+    .updateOne({ _id: msg.chat.id }, { $set: messages }, { upsert: true });
 };
 
-
-module.exports.setProcessing = async(msg)=>{
-  const processing = await bot.sendMessage(msg.chat.id, "🚶‍♀️Processing...");
-  try{
+module.exports.setProcessing = async (msg) => {
+  await this.sendMessage(msg.chat.id, "🚶‍♀️Processing...");
+  try {
     await bot.deleteMessage(msg.chat.id, msg.message_id);
+  } catch (e) {}
+};
 
-  }catch(e){
-    console.log('Error2')
+module.exports.sendMessage = async (id, txt, options, isDocument, link) => {
+  try {
+    let message = null;
+    if (isDocument) {
+      message = await bot.sendPhoto(id, link, options);
+    } else if (txt) {
+      message = await bot.sendMessage(id, txt, options);
+    }
+    const client = await db.getClient();
+    let messages = await client.db("gaming").collection("messages").findOne({
+      _id: id,
+    });
 
+    if (messages === null) {
+      messages = {
+        _id: id,
+        messages: [message],
+      };
+    } else {
+      messages.messages.push(message);
+    }
+
+    await client
+      .db("gaming")
+      .collection("messages")
+      .updateOne({ _id: id }, { $set: messages }, { upsert: true });
+  } catch (e) {
+    console.log("error", e);
   }
-  return processing;
-}
+};
