@@ -209,12 +209,7 @@ module.exports.verifyTransaction = async (obj) => {
         callback_data: "MY_OPEN_GAMES",
       },
     ]);
-    _markup.push([
-      {
-        text: "🔙 Back to Home",
-        callback_data: "HOME",
-      },
-    ]);
+    _markup.push(backHomeBtn);
 
     await this.sendMessage(obj.decoded._id, txt, {
       parse_mode: "HTML",
@@ -336,12 +331,7 @@ module.exports.guide_games = async (msg) => {
       },
     ]);
   }
-  arr.push([
-    {
-      text: "🔙 Back to Home",
-      callback_data: "HOME",
-    },
-  ]);
+  arr.push(backHomeBtn);
   await this.sendMessage(
     msg.chat.id,
     "<b>Guides</b>\n\n➡️ Learn the rules of our minigames",
@@ -384,12 +374,7 @@ module.exports.info_games = async (msg) => {
     disable_web_page_preview: true,
     reply_markup: JSON.stringify({
       inline_keyboard: [
-        [
-          {
-            text: "🔙 Back to Home",
-            callback_data: "HOME",
-          },
-        ],
+        backHomeBtn
       ],
     }),
   });
@@ -440,12 +425,7 @@ module.exports.invite_codes = async (msg) => {
     disable_web_page_preview: true,
     reply_markup: JSON.stringify({
       inline_keyboard: [
-        [
-          {
-            text: "🔙 Back to Home",
-            callback_data: "HOME",
-          },
-        ],
+        backHomeBtn
       ],
     }),
   };
@@ -458,12 +438,7 @@ module.exports.invite_codes = async (msg) => {
             callback_data: "CREATE_5_CODES",
           },
         ],
-        [
-          {
-            text: "🔙 Back to Home",
-            callback_data: "HOME",
-          },
-        ],
+        backHomeBtn
       ],
     });
   }
@@ -835,17 +810,22 @@ module.exports.deleteProcessingMessages = async (msg) => {
   let messages = await client.db("gaming").collection("messages").findOne({
     _id: msg.chat.id,
   });
+  let promises = [];
   for (let i = 0; i < messages.messages.length - 1; i++) {
     try {
-      await bot.deleteMessage(msg.chat.id, messages.messages[i].message_id);
+      promises.push(bot.deleteMessage(msg.chat.id, messages.messages[i].message_id))
     } catch (e) {}
   }
   messages.messages = messages.messages.splice(messages.messages.length - 1, 1);
-
+  try {
+    await Promise.all(promises);
+  } catch (e) {}
   await client
     .db("gaming")
     .collection("messages")
-    .updateOne({ _id: msg.chat.id }, { $set: messages }, { upsert: true });
+    .updateOne({ _id: msg.chat.id }, { $set: messages }, { upsert: true })
+
+
 };
 
 module.exports.setProcessing = async (msg) => {

@@ -54,12 +54,7 @@ module.exports.init = async (msg) => {
       callback_data: "GUIDE_GAMES",
     },
   ]);
-  _markup.push([
-    {
-      text: "🔙 Back to Home",
-      callback_data: "HOME",
-    },
-  ]);
+  _markup.push(backHomeBtn);
   var options = {
     parse_mode: "HTML",
     disable_web_page_preview: true,
@@ -126,6 +121,7 @@ module.exports.initGame = async (msg, t) => {
       callback_data: "PLAY_MINI_GAMES",
     },
   ]);
+  _markup.push(backHomeBtn);
   var options = {
     parse_mode: "HTML",
     disable_web_page_preview: true,
@@ -167,7 +163,7 @@ module.exports.price = async (msg, t, tiers) => {
       callback_data: "GAME_INIT_" + t,
     },
   ]);
-
+  _markup.push(backHomeBtn);
   //Saving user choice
   const user_choice = await client
     .db("gaming")
@@ -215,7 +211,7 @@ module.exports.frequency = async (msg, t, tiers) => {
       callback_data: "GAME_INIT_" + t,
     },
   ]);
-
+  _markup.push(backHomeBtn);
   let curData = this.structChoice();
   curData.game = t;
   curData.tiers = tiers;
@@ -295,7 +291,7 @@ module.exports.action = async (msg, t, tiers, action) => {
       callback_data: "GAME_PRICE_" + t + "_" + tiers,
     },
   ]);
-
+  _markup.push(backHomeBtn);
   await helper.sendMessage(msg.chat.id, txt, {
     parse_mode: "HTML",
     disable_web_page_preview: true,
@@ -387,6 +383,8 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
   //   disable_web_page_preview: true,
    
   // });
+
+  _markup.push(backHomeBtn);
   await helper.sendMessage(msg.chat.id, txt, {
     parse_mode: "HTML",
     disable_web_page_preview: true,
@@ -426,12 +424,7 @@ module.exports.guide = async(msg, t) => {
             callback_data: "GUIDE_GAMES",
           },
         ],
-        [
-          {
-            text: "🔙 Back to Home",
-            callback_data: "HOME",
-          },
-        ],
+        backHomeBtn
       ],
     }),
   });
@@ -478,12 +471,7 @@ module.exports.myOpenGAMES = async (msg) => {
     },
   ]);
 
-  _markup.push([
-    {
-      text: "🔙 Back to Home",
-      callback_data: "HOME",
-    },
-  ]);
+  _markup.push(backHomeBtn);
   await helper.sendMessage(msg.chat.id, txt, {
     parse_mode: "HTML",
     disable_web_page_preview: true,
@@ -552,7 +540,7 @@ module.exports.check_input = async (msg) => {
             { $set: { number: Number(number), mode: null } },
             { upsert: true }
           );
-        this.summary(msg, user.game, user.tiers, user.action, number);
+        await this.summary(msg, user.game, user.tiers, user.action, number);
       } else if (user.mode === "INPUT_NUMBERGUESSING") {
         if (Number(number) > 100 || Number(number) < 0) {
           await helper.sendMessage(
@@ -569,7 +557,7 @@ module.exports.check_input = async (msg) => {
               { $set: { action: Number(number), mode: null } },
               { upsert: true }
             );
-          this.action(msg, user.game, user.tiers, Number(number));
+          await this.action(msg, user.game, user.tiers, Number(number));
         }
       }
     }

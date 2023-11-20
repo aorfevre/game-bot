@@ -18,23 +18,28 @@ global.allGames = [
   },
 ];
 
+global.backHomeBtn = [
+  {
+    text: "🏘 Back to Home",
+    callback_data: "HOME",
+  },
+]
+
 bot.on("message", async (msg) => {
   var helper = require("./custo/helper.js");
 
   if (helper.isPrivate(msg)) {
-  const processing = await helper.setProcessing(msg);
+    const processing = await helper.setProcessing(msg);
 
     if (msg.text !== "/start") {
       var games = require("./games/home.js");
 
       const user = await helper.updateUser(msg);
-      if (helper.isPrivate(msg)) {
         if (user.isReferred) {
-          games.check_input(msg);
+          await games.check_input(msg);
         } else {
-          helper.checkReferralSystem(msg);
+          await helper.checkReferralSystem(msg);
         }
-      }
     } else {
 
       var helper = require("./custo/helper.js");
@@ -54,7 +59,7 @@ bot.on("message", async (msg) => {
     }
 
 
-    helper.deleteProcessingMessages(msg);
+     helper.deleteProcessingMessages(msg);
   }
 });
 
@@ -102,7 +107,16 @@ bot.on("callback_query", async (callbackQuery) => {
         await games.myOpenGAMES(msg);
         break;
       case "STATS_USER":
-        await helper.sendMessage(msg.chat.id, "TODO Stats - Under construction");
+        let _markup = [];
+        _markup.push(backHomeBtn);
+        await helper.sendMessage(msg.chat.id, "TODO Stats - Under construction", {
+          parse_mode: "HTML",
+          disable_web_page_preview: true,
+          reply_markup: JSON.stringify({
+            inline_keyboard: _markup,
+          }),
+        });
+
         break;
       case "GUIDE_GAMES":
         await helper.guide_games(msg);

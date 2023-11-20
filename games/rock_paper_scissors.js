@@ -396,12 +396,7 @@ module.exports.freeGamePlayed = async (msg, game, tiers, choice) => {
       disable_web_page_preview: true,
       reply_markup: JSON.stringify({
         inline_keyboard: [
-          [
-            {
-              text: "🔙 Back to Home",
-              callback_data: "HOME",
-            },
-          ],
+          backHomeBtn
         ],
       }),
     },

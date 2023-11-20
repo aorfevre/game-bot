@@ -210,12 +210,7 @@ module.exports.payoutByTiers = async (tiers) => {
                     callback_data: "GAME_INIT_NUMBERGUESSING",
                   },
                 ],
-                [
-                  {
-                    text: "🔙 Back to Home",
-                    callback_data: "HOME",
-                  },
-                ],
+                backHomeBtn
               ],
             }),
           });
@@ -264,12 +259,7 @@ module.exports.payoutByTiers = async (tiers) => {
                       callback_data: "GAME_INIT_NUMBERGUESSING",
                     },
                   ],
-                  [
-                    {
-                      text: "🔙 Back to Home",
-                      callback_data: "HOME",
-                    },
-                  ],
+                  backHomeBtn
                 ],
               }),
             });
