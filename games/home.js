@@ -4,16 +4,7 @@ var rock_paper_scissors = require("./rock_paper_scissors.js");
 var helper = require("../custo/helper.js");
 var ObjectId = require("mongodb").ObjectId;
 
-global.allGames = [
-  {
-    name: "NUMBERGUESSING",
-    btn: "🤔 Guess the Number",
-  },
-  {
-    name: "ROCKPAPERSCISSORS",
-    btn: "🖐 Rock Paper Scissors",
-  },
-];
+
 module.exports.structChoice = () => {
   return {
     game: null,
@@ -363,10 +354,17 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
 
   txt += helper.getGameSummary(user_choice)
 
-  console.log(
-    "Payment link ",
-    "http://localhost:3000/payment?hash=" + encodeURIComponent(userData)
-  );
+  // console.log(
+  //   "Payment link ",
+  //   "http://localhost:3000/payment?hash=" + encodeURIComponent(userData)
+  // );
+
+  // console.log(
+  //   "Payment link v2",
+  //   "https://00f3-2a01-cb00-111b-2f00-94b6-9c3f-baef-3c5b.ngrok-free.app/payment?hash=" + encodeURIComponent(userData)
+  // );
+
+  
   var _markup = [];
   _markup.push([
     {
@@ -384,7 +382,11 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
       callback_data: "GAME_ACTION_" + t + "_" + tiers + "_" + action,
     },
   ]);
-
+  // await helper.sendMessage(msg.chat.id, "https://00f3-2a01-cb00-111b-2f00-94b6-9c3f-baef-3c5b.ngrok-free.app/payment?hash=" + encodeURIComponent(userData), {
+  //   parse_mode: "HTML",
+  //   disable_web_page_preview: true,
+   
+  // });
   await helper.sendMessage(msg.chat.id, txt, {
     parse_mode: "HTML",
     disable_web_page_preview: true,

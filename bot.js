@@ -7,6 +7,16 @@ var init = require("./custo/init.js");
 global.bot = init.setTelegram();
 global.DD_FLOOD = -1001865974274;
 global.RATE_FEE = 5;
+global.allGames = [
+  {
+    name: "NUMBERGUESSING",
+    btn: "🤔 Guess the Number",
+  },
+  {
+    name: "ROCKPAPERSCISSORS",
+    btn: "🖐 Rock Paper Scissors",
+  },
+];
 
 bot.on("message", async (msg) => {
   var helper = require("./custo/helper.js");

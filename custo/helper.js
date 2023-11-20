@@ -158,7 +158,6 @@ module.exports.getBalanceOfWallet = async (wallet) => {
 
 module.exports.verifyTransaction = async (obj) => {
   const ethers = require("ethers");
-
   // Connect to ethers RPC on Sepolia
   const provider = new ethers.providers.JsonRpcProvider(
     process.env.PUBLIC_RPC_URL
@@ -239,7 +238,6 @@ module.exports.findAllUnverifiedTransactions = async () => {
   let _promises = [];
   for (const i in txs) {
     _promises.push(this.verifyTransaction(txs[i]));
-
     if (_promises.length === 10) {
       await Promise.all(_promises);
       _promises = [];
