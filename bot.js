@@ -107,15 +107,7 @@ bot.on("callback_query", async (callbackQuery) => {
         await games.myOpenGAMES(msg);
         break;
       case "STATS_USER":
-        let _markup = [];
-        _markup.push(backHomeBtn);
-        await helper.sendMessage(msg.chat.id, "TODO Stats - Under construction", {
-          parse_mode: "HTML",
-          disable_web_page_preview: true,
-          reply_markup: JSON.stringify({
-            inline_keyboard: _markup,
-          }),
-        });
+        await games.myStats(msg);
 
         break;
       case "GUIDE_GAMES":

@@ -650,3 +650,51 @@ module.exports.freeGamePlayed = async (msg, game, tiers, choice) => {
    await helper.sendMessage(msg.chat.id, "You don't have any free game for this tiers");
   }
 };
+
+
+module.exports.myStats = async(msg)=>{
+
+  const client = await db.getClient();
+
+  const stats = { 
+    total_matches: 0,
+    total_money_spent: 0,
+    total_payouts_received: 0,
+    total_pnl: 0
+  }
+  const promises = [];
+  promises.push(client.db("gaming").collection("tx").countDocuments({ "decoded._id": msg.chat.id, verified: true, processed: true }));
+  promises.push(client.db("gaming").collection("tx").aggregate([
+    { $match: { "decoded._id": msg.chat.id, verified: true, processed: true } },
+    { $group: { _id: null, total: { $sum: "$decoded.price" } } },
+  ]).toArray());
+  promises.push(client.db("gaming").collection("pvp").aggregate([
+    { $match: {$or: [
+      { 'winners._id': msg.chat.id},
+     { 'winner._id': msg.chat.id}]} },
+    { $group: { _id: null, total: { $sum: "$prizePool" } } },
+  ]).toArray());
+ 
+  const result = await Promise.all(promises);
+  stats.total_matches = result[0] ? result[0] : 0;
+  stats.total_money_spent = result[1][0]?.total ? result[1][0]?.total : 0;
+  stats.total_payouts_received = result[2][0]?.total ? result[2][0]?.total : 0;
+  stats.total_pnl = ( stats.total_payouts_received - stats.total_money_spent) ;
+
+  const _markup = [];
+  _markup.push(backHomeBtn);
+  await helper.sendMessage(msg.chat.id, `
+  <b>Here are your stats</b>\n
+  Total matches played: ${stats.total_matches}
+  Total money spent: ${stats.total_money_spent} ETH
+  Total payouts received: ${stats.total_payouts_received} ETH
+  Total PnL: ${stats.total_pnl} ETH
+  `, {
+    parse_mode: "HTML",
+    disable_web_page_preview: true,
+    reply_markup: JSON.stringify({
+      inline_keyboard: _markup,
+    }),
+  });
+  
+}
