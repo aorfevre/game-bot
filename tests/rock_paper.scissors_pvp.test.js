@@ -14,8 +14,8 @@ describe("Rock Paper Scissors PvP", () => {
   });
   beforeEach(async () => {
     const client = await db.getClient();
-    await client.db("gaming").collection("tx").deleteMany({});
-    await client.db("gaming").collection("pvp").deleteMany({});
+    await client.db(DB_STAGE).collection("tx").deleteMany({});
+    await client.db(DB_STAGE).collection("pvp").deleteMany({});
   });
 
   test("After a win, set the winner as winner and looser as looser", async () => {
@@ -54,14 +54,14 @@ describe("Rock Paper Scissors PvP", () => {
     expect(shuffled[0].length).toEqual(2);
 
     const countBefore = await client
-      .db("gaming")
+      .db(DB_STAGE)
       .collection("pvp")
       .countDocuments({});
     expect(countBefore).toEqual(0);
 
     await rps.duel();
     const count = await client
-      .db("gaming")
+      .db(DB_STAGE)
       .collection("pvp")
       .countDocuments({});
     expect(count).toEqual(1);
@@ -74,7 +74,7 @@ describe("Rock Paper Scissors PvP", () => {
     expect(transactions2.length).toEqual(0);
 
     // check pvp object
-    const pvp = await client.db("gaming").collection("pvp").find({}).toArray();
+    const pvp = await client.db(DB_STAGE).collection("pvp").find({}).toArray();
     expect(pvp[0].winner).toEqual(tx2._id);
     expect(pvp[0].looser).toEqual(tx1._id);
   });

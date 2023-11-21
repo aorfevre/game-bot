@@ -7,11 +7,11 @@ module.exports.addTx = async (tx) => {
   const hash1 = await helper.encode(tx);
   await helper.savePlayTransaction(hash1, "txhash");
   await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("tx")
     .updateMany({ verified: false }, { $set: { verified: true } });
   await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("tx")
     .updateMany({ tx: null }, { $set: { tx: { hash: "123" } } });
 };

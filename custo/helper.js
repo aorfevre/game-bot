@@ -61,7 +61,7 @@ module.exports.decode = async (data) => {
 module.exports.updateUser = async (msg) => {
   const client = await db.getClient();
   const users = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("users")
     .find({ _id: msg.chat.id })
     .toArray();
@@ -72,7 +72,7 @@ module.exports.updateUser = async (msg) => {
 
     user._update_at = new Date();
 
-    client.db("gaming").collection("users").insertOne(user);
+    client.db(DB_STAGE).collection("users").insertOne(user);
     return user;
   } else {
     let user = users[0];
@@ -80,7 +80,7 @@ module.exports.updateUser = async (msg) => {
     user._update_at = new Date();
 
     client
-      .db("gaming")
+      .db(DB_STAGE)
       .collection("users")
       .updateOne({ _id: msg.chat.id }, { $set: user });
     return user;
@@ -90,7 +90,7 @@ module.exports.updateUser = async (msg) => {
 module.exports.isSpam = async (msg) => {
   const client = await db.getClient();
   const users = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("users")
     .find({ _id: msg.chat.id })
     .toArray();
@@ -102,7 +102,7 @@ module.exports.isSpam = async (msg) => {
       return true;
     } else {
       await client
-        .db("gaming")
+        .db(DB_STAGE)
         .collection("users")
         .updateOne({ _id: msg.chat.id }, { $set: { spam: new Date() } });
       return false;
@@ -113,7 +113,7 @@ module.exports.isSpam = async (msg) => {
 module.exports.savePlayTransaction = async (hash, txhash) => {
   const client = await db.getClient();
   const tx = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("tx")
     .find({ txhash, hash })
     .toArray();
@@ -130,7 +130,7 @@ module.exports.savePlayTransaction = async (hash, txhash) => {
       verified: false,
       processed: false,
     };
-    await client.db("gaming").collection("tx").insertOne(tx);
+    await client.db(DB_STAGE).collection("tx").insertOne(tx);
     return tx;
   } else {
     return null;
@@ -168,7 +168,7 @@ module.exports.verifyTransaction = async (obj) => {
   if (tx) {
     const client = await db.getClient();
     await client
-      .db("gaming")
+      .db(DB_STAGE)
       .collection("tx")
       .updateOne({ _id: obj._id }, { $set: { verified: true, tx } });
 
@@ -225,7 +225,7 @@ module.exports.verifyTransaction = async (obj) => {
 module.exports.findAllUnverifiedTransactions = async () => {
   const client = await db.getClient();
   const txs = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("tx")
     .find({ verified: false })
     .toArray();
@@ -405,7 +405,7 @@ module.exports.create_5_codes = async (msg) => {
     };
     // write to db
 
-    await client.db("gaming").collection("referral_codes").insertOne(refCode);
+    await client.db(DB_STAGE).collection("referral_codes").insertOne(refCode);
   }
   this.invite_codes(msg);
 };
@@ -417,7 +417,7 @@ module.exports.invite_codes = async (msg) => {
 
   const client = await db.getClient();
   const txs = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("tx")
     .countDocuments({ "decoded._id": msg.chat.id });
   let options = {
@@ -451,7 +451,7 @@ module.exports.invite_codes = async (msg) => {
   } else if (txs > 0 && txs < LEVEL2_REFERRAL) {
     // get the referarl code or create one if it does not exist
     const referral_code = await client
-      .db("gaming")
+      .db(DB_STAGE)
       .collection("referral_codes")
       .find({ referrer: msg.chat.id })
       .toArray();
@@ -466,7 +466,7 @@ module.exports.invite_codes = async (msg) => {
       };
       // write to db
 
-      await client.db("gaming").collection("referral_codes").insertOne(refCode);
+      await client.db(DB_STAGE).collection("referral_codes").insertOne(refCode);
       // send message
       const txt =
         "You have 1 invite code to share.\n\n" +
@@ -497,7 +497,7 @@ module.exports.invite_codes = async (msg) => {
     }
   } else if (txs >= LEVEL2_REFERRAL) {
     const referral_code = await client
-      .db("gaming")
+      .db(DB_STAGE)
       .collection("referral_codes")
       .countDocuments({ referrer: msg.chat.id });
     if (referral_code < LEVEL2_CODES) {
@@ -512,13 +512,13 @@ module.exports.invite_codes = async (msg) => {
         // write to db
 
         await client
-          .db("gaming")
+          .db(DB_STAGE)
           .collection("referral_codes")
           .insertOne(refCode);
       }
     }
     const refCodes = await client
-      .db("gaming")
+      .db(DB_STAGE)
       .collection("referral_codes")
       .find({ referrer: msg.chat.id })
       .toArray();
@@ -563,7 +563,7 @@ module.exports.generateCodes = () => {
 module.exports.checkReferralSystem = async (msg) => {
   const client = await db.getClient();
   const ref = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("referral_codes")
     .countDocuments({ code: msg.text, is_valid: true });
 
@@ -571,7 +571,7 @@ module.exports.checkReferralSystem = async (msg) => {
     // Code is valid, register user
     // update the code usage
     await client
-      .db("gaming")
+      .db(DB_STAGE)
       .collection("referral_codes")
       .updateOne(
         { code: msg.text, is_valid: true },
@@ -579,7 +579,7 @@ module.exports.checkReferralSystem = async (msg) => {
       );
     // update the user
     await client
-      .db("gaming")
+      .db(DB_STAGE)
       .collection("users")
       .updateOne(
         { _id: msg.chat.id },
@@ -601,7 +601,7 @@ module.exports.checkReferralSystem = async (msg) => {
 module.exports.get_players_by_game_tiers = async (game, tiers) => {
   const client = await db.getClient();
   const txs = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("tx")
     .aggregate([
       {
@@ -635,7 +635,7 @@ module.exports.get_players_by_game_tiers = async (game, tiers) => {
 module.exports.get_free_games = async (game, tiers) => {
   const client = await db.getClient();
   const txs = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("tx")
     .aggregate([
       {
@@ -670,7 +670,7 @@ module.exports.get_free_games_by_user = async (id) => {
   const client = await db.getClient();
 
   const items = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("tx")
     .aggregate([
       {
@@ -695,7 +695,7 @@ module.exports.get_free_games_by_user_game = async (id, game) => {
   const client = await db.getClient();
 
   const items = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("tx")
     .aggregate([
       {
@@ -721,7 +721,7 @@ module.exports.setIteration = async (trx) => {
   if (trx.decoded.number > 1) {
     const client = await db.getClient();
     const tx = await client
-      .db("gaming")
+      .db(DB_STAGE)
       .collection("tx")
       .findOne({ _id: trx.primaryId });
     tx.decoded.number--;
@@ -731,7 +731,7 @@ module.exports.setIteration = async (trx) => {
     copy.processed = false;
     copy._created_at = new Date();
 
-    await client.db("gaming").collection("tx").insertOne(copy);
+    await client.db(DB_STAGE).collection("tx").insertOne(copy);
   } else {
     return;
   }
@@ -739,7 +739,7 @@ module.exports.setIteration = async (trx) => {
 
 module.exports.setFreeGame = async (id) => {
   const client = await db.getClient();
-  const tx = await client.db("gaming").collection("tx").findOne({ _id: id });
+  const tx = await client.db(DB_STAGE).collection("tx").findOne({ _id: id });
   let copy = JSON.parse(JSON.stringify(tx));
   delete copy._id;
   delete copy.code;
@@ -748,7 +748,7 @@ module.exports.setFreeGame = async (id) => {
   copy.processed = false;
   copy.decoded.number = 1;
   copy._created_at = new Date();
-  await client.db("gaming").collection("tx").insertOne(copy);
+  await client.db(DB_STAGE).collection("tx").insertOne(copy);
 };
 
 module.exports.getGameSummary = (user_choice) => {
@@ -770,13 +770,13 @@ module.exports.getGameSummary = (user_choice) => {
 
 module.exports.countGames = async () => {
   const client = await db.getClient();
-  const txs = await client.db("gaming").collection("pvp").countDocuments();
+  const txs = await client.db(DB_STAGE).collection("pvp").countDocuments();
   return txs;
 };
 
 module.exports.countPlayers = async () => {
   const client = await db.getClient();
-  const txs = await client.db("gaming").collection("users").countDocuments();
+  const txs = await client.db(DB_STAGE).collection("users").countDocuments();
   return txs;
 };
 
@@ -784,7 +784,7 @@ module.exports.countPrizePaid = async () => {
   const client = await db.getClient();
   // sum all prizePool of pvp collection
   const txs = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("pvp")
     .aggregate([
       {
@@ -807,7 +807,7 @@ module.exports.deleteProcessingMessages = async (msg) => {
   // wait 1sec to delete the processing message
   const client = await db.getClient();
 
-  let messages = await client.db("gaming").collection("messages").findOne({
+  let messages = await client.db(DB_STAGE).collection("messages").findOne({
     _id: msg.chat.id,
   });
   let promises = [];
@@ -821,7 +821,7 @@ module.exports.deleteProcessingMessages = async (msg) => {
     await Promise.all(promises);
   } catch (e) {}
   await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("messages")
     .updateOne({ _id: msg.chat.id }, { $set: messages }, { upsert: true })
 
@@ -844,7 +844,7 @@ module.exports.sendMessage = async (id, txt, options, isDocument, link) => {
       message = await bot.sendMessage(id, txt, options);
     }
     const client = await db.getClient();
-    let messages = await client.db("gaming").collection("messages").findOne({
+    let messages = await client.db(DB_STAGE).collection("messages").findOne({
       _id: id,
     });
 
@@ -858,7 +858,7 @@ module.exports.sendMessage = async (id, txt, options, isDocument, link) => {
     }
 
     await client
-      .db("gaming")
+      .db(DB_STAGE)
       .collection("messages")
       .updateOne({ _id: id }, { $set: messages }, { upsert: true });
   } catch (e) {

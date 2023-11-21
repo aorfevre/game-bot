@@ -73,7 +73,7 @@ module.exports.initGame = async (msg, t) => {
   let curData = this.structChoice();
   curData.game = t;
   const user_choice = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("user_choice")
     .updateOne(
       { _id: msg.chat.id },
@@ -166,7 +166,7 @@ module.exports.price = async (msg, t, tiers) => {
   _markup.push(backHomeBtn);
   //Saving user choice
   const user_choice = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("user_choice")
     .updateOne(
       { _id: msg.chat.id },
@@ -219,7 +219,7 @@ module.exports.frequency = async (msg, t, tiers) => {
   curData.mode = mode;
   //Saving user choice
   const user_choice = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("user_choice")
     .updateOne(
       { _id: msg.chat.id },
@@ -248,7 +248,7 @@ module.exports.action = async (msg, t, tiers, action) => {
   curData.price = priceEth;
   curData.action = action;
   const user_choice = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("user_choice")
     .updateOne({ _id: msg.chat.id }, { $set: curData }, { upsert: true });
 
@@ -312,12 +312,12 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
   curData.action = action;
   curData.number = Number(number);
   await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("user_choice")
     .updateOne({ _id: msg.chat.id }, { $set: curData }, { upsert: true });
 
   const user_choice = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("user_choice")
     .findOne({ _id: msg.chat.id });
 
@@ -436,7 +436,7 @@ module.exports.myOpenGAMES = async (msg) => {
   const client = await db.getClient();
 
   const openGames = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("tx")
     .find({ "decoded._id": msg.chat.id, verified: true, processed: false })
     .toArray();
@@ -484,7 +484,7 @@ module.exports.frequencyInput = async (msg) => {
   const client = await db.getClient();
 
   await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("user_choice")
     .updateOne(
       { _id: msg.chat.id },
@@ -507,7 +507,7 @@ module.exports.check_input = async (msg) => {
   const client = await db.getClient();
 
   const user = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("user_choice")
     .findOne({ _id: msg.chat.id });
 
@@ -533,7 +533,7 @@ module.exports.check_input = async (msg) => {
           return;
         }
         await client
-          .db("gaming")
+          .db(DB_STAGE)
           .collection("user_choice")
           .updateOne(
             { _id: msg.chat.id },
@@ -550,7 +550,7 @@ module.exports.check_input = async (msg) => {
           return;
         } else {
           await client
-            .db("gaming")
+            .db(DB_STAGE)
             .collection("user_choice")
             .updateOne(
               { _id: msg.chat.id },
@@ -627,7 +627,7 @@ module.exports.freeGamePlayed = async (msg, game, tiers, choice) => {
   // getting tx of id
 
   const count = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("tx")
     .countDocuments({
       "decoded.game": game,
@@ -663,12 +663,12 @@ module.exports.myStats = async(msg)=>{
     total_pnl: 0
   }
   const promises = [];
-  promises.push(client.db("gaming").collection("tx").countDocuments({ "decoded._id": msg.chat.id, verified: true, processed: true }));
-  promises.push(client.db("gaming").collection("tx").aggregate([
+  promises.push(client.db(DB_STAGE).collection("tx").countDocuments({ "decoded._id": msg.chat.id, verified: true, processed: true }));
+  promises.push(client.db(DB_STAGE).collection("tx").aggregate([
     { $match: { "decoded._id": msg.chat.id, verified: true, processed: true } },
     { $group: { _id: null, total: { $sum: "$decoded.price" } } },
   ]).toArray());
-  promises.push(client.db("gaming").collection("pvp").aggregate([
+  promises.push(client.db(DB_STAGE).collection("pvp").aggregate([
     { $match: {$or: [
       { 'winners._id': msg.chat.id},
      { 'winner._id': msg.chat.id}]} },

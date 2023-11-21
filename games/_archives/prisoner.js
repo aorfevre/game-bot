@@ -104,7 +104,7 @@
 
 //     // find all tx that have decoded.game = NUMBERGUESSING and verified = true and processed = false and find only one 'decoded._id' per match; limit to 10
 //     const tx = await client
-//       .db("gaming")
+//       .db(DB_STAGE)
 //       .collection("tx")
 //       .aggregate([
 //         {
@@ -138,7 +138,7 @@
 
 //     // count number of games NUMBERGUESSING in winners collection
 //     const count = await client
-//       .db("gaming")
+//       .db(DB_STAGE)
 //       .collection("winners")
 //       .countDocuments({ game: "PRISONER" });
 
@@ -245,7 +245,7 @@
 
 //         if (tx[i].iteration === Number(tx[i].decoded.number)) {
 //           await client
-//             .db("gaming")
+//             .db(DB_STAGE)
 //             .collection("tx")
 //             .updateOne(
 //               { _id: tx[i]._id },
@@ -260,7 +260,7 @@
 //             );
 //         } else {
 //           await client
-//             .db("gaming")
+//             .db(DB_STAGE)
 //             .collection("tx")
 //             .updateOne(
 //               { _id: tx[i]._id },

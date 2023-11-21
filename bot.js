@@ -5,6 +5,7 @@ process.env["NTBA_FIX_319"] = 1;
 var init = require("./custo/init.js");
 
 global.bot = init.setTelegram();
+global.DB_STAGE= process.env.DB_STAGE === 'true' ? "gaming_stage" : "gaming";
 global.DD_FLOOD = -1001865974274;
 global.RATE_FEE = 5;
 global.allGames = [

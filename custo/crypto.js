@@ -39,7 +39,7 @@ module.exports.looserPotTransfer = async (game) => {
 
   // Verify if looser put can be processed
   const txsLoosers = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("tx")
     .find({
       verified: true,
@@ -65,7 +65,7 @@ module.exports.looserPotTransfer = async (game) => {
         winnerTx.decoded.game,
       );
       await client
-        .db("gaming")
+        .db(DB_STAGE)
         .collection("tx")
         .updateMany({ _id: { $in: ids } }, { $set: { paid: true } });
 

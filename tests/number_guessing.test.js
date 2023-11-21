@@ -15,8 +15,8 @@ describe("Rock Paper Scissors", () => {
   });
   beforeEach(async () => {
     const client = await db.getClient();
-    await client.db("gaming").collection("tx").deleteMany({});
-    await client.db("gaming").collection("pvp").deleteMany({});
+    await client.db(DB_STAGE).collection("tx").deleteMany({});
+    await client.db(DB_STAGE).collection("pvp").deleteMany({});
   });
 
   // test("User can register up to 10 participants, no game launched until", async () => {
@@ -45,7 +45,7 @@ describe("Rock Paper Scissors", () => {
   //     await helperJest.addTx(tx3);
 
   //     const countBefore = await client
-  //     .db("gaming")
+  //     .db(DB_STAGE)
   //     .collection("pvp")
   //     .countDocuments({});
   //       expect(countBefore).toEqual(0);
@@ -54,13 +54,13 @@ describe("Rock Paper Scissors", () => {
       
   //   }
   //   const countAfter = await client
-  //   .db("gaming")
+  //   .db(DB_STAGE)
   //   .collection("pvp")
   //   .countDocuments({});
   //   expect(countAfter).toEqual(1);
 
   //   const getDuel = await client
-  //   .db("gaming")
+  //   .db(DB_STAGE)
   //   .collection("pvp")
   //   .findOne({})
 
@@ -91,7 +91,7 @@ describe("Rock Paper Scissors", () => {
       await helperJest.addTx(tx3); 
 
       const countBefore = await client
-      .db("gaming")
+      .db(DB_STAGE)
       .collection("pvp")
       .countDocuments({});
         expect(countBefore).toEqual(0);
@@ -100,13 +100,13 @@ describe("Rock Paper Scissors", () => {
       
     }
     const countAfter = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("pvp")
     .countDocuments({});
     expect(countAfter).toEqual(1);
 
     const getDuel = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("pvp")
     .findOne({})
 
@@ -137,7 +137,7 @@ describe("Rock Paper Scissors", () => {
       await helperJest.addTx(tx3); 
 
       const countBefore = await client
-      .db("gaming")
+      .db(DB_STAGE)
       .collection("pvp")
       .countDocuments({});
         expect(countBefore).toEqual(0);
@@ -146,13 +146,13 @@ describe("Rock Paper Scissors", () => {
       
     }
     const countAfter = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("pvp")
     .countDocuments({});
     expect(countAfter).toEqual(1);
 
     const getDuel = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("pvp")
     .findOne({})
 

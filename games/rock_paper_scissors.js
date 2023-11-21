@@ -189,18 +189,18 @@ module.exports.duelByTiers = async (tiers) => {
         }
 
         const c = await client
-          .db("gaming")
+          .db(DB_STAGE)
           .collection("tx")
           .countDocuments({ _id: tx1.primaryId });
         const c2 = await client
-          .db("gaming")
+          .db(DB_STAGE)
           .collection("tx")
           .countDocuments({ _id: tx2.primaryId });
 
         const promises = [];
         promises.push(
           client
-            .db("gaming")
+            .db(DB_STAGE)
             .collection("tx")
             .updateOne(
               { _id: tx1.primaryId },
@@ -209,7 +209,7 @@ module.exports.duelByTiers = async (tiers) => {
         );
         promises.push(
           client
-            .db("gaming")
+            .db(DB_STAGE)
             .collection("tx")
             .updateOne(
               { _id: tx2.primaryId },
@@ -219,7 +219,7 @@ module.exports.duelByTiers = async (tiers) => {
 
         promises.push(
           client
-            .db("gaming")
+            .db(DB_STAGE)
             .collection("pvp")
             .insertOne({
               winner: null,
@@ -245,7 +245,7 @@ module.exports.duelByTiers = async (tiers) => {
         // Create pvp winner + looser in a new collection
         // Create a new collection for pvp
         const code = helper.generateCodes();
-        await client.db("gaming").collection("pvp").insertOne({
+        await client.db(DB_STAGE).collection("pvp").insertOne({
           winner: winner._id,
           looser: looser._id,
           txWinner: winnerTx,
@@ -273,13 +273,13 @@ module.exports.duelByTiers = async (tiers) => {
         const promises = [];
         promises.push(
           client
-            .db("gaming")
+            .db(DB_STAGE)
             .collection("pvp")
             .updateOne({ code, processed: true }, { $set: { receiptWinner } }),
         );
         promises.push(
           client
-            .db("gaming")
+            .db(DB_STAGE)
             .collection("tx")
             .updateOne(
               { _id: winnerTx.primaryId },
@@ -296,7 +296,7 @@ module.exports.duelByTiers = async (tiers) => {
         );
         promises.push(
           client
-            .db("gaming")
+            .db(DB_STAGE)
             .collection("tx")
             .updateOne(
               { _id: looserTx.primaryId },
@@ -376,7 +376,7 @@ module.exports.freeGamePlayed = async (msg, game, tiers, choice) => {
   const client = await db.getClient();
 
   const txs = await client
-    .db("gaming")
+    .db(DB_STAGE)
     .collection("tx")
     .updateOne(
       {

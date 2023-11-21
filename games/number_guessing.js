@@ -124,7 +124,7 @@ module.exports.payoutByTiers = async (tiers) => {
       const result = await this.getWinnersLoosers(tx);
       console.log('result',result)
       // // Save the winner state
-      await client.db("gaming").collection("pvp").insertOne(result);
+      await client.db(DB_STAGE).collection("pvp").insertOne(result);
 
       let txtWinner =
         "<b>Match results</b>\n\n" +
@@ -171,7 +171,7 @@ module.exports.payoutByTiers = async (tiers) => {
         // save receipt
         promises.push(
           client
-            .db("gaming")
+            .db(DB_STAGE)
             .collection("pvp")
             .updateOne(
               { code: result.code, processed: true },
@@ -182,7 +182,7 @@ module.exports.payoutByTiers = async (tiers) => {
         for (const i in result.winners) {
           promises.push(
             client
-              .db("gaming")
+              .db(DB_STAGE)
               .collection("tx")
               .updateOne(
                 { _id: result.winners[i].primaryId },
@@ -232,7 +232,7 @@ module.exports.payoutByTiers = async (tiers) => {
           for (const i in result.loosers) {
             promises.push(
               client
-                .db("gaming")
+                .db(DB_STAGE)
                 .collection("tx")
                 .updateOne(
                   { _id: result.loosers[i].primaryId },

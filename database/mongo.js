@@ -1,6 +1,9 @@
 const { MongoClient, ServerApiVersion } = require("mongodb");
 
 const mongo = this;
+require("dotenv").config();
+
+
 module.exports.getClient = async () => {
   const uri = process.env.MONGODB_URL;
   // var mongojs = require("mongojs");
@@ -25,9 +28,9 @@ module.exports.getClient = async () => {
 };
 
 async function createIndexes(client) {
-  const users = await client.db("gaming").collection("users");
+  const users = await client.db(DB_STAGE).collection("users");
   users.createIndex({ _id: 1, _update_at: 1 }, { unique: true });
-  const tx = await client.db("gaming").collection("tx");
+  const tx = await client.db(DB_STAGE).collection("tx");
   tx.createIndex({ txhash: 1, hash: 1 }, {});
   tx.createIndex({ _id: 1 }, {});
   tx.createIndex({ verified: 1, 'decoded.game':1,processed:1,paid:1,'decoded.tiers':1,'decoded.action':1}, {});
@@ -35,22 +38,22 @@ async function createIndexes(client) {
   tx.createIndex({ 'decoded._id': 1 }, {});
 
 
-  const user_choice = await client.db("gaming").collection("user_choice");
+  const user_choice = await client.db(DB_STAGE).collection("user_choice");
   user_choice.createIndex({ user_choice: 1 }, {});
   user_choice.createIndex({ "decoded._id": 1, verified: 1, processed: 1 }, {});
 
-  const refCodes = await client.db("gaming").collection("user_choice");
+  const refCodes = await client.db(DB_STAGE).collection("user_choice");
   refCodes.createIndex({ code: 1, is_valid: 1 }, {});
   refCodes.createIndex({ referrer: 1, is_valid: 1 }, {});
 
-  const messages = await client.db("gaming").collection("messages");
+  const messages = await client.db(DB_STAGE).collection("messages");
   messages.createIndex({ _id:1}, {});
 
-  const referral_codes = await client.db("gaming").collection("referral_codes");
+  const referral_codes = await client.db(DB_STAGE).collection("referral_codes");
   referral_codes.createIndex({ referrer:1}, {});
   referral_codes.createIndex({ code:1,is_valid:1}, {});
 
-  const pvp = await client.db("gaming").collection("pvp");
+  const pvp = await client.db(DB_STAGE).collection("pvp");
   pvp.createIndex({ _id:1, prizePool:1}, {});
   pvp.createIndex({ code:1, processed:1}, {});
 
@@ -61,7 +64,8 @@ async function run(client) {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
     // Send a ping to confirm a successful connection
-    await client.db("gaming").command({ ping: 1 });
+
+    await client.db(DB_STAGE).command({ ping: 1 });
 
     // createIndexes(client);
   } finally {
