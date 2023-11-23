@@ -41,7 +41,8 @@ module.exports.getActions = async (tiers) => {
 module.exports.actionText = () => {
   return (
     "(You can select multiple plays to save gas costs)\n\n" +
-    "(Your plays will be randomly matched with other players.Only one guess of yours will be used on every match)"
+    "(Your plays will be randomly matched with other players.Only one guess of yours will be used on every match)\n\n" +
+    "(You can make additional plays later)"
   );
 };
 

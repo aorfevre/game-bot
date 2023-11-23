@@ -176,11 +176,6 @@ module.exports.verifyTransaction = async (obj) => {
 
     txt += "🤑 Your payment has been received.\n\n";
 
-    txt +=
-      "ℹ️ We'll notify you of your payout when the tournament finishes!\n\n";
-
-    txt += "Summary of your participation:\n";
-
     let participation = this.getGameSummary(obj.decoded);
     participation +=
       "<a href='" +
@@ -190,6 +185,14 @@ module.exports.verifyTransaction = async (obj) => {
       "'>Txhash</a>";
 
     txt += participation;
+
+    txt += "We'll notify you of your payout when the match(es) finish(es)." + "\n";
+    
+    if(obj.decoded.game === "NUMBERGUESSING"){
+      txt += "This happens once a match receives guesses from 10 players." + "\n";
+    } else if (obj.decoded.game === "ROCKPAPERSCISSORS") {
+      txt += "You'll be randomly matched with other players." + "\n";
+    }
 
     await this.sendMessage(DD_FLOOD, participation, {
       parse_mode: "HTML",

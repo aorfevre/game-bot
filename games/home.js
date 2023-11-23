@@ -143,7 +143,7 @@ module.exports.price = async (msg, t, tiers) => {
   curData.price = priceEth;
 
   // Presenting user actions
-  let txt = `➡️  What in-game action would you like to make?`;
+  let txt = `You selected the following bet size: ${priceEth} ETH\n\n➡️  What in-game action would you like to make?`;
   var _markup = [];
   switch (t) {
     case "NUMBERGUESSING":
@@ -253,7 +253,7 @@ module.exports.action = async (msg, t, tiers, action) => {
     .updateOne({ _id: msg.chat.id }, { $set: curData }, { upsert: true });
 
   // Presenting user actions
-  let txt = "➡️ How often do you want to make this play?\n\n";
+  let txt = "You picked "+action+"\n\n  ➡️ How often do you want to make this play?\n\n";
 
   switch (t) {
     case "NUMBERGUESSING":
