@@ -98,7 +98,7 @@ module.exports.initGame = async (msg, t) => {
   // });
 
   let txt = intro + "\n\n" + "➡️  How much would you like to wager per play?\n\n";
-  txt += "(Tournaments are divided by wager amounts)";
+  txt += "(Matches are divided by wager amounts)";
   var _markup = [];
 
   _markup.push([
@@ -143,7 +143,7 @@ module.exports.price = async (msg, t, tiers) => {
   curData.price = priceEth;
 
   // Presenting user actions
-  let txt = `You selected the following bet size: ${priceEth} ETH\n\n➡️  What in-game action would you like to make?`;
+  let txt = `You selected the following wager size: ${priceEth} ETH\n\n➡️  What in-game action would you like to make?`;
   var _markup = [];
   switch (t) {
     case "NUMBERGUESSING":
