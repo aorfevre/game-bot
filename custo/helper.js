@@ -450,14 +450,14 @@ module.exports.invite_codes = async (msg) => {
   .collection("referral_codes")
   .find({ referrer: msg.chat.id })
   .toArray();
-  
+  console.log('refer',referral_code.length,this.isSuperAdmin(msg))
   if ((txs === 0 && !this.isSuperAdmin(msg)) || (this.isSuperAdmin(msg) && referral_code.length === 0)) {
     //
     const txt =
       "You have no invite codes to share.\n\n" +
       "Play 1 game to generate 1 invite code\n\n";
     await this.sendMessage(msg.chat.id, txt, options);
-  } else if (txs > 0 && txs < LEVEL2_REFERRAL) {
+  } else if (txs > 0 && txs < LEVEL2_REFERRAL || (this.isSuperAdmin(msg) && referral_code.length > 0)) {
     // get the referarl code or create one if it does not exist
  
     if (referral_code.length === 0) {
@@ -484,6 +484,7 @@ module.exports.invite_codes = async (msg) => {
         " (unused)\n\n";
       await this.sendMessage(msg.chat.id, txt, options);
     } else if (referral_code.length > 0) {
+      console.log('Referral code',referral_code.length)
       let txt =
         "You have 1 invite code to share.\n\n" +
         "Play 10 games in total to generate 2 more invite codes\n\n" +
