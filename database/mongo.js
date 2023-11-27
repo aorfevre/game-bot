@@ -3,17 +3,19 @@ const { MongoClient, ServerApiVersion } = require("mongodb");
 const mongo = this;
 require("dotenv").config();
 
-
+let client = null; 
 module.exports.getClient = async () => {
   const uri = process.env.MONGODB_URL;
   // var mongojs = require("mongojs");
-  const client = new MongoClient(uri, {
+  if(client === null) {
+    client = new MongoClient(uri, {
     serverApi: {
       version: ServerApiVersion.v1,
       strict: true,
       deprecationErrors: true,
     },
   });
+}
   return new Promise(async (resolve, reject) => {
     try {
       if (!client || !client.topology || !client.topology.isConnected()) {
