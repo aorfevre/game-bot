@@ -407,10 +407,10 @@ module.exports.create_5_codes = async (msg) => {
       updated_at: new Date(),
     };
     // write to db
-
+    console.log('Invite codes created',refCode)
     await client.db(DB_STAGE).collection("referral_codes").insertOne(refCode);
   }
-  this.invite_codes(msg);
+  await this.invite_codes(msg);
 };
 
 module.exports.invite_codes = async (msg) => {
@@ -445,7 +445,7 @@ module.exports.invite_codes = async (msg) => {
       ],
     });
   }
-  if (txs === 0) {
+  if ((txs === 0 && !this.isSuperAdmin(msg)) || (this.isSuperAdmin(msg) && referral_code.length === 0)) {
     //
     const txt =
       "You have no invite codes to share.\n\n" +
