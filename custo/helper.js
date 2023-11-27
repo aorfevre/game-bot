@@ -445,6 +445,12 @@ module.exports.invite_codes = async (msg) => {
       ],
     });
   }
+  const referral_code = await client
+  .db(DB_STAGE)
+  .collection("referral_codes")
+  .find({ referrer: msg.chat.id })
+  .toArray();
+  
   if ((txs === 0 && !this.isSuperAdmin(msg)) || (this.isSuperAdmin(msg) && referral_code.length === 0)) {
     //
     const txt =
@@ -453,11 +459,7 @@ module.exports.invite_codes = async (msg) => {
     await this.sendMessage(msg.chat.id, txt, options);
   } else if (txs > 0 && txs < LEVEL2_REFERRAL) {
     // get the referarl code or create one if it does not exist
-    const referral_code = await client
-      .db(DB_STAGE)
-      .collection("referral_codes")
-      .find({ referrer: msg.chat.id })
-      .toArray();
+ 
     if (referral_code.length === 0) {
       // create one
       const refCode = {
