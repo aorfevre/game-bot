@@ -51,7 +51,6 @@ describe("Rock Paper Scissors", () => {
   //       expect(countBefore).toEqual(0);
   //       await ng.payout();
 
-      
   //   }
   //   const countAfter = await client
   //   .db(DB_STAGE)
@@ -68,16 +67,15 @@ describe("Rock Paper Scissors", () => {
   //   expect(getDuel.loosers.length).toEqual(9);
   //   expect(getDuel.prizePool).toEqual(((0.0006*10*9)*1000/10)/1000);
 
- 
   // });
   test("We have 2 winners and 8 loosers", async () => {
     const client = await db.getClient();
     const nums = [];
     let iteration = 0;
-    const arr = [1,1,3,3,6,6,7,8,9,10];
+    const arr = [1, 1, 3, 3, 6, 6, 7, 8, 9, 10];
     for (const i in arr) {
       // random between 0 to 100
-        iteration ++;
+      iteration++;
       const tx3 = {
         action: arr[i],
         game: "NUMBERGUESSING",
@@ -88,42 +86,36 @@ describe("Rock Paper Scissors", () => {
         payout_wallet: "0x1234",
       };
 
-      await helperJest.addTx(tx3); 
+      await helperJest.addTx(tx3);
 
       const countBefore = await client
+        .db(DB_STAGE)
+        .collection("pvp")
+        .countDocuments({});
+      expect(countBefore).toEqual(0);
+      await ng.payout();
+    }
+    const countAfter = await client
       .db(DB_STAGE)
       .collection("pvp")
       .countDocuments({});
-        expect(countBefore).toEqual(0);
-        await ng.payout();
-
-      
-    }
-    const countAfter = await client
-    .db(DB_STAGE)
-    .collection("pvp")
-    .countDocuments({});
     expect(countAfter).toEqual(1);
 
-    const getDuel = await client
-    .db(DB_STAGE)
-    .collection("pvp")
-    .findOne({})
+    const getDuel = await client.db(DB_STAGE).collection("pvp").findOne({});
 
     expect(getDuel.winners.length).toEqual(2);
     expect(getDuel.loosers.length).toEqual(8);
-    expect(getDuel.prizePool).toEqual(((0.0006*10*9)*1000/10)/1000);
-
+    expect(getDuel.prizePool).toEqual((0.0006 * 10 * 9 * 1000) / 10 / 1000);
   });
-  // We have 10 winners / 0 loosers 
+  // We have 10 winners / 0 loosers
   test("We have 10 winners and 0 loosers", async () => {
     const client = await db.getClient();
     const nums = [];
     let iteration = 0;
-    const arr = [1,1,1,1,1,1,1,1,1,1];
+    const arr = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
     for (const i in arr) {
       // random between 0 to 100
-        iteration ++;
+      iteration++;
       const tx3 = {
         action: arr[i],
         game: "NUMBERGUESSING",
@@ -134,33 +126,26 @@ describe("Rock Paper Scissors", () => {
         payout_wallet: "0x1234",
       };
 
-      await helperJest.addTx(tx3); 
+      await helperJest.addTx(tx3);
 
       const countBefore = await client
+        .db(DB_STAGE)
+        .collection("pvp")
+        .countDocuments({});
+      expect(countBefore).toEqual(0);
+      await ng.payout();
+    }
+    const countAfter = await client
       .db(DB_STAGE)
       .collection("pvp")
       .countDocuments({});
-        expect(countBefore).toEqual(0);
-        await ng.payout();
-
-      
-    }
-    const countAfter = await client
-    .db(DB_STAGE)
-    .collection("pvp")
-    .countDocuments({});
     expect(countAfter).toEqual(1);
 
-    const getDuel = await client
-    .db(DB_STAGE)
-    .collection("pvp")
-    .findOne({})
+    const getDuel = await client.db(DB_STAGE).collection("pvp").findOne({});
 
     expect(getDuel.winners.length).toEqual(10);
     expect(getDuel.loosers.length).toEqual(0);
-    expect(getDuel.prizePool).toEqual(((0.0006*10*9)*1000/10)/1000);
-
+    expect(getDuel.prizePool).toEqual((0.0006 * 10 * 9 * 1000) / 10 / 1000);
   });
   // verify fee reward / calculation
-
 });

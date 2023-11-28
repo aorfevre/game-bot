@@ -4,7 +4,6 @@ var rock_paper_scissors = require("./rock_paper_scissors.js");
 var helper = require("../custo/helper.js");
 var ObjectId = require("mongodb").ObjectId;
 
-
 module.exports.structChoice = () => {
   return {
     game: null,
@@ -80,7 +79,7 @@ module.exports.initGame = async (msg, t) => {
       {
         $set: curData,
       },
-      { upsert: true }
+      { upsert: true },
     );
   let intro = "";
   switch (t) {
@@ -97,7 +96,8 @@ module.exports.initGame = async (msg, t) => {
   //   disable_web_page_preview: true,
   // });
 
-  let txt = intro + "\n\n" + "➡️  How much would you like to wager per play?\n\n";
+  let txt =
+    intro + "\n\n" + "➡️  How much would you like to wager per play?\n\n";
   txt += "(Matches are divided by wager amounts)";
   var _markup = [];
 
@@ -173,7 +173,7 @@ module.exports.price = async (msg, t, tiers) => {
       {
         $set: curData,
       },
-      { upsert: true }
+      { upsert: true },
     );
 
   await helper.sendMessage(msg.chat.id, txt, {
@@ -226,7 +226,7 @@ module.exports.frequency = async (msg, t, tiers) => {
       {
         $set: curData,
       },
-      { upsert: true }
+      { upsert: true },
     );
 
   await helper.sendMessage(msg.chat.id, txt, {
@@ -253,7 +253,10 @@ module.exports.action = async (msg, t, tiers, action) => {
     .updateOne({ _id: msg.chat.id }, { $set: curData }, { upsert: true });
 
   // Presenting user actions
-  let txt = "You picked "+action+"\n\n  ➡️ How often do you want to make this play?\n\n";
+  let txt =
+    "You picked " +
+    action +
+    "\n\n  ➡️ How often do you want to make this play?\n\n";
 
   switch (t) {
     case "NUMBERGUESSING":
@@ -341,14 +344,14 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
             ],
           ],
         }),
-      }
+      },
     );
     return;
   }
 
   let txt = "<b>Game Summary</b>\n\n";
 
-  txt += helper.getGameSummary(user_choice)
+  txt += helper.getGameSummary(user_choice);
 
   // console.log(
   //   "Payment link ",
@@ -360,7 +363,6 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
   //   "https://00f3-2a01-cb00-111b-2f00-94b6-9c3f-baef-3c5b.ngrok-free.app/payment?hash=" + encodeURIComponent(userData)
   // );
 
-  
   var _markup = [];
   _markup.push([
     {
@@ -381,7 +383,7 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
   // await helper.sendMessage(msg.chat.id, "https://00f3-2a01-cb00-111b-2f00-94b6-9c3f-baef-3c5b.ngrok-free.app/payment?hash=" + encodeURIComponent(userData), {
   //   parse_mode: "HTML",
   //   disable_web_page_preview: true,
-   
+
   // });
 
   _markup.push(backHomeBtn);
@@ -394,7 +396,7 @@ module.exports.summary = async (msg, t, tiers, action, number) => {
   });
 };
 
-module.exports.guide = async(msg, t) => {
+module.exports.guide = async (msg, t) => {
   let txt = "";
   switch (t) {
     case "NUMBERGUESSING":
@@ -424,7 +426,7 @@ module.exports.guide = async(msg, t) => {
             callback_data: "GUIDE_GAMES",
           },
         ],
-        backHomeBtn
+        backHomeBtn,
       ],
     }),
   });
@@ -447,8 +449,8 @@ module.exports.myOpenGAMES = async (msg) => {
   } else {
     for (const i in openGames) {
       txt += "🔹 🔹 🔹 🔹\n\n";
-    
-      txt += helper.getGameSummary(openGames[i].decoded)
+
+      txt += helper.getGameSummary(openGames[i].decoded);
       txt += "\n";
 
       if (i % 2 === 0 && Number(i) !== 0 && i !== openGames.length) {
@@ -489,7 +491,7 @@ module.exports.frequencyInput = async (msg) => {
     .updateOne(
       { _id: msg.chat.id },
       { $set: { mode: "INPUT_FREQUENCY" } },
-      { upsert: true }
+      { upsert: true },
     );
 
   // User wants to input a number
@@ -499,7 +501,7 @@ module.exports.frequencyInput = async (msg) => {
     {
       parse_mode: "HTML",
       disable_web_page_preview: true,
-    }
+    },
   );
 };
 
@@ -522,14 +524,17 @@ module.exports.check_input = async (msg) => {
     ) {
       await helper.sendMessage(
         msg.chat.id,
-        "Please enter a valid number or a number greater than 0"
+        "Please enter a valid number or a number greater than 0",
       );
       return;
     } else {
       // save the number of the user
       if (user.mode === "INPUT_FREQUENCY") {
         if (Number(number) <= 0) {
-          await helper.sendMessage(msg.chat.id, "Please enter a number greater than 0");
+          await helper.sendMessage(
+            msg.chat.id,
+            "Please enter a number greater than 0",
+          );
           return;
         }
         await client
@@ -538,14 +543,14 @@ module.exports.check_input = async (msg) => {
           .updateOne(
             { _id: msg.chat.id },
             { $set: { number: Number(number), mode: null } },
-            { upsert: true }
+            { upsert: true },
           );
         await this.summary(msg, user.game, user.tiers, user.action, number);
       } else if (user.mode === "INPUT_NUMBERGUESSING") {
         if (Number(number) > 100 || Number(number) < 0) {
           await helper.sendMessage(
             msg.chat.id,
-            "Please enter a number between 0 and 100"
+            "Please enter a number between 0 and 100",
           );
           return;
         } else {
@@ -555,7 +560,7 @@ module.exports.check_input = async (msg) => {
             .updateOne(
               { _id: msg.chat.id },
               { $set: { action: Number(number), mode: null } },
-              { upsert: true }
+              { upsert: true },
             );
           await this.action(msg, user.game, user.tiers, Number(number));
         }
@@ -647,54 +652,90 @@ module.exports.freeGamePlayed = async (msg, game, tiers, choice) => {
         break;
     }
   } else {
-   await helper.sendMessage(msg.chat.id, "You don't have any free game for this tiers");
+    await helper.sendMessage(
+      msg.chat.id,
+      "You don't have any free game for this tiers",
+    );
   }
 };
 
-
-module.exports.myStats = async(msg)=>{
-
+module.exports.myStats = async (msg) => {
   const client = await db.getClient();
 
-  const stats = { 
+  const stats = {
     total_matches: 0,
     total_money_spent: 0,
     total_payouts_received: 0,
-    total_pnl: 0
-  }
+    total_pnl: 0,
+  };
   const promises = [];
-  promises.push(client.db(DB_STAGE).collection("tx").countDocuments({ "decoded._id": msg.chat.id, verified: true, processed: true }));
-  promises.push(client.db(DB_STAGE).collection("tx").aggregate([
-    { $match: { "decoded._id": msg.chat.id, verified: true, processed: true } },
-    { $group: { _id: null, total: { $sum: "$decoded.price" } } },
-  ]).toArray());
-  promises.push(client.db(DB_STAGE).collection("pvp").aggregate([
-    { $match: {$or: [
-      { 'winners._id': msg.chat.id},
-     { 'winner._id': msg.chat.id}]} },
-    { $group: { _id: null, total: { $sum: "$prizePool" } } },
-  ]).toArray());
- 
+  promises.push(
+    client
+      .db(DB_STAGE)
+      .collection("tx")
+      .countDocuments({
+        "decoded._id": msg.chat.id,
+        verified: true,
+        processed: true,
+      }),
+  );
+  promises.push(
+    client
+      .db(DB_STAGE)
+      .collection("tx")
+      .aggregate([
+        {
+          $match: {
+            "decoded._id": msg.chat.id,
+            verified: true,
+            processed: true,
+          },
+        },
+        { $group: { _id: null, total: { $sum: "$decoded.price" } } },
+      ])
+      .toArray(),
+  );
+  promises.push(
+    client
+      .db(DB_STAGE)
+      .collection("pvp")
+      .aggregate([
+        {
+          $match: {
+            $or: [
+              { "winners._id": msg.chat.id },
+              { "winner._id": msg.chat.id },
+            ],
+          },
+        },
+        { $group: { _id: null, total: { $sum: "$prizePool" } } },
+      ])
+      .toArray(),
+  );
+
   const result = await Promise.all(promises);
   stats.total_matches = result[0] ? result[0] : 0;
   stats.total_money_spent = result[1][0]?.total ? result[1][0]?.total : 0;
   stats.total_payouts_received = result[2][0]?.total ? result[2][0]?.total : 0;
-  stats.total_pnl = ( stats.total_payouts_received - stats.total_money_spent) ;
+  stats.total_pnl = stats.total_payouts_received - stats.total_money_spent;
 
   const _markup = [];
   _markup.push(backHomeBtn);
-  await helper.sendMessage(msg.chat.id, `
+  await helper.sendMessage(
+    msg.chat.id,
+    `
   <b>Here are your stats</b>\n
   Total matches played: ${stats.total_matches}
   Total money spent: ${stats.total_money_spent} ETH
   Total payouts received: ${stats.total_payouts_received} ETH
   Total PnL: ${stats.total_pnl} ETH
-  `, {
-    parse_mode: "HTML",
-    disable_web_page_preview: true,
-    reply_markup: JSON.stringify({
-      inline_keyboard: _markup,
-    }),
-  });
-  
-}
+  `,
+    {
+      parse_mode: "HTML",
+      disable_web_page_preview: true,
+      reply_markup: JSON.stringify({
+        inline_keyboard: _markup,
+      }),
+    },
+  );
+};

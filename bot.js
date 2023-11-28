@@ -5,7 +5,7 @@ process.env["NTBA_FIX_319"] = 1;
 var init = require("./custo/init.js");
 
 global.bot = init.setTelegram();
-global.DB_STAGE= process.env.DB_STAGE === 'true' ? "gaming_stage" : "gaming";
+global.DB_STAGE = process.env.DB_STAGE === "true" ? "gaming_stage" : "gaming";
 global.DD_FLOOD = -1001865974274;
 global.RATE_FEE = 5;
 global.allGames = [
@@ -24,7 +24,7 @@ global.backHomeBtn = [
     text: "🏘 Back to Home",
     callback_data: "HOME",
   },
-]
+];
 
 bot.on("message", async (msg) => {
   var helper = require("./custo/helper.js");
@@ -36,18 +36,16 @@ bot.on("message", async (msg) => {
       var games = require("./games/home.js");
 
       const user = await helper.updateUser(msg);
-        if (user.isReferred) {
-          await games.check_input(msg);
-        } else {
-          await helper.checkReferralSystem(msg);
-        }
+      if (user.isReferred) {
+        await games.check_input(msg);
+      } else {
+        await helper.checkReferralSystem(msg);
+      }
     } else {
-
       var helper = require("./custo/helper.js");
 
       try {
         const user = await helper.updateUser(msg);
-
 
         if (user.isReferred) {
           await helper.home(msg);
@@ -59,8 +57,7 @@ bot.on("message", async (msg) => {
       }
     }
 
-
-     helper.deleteProcessingMessages(msg);
+    helper.deleteProcessingMessages(msg);
   }
 });
 
@@ -134,7 +131,10 @@ bot.on("callback_query", async (callbackQuery) => {
       case "GAME_ACTION":
         var t = callbackQuery.data.split("GAME_ACTION_")[1].split("_");
         if (t[2] === "INPUT") {
-          await helper.sendMessage(msg.chat.id, "Type the number of your choice");
+          await helper.sendMessage(
+            msg.chat.id,
+            "Type the number of your choice",
+          );
         } else {
           await games.action(msg, t[0], t[1], t[2]);
         }
@@ -173,7 +173,10 @@ bot.on("callback_query", async (callbackQuery) => {
         break;
     }
   } else {
-    await helper.sendMessage(msg.chat.id, "You are spamming the bot, please stop");
+    await helper.sendMessage(
+      msg.chat.id,
+      "You are spamming the bot, please stop",
+    );
   }
   helper.deleteProcessingMessages(msg);
 });

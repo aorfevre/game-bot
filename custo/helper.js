@@ -24,7 +24,7 @@ module.exports.encode = (data) => {
 
     return CryptoJS.AES.encrypt(
       JSON.stringify(data),
-      process.env.PRIVATE_KEY
+      process.env.PRIVATE_KEY,
     ).toString();
   } catch (e) {
     console.log("Error while doing encoding", e, process.env.PRIVATE_KEY);
@@ -150,7 +150,7 @@ module.exports.getBalanceOfWallet = async (wallet) => {
   const ethers = require("ethers");
 
   const provider = new ethers.providers.JsonRpcProvider(
-    process.env.PUBLIC_RPC_URL
+    process.env.PUBLIC_RPC_URL,
   );
   const balance = await provider.getBalance(wallet);
   return ethers.utils.formatUnits(balance, 18);
@@ -160,7 +160,7 @@ module.exports.verifyTransaction = async (obj) => {
   const ethers = require("ethers");
   // Connect to ethers RPC on Sepolia
   const provider = new ethers.providers.JsonRpcProvider(
-    process.env.PUBLIC_RPC_URL
+    process.env.PUBLIC_RPC_URL,
   );
 
   // fetch transaction by hash
@@ -186,10 +186,12 @@ module.exports.verifyTransaction = async (obj) => {
 
     txt += participation;
 
-    txt += "We'll notify you of your payout when the match(es) finish(es)." + "\n";
-    
-    if(obj.decoded.game === "NUMBERGUESSING"){
-      txt += "This happens once a match receives guesses from 10 players." + "\n";
+    txt +=
+      "We'll notify you of your payout when the match(es) finish(es)." + "\n";
+
+    if (obj.decoded.game === "NUMBERGUESSING") {
+      txt +=
+        "This happens once a match receives guesses from 10 players." + "\n";
     } else if (obj.decoded.game === "ROCKPAPERSCISSORS") {
       txt += "You'll be randomly matched with other players." + "\n";
     }
@@ -308,7 +310,7 @@ module.exports.home = async (msg) => {
       null,
       options,
       true,
-      "./img/banner.jpeg"
+      "./img/banner.jpeg",
     );
   }
 };
@@ -344,7 +346,7 @@ module.exports.guide_games = async (msg) => {
       reply_markup: JSON.stringify({
         inline_keyboard: arr,
       }),
-    }
+    },
   );
 };
 module.exports.info_games = async (msg) => {
@@ -376,9 +378,7 @@ module.exports.info_games = async (msg) => {
     parse_mode: "HTML",
     disable_web_page_preview: true,
     reply_markup: JSON.stringify({
-      inline_keyboard: [
-        backHomeBtn
-      ],
+      inline_keyboard: [backHomeBtn],
     }),
   });
 };
@@ -407,7 +407,7 @@ module.exports.create_5_codes = async (msg) => {
       updated_at: new Date(),
     };
     // write to db
-    console.log('Invite codes created',refCode)
+    console.log("Invite codes created", refCode);
     await client.db(DB_STAGE).collection("referral_codes").insertOne(refCode);
   }
   await this.invite_codes(msg);
@@ -427,9 +427,7 @@ module.exports.invite_codes = async (msg) => {
     parse_mode: "HTML",
     disable_web_page_preview: true,
     reply_markup: JSON.stringify({
-      inline_keyboard: [
-        backHomeBtn
-      ],
+      inline_keyboard: [backHomeBtn],
     }),
   };
   if (this.isSuperAdmin(msg)) {
@@ -441,25 +439,31 @@ module.exports.invite_codes = async (msg) => {
             callback_data: "CREATE_5_CODES",
           },
         ],
-        backHomeBtn
+        backHomeBtn,
       ],
     });
   }
   const referral_code = await client
-  .db(DB_STAGE)
-  .collection("referral_codes")
-  .find({ referrer: msg.chat.id })
-  .toArray();
-  console.log('refer',referral_code.length,this.isSuperAdmin(msg))
-  if ((txs === 0 && !this.isSuperAdmin(msg)) || (this.isSuperAdmin(msg) && referral_code.length === 0)) {
+    .db(DB_STAGE)
+    .collection("referral_codes")
+    .find({ referrer: msg.chat.id })
+    .toArray();
+  console.log("refer", referral_code.length, this.isSuperAdmin(msg));
+  if (
+    (txs === 0 && !this.isSuperAdmin(msg)) ||
+    (this.isSuperAdmin(msg) && referral_code.length === 0)
+  ) {
     //
     const txt =
       "You have no invite codes to share.\n\n" +
       "Play 1 game to generate 1 invite code\n\n";
     await this.sendMessage(msg.chat.id, txt, options);
-  } else if (txs > 0 && txs < LEVEL2_REFERRAL || (this.isSuperAdmin(msg) && referral_code.length > 0)) {
+  } else if (
+    (txs > 0 && txs < LEVEL2_REFERRAL) ||
+    (this.isSuperAdmin(msg) && referral_code.length > 0)
+  ) {
     // get the referarl code or create one if it does not exist
- 
+
     if (referral_code.length === 0) {
       // create one
       const refCode = {
@@ -484,7 +488,7 @@ module.exports.invite_codes = async (msg) => {
         " (unused)\n\n";
       await this.sendMessage(msg.chat.id, txt, options);
     } else if (referral_code.length > 0) {
-      console.log('Referral code',referral_code.length)
+      console.log("Referral code", referral_code.length);
       let txt =
         "You have 1 invite code to share.\n\n" +
         "Play 10 games in total to generate 2 more invite codes\n\n" +
@@ -581,7 +585,7 @@ module.exports.checkReferralSystem = async (msg) => {
       .collection("referral_codes")
       .updateOne(
         { code: msg.text, is_valid: true },
-        { $set: { is_valid: false, used_by: msg.chat.id } }
+        { $set: { is_valid: false, used_by: msg.chat.id } },
       );
     // update the user
     await client
@@ -589,7 +593,7 @@ module.exports.checkReferralSystem = async (msg) => {
       .collection("users")
       .updateOne(
         { _id: msg.chat.id },
-        { $set: { isReferred: true, referral_code: msg.text } }
+        { $set: { isReferred: true, referral_code: msg.text } },
       );
 
     bot.sendMessage(DD_FLOOD, "New user registered with code " + msg.text);
@@ -601,6 +605,10 @@ module.exports.checkReferralSystem = async (msg) => {
       "The code you entered is invalid.\n\n" +
       "If you didn't receive an invite code yet, keep an eye out on our Twitter where we'll give out codes regularly.\n\n" +
       "https://x.com/DeductionDuelGG";
+      bot.sendMessage(msg.chat.id,txt,{
+        parse_mode: "HTML",
+        disable_web_page_preview: true,
+      });
   }
 };
 
@@ -819,7 +827,9 @@ module.exports.deleteProcessingMessages = async (msg) => {
   let promises = [];
   for (let i = 0; i < messages.messages.length - 1; i++) {
     try {
-      promises.push(bot.deleteMessage(msg.chat.id, messages.messages[i].message_id))
+      promises.push(
+        bot.deleteMessage(msg.chat.id, messages.messages[i].message_id),
+      );
     } catch (e) {}
   }
   messages.messages = messages.messages.splice(messages.messages.length - 1, 1);
@@ -829,9 +839,7 @@ module.exports.deleteProcessingMessages = async (msg) => {
   await client
     .db(DB_STAGE)
     .collection("messages")
-    .updateOne({ _id: msg.chat.id }, { $set: messages }, { upsert: true })
-
-
+    .updateOne({ _id: msg.chat.id }, { $set: messages }, { upsert: true });
 };
 
 module.exports.setProcessing = async (msg) => {

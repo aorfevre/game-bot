@@ -46,12 +46,12 @@ module.exports.actionText = () => {
   );
 };
 
-module.exports.guide =  (msg, t) => {
+module.exports.guide = (msg, t) => {
   const txt =
     "<b>Guide: Rock Paper Scissors</b>\n\n" +
     "2 players join a match.\n" +
     "Each player guesses a Rock, Paper or Scissors.\n\n" +
-    "Rock beats scissors, scissors beats paper, paper beats rock.\n\n" 
+    "Rock beats scissors, scissors beats paper, paper beats rock.\n\n";
   return txt;
 };
 
@@ -121,8 +121,6 @@ module.exports.getWinnerLooser = (tx1, tx2) => {
   return { winner, looser, winnerTx, looserTx, draw };
 };
 
-
-
 module.exports.duelByTiers = async (tiers) => {
   // find 2 unplayed game of rock paper scissors
 
@@ -151,9 +149,12 @@ module.exports.duelByTiers = async (tiers) => {
       let draw = wl.draw;
       if (draw) {
         // We have a draw
-        const txt = "<b>Match result<b>\n\n"+
-        "Rock Paper Scissors match #"+code +"ended in a draw! Both players keep their wagered ETH and can select another move\n\n"+
-        "➡️ Select a new move";
+        const txt =
+          "<b>Match result<b>\n\n" +
+          "Rock Paper Scissors match #" +
+          code +
+          "ended in a draw! Both players keep their wagered ETH and can select another move\n\n" +
+          "➡️ Select a new move";
         const options_txt1 = {
           parse_mode: "HTML",
           disable_web_page_preview: true,
@@ -239,8 +240,11 @@ module.exports.duelByTiers = async (tiers) => {
         await Promise.all(promises);
       } else if (winner && looser) {
         // pot size
-        const pot = Number(winner.price + looser.price) * (100 - RATE_FEE)/100;
-        const restPot = (Number(winner.price + looser.price) - pot) * (100 - RATE_FEE)/100;
+        const pot =
+          (Number(winner.price + looser.price) * (100 - RATE_FEE)) / 100;
+        const restPot =
+          ((Number(winner.price + looser.price) - pot) * (100 - RATE_FEE)) /
+          100;
         // send the money to the winner wallet* 0.9
 
         // Create pvp winner + looser in a new collection
@@ -257,7 +261,7 @@ module.exports.duelByTiers = async (tiers) => {
           processed: false,
           code,
           draw: false,
-          game: 'ROCKPAPERSCISSORS'
+          game: "ROCKPAPERSCISSORS",
         });
 
         // Send the money to the winner
@@ -396,9 +400,7 @@ module.exports.freeGamePlayed = async (msg, game, tiers, choice) => {
       parse_mode: "HTML",
       disable_web_page_preview: true,
       reply_markup: JSON.stringify({
-        inline_keyboard: [
-          backHomeBtn
-        ],
+        inline_keyboard: [backHomeBtn],
       }),
     },
   );

@@ -10,13 +10,13 @@ module.exports.transferTo = async (to, amount, game) => {
     );
     const wallet = new ethers.Wallet(process.env["PK_" + game], provider);
 
-    console.log('wallet',wallet)
+    console.log("wallet", wallet);
     const tx = {
       to: to,
       value: ethers.utils.parseEther(amount.toString()),
     };
 
-    console.log('tx',process.env["PK_" + game],tx)
+    console.log("tx", process.env["PK_" + game], tx);
 
     const sendPromise = await wallet.sendTransaction(tx);
 

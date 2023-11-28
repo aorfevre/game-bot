@@ -3,19 +3,19 @@ const { MongoClient, ServerApiVersion } = require("mongodb");
 const mongo = this;
 require("dotenv").config();
 
-let client = null; 
+let client = null;
 module.exports.getClient = async () => {
   const uri = process.env.MONGODB_URL;
   // var mongojs = require("mongojs");
-  if(client === null) {
+  if (client === null) {
     client = new MongoClient(uri, {
-    serverApi: {
-      version: ServerApiVersion.v1,
-      strict: true,
-      deprecationErrors: true,
-    },
-  });
-}
+      serverApi: {
+        version: ServerApiVersion.v1,
+        strict: true,
+        deprecationErrors: true,
+      },
+    });
+  }
   return new Promise(async (resolve, reject) => {
     try {
       if (!client || !client.topology || !client.topology.isConnected()) {
@@ -35,10 +35,19 @@ async function createIndexes(client) {
   const tx = await client.db(DB_STAGE).collection("tx");
   tx.createIndex({ txhash: 1, hash: 1 }, {});
   tx.createIndex({ _id: 1 }, {});
-  tx.createIndex({ verified: 1, 'decoded.game':1,processed:1,paid:1,'decoded.tiers':1,'decoded.action':1}, {});
+  tx.createIndex(
+    {
+      verified: 1,
+      "decoded.game": 1,
+      processed: 1,
+      paid: 1,
+      "decoded.tiers": 1,
+      "decoded.action": 1,
+    },
+    {},
+  );
   tx.createIndex({ txhash: 1, hash: 1 }, {});
-  tx.createIndex({ 'decoded._id': 1 }, {});
-
+  tx.createIndex({ "decoded._id": 1 }, {});
 
   const user_choice = await client.db(DB_STAGE).collection("user_choice");
   user_choice.createIndex({ user_choice: 1 }, {});
@@ -49,16 +58,15 @@ async function createIndexes(client) {
   refCodes.createIndex({ referrer: 1, is_valid: 1 }, {});
 
   const messages = await client.db(DB_STAGE).collection("messages");
-  messages.createIndex({ _id:1}, {});
+  messages.createIndex({ _id: 1 }, {});
 
   const referral_codes = await client.db(DB_STAGE).collection("referral_codes");
-  referral_codes.createIndex({ referrer:1}, {});
-  referral_codes.createIndex({ code:1,is_valid:1}, {});
+  referral_codes.createIndex({ referrer: 1 }, {});
+  referral_codes.createIndex({ code: 1, is_valid: 1 }, {});
 
   const pvp = await client.db(DB_STAGE).collection("pvp");
-  pvp.createIndex({ _id:1, prizePool:1}, {});
-  pvp.createIndex({ code:1, processed:1}, {});
-
+  pvp.createIndex({ _id: 1, prizePool: 1 }, {});
+  pvp.createIndex({ code: 1, processed: 1 }, {});
 }
 
 async function run(client) {

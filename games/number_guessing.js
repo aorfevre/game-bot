@@ -35,13 +35,15 @@ module.exports.actionText = () => {
   );
 };
 
-module.exports.guide =  (msg, t) => {
+module.exports.guide = (msg, t) => {
   const txt =
     "<b>Guide: Guess the Number</b>\n\n" +
     "10 players join a match.\n" +
     "Each player guesses a number between 0 and 100.\n\n" +
     "Whoever is closest to the average number guessed * 2/3 wins the prize pool.\n\n" +
-    "The prize pool is made up of all entry fees paid by players. minus a platform fee (currently set to "+RATE_FEE+"%).\n\n";
+    "The prize pool is made up of all entry fees paid by players. minus a platform fee (currently set to " +
+    RATE_FEE +
+    "%).\n\n";
   return txt;
 };
 module.exports.payout = async () => {
@@ -65,8 +67,9 @@ module.exports.getWinnersLoosers = async (tx) => {
   // Sum all decoded.action
   for (const i in tx) {
     sum += Number(tx[i].decoded.action);
-    prizePool += ((tx[i].decoded.price * 1000) / 1000) * (100 - RATE_FEE)/100;
-    gameFee += ((tx[i].decoded.price * 1000) / 1000) * RATE_FEE/100;
+    prizePool +=
+      (((tx[i].decoded.price * 1000) / 1000) * (100 - RATE_FEE)) / 100;
+    gameFee += (((tx[i].decoded.price * 1000) / 1000) * RATE_FEE) / 100;
   }
   // Calculate average
   const avg = sum / tx.length;
@@ -117,12 +120,12 @@ module.exports.payoutByTiers = async (tiers) => {
 
     // find all tx that have decoded.game = NUMBERGUESSING and verified = true and processed = false and find only one 'decoded._id' per match; limit to 10
     const txs = await helper.get_players_by_game_tiers("NUMBERGUESSING", tiers);
-    const tx = txs.splice(0,PARTICIPANTS);
+    const tx = txs.splice(0, PARTICIPANTS);
 
     // Print me _id of decoded
     if (tx.length > 0 && tx.length === PARTICIPANTS) {
       const result = await this.getWinnersLoosers(tx);
-      console.log('result',result)
+      console.log("result", result);
       // // Save the winner state
       await client.db(DB_STAGE).collection("pvp").insertOne(result);
 
@@ -136,7 +139,7 @@ module.exports.payoutByTiers = async (tiers) => {
         result.prizePool +
         " ETH\n\n" +
         "Your prize has been paid out\n\n";
-        const pot = result.prizePool ;
+      const pot = result.prizePool;
 
       const promises = [];
 
@@ -156,13 +159,13 @@ module.exports.payoutByTiers = async (tiers) => {
           }
           receiptWinner = disperse.pay(
             arrWinners,
-            process.env.PK_NUMBERGUESSING
+            process.env.PK_NUMBERGUESSING,
           );
         } else if (result.winners.length === 1) {
           receiptWinner = await crypto.transferTo(
             result.winners[0].tx.from,
             pot,
-            result.winners[0].decoded.game
+            result.winners[0].decoded.game,
           );
         } else {
           receiptWinner = { transactionHash: "0x123" };
@@ -175,8 +178,8 @@ module.exports.payoutByTiers = async (tiers) => {
             .collection("pvp")
             .updateOne(
               { code: result.code, processed: true },
-              { $set: { receiptWinner } }
-            )
+              { $set: { receiptWinner } },
+            ),
         );
 
         for (const i in result.winners) {
@@ -194,8 +197,8 @@ module.exports.payoutByTiers = async (tiers) => {
                     pot,
                     code: result.code,
                   },
-                }
-              )
+                },
+              ),
           );
           promises.push(helper.setIteration(result.winners[i]));
 
@@ -210,7 +213,7 @@ module.exports.payoutByTiers = async (tiers) => {
                     callback_data: "GAME_INIT_NUMBERGUESSING",
                   },
                 ],
-                backHomeBtn
+                backHomeBtn,
               ],
             }),
           });
@@ -243,8 +246,8 @@ module.exports.payoutByTiers = async (tiers) => {
                       paid: false,
                       code: result.code,
                     },
-                  }
-                )
+                  },
+                ),
             );
             promises.push(helper.setIteration(result.loosers[i]));
 
@@ -259,7 +262,7 @@ module.exports.payoutByTiers = async (tiers) => {
                       callback_data: "GAME_INIT_NUMBERGUESSING",
                     },
                   ],
-                  backHomeBtn
+                  backHomeBtn,
                 ],
               }),
             });
@@ -268,7 +271,6 @@ module.exports.payoutByTiers = async (tiers) => {
         }
 
         await Promise.all(promises);
-
       } else {
         // Stop looping
       }

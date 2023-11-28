@@ -10,7 +10,7 @@ const DISPERSE_ABI = require("./abi.json");
 async function main({ data, PRIVATE_KEY }) {
   try {
     const provider = new ethers.providers.JsonRpcProvider(
-      process.env.PUBLIC_RPC_URL
+      process.env.PUBLIC_RPC_URL,
     );
     const wallet = new ethers.Wallet(PRIVATE_KEY, provider);
 
@@ -30,7 +30,9 @@ async function main({ data, PRIVATE_KEY }) {
 
     console.log("addresses, values", addresses.length, values.length);
 
-    const res = await contract.disperseEther(addresses, values,{value:totalAmount});
+    const res = await contract.disperseEther(addresses, values, {
+      value: totalAmount,
+    });
 
     // console.log(res);
     return res;
@@ -43,7 +45,7 @@ async function parseData(data) {
   let result = {
     addresses: [],
     values: [],
-    totalAmount:  ethers.utils.parseUnits("0", "ether").toBigInt()
+    totalAmount: ethers.utils.parseUnits("0", "ether").toBigInt(),
   };
 
   for (const d of data) {
