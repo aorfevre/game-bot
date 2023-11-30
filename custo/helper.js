@@ -829,7 +829,7 @@ module.exports.deleteProcessingMessages = async (msg) => {
   let promises = [];
   for (let i = id; i > (id -5); i--) {
     try {
-      await
+      
         bot.deleteMessage(msg.chat.id, i)
     } catch (e) {}
   }
