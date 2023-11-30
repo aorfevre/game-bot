@@ -854,7 +854,7 @@ module.exports.sendMessage = async (id, txt, options, isDocument, link) => {
     } else if (txt) {
       message = await bot.sendMessage(id, txt, options);
     }
-    if(txt.indexOf("🚶‍♀️Processing...") > -1){
+    if(txt && txt.indexOf("🚶‍♀️Processing...") > -1){
       const client = await db.getClient();
       await client.db(DB_STAGE).collection("messages").updateOne({ _id: id }, { $set: {message : message.message_id} }, { upsert: true });
     }
