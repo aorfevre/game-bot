@@ -42,16 +42,13 @@ bot.on("message", async (msg) => {
         await helper.checkReferralSystem(msg);
       }
     } else {
-      console.log('Starting... ')
 
       try {
 
         const user = await helper.updateUser(msg);
-      console.log('User updated... ')
 
         if (user.isReferred) {
           await helper.home(msg);
-      console.log('Home presented... ')
 
         } else {
           await helper.referralSystem(msg);
