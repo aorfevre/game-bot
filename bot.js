@@ -28,9 +28,9 @@ global.backHomeBtn = [
 
 bot.on("message", async (msg) => {
   var helper = require("./custo/helper.js");
-  const processing = await helper.setProcessing(msg);
 
   if (helper.isPrivate(msg)) {
+    const processing = await helper.setProcessing(msg);
 
     if (msg.text !== "/start") {
       var games = require("./games/home.js");
