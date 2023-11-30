@@ -1,87 +1,94 @@
-var express = require("express");
-var app = express();
-var cors = require("cors");
-// set the port of our application
-// process.env.PORT lets the port be set by Heroku
-var port = process.env.PORT || 8508;
+const db = require('./database/mongo');
 
-// set the view engine to ejs
-app.set("view engine", "ejs");
+db.getClient().then((client) => {
 
-// parse the updates to JSON
-app.use(express.json());
-app.use(cors());
 
-// We are receiving updates at the route below!
-app.post(`/bot${process.env.TELEGRAM_BOT_TOKEN}`, (req, res) => {
-  bot.processUpdate(req.body);
-  res.sendStatus(200);
-});
+  var express = require("express");
+  var app = express();
+  var cors = require("cors");
+  // set the port of our application
+  // process.env.PORT lets the port be set by Heroku
+  var port = process.env.PORT || 8508;
 
-app.get(`/decode`, async (req, res) => {
-  const helper = require("./custo/helper.js");
+  // set the view engine to ejs
+  app.set("view engine", "ejs");
 
-  const { hash } = req.query;
-  if (hash) {
-    const result = await helper.decode(decodeURIComponent(hash));
-    if (result) {
-      res.send(result);
+  // parse the updates to JSON
+  app.use(express.json());
+  app.use(cors());
+
+  // We are receiving updates at the route below!
+  app.post(`/bot${process.env.TELEGRAM_BOT_TOKEN}`, (req, res) => {
+    bot.processUpdate(req.body);
+    res.sendStatus(200);
+  });
+
+  app.get(`/decode`, async (req, res) => {
+    const helper = require("./custo/helper.js");
+
+    const { hash } = req.query;
+    if (hash) {
+      const result = await helper.decode(decodeURIComponent(hash));
+      if (result) {
+        res.send(result);
+      } else {
+        res.sendStatus(400);
+      }
     } else {
       res.sendStatus(400);
     }
-  } else {
-    res.sendStatus(400);
-  }
-});
+  });
 
-app.post(`/play`, async (req, res) => {
-  const helper = require("./custo/helper.js");
+  app.post(`/play`, async (req, res) => {
+    const helper = require("./custo/helper.js");
 
-  const body = req.body;
-  const status = await helper.savePlayTransaction(body.hash, body.txhash);
-  if (status) {
+    const body = req.body;
+    const status = await helper.savePlayTransaction(body.hash, body.txhash);
+    if (status) {
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(400);
+    }
+  });
+
+  app.get(`/verify/pending-payouts`, async (req, res) => {
+    const helper = require("./custo/helper.js");
+
+    await helper.findAllUnverifiedTransactions();
     res.sendStatus(200);
-  } else {
-    res.sendStatus(400);
-  }
-});
+  });
 
-app.get(`/verify/pending-payouts`, async (req, res) => {
-  const helper = require("./custo/helper.js");
+  app.get(`/payout/number-guessing`, async (req, res) => {
+    const number_guessing = require("./games/number_guessing.js");
+    await number_guessing.payout();
+    res.sendStatus(200);
+  });
 
-  await helper.findAllUnverifiedTransactions();
-  res.sendStatus(200);
-});
+  app.get(`/duel/rockpaperscissors`, async (req, res) => {
+    const rock_paper_scissors = require("./games/rock_paper_scissors.js");
+    await rock_paper_scissors.duel();
 
-app.get(`/payout/number-guessing`, async (req, res) => {
-  const number_guessing = require("./games/number_guessing.js");
-  await number_guessing.payout();
-  res.sendStatus(200);
-});
+    res.sendStatus(200);
+  });
 
-app.get(`/duel/rockpaperscissors`, async (req, res) => {
-  const rock_paper_scissors = require("./games/rock_paper_scissors.js");
-  await rock_paper_scissors.duel();
+  app.get(`/home/stats`, async (req, res) => {
+    const helper = require("./custo/helper.js");
 
-  res.sendStatus(200);
-});
+    const promises = [];
+    promises.push(helper.countGames());
+    promises.push(helper.countPlayers());
+    promises.push(helper.countPrizePaid());
 
-app.get(`/home/stats`, async (req, res) => {
-  const helper = require("./custo/helper.js");
+    const result = await Promise.all(promises);
+    res.send([
+      { title: result[0], subheading: "Matches played" },
+      { title: result[1], subheading: "Players" },
+      { title: result[2] + " ETH", subheading: "in Prizes paid out" },
+    ]);
+  });
 
-  const promises = [];
-  promises.push(helper.countGames());
-  promises.push(helper.countPlayers());
-  promises.push(helper.countPrizePaid());
+  app.listen(port, function () {
+    console.log("Our app is running on http://localhost:" + port);
+  });
 
-  const result = await Promise.all(promises);
-  res.send([
-    { title: result[0], subheading: "Matches played" },
-    { title: result[1], subheading: "Players" },
-    { title: result[2] + " ETH", subheading: "in Prizes paid out" },
-  ]);
-});
-
-app.listen(port, function () {
-  console.log("Our app is running on http://localhost:" + port);
 });
