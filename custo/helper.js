@@ -824,29 +824,21 @@ module.exports.deleteProcessingMessages = async (msg) => {
   let messages = await client.db(DB_STAGE).collection("messages").findOne({
     _id: msg.chat.id,
   });
+
+  const id = messages.message;
   let promises = [];
-  for (let i = 0; i < messages.messages.length - 1; i++) {
+  for (let i = id; i > (id -5); i--) {
     try {
-      promises.push(
-        bot.deleteMessage(msg.chat.id, messages.messages[i].message_id),
-      );
+      await
+        bot.deleteMessage(msg.chat.id, i)
     } catch (e) {}
   }
-  messages.messages = messages.messages.splice(messages.messages.length - 1, 1);
-  try {
-    await Promise.all(promises);
-  } catch (e) {}
-  await client
-    .db(DB_STAGE)
-    .collection("messages")
-    .updateOne({ _id: msg.chat.id }, { $set: messages }, { upsert: true });
+
 };
 
 module.exports.setProcessing = async (msg) => {
   await this.sendMessage(msg.chat.id, "🚶‍♀️Processing...");
-  try {
-    await bot.deleteMessage(msg.chat.id, msg.message_id);
-  } catch (e) {}
+ 
 };
 
 module.exports.sendMessage = async (id, txt, options, isDocument, link) => {
@@ -857,24 +849,11 @@ module.exports.sendMessage = async (id, txt, options, isDocument, link) => {
     } else if (txt) {
       message = await bot.sendMessage(id, txt, options);
     }
-    const client = await db.getClient();
-    let messages = await client.db(DB_STAGE).collection("messages").findOne({
-      _id: id,
-    });
-
-    if (messages === null) {
-      messages = {
-        _id: id,
-        messages: [message],
-      };
-    } else {
-      messages.messages.push(message);
+    if(txt.indexOf("🚶‍♀️Processing...") > -1){
+      const client = await db.getClient();
+      await client.db(DB_STAGE).collection("messages").updateOne({ _id: id }, { $set: {message : message.message_id} }, { upsert: true });
     }
-
-    await client
-      .db(DB_STAGE)
-      .collection("messages")
-      .updateOne({ _id: id }, { $set: messages }, { upsert: true });
+   
   } catch (e) {
     console.log("error", e);
   }
