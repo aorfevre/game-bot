@@ -826,16 +826,15 @@ module.exports.deleteProcessingMessages = async (msg) => {
   });
 
   if(messages && messages.message){
-    try {
 
     const id = messages.message;
-    let promises = [];
-    for (let i = id; i > (id -5); i--) {
+    for (let i = id; i > (id -10); i--) {
         
-          promises.push(bot.deleteMessage(msg.chat.id, i))
+         try{
+          await bot.deleteMessage(msg.chat.id, i)
+        } catch (e) {}
     }
-    await Promise.all(promises);
-  } catch (e) {}
+ 
   
   }
   
