@@ -67,7 +67,7 @@ bot.on("callback_query", async (callbackQuery) => {
   var helper = require("./custo/helper.js");
 
   var msg = callbackQuery.message;
-  const processing = await helper.setProcessing(msg);
+  const processing = helper.setProcessing(msg);
 
   var control = callbackQuery.data;
 

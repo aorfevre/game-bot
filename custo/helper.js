@@ -101,7 +101,7 @@ module.exports.isSpam = async (msg) => {
     if (user.spam && new Date() - user.spam < 500) {
       return true;
     } else {
-      await client
+      client
         .db(DB_STAGE)
         .collection("users")
         .updateOne({ _id: msg.chat.id }, { $set: { spam: new Date() } });
