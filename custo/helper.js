@@ -24,7 +24,7 @@ module.exports.encode = (data) => {
 
     return CryptoJS.AES.encrypt(
       JSON.stringify(data),
-      process.env.PRIVATE_KEY,
+      process.env.PRIVATE_KEY
     ).toString();
   } catch (e) {
     console.log("Error while doing encoding", e, process.env.PRIVATE_KEY);
@@ -150,81 +150,86 @@ module.exports.getBalanceOfWallet = async (wallet) => {
   const ethers = require("ethers");
 
   const provider = new ethers.providers.JsonRpcProvider(
-    process.env.PUBLIC_RPC_URL,
+    process.env.PUBLIC_RPC_URL
   );
   const balance = await provider.getBalance(wallet);
   return ethers.utils.formatUnits(balance, 18);
 };
 
 module.exports.verifyTransaction = async (obj) => {
-  const ethers = require("ethers");
-  // Connect to ethers RPC on Sepolia
-  const provider = new ethers.providers.JsonRpcProvider(
-    process.env.PUBLIC_RPC_URL,
-  );
+  try {
+    const ethers = require("ethers");
+    // Connect to ethers RPC on Sepolia
+    const provider = new ethers.providers.JsonRpcProvider(
+      process.env.PUBLIC_RPC_URL
+    );
 
-  // fetch transaction by hash
-  const tx = await provider.getTransaction(obj.txhash);
-  if (tx) {
-    const client = await db.getClient();
-    await client
-      .db(DB_STAGE)
-      .collection("tx")
-      .updateOne({ _id: obj._id }, { $set: { verified: true, tx } });
+    // fetch transaction by hash
+    const tx = await provider.getTransaction(obj.txhash);
+    console.log("tx", tx);
+    if (tx) {
+      const client = await db.getClient();
+      await client
+        .db(DB_STAGE)
+        .collection("tx")
+        .updateOne({ _id: obj._id }, { $set: { verified: true, tx } });
 
-    let txt = "<b>Payment confirmation</b>\n\n";
+      let txt = "<b>Payment confirmation</b>\n\n";
 
-    txt += "🤑 Your payment has been received.\n\n";
+      txt += "🤑 Your payment has been received.\n\n";
 
-    let participation = this.getGameSummary(obj.decoded);
-    participation +=
-      "<a href='" +
-      process.env.PUBLIC_EXPLORER_URL +
-      "/tx/" +
-      obj.txhash +
-      "'>Txhash</a>";
+      let participation = this.getGameSummary(obj.decoded);
+      participation +=
+        "<a href='" +
+        process.env.PUBLIC_EXPLORER_URL +
+        "/tx/" +
+        obj.txhash +
+        "'>Txhash</a>";
 
-    txt += participation;
+      txt += participation;
 
-    txt +=
-      "We'll notify you of your payout when the match(es) finish(es)." + "\n";
-
-    if (obj.decoded.game === "NUMBERGUESSING") {
       txt +=
-        "This happens once a match receives guesses from 10 players." + "\n";
-    } else if (obj.decoded.game === "ROCKPAPERSCISSORS") {
-      txt += "You'll be randomly matched with other players." + "\n";
+        "We'll notify you of your payout when the match(es) finish(es)." + "\n";
+
+      if (obj.decoded.game === "NUMBERGUESSING") {
+        txt +=
+          "This happens once a match receives guesses from 10 players." + "\n";
+      } else if (obj.decoded.game === "ROCKPAPERSCISSORS") {
+        txt += "You'll be randomly matched with other players." + "\n";
+      }
+
+      await this.sendMessage(DD_FLOOD, participation, {
+        parse_mode: "HTML",
+        disable_web_page_preview: true,
+      });
+      await this.sendMessage(obj.decoded._id, txt, {
+        parse_mode: "HTML",
+        disable_web_page_preview: true,
+      });
+
+      txt = "For an overview of all your open games, click [My open games]";
+
+      let _markup = [];
+      _markup.push([
+        {
+          text: "My open games",
+          callback_data: "MY_OPEN_GAMES",
+        },
+      ]);
+      _markup.push(backHomeBtn);
+
+      await this.sendMessage(obj.decoded._id, txt, {
+        parse_mode: "HTML",
+        disable_web_page_preview: true,
+        reply_markup: JSON.stringify({
+          inline_keyboard: _markup,
+        }),
+      });
+    } else {
+      console.log("tx not found");
     }
-
-    await this.sendMessage(DD_FLOOD, participation, {
-      parse_mode: "HTML",
-      disable_web_page_preview: true,
-    });
-    await this.sendMessage(obj.decoded._id, txt, {
-      parse_mode: "HTML",
-      disable_web_page_preview: true,
-    });
-
-    txt = "For an overview of all your open games, click [My open games]";
-
-    let _markup = [];
-    _markup.push([
-      {
-        text: "My open games",
-        callback_data: "MY_OPEN_GAMES",
-      },
-    ]);
-    _markup.push(backHomeBtn);
-
-    await this.sendMessage(obj.decoded._id, txt, {
-      parse_mode: "HTML",
-      disable_web_page_preview: true,
-      reply_markup: JSON.stringify({
-        inline_keyboard: _markup,
-      }),
-    });
-  } else {
-    console.log("tx not found");
+  } catch (e) {
+    console.log("error", e);
   }
 };
 module.exports.findAllUnverifiedTransactions = async () => {
@@ -310,7 +315,7 @@ module.exports.home = async (msg) => {
       null,
       options,
       true,
-      "./img/banner.jpeg",
+      "./img/banner.jpeg"
     );
   }
 };
@@ -346,7 +351,7 @@ module.exports.guide_games = async (msg) => {
       reply_markup: JSON.stringify({
         inline_keyboard: arr,
       }),
-    },
+    }
   );
 };
 module.exports.info_games = async (msg) => {
@@ -585,7 +590,7 @@ module.exports.checkReferralSystem = async (msg) => {
       .collection("referral_codes")
       .updateOne(
         { code: msg.text, is_valid: true },
-        { $set: { is_valid: false, used_by: msg.chat.id } },
+        { $set: { is_valid: false, used_by: msg.chat.id } }
       );
     // update the user
     await client
@@ -593,7 +598,7 @@ module.exports.checkReferralSystem = async (msg) => {
       .collection("users")
       .updateOne(
         { _id: msg.chat.id },
-        { $set: { isReferred: true, referral_code: msg.text } },
+        { $set: { isReferred: true, referral_code: msg.text } }
       );
 
     bot.sendMessage(DD_FLOOD, "New user registered with code " + msg.text);
@@ -605,10 +610,10 @@ module.exports.checkReferralSystem = async (msg) => {
       "The code you entered is invalid.\n\n" +
       "If you didn't receive an invite code yet, keep an eye out on our Twitter where we'll give out codes regularly.\n\n" +
       "https://x.com/DeductionDuelGG";
-      bot.sendMessage(msg.chat.id,txt,{
-        parse_mode: "HTML",
-        disable_web_page_preview: true,
-      });
+    bot.sendMessage(msg.chat.id, txt, {
+      parse_mode: "HTML",
+      disable_web_page_preview: true,
+    });
   }
 };
 
@@ -825,24 +830,18 @@ module.exports.deleteProcessingMessages = async (msg) => {
     _id: msg.chat.id,
   });
 
-  if(messages && messages.message){
-
+  if (messages && messages.message) {
     const id = messages.message;
-    for (let i = id; i > (id -10); i--) {
-        
-         try{
-          await bot.deleteMessage(msg.chat.id, i)
-        } catch (e) {}
+    for (let i = id; i > id - 10; i--) {
+      try {
+        await bot.deleteMessage(msg.chat.id, i);
+      } catch (e) {}
     }
- 
-  
   }
-  
 };
 
 module.exports.setProcessing = async (msg) => {
   await this.sendMessage(msg.chat.id, "🚶‍♀️Processing...");
- 
 };
 
 module.exports.sendMessage = async (id, txt, options, isDocument, link) => {
@@ -853,11 +852,17 @@ module.exports.sendMessage = async (id, txt, options, isDocument, link) => {
     } else if (txt) {
       message = await bot.sendMessage(id, txt, options);
     }
-    if(txt && txt.indexOf("🚶‍♀️Processing...") > -1){
+    if (txt && txt.indexOf("🚶‍♀️Processing...") > -1) {
       const client = await db.getClient();
-      await client.db(DB_STAGE).collection("messages").updateOne({ _id: id }, { $set: {message : message.message_id} }, { upsert: true });
+      await client
+        .db(DB_STAGE)
+        .collection("messages")
+        .updateOne(
+          { _id: id },
+          { $set: { message: message.message_id } },
+          { upsert: true }
+        );
     }
-   
   } catch (e) {
     console.log("error", e);
   }
