@@ -19,7 +19,7 @@ module.exports.getClient = async () => {
   return new Promise(async (resolve, reject) => {
     try {
       if (!mongoClient || !mongoClient.topology || !mongoClient.topology.isConnected()) {
-        console.log("mongoClient NOT ", mongoClient.topology.isConnected());
+        console.log("mongoClient NOT ");
 
         await run(mongoClient).catch(console.dir);
       }else{
